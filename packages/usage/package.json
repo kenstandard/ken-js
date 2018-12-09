@@ -1,6 +1,6 @@
 {
   "name": "usage",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "gitnet-ui": "1.0.0",
-    "gitnet-js": "1.0.0"
+    "gitnet-ui": "0.0.1",
+    "gitnet-js": "0.0.1"
   }
 }
