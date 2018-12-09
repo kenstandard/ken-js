@@ -1,12 +1,20 @@
 {
   "name": "gitnet-js",
   "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "bsb -make-world",
+    "start": "bsb -make-world -w",
+    "clean": "bsb -clean-world"
   },
-  "keywords": [],
+  "keywords": [
+    "BuckleScript"
+  ],
   "author": "",
-  "license": "ISC"
+  "main": "dist/main.bs.js",
+  "source": "src/main.re",
+  "license": "MIT",
+  "devDependencies": {
+    "bs-platform": "^4.0.8",
+    "rollup-plugin-bucklescript": "^0.7.0"
+  }
 }
