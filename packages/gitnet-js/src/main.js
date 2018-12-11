@@ -1,5 +1,6 @@
-import config from "node_modules/gitnet-data-base/index.toml";
-console.log(config);
+import {Timl} from "./core.js";
+import config from "./docs.toml";
+
 export default function main(){
-    return 3
+    return new Timl(config)
 }

@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import * as foo from "gitnet-js";
+import foo from "../node_modules/gitnet-js/dist/main.js";
+import * as data from "./test.toml"
+import whats from "./test.toml"
+import * as bar from "./foo.json"
 
 class App extends Component {
   render() {
-  console.log("HIHIHI", foo.foo());
+  console.log("HIHIHI", foo());
+  console.log("HIHIHI", data);
+  console.log("HIHIHI", whats);
+  console.log("HIHIHI", bar);
     return (
       <div className="App">
         <header className="App-header">
