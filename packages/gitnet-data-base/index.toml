@@ -1,0 +1,2 @@
+[config]
+api = { hostname = "localhost", port = 3000 }

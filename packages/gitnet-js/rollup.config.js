@@ -1,10 +1,18 @@
-import bucklescript from "rollup-plugin-bucklescript";
+import babel from 'rollup-plugin-babel';
+import toml from 'rollup-plugin-toml';
 
-export default {
-  input: "src/main.re",
-  output: {
-    file: "dist/main.bs.js",
-    format: "cjs",
-  },
-  plugins: [bucklescript()],
-};
+export default [
+	{
+		entry: 'src/main.js',
+		plugins: [
+			toml,
+			babel({
+				exclude: 'node_modules/**',
+			})
+		],
+		output: {
+			file: 'dist/main.js',
+			format: 'cjs'
+		}
+	}
+];
