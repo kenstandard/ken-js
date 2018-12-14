@@ -1,0 +1,42 @@
+[n-person]
+p-name = "Person"
+
+[h-nick-bostrom]
+p-name = "nick-bostrom"
+p-instance-of = "n-person"
+
+[h-anders-sandberg]
+p-name = "Anders Sandberg"
+p-instance-of = "n-person"
+
+[h-toby-ord]
+p-name = "Toby Ord"
+p-instance-of = "n-person"
+
+[h-owen-cotton-barratt]
+p-name = "Owen Cotton-Barratt"
+p-instance-of = "n-person"
+
+[h-joseph-carlsmith]
+p-name = "Joseph Carlsmith"
+p-instance-of = "n-person"
+
+[h-carl-shulman]
+p-name = "Carl Shulman"
+p-instance-of = "n-person"
+
+[h-owain-evans]
+p-name = "Owain Evans"
+p-instance-of = "n-person"
+
+[h-stuart-armstrong]
+p-name = "Stuart Armstrong"
+p-instance-of = "n-person"
+
+[h-ryan-carey]
+p-name = "Ryan Carey"
+p-instance-of = "n-person"
+
+[h-ozzie-gooen]
+p-name = "Ozzie Gooen"
+p-instance-of = "n-person"

@@ -1,0 +1,34 @@
+# [[nouns]]
+# name = "Dex"
+# id = "n12"
+
+# [[nouns]]
+# name = "Dex Git Repo"
+# id = "dex-git-repo"
+
+# [dex-git-repo]
+# nounId = "dex-git-repo"
+# propertyId = "url"
+# value = "http://git@foobar.com"
+
+# [n21]
+# nounId = "n21"
+# propertyId = "p1"
+# value = "n12"
+
+# [n22]
+# nounId = "n21"
+# propertyId = "p1"
+# value = "n12"
+
+# [nouns]
+# name = "Name ideas"
+# id = "name-ideas"
+#     [noun.statements]
+#     propertyId = "p6" #Is in list
+#     [noun.statements.value]
+#     nameAndId = [
+#         "GitNet",
+#         "Name2",
+#         "Name3",
+#     ]

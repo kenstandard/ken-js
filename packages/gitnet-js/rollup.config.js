@@ -3,6 +3,7 @@ import toml from 'rollup-plugin-toml';
 
 export default [
 	{
+		external: ["lodash"],
 		entry: 'src/main.js',
 		plugins: [
 			toml,
@@ -10,6 +11,7 @@ export default [
 				exclude: 'node_modules/**',
 			})
 		],
+		external: "lodash",
 		output: {
 			file: 'dist/main.js',
 			format: 'cjs'

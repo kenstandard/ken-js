@@ -1,0 +1,83 @@
+[templates.property]
+p-instance-of = "n-property"
+
+[n-property]
+p-name = "Property"
+
+[p-name]
+p-name = "Name"
+templates = ["property"]
+p-data-type = "d-string"
+
+[p-instance-of]
+p-name = "Instance of"
+p-inverse-name = "Instance"
+p-data-type = "d-noun"
+templates = ["property"]
+
+[p-inverse-name]
+p-name = "Inverse of a name"
+p-description = "Relevant for properties that act on nouns as nouns."
+p-data-type = "d-string"
+templates = ["property"]
+
+[p-wikidata-id]
+p-name = "Wikidata id"
+p-description = "Id if on wikidata"
+p-data-type = "d-string"
+templates = ["property"]
+
+[p-data-type]
+p-name = "Data Type"
+p-description = "Data Type"
+p-data-type = "d-noun"
+templates = ["property"]
+
+[p-aliases]
+p-name = "aliases"
+p-description = "Aliases"
+p-data-type = "d-string"
+templates = ["property"]
+
+[p-works-on]
+p-name = "Works On"
+p-description = "When noun works on things B."
+p-data-type = "d-thing"
+p-inverse-name = "Worked on by"
+templates = ["property"]
+
+[p-part-of]
+p-name = "Part of"
+p-data-type = "d-thing"
+p-inverse-name = "Contains"
+templates = ["property"]
+
+[p-employed-by]
+p-name = "Employed By"
+p-data-type = "d-thing"
+p-inverse-name = "Employs"
+templates = ["property"]
+
+[p-is-in-list]
+p-name = "Is in list"
+p-data-type = "d-thing"
+p-inverse-name = "Contains"
+templates = ["property"]
+
+[p-subclass-of]
+p-name = "Subclass of"
+p-data-type = "d-thing"
+p-inverse-name = "Superclass of"
+p-wikidata-id = "P279"
+templates = ["property"]
+
+[p-git-repo]
+p-name = "Primary Git Repo"
+p-data-type = "d-url"
+p-inverse-name = "Is primary git repo of"
+templates = ["property"]
+
+[p-url]
+p-name = "Url"
+p-data-type = "d-url"
+templates = ["property"]

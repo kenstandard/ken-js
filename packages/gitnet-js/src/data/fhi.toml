@@ -1,0 +1,16 @@
+[[n-fhi]]
+p-name = "The Future of Humanity Institute"
+
+[[n-fhi.p-employed-by]]
+inverseItems = [
+    "p-nick-bostrom",
+    "p-anders-sandberg",
+    "p-toby-ord",
+    "p-Owen-Cotton-Barratt",
+    "p-Joseph-Carlsmith",
+    "p-carl-shulman",
+    "p-owain-evans",
+    "p-stuart-armstrong",
+    "p-Ryan-Carey",
+    "p-ozzie-gooen",
+]

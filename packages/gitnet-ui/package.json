@@ -2,10 +2,12 @@
   "name": "gitnet-ui",
   "version": "0.0.1",
   "dependencies": {
+    "antd": "3.11.2",
+    "gitnet-js": "0.0.1",
+    "lodash": "^4.17.11",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
-    "react-scripts": "2.1.1",
-    "gitnet-js": "0.0.1"
+    "react-scripts": "2.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
