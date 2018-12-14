@@ -68,7 +68,9 @@ class Statement {
             console.log("Cannot find property for: ", this);
             return {error: "Nothing found"}
         }
-        else if (this.property().textValue("p-data-type") === "d-noun"){
+
+        const dataType = this.property().textValue("p-data-type");
+        if (dataType === "d-noun" || dataType === "d-thing"){
             return {thing: this.db.findThing(this.value)};
         } else {
             return {text: this.value};

@@ -1,4 +1,4 @@
-[templates.data-type-instance.properties]
+[meta.templates.data-type-instance.properties]
 p-instance-of = "p-data-type"
 
 [d-thing]
