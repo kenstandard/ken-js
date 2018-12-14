@@ -57,9 +57,19 @@ class Statement {
     valueThing(){
         return this.db.findThing(this.value)
     }
+    formatProperty(){
+        return {
+            thing: this.property()
+        }
+    }
     formatValue(){
-        if (this.property().textValue("p-data-type") === "d-noun"){
-            return {thing: this.db.findThing(this.value).toJSON()};
+        const property = this.property()
+        if (!property){
+            console.log("Cannot find property for: ", this);
+            return {error: "Nothing found"}
+        }
+        else if (this.property().textValue("p-data-type") === "d-noun"){
+            return {thing: this.db.findThing(this.value)};
         } else {
             return {text: this.value};
         }

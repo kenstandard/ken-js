@@ -1,63 +1,41 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import foo from "../node_modules/gitnet-js/dist/main.js";
 import Button from 'antd/lib/button';
-import { Table, Divider, Tag } from 'antd';
-import _ from "lodash";
+import { Layout, Icon, Table, Divider, Tag, Menu } from 'antd';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import {Thing} from "./Thing"
+import {Home} from "./Home"
 
-const columns = [
-{
-  title: 'name',
-  dataIndex: 'name',
-  key: 'name',
-},
-  {
-  title: 'id',
-  dataIndex: 'id',
-  key: 'id',
-},
-  {
-  title: 'instanceOf',
-  dataIndex: 'instanceOf',
-  key: 'instanceOf',
-},
-  {
-  title: 'inverseName',
-  dataIndex: 'inverseName',
-  key: 'inverseName',
-},
-  {
-  title: 'dataType',
-  dataIndex: 'dataType',
-  key: 'data-type',
-},
-]
-
-const transformedData = foo().things.map(t => {
-  let dataType = t.formattedValue("p-data-type");
-  let instanceOf = t.formattedValue("p-instance-of");
-  
-  return {
-    id: t.id,
-    name: t.textValue("p-name"),
-    inverseName: t.textValue("p-inverse-name"),
-    instanceOf: _.get(instanceOf, "thing.name"),
-    dataType: dataType && dataType.thing && dataType.thing.name
-  }
-});
+const {
+  Header, Content, Footer, Sider,
+} = Layout;
 
 class App extends Component {
   render() {
-    foo();
     return (
-      <div className="App">
-        <header className="App-header">
-          <Table columns={columns} dataSource={transformedData} pagination={false}/>
-        </header>
-      </div>
+      <Router>
+        <Layout style={{height: "100vh"}}>
+        <Sider
+          breakpoint="lg"
+          collapsedWidth="0"
+          onBreakpoint={(broken) => { console.log(broken); }}
+          onCollapse={(collapsed, type) => { console.log(collapsed, type); }}
+          theme={"light"}
+        >
+          <Link to="/" style={{}}>Base</Link>
+          </Sider>
+        <Content style={{
+            margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280,
+          }}
+          >
+          <Route exact path="/" component={Home} />
+          <Route path="/things/:thingId" component={Thing} />
+          </Content>
+        </Layout>
+      </Router>
     );
   }
 }
+
 
 export default App;
