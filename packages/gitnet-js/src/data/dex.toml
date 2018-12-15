@@ -1,14 +1,23 @@
 [n-dex]
 p-name = "DEX"
 p-description = '''
-## Description
+### Description
 A organizational tool for structured data with Git.  
 
-## Other things
-A organizational tool for structured data with Git.
-A organizational tool for structured data with Git.
-A organizational tool for structured data with Git.
-A organizational tool for structured data with Git.
+### Interesting Links:  
+[Specification Links | JSON Schema](http://json-schema.org/specification-links.html)  
+https://tools.ietf.org/html/draft-handrews-json-schema-validation-01  
+https://tools.ietf.org/html/draft-handrews-json-schema-hyperschema-01  
+[GitHub - toml-lang/toml: Tom’s Obvious, Minimal Language](https://github.com/toml-lang/toml)  
+[Show HN: Eno – A lightning fast, user-friendly YAML/TOML alternative | Hacker News](https://news.ycombinator.com/item?id=17765426)  
+[Online TOML to JSON converter](https://www.randomerrata.com/articles/2013/online-toml-to-json-converter/)  
+[Linked data - Wikipedia](https://en.wikipedia.org/wiki/Linked_data)  
+[Slowly changing dimension - Wikipedia](https://en.wikipedia.org/wiki/Slowly_changing_dimension)  
+[Semantic triple - Wikipedia](https://en.wikipedia.org/wiki/Semantic_triple)  
+[Triplestore - Wikipedia](https://en.wikipedia.org/wiki/Triplestore)  
+[Named graph - Wikipedia](https://en.wikipedia.org/wiki/Named_graph)  
+[Entity–attribute–value model - Wikipedia](https://en.wikipedia.org/wiki/Entity%E2%80%93attribute%E2%80%93value_model)  
+
 '''
 
 [h-ozzie-gooen]
