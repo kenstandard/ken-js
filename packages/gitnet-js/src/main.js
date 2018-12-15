@@ -17,6 +17,5 @@ export default function main(){
         ...tomlFormatter(fhi)
     ]
     const foo = new Database(statements);
-    console.log(foo)
     return foo;
 }

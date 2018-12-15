@@ -11,7 +11,6 @@ export class Value extends Component {
       if (dataType === "d-image-url") {
         return <img src={text} alt={"image"} style={{maxWidth: "70px", maxHeight: "70px"}}/>
       }
-      console.log(dataType)
       return text
     } else if (thing){
       const name = thing.textValue("p-name");

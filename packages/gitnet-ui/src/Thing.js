@@ -5,17 +5,39 @@ import { Link } from 'react-router-dom';
 import {Value} from "./Value";
 import _ from "lodash";
 
-const InverseStatements = ({inverseStatements}) => (
+const InverseStatements = ({propertyId, inverseStatements}) => {
+  const allPropertyIds = _.uniq(_.flatten(inverseStatements.map(s => s.thing().statements().map(i => i.propertyId))));
+  const relevantPropertyIds = allPropertyIds.filter(p => p !== propertyId);
+  const columns = relevantPropertyIds.map(id => {
+    const thing = gitnet().findThing(id);
+    const name = thing.textValue("p-name");
+    return {
+      title: name,
+      dataIndex: id,
+      key: id,
+      render: (e, r) => {
+        if (id === "p-name"){
+          return <Link to={("/things/" + r.id)}> {e.text} </Link>
+        } else {
+          return <Value value={(e)}/>
+        }
+      }
+    }
+  })
+  const data = inverseStatements.map(s => {
+    const sThing = s.thing();
+    let v = {id: sThing.id};
+    relevantPropertyIds.forEach(id => {
+      v[id] = sThing.formattedValue(id)
+    })
+    return v
+  })
+  return (
   <div>
-    {inverseStatements.map(s => (
-      <div>
-        <Link to={"/things/"+ s.thing().id}>
-          {s.thing().textValue("p-name")}
-        </Link>
-      </div>
-    ))}
+      <Table columns={columns} dataSource={data} pagination={false}/>
   </div>
-)
+  )
+}
 
 const columns = [
 {
@@ -63,12 +85,14 @@ export class Thing extends Component {
         <br/>
         <br/>
         <br/>
-        {inverseProperties.map(p => (
+        {inverseProperties.map(p => {
+          return (
           <div>
             <h2> {gitnet().findThing(p).textValue("p-inverse-name")} List</h2>
-            <InverseStatements inverseStatements={inverseStatements.filter(s => s.propertyId === p)}/>
+            <InverseStatements propertyId={p} inverseStatements={inverseStatements.filter(s => s.propertyId === p)}/>
           </div>
-        ))}
+          )
+        })}
       </div>
     );
   }
