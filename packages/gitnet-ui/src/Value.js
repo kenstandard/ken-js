@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Markdown from 'markdown-to-jsx';
 
 export class Value extends Component {
   render() {
@@ -11,7 +12,7 @@ export class Value extends Component {
       if (dataType === "d-image-url") {
         return <img src={text} alt={"image"} style={{maxWidth: "70px", maxHeight: "70px"}}/>
       }
-      return text
+      return <Markdown>{text}</Markdown>
     } else if (thing){
       const name = thing.textValue("p-name");
       const id = thing.id;

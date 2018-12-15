@@ -4,8 +4,8 @@ p-wikidata-id = "Q5510826"
 
 [n-fhi]
 p-name = "The Future of Humanity Institute"
-p-official-website = "http://www.fhi.ox.ac.uk/"
 p-instance-of = "n-organization"
+p-official-website = "http://www.fhi.ox.ac.uk/"
 
 [n-fhi.inverted]
 p-employed-by = [

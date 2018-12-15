@@ -1,6 +1,15 @@
 [n-dex]
 p-name = "DEX"
-p-description = "A organizational tool for structured data with Git."
+p-description = '''
+## Description
+A organizational tool for structured data with Git.  
+
+## Other things
+A organizational tool for structured data with Git.
+A organizational tool for structured data with Git.
+A organizational tool for structured data with Git.
+A organizational tool for structured data with Git.
+'''
 
 [h-ozzie-gooen]
 p-works-on = "n-dex"
@@ -47,6 +56,9 @@ columns = ["p-name", "p-dex-todo-status"]
 data = [
     ["Convert codebase to TypeScript", "ICEBOX"],
     ["For lists, show tables with all elements", "COMPLETED"],
-    ["Values can have subproperties", "STARTED"],
+    ["Values can have subproperties", "NOT_STARTED"],
+    ["Values can have references", "NOT_STARTED"],
+    ["Split up packages, each with subproperty", "NOT_STARTED"],
+    ["Clean up code for Github", "NOT_STARTED"],
     ["References", "NOT_STARTED"],
 ]

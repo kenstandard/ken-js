@@ -4,6 +4,7 @@ import { Table, Divider, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import {Value} from "./Value";
 import _ from "lodash";
+import Markdown from 'markdown-to-jsx';
 
 const InverseStatements = ({propertyId, inverseStatements}) => {
   const allPropertyIds = _.uniq(_.flatten(inverseStatements.map(s => s.thing().statements().map(i => i.propertyId))));
@@ -77,7 +78,7 @@ export class Thing extends Component {
       <div className="Noun">
         <h1>{name}</h1>
         <h3>ID: {thingId} </h3>
-        {description && <p>{description}</p>}
+        {description && <div style={{fontSize: "10px"}}><Markdown>{description}</Markdown></div>}
         <br/>
         <br/>
         <h2> Properties </h2>
