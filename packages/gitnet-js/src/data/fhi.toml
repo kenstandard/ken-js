@@ -1,16 +1,17 @@
-[[n-fhi]]
+[n-fhi]
 p-name = "The Future of Humanity Institute"
+p-official-website = "http://www.fhi.ox.ac.uk/"
 
-[[n-fhi.p-employed-by]]
-inverseItems = [
-    "p-nick-bostrom",
-    "p-anders-sandberg",
-    "p-toby-ord",
-    "p-Owen-Cotton-Barratt",
-    "p-Joseph-Carlsmith",
-    "p-carl-shulman",
-    "p-owain-evans",
-    "p-stuart-armstrong",
-    "p-Ryan-Carey",
-    "p-ozzie-gooen",
+[n-fhi.inverted]
+p-employed-by = [
+    "h-nick-bostrom",
+    "h-anders-sandberg",
+    "h-toby-ord",
+    "h-owen-cotton-barratt",
+    "h-joseph-carlsmith",
+    "h-carl-shulman",
+    "h-owain-evans",
+    "h-stuart-armstrong",
+    "h-ryan-carey",
+    "h-ozzie-gooen",
 ]

@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-let specialVars = ['id', 'templates', 'meta'];
+let specialVars = ['id', 'templates', 'meta', 'inverted'];
 
 String.prototype.hashCode = function() {
   var hash = 0, i, chr;
@@ -30,14 +30,47 @@ export default function tomlFormatter(toml){
     let statements = _.keys(items).map(thingId => {
         let thing = toml[thingId];
         thing = addTemplates(toml, thing)
-        let statements = _.omit(thing, specialVars);
-        return _.toPairs(statements).map(keyVal =>
-            ({
+        let _statements = _.omit(thing, specialVars);
+        let pairs = []
+
+        _.toPairs(_statements).forEach(keyVal => {
+            if (Array.isArray(keyVal[1])){
+                keyVal[1].forEach(v => {
+                    pairs.push({
+                        thingId,
+                        propertyId: keyVal[0],
+                        value: v 
+                    })
+                })
+            } else {
+            pairs.push({
                 thingId,
                 propertyId: keyVal[0],
                 value: keyVal[1]
             })
-        )
+        }
+        })
+
+        let invertedStatements = thing.inverted || {};
+        _.toPairs(invertedStatements).forEach(keyVal => {
+            if (Array.isArray(keyVal[1])){
+                keyVal[1].forEach(v => {
+                    pairs.push({
+                        thingId: v,
+                        propertyId: keyVal[0],
+                        value: thingId
+                    })
+                })
+            } else {
+            pairs.push({
+                thingId: keyVal[1],
+                propertyId: keyVal[0],
+                value: thingId
+            })
+        }
+        });
+
+        return [...pairs]
     })
 
     generators.forEach(g => {

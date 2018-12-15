@@ -99,3 +99,9 @@ p-name = "Belongs to"
 p-data-type = "d-noun"
 p-inverse-name = "Contains"
 templates = ["property"]
+
+[p-official-website]
+p-name = "Official Website"
+p-wikidata-id = "P856"
+p-data-type = "d-url"
+templates = ["property"]

@@ -2,7 +2,7 @@
 p-name = "Person"
 
 [h-nick-bostrom]
-p-name = "nick-bostrom"
+p-name = "Nick Bostrom"
 p-instance-of = "n-person"
 
 [h-anders-sandberg]
