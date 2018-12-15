@@ -1,6 +1,11 @@
+[n-organization]
+p-name = "Organization"
+p-wikidata-id = "Q5510826"
+
 [n-fhi]
 p-name = "The Future of Humanity Institute"
 p-official-website = "http://www.fhi.ox.ac.uk/"
+p-instance-of = "n-organization"
 
 [n-fhi.inverted]
 p-employed-by = [
@@ -13,5 +18,21 @@ p-employed-by = [
     "h-owain-evans",
     "h-stuart-armstrong",
     "h-ryan-carey",
+    "h-jelene-luketina",
     "h-ozzie-gooen",
 ]
+
+[n-fhi-leadership]
+p-name = "FHI Leadership Team"
+p-instance-of = "n-organization"
+p-parent-organization = "n-fhi"
+
+[n-fhi-macrostrategy-research-team]
+p-name = "Macrostrategy Research Team"
+p-instance-of = "n-organization"
+p-parent-organization = "n-fhi"
+
+[n-fhi-alexander-tamas-programme]
+p-name = "Alexander Tamas Programme on AI Safety"
+p-instance-of = "n-organization"
+p-parent-organization = "n-fhi"

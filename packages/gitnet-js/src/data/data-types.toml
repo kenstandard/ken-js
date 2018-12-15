@@ -21,3 +21,8 @@ templates = ["data-type"]
 p-name = "Url (Data Type)"
 templates = ["data-type"]
 p-subclass-of = "d-string"
+
+[d-image-url]
+p-name = "Image Url (Data Type)"
+templates = ["data-type"]
+p-subclass-of = "d-url"

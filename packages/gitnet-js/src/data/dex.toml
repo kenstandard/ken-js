@@ -22,5 +22,32 @@ idPrefix = "dex-name-"
 columns = ["p-name"]
 data = [
     ["DEX"],
+    ["MetaBase"],
     ["GitNet"]
+]
+
+[n-dex-todo]
+p-name = "List of things to do for DEX"
+p-instance-of = "n-list"
+p-belongs-to = "n-dex"
+
+[p-dex-todo-status]
+p-name = "TODO Status"
+p-description = "NOT_STARTED, STARTED, ICEBOX, COMPLETED"
+p-instance-of = "n-list"
+p-belongs-to = "n-dex"
+
+[[meta.generators]]
+[meta.generators.properties]
+p-is-in-list = "n-dex-todo"
+p-description = "Things to do for DEX application"
+[meta.generators.table]
+idPrefix = "dex-todo-"
+columns = ["p-name", "p-dex-todo-status"]
+data = [
+    ["Convert codebase to TypeScript", "ICEBOX"],
+    ["For lists, show tables with all elements", "ICEBOX"],
+    ["Values can have subproperties", "STARTED"],
+    ["Values can have subproperties", "STARTED"],
+    ["References", "NOT_STARTED"],
 ]

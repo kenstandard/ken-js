@@ -6,8 +6,12 @@ export class Value extends Component {
     if (!this.props.value){
       return "Error: No value"
     }
-    const {value: {text, thing, error}} = this.props;
+    const {value: {text, thing, error, dataType}} = this.props;
     if (text){
+      if (dataType === "d-image-url") {
+        return <img src={text} alt={"image"} style={{maxWidth: "70px", maxHeight: "70px"}}/>
+      }
+      console.log(dataType)
       return text
     } else if (thing){
       const name = thing.textValue("p-name");

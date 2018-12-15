@@ -105,3 +105,16 @@ p-name = "Official Website"
 p-wikidata-id = "P856"
 p-data-type = "d-url"
 templates = ["property"]
+
+[p-image]
+p-name = "Image (url)"
+p-wikidata-id = "P18"
+p-data-type = "d-image-url"
+templates = ["property"]
+
+[p-parent-organization]
+p-name = "Parent Organization"
+p-schemaorg-id = "parentOrganization"
+p-inverse-name = "Child Organization"
+p-data-type = "d-noun"
+templates = ["property"]

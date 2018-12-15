@@ -22,7 +22,7 @@ class App extends Component {
           onCollapse={(collapsed, type) => { console.log(collapsed, type); }}
           theme={"light"}
         >
-          <Link to="/" style={{}}>Base</Link>
+          <Link to="/" style={{}}>DEX Explorer</Link>
           </Sider>
         <Content style={{
             margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280,

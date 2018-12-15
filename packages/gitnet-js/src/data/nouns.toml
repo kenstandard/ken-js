@@ -1,0 +1,18 @@
+[n-thing]
+p-name = "Thing"
+
+[n-intangible]
+p-name = "Intangible"
+p-subclass-of = "n-thing"
+
+[n-role]
+p-name = "Role"
+p-subclass-of = "n-intangible"
+[n-role.p-description]
+value = "Represents additional information about a relationship or property. For example a Role can be used to say that a 'member' role linking some SportsTeam to a player occurred during a particular time period. Or that a Person's 'actor' role in a Movie was for some particular characterName. Such properties can be attached to a Role entity, which is then associated with the main entities using ordinary properties like 'member' or 'actor'."
+[[n-role.p-description.reference]]
+
+[n-organization-role]
+p-name = "Organization Role"
+p-description = "A subclass of Role used to describe roles within organizations."
+p-subclass-of = "n-role"

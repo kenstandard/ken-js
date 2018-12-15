@@ -73,7 +73,7 @@ class Statement {
         if (dataType === "d-noun" || dataType === "d-thing"){
             return {thing: this.db.findThing(this.value)};
         } else {
-            return {text: this.value};
+            return {text: this.value, dataType};
         }
     }
     toJSON(){

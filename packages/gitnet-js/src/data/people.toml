@@ -4,39 +4,54 @@ p-name = "Person"
 [h-nick-bostrom]
 p-name = "Nick Bostrom"
 p-instance-of = "n-person"
+p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/3176-97093-Nick_Bostrom-300x200.jpg"
 
 [h-anders-sandberg]
 p-name = "Anders Sandberg"
 p-instance-of = "n-person"
+p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14592-AndersSansberg-1-e1481642401930-1-e1510230442224-300x200.jpg"
 
 [h-toby-ord]
 p-name = "Toby Ord"
 p-instance-of = "n-person"
+p-image = ""
 
 [h-owen-cotton-barratt]
 p-name = "Owen Cotton-Barratt"
 p-instance-of = "n-person"
+p-image = "https://www.fhi.ox.ac.uk/team/owen-cotton-barratt/"
 
 [h-joseph-carlsmith]
 p-name = "Joseph Carlsmith"
 p-instance-of = "n-person"
+p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/Joe-Headshot-300x200.jpg"
 
 [h-carl-shulman]
 p-name = "Carl Shulman"
 p-instance-of = "n-person"
+p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/carl_shulman1-1-e1510231614617.jpg"
 
 [h-owain-evans]
 p-name = "Owain Evans"
 p-instance-of = "n-person"
+p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/owain_small-e1510236236376-300x200.jpg"
 
 [h-stuart-armstrong]
 p-name = "Stuart Armstrong"
 p-instance-of = "n-person"
+p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14687-StuartArmstrong-1-e1481640361754-1-e1510230727977-300x200.jpg"
 
 [h-ryan-carey]
 p-name = "Ryan Carey"
 p-instance-of = "n-person"
+p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/profile3.png"
+
+[h-jelene-luketina]
+p-name = "Jelena Luketina"
+p-instance-of = "n-person"
+p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/Screenshot-2018-01-15-10.17.21.png"
 
 [h-ozzie-gooen]
 p-name = "Ozzie Gooen"
 p-instance-of = "n-person"
+p-image = "https://pbs.twimg.com/profile_images/682646835358388224/h5j68fAv_400x400.jpg"
