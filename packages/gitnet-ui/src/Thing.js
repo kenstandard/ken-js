@@ -34,7 +34,7 @@ const InverseStatements = ({propertyId, inverseStatements}) => {
   })
   return (
   <div>
-      <Table columns={columns} dataSource={data} pagination={false}/>
+      <Table columns={columns} dataSource={data} pagination={false} size="small"/>
   </div>
   )
 }
@@ -81,7 +81,7 @@ export class Thing extends Component {
         <br/>
         <br/>
         <h2> Properties </h2>
-        <Table columns={columns} dataSource={formatted} pagination={false}/>
+        <Table columns={columns} dataSource={formatted} pagination={false} size="small"/>
         <br/>
         <br/>
         <br/>

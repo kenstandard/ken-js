@@ -14,12 +14,12 @@ p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14592-AndersSansberg
 [h-toby-ord]
 p-name = "Toby Ord"
 p-instance-of = "n-person"
-p-image = ""
+p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/3176-97251-Toby_Ord-1024x683.jpg"
 
 [h-owen-cotton-barratt]
 p-name = "Owen Cotton-Barratt"
 p-instance-of = "n-person"
-p-image = "https://www.fhi.ox.ac.uk/team/owen-cotton-barratt/"
+p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14610-OwenCottonBarratt-1-e1477584015301-1-e1510231344892-1024x683.jpg"
 
 [h-joseph-carlsmith]
 p-name = "Joseph Carlsmith"

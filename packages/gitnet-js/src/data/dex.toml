@@ -46,8 +46,7 @@ idPrefix = "dex-todo-"
 columns = ["p-name", "p-dex-todo-status"]
 data = [
     ["Convert codebase to TypeScript", "ICEBOX"],
-    ["For lists, show tables with all elements", "ICEBOX"],
-    ["Values can have subproperties", "STARTED"],
+    ["For lists, show tables with all elements", "COMPLETED"],
     ["Values can have subproperties", "STARTED"],
     ["References", "NOT_STARTED"],
 ]
