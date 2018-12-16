@@ -118,3 +118,40 @@ p-schemaorg-id = "parentOrganization"
 p-inverse-name = "Child Organization"
 p-data-type = "d-noun"
 templates = ["property"]
+
+[p-twitter-username]
+p-name = "Twitter Username"
+p-description = "this item's username on Twitter; do not include the '@' symbol"
+p-wikidata-id = "P2002"
+p-data-type = "d-string"
+templates = ["property"]
+
+[p-github-username]
+p-name = "Github Username"
+p-description = "this item's username on Github"
+p-data-type = "d-string"
+templates = ["property"]
+
+[p-lesswrong-username]
+p-name = "LessWrong Username"
+p-description = "this item's username on LessWrong"
+p-data-type = "d-string"
+templates = ["property"]
+
+[p-effective-altruism-forum-username]
+p-name = "Effective Altruism Forum Username"
+p-description = "this item's username on the Effective Altruism Forum"
+p-data-type = "d-string"
+templates = ["property"]
+
+[p-medium-username]
+p-name = "Medium Username"
+p-description = "this item's username on Medium"
+p-data-type = "d-string"
+templates = ["property"]
+
+[p-linkedin-id]
+p-name = "Linked Username"
+p-description = "this item's username on Linked"
+p-data-type = "d-string"
+templates = ["property"]
