@@ -14,7 +14,7 @@ const expandedRowRender = ({statement}) => {
   if (!_thing){ return ""}
   let properties = _thing.properties();
   const constants = [{
-    title: "id",
+    title: "ID",
     dataIndex: 'thing',
     key: "id",
     render: (thing) => {
@@ -22,7 +22,7 @@ const expandedRowRender = ({statement}) => {
     }
   },
   {
-    title: "value",
+    title: "Value",
     dataIndex: 'thing',
     key: "value",
     render: (thing) => {
