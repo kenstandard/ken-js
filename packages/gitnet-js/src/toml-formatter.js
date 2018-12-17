@@ -20,7 +20,9 @@ let addTemplates = (toml, thing) => {
     relevantTemplates.forEach(t => {values = _.merge(values, t)})
     return values
 }
-let randomChars = (n) => Math.random().toString(36).substring(n);
+let randomChars = (n) => Math.random().toString(36).substring(2,2+n);
+
+let randomId = () => randomChars(10);
 
 export default function tomlFormatter(toml){
     let allTemplates = _.get(toml, "meta.templates") || {};
@@ -37,6 +39,7 @@ export default function tomlFormatter(toml){
             if (Array.isArray(keyVal[1])){
                 keyVal[1].forEach(v => {
                     pairs.push({
+                        id: randomId(),
                         thingId,
                         propertyId: keyVal[0],
                         value: v 
@@ -44,7 +47,7 @@ export default function tomlFormatter(toml){
                 })
             } else {
             pairs.push({
-                id: keyVal[1].id || false,
+                id: keyVal[1].id || randomId(),
                 thingId,
                 propertyId: keyVal[0],
                 value: keyVal[1].value || keyVal[1]
@@ -57,6 +60,7 @@ export default function tomlFormatter(toml){
             if (Array.isArray(keyVal[1])){
                 keyVal[1].forEach(v => {
                     pairs.push({
+                        id: randomId(),
                         thingId: v,
                         propertyId: keyVal[0],
                         value: thingId
@@ -64,6 +68,7 @@ export default function tomlFormatter(toml){
                 })
             } else {
             pairs.push({
+                id: randomId(),
                 thingId: keyVal[1],
                 propertyId: keyVal[0],
                 value: thingId
@@ -75,26 +80,24 @@ export default function tomlFormatter(toml){
     })
 
     generators.forEach(g => {
-        let _statements = []
         const {table: {idPrefix, columns, data}, properties} = g;
         data.forEach((element, ii) => {
             const thingId = idPrefix + ii
             _.toPairs(properties).forEach(keyVal => {
-                _statements.push({
+                statements.push({
                     thingId,
                     propertyId: keyVal[0],
                     value: keyVal[1]
                 })
             })
             columns.forEach((columnName, index) => {
-                _statements.push({
+                statements.push({
                     thingId,
                     propertyId: columnName,
                     value: element[index] 
                 })
             })
         })
-        statements = [...statements, ..._statements]
     })
-    return _.flatten(statements);
+    return _.flatten(_.flatten(statements).map(s => [s, {thingId: s.id, propertyId: "p-data-source", value: "n-repo-base"}]))
 }

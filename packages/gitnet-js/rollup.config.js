@@ -11,7 +11,7 @@ export default [
 				exclude: 'node_modules/**',
 			})
 		],
-		external: "lodash",
+		external: ["lodash", "ramda"],
 		output: {
 			file: 'dist/main.js',
 			format: 'cjs'

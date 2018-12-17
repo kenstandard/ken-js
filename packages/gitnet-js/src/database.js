@@ -19,7 +19,7 @@ class Thing {
     }
     inverseProperties(){
         const uniq = R.uniqWith(R.eqBy(e => e.propertyId))
-        return uniq(this.inverseStatements())
+        return uniq(this.inverseStatements()).map(s => s.property())
     }
     formattedValues(propertyId){
         return this.statements().filter(s => s.propertyId == propertyId).map(r => r.formatValue())

@@ -16,3 +16,7 @@ value = "Represents additional information about a relationship or property. For
 p-name = "Organization Role"
 p-description = "A subclass of Role used to describe roles within organizations."
 p-subclass-of = "n-role"
+
+[n-repo-base]
+p-name = "Base Repo"
+p-description = "The base repository"

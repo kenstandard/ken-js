@@ -34,7 +34,6 @@ const expandedRowRender = ({statement}) => {
     dataIndex: 'thing',
     key: p.id,
     render: (thing) => {
-      console.log("HI", thing)
       return <Value value={thing.formattedValue(p.id)}/>
     }
   }))
@@ -42,17 +41,20 @@ const expandedRowRender = ({statement}) => {
   const data = [{thing:_thing}];
 
   return (
+    <div style={{padding: "10px"}}>
     <Table
       columns={[...constants, ...columns]}
       dataSource={data}
+      size="small"
       pagination={false}
     />
+    </div>
   );
 };
 
-const InverseStatements = ({propertyId, inverseStatements}) => {
+const InverseStatements = ({property, inverseStatements}) => {
   const allPropertyIds = _.uniq(_.flatten(inverseStatements.map(s => s.thing().statements().map(i => i.propertyId))));
-  const relevantPropertyIds = allPropertyIds.filter(p => p !== propertyId);
+  const relevantPropertyIds = allPropertyIds.filter(p => p !== property.id);
   const columns = relevantPropertyIds.map(id => {
     const thing = gitnet().findThing(id);
     const name = thing.textValue("p-name");
@@ -128,8 +130,8 @@ export class Thing extends Component {
         {inverseProperties.map(p => {
           return (
           <div>
-            <h2> {p.property().textValue("p-inverse-name")} List</h2>
-            <InverseStatements propertyId={p} inverseStatements={inverseStatements.filter(s => s.propertyId === p)}/>
+            <h2> {p.textValue("p-inverse-name")} List</h2>
+            <InverseStatements property={p} inverseStatements={inverseStatements.filter(s => s.propertyId === p.id)}/>
           </div>
           )
         })}

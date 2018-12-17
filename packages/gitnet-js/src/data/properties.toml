@@ -10,11 +10,11 @@ templates = ["property"]
 p-data-type = "d-string"
 
 [p-description]
-p-name = {value ="Description", id = "sdf"}
+p-name = {value ="Description", id = "sdlkfjsdf"}
 templates = ["property"]
 p-data-type = "d-string"
 
-[sdf]
+[sdlkfjsdf]
 p-name = "test!"
 p-part-of = "p-name"
 p-aliases = "Foobar and Friends!"
@@ -159,4 +159,16 @@ templates = ["property"]
 p-name = "Linked Username"
 p-description = "this item's username on Linked"
 p-data-type = "d-string"
+templates = ["property"]
+
+[p-source-url]
+p-name = "Source Url"
+p-description = "this item's source Url"
+p-data-type = "d-url"
+templates = ["property"]
+
+[p-data-source]
+p-name = "Data Source"
+p-description = "A thing's data source"
+p-data-type = "d-noun"
 templates = ["property"]

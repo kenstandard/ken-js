@@ -36,7 +36,7 @@ const columns = [
 },
 ]
 
-const transformedData = gitnet().things.map(t => {
+const transformedData = gitnet().things.filter(t => t.textValue("p-name").length > 0).map(t => {
   return {
     id: t.id,
     name: <Value value={t.formattedValue("p-name")}/>,
