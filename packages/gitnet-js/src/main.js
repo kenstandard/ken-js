@@ -11,10 +11,10 @@ export default function main(){
     const statements = [
         ...tomlFormatter(properties),
         ...tomlFormatter(nouns),
-        ...tomlFormatter(dataTypes),
-        ...tomlFormatter(dex),
-        ...tomlFormatter(people),
-        ...tomlFormatter(fhi)
+        // ...tomlFormatter(dataTypes),
+        // ...tomlFormatter(dex),
+        // ...tomlFormatter(people),
+        // ...tomlFormatter(fhi)
     ]
     const foo = new Database(statements);
     return foo;

@@ -44,9 +44,10 @@ export default function tomlFormatter(toml){
                 })
             } else {
             pairs.push({
+                id: keyVal[1].id || false,
                 thingId,
                 propertyId: keyVal[0],
-                value: keyVal[1]
+                value: keyVal[1].value || keyVal[1]
             })
         }
         })

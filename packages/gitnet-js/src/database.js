@@ -1,4 +1,5 @@
 import _ from "lodash";
+import * as R from 'ramda';
 
 class Thing {
     constructor(id, db){
@@ -9,8 +10,16 @@ class Thing {
     statements(){
         return _.filter(this.db.statements, e => (e.thingId == this.id));
     }
+    properties(){
+        const uniq = R.uniqWith(R.eqBy(e => e.id))
+        return uniq(this.statements().map(s => s.property()))
+    }
     inverseStatements(){
         return _.filter(this.db.statements, e => (e.value == this.id));
+    }
+    inverseProperties(){
+        const uniq = R.uniqWith(R.eqBy(e => e.propertyId))
+        return uniq(this.inverseStatements())
     }
     formattedValues(propertyId){
         return this.statements().filter(s => s.propertyId == propertyId).map(r => r.formatValue())
@@ -42,10 +51,15 @@ class Thing {
 
 class Statement {
     constructor(statement, db){
+        this.db = db;
         this.thingId = statement.thingId;
         this.propertyId = statement.propertyId;
         this.value = statement.value;
-        this.db = db;
+        this.id = statement.id || false;
+        
+        if (this.id) {
+            this.internalThing = new Thing(this.id, db)
+        };
         return this;
     }
     thing(){

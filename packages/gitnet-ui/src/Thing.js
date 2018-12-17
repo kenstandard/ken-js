@@ -3,8 +3,52 @@ import gitnet from "../node_modules/gitnet-js/dist/main.js";
 import { Table, Divider, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import {Value} from "./Value";
+import {Statement} from "./Statement";
 import _ from "lodash";
 import Markdown from 'markdown-to-jsx';
+import * as R from 'ramda';
+
+const expandedRowRender = ({statement}) => {
+
+  let _thing = statement.internalThing;
+  if (!_thing){ return ""}
+  let properties = _thing.properties();
+  const constants = [{
+    title: "id",
+    dataIndex: 'thing',
+    key: "id",
+    render: (thing) => {
+      return thing.id
+    }
+  },
+  {
+    title: "value",
+    dataIndex: 'thing',
+    key: "value",
+    render: (thing) => {
+      return <Value value={statement.formatValue()}/>
+    }
+  }]
+  const columns = properties.map(p => ({
+    title: p.textValue("p-name"),
+    dataIndex: 'thing',
+    key: p.id,
+    render: (thing) => {
+      console.log("HI", thing)
+      return <Value value={thing.formattedValue(p.id)}/>
+    }
+  }))
+
+  const data = [{thing:_thing}];
+
+  return (
+    <Table
+      columns={[...constants, ...columns]}
+      dataSource={data}
+      pagination={false}
+    />
+  );
+};
 
 const InverseStatements = ({propertyId, inverseStatements}) => {
   const allPropertyIds = _.uniq(_.flatten(inverseStatements.map(s => s.thing().statements().map(i => i.propertyId))));
@@ -43,18 +87,18 @@ const InverseStatements = ({propertyId, inverseStatements}) => {
 const columns = [
 {
   title: 'Property',
-  dataIndex: 'name',
+  dataIndex: 'statement',
   key: 'name',
-  render: (name) => (
-    <Value value={(name)}/>
+  render: (s) => (
+    <Value value={(s.formatProperty())}/>
   )
 },
   {
   title: 'Value',
-  dataIndex: 'value',
+  dataIndex: 'statement',
   key: 'value',
-  render: (value) => (
-      <Value value={value}/>
+  render: (s) => (
+    <Value value={(s.formatValue())}/>
   )
 }
 ]
@@ -64,16 +108,9 @@ export class Thing extends Component {
     let thing = gitnet().findThing(thingId);
     let name = thing.textValue("p-name");
     let description = thing.textValue("p-description");
-    let statements = thing.statements();
-    let formatted = statements.map(s => {
-      return {
-        name: s.formatProperty(),
-        value: s.formatValue()
-      }
-    })
+    let formatted = thing.statements().map(statement => ({statement}))
     let inverseStatements = thing.inverseStatements();
-    let inverseProperties = _.uniq(inverseStatements.map(s => s.propertyId))
-    let prop = gitnet().findThing(inverseProperties[0]);
+    let inverseProperties = thing.inverseProperties();
     return (
       <div className="Noun">
         <h1>{name}</h1>
@@ -82,14 +119,16 @@ export class Thing extends Component {
         <br/>
         <br/>
         <h2> Properties </h2>
-        <Table columns={columns} dataSource={formatted} pagination={false} size="small"/>
+        <Table columns={columns} dataSource={formatted} pagination={false} size="small"
+              expandedRowRender={expandedRowRender}
+        />
         <br/>
         <br/>
         <br/>
         {inverseProperties.map(p => {
           return (
           <div>
-            <h2> {gitnet().findThing(p).textValue("p-inverse-name")} List</h2>
+            <h2> {p.property().textValue("p-inverse-name")} List</h2>
             <InverseStatements propertyId={p} inverseStatements={inverseStatements.filter(s => s.propertyId === p)}/>
           </div>
           )

@@ -10,9 +10,14 @@ templates = ["property"]
 p-data-type = "d-string"
 
 [p-description]
-p-name = "Description"
+p-name = {value ="Description", id = "sdf"}
 templates = ["property"]
 p-data-type = "d-string"
+
+[sdf]
+p-name = "test!"
+p-part-of = "p-name"
+p-aliases = "Foobar and Friends!"
 
 [p-instance-of]
 p-name = "Instance of"
