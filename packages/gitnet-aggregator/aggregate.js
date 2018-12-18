@@ -1,4 +1,3 @@
-var fs = require('fs');
 const toml = require('toml');
 var glob = require("glob")
 const concat = require("concat");
@@ -11,20 +10,12 @@ async function concatTomlGlob(_glob){
     const data = toml.parse(concatted);
     return data;
 }
-// function packageProcessor(glob) {
-//     let stage1 = globToStage1(glob);
-//     const obj = {name: "sdf"};
-//     jsonfile.writeFile("data.json", stage1, (e) => {console.log(e)});
-//     return stage1
-// }
-async function combine(elements){
+
+module.exports = async function (elements, outfile){
     let info = [];
     for (element of elements){
         const item = await concatTomlGlob(element);
         info = [...info, item]
     }
-    console.log(info); 
-    jsonfile.writeFile("data.json", info, (e) => {console.log("Error:",e)});
+    jsonfile.writeFile(outfile, info, (e) => {if (e) {console.log("Error:",e)}});
 }
-
-const choo = combine(["src/base/**.toml", "src/fhi/**.toml"])

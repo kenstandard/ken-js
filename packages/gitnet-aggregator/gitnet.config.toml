@@ -1,0 +1,8 @@
+imports = [
+    # "../gitnet-js/src/base/**.toml",
+    "../gitnet-js/src/ozzie-personal/**.toml",
+    "../gitnet-js/src/fhi/**.toml",
+]
+
+"output" = "./data.json"
+
