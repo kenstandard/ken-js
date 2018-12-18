@@ -11,11 +11,8 @@
           "p-instance-of": "n-property"
         }
       },
-      "register": {
-        "id": "base",
-        "name": "Base Information",
-        "description": "Contains all essential information.",
-        "version": "0.1"
+      "export": {
+        "id": "b-base"
       }
     },
     "d-thing": {
@@ -56,6 +53,12 @@
       ],
       "p-subclass-of": "d-url"
     },
+    "b-base": {
+      "p-name": "Base",
+      "p-description": "Contains all essential information.",
+      "p-version": "0.1",
+      "p-instance-of": "p-data-source"
+    },
     "n-thing": {
       "p-name": "Thing"
     },
@@ -81,67 +84,6 @@
     },
     "n-person": {
       "p-name": "Person"
-    },
-    "h-nick-bostrom": {
-      "p-name": "Nick Bostrom",
-      "p-instance-of": "n-person",
-      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/3176-97093-Nick_Bostrom-300x200.jpg"
-    },
-    "h-anders-sandberg": {
-      "p-name": "Anders Sandberg",
-      "p-instance-of": "n-person",
-      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14592-AndersSansberg-1-e1481642401930-1-e1510230442224-300x200.jpg"
-    },
-    "h-toby-ord": {
-      "p-name": "Toby Ord",
-      "p-instance-of": "n-person",
-      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/3176-97251-Toby_Ord-1024x683.jpg"
-    },
-    "h-owen-cotton-barratt": {
-      "p-name": "Owen Cotton-Barratt",
-      "p-instance-of": "n-person",
-      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14610-OwenCottonBarratt-1-e1477584015301-1-e1510231344892-1024x683.jpg"
-    },
-    "h-joseph-carlsmith": {
-      "p-name": "Joseph Carlsmith",
-      "p-instance-of": "n-person",
-      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/Joe-Headshot-300x200.jpg"
-    },
-    "h-carl-shulman": {
-      "p-name": "Carl Shulman",
-      "p-instance-of": "n-person",
-      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/carl_shulman1-1-e1510231614617.jpg"
-    },
-    "h-owain-evans": {
-      "p-name": "Owain Evans",
-      "p-instance-of": "n-person",
-      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/owain_small-e1510236236376-300x200.jpg"
-    },
-    "h-stuart-armstrong": {
-      "p-name": "Stuart Armstrong",
-      "p-instance-of": "n-person",
-      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14687-StuartArmstrong-1-e1481640361754-1-e1510230727977-300x200.jpg"
-    },
-    "h-ryan-carey": {
-      "p-name": "Ryan Carey",
-      "p-instance-of": "n-person",
-      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/profile3.png"
-    },
-    "h-jelene-luketina": {
-      "p-name": "Jelena Luketina",
-      "p-instance-of": "n-person",
-      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/Screenshot-2018-01-15-10.17.21.png"
-    },
-    "h-ozzie-gooen": {
-      "p-name": "Ozzie Gooen",
-      "p-instance-of": "n-person",
-      "p-image": "https://pbs.twimg.com/profile_images/682646835358388224/h5j68fAv_400x400.jpg",
-      "p-twitter-username": "ozziegooen",
-      "p-github-username": "oagr",
-      "p-lesswrong-username": "ozziegooen",
-      "p-effective-altruism-forum-username": "oagr",
-      "p-medium-username": "ozziegooen",
-      "p-linkedin-id": "ozzie-gooen-ab307226"
     },
     "n-property": {
       "p-name": "Property"
@@ -366,30 +308,26 @@
     },
     "p-data-source": {
       "p-name": "Data Source",
+      "p-inverse-name": "Data source for",
       "p-description": "A thing's data source",
       "p-data-type": "d-noun",
+      "templates": [
+        "property"
+      ]
+    },
+    "p-version": {
+      "p-name": "Version",
+      "p-data-type": "d-string",
       "templates": [
         "property"
       ]
     }
   },
   {
-    "n-dex": {
-      "p-name": "DEX",
-      "p-description": "### Description\nA organizational tool for structured data with Git.  \n\n### Interesting Links:  \n[Specification Links | JSON Schema](http://json-schema.org/specification-links.html)  \nhttps://tools.ietf.org/html/draft-handrews-json-schema-validation-01  \nhttps://tools.ietf.org/html/draft-handrews-json-schema-hyperschema-01  \n[GitHub - toml-lang/toml: Tom’s Obvious, Minimal Language](https://github.com/toml-lang/toml)  \n[Show HN: Eno – A lightning fast, user-friendly YAML/TOML alternative | Hacker News](https://news.ycombinator.com/item?id=17765426)  \n[Online TOML to JSON converter](https://www.randomerrata.com/articles/2013/online-toml-to-json-converter/)  \n[Linked data - Wikipedia](https://en.wikipedia.org/wiki/Linked_data)  \n[Slowly changing dimension - Wikipedia](https://en.wikipedia.org/wiki/Slowly_changing_dimension)  \n[Semantic triple - Wikipedia](https://en.wikipedia.org/wiki/Semantic_triple)  \n[Triplestore - Wikipedia](https://en.wikipedia.org/wiki/Triplestore)  \n[Named graph - Wikipedia](https://en.wikipedia.org/wiki/Named_graph)  \n[Entity–attribute–value model - Wikipedia](https://en.wikipedia.org/wiki/Entity%E2%80%93attribute%E2%80%93value_model)  \n[Wikidata task force report](https://docs.google.com/document/d/1ZsOyw2sOD3a7xJQ6XCSYDGjZUPxGGl8tuvC7vvtlJRU/edit)\n"
-    },
-    "h-ozzie-gooen": {
-      "p-works-on": "n-dex"
-    },
-    "n-list": {
-      "p-wikidata-id": "Q12139612"
-    },
-    "n-dex-name-ideas-list": {
-      "p-name": "List of ideas for names for DEX",
-      "p-instance-of": "n-list",
-      "p-belongs-to": "n-dex"
-    },
     "meta": {
+      "export": {
+        "id": "b-ozzie-personal"
+      },
       "generators": [
         {
           "properties": {
@@ -483,6 +421,27 @@
         }
       ]
     },
+    "b-ozzie-personal": {
+      "p-name": "Ozzie's main lib",
+      "p-description": "Contains all essential information for ozzie.",
+      "p-instance-of": "p-data-source",
+      "p-version": "0.1"
+    },
+    "n-dex": {
+      "p-name": "DEX",
+      "p-description": "### Description\nA organizational tool for structured data with Git.  \n\n### Interesting Links:  \n[Specification Links | JSON Schema](http://json-schema.org/specification-links.html)  \nhttps://tools.ietf.org/html/draft-handrews-json-schema-validation-01  \nhttps://tools.ietf.org/html/draft-handrews-json-schema-hyperschema-01  \n[GitHub - toml-lang/toml: Tom’s Obvious, Minimal Language](https://github.com/toml-lang/toml)  \n[Show HN: Eno – A lightning fast, user-friendly YAML/TOML alternative | Hacker News](https://news.ycombinator.com/item?id=17765426)  \n[Online TOML to JSON converter](https://www.randomerrata.com/articles/2013/online-toml-to-json-converter/)  \n[Linked data - Wikipedia](https://en.wikipedia.org/wiki/Linked_data)  \n[Slowly changing dimension - Wikipedia](https://en.wikipedia.org/wiki/Slowly_changing_dimension)  \n[Semantic triple - Wikipedia](https://en.wikipedia.org/wiki/Semantic_triple)  \n[Triplestore - Wikipedia](https://en.wikipedia.org/wiki/Triplestore)  \n[Named graph - Wikipedia](https://en.wikipedia.org/wiki/Named_graph)  \n[Entity–attribute–value model - Wikipedia](https://en.wikipedia.org/wiki/Entity%E2%80%93attribute%E2%80%93value_model)  \n[Wikidata task force report](https://docs.google.com/document/d/1ZsOyw2sOD3a7xJQ6XCSYDGjZUPxGGl8tuvC7vvtlJRU/edit)\n"
+    },
+    "h-ozzie-gooen": {
+      "p-works-on": "n-dex"
+    },
+    "n-list": {
+      "p-wikidata-id": "Q12139612"
+    },
+    "n-dex-name-ideas-list": {
+      "p-name": "List of ideas for names for DEX",
+      "p-instance-of": "n-list",
+      "p-belongs-to": "n-dex"
+    },
     "n-dex-todo": {
       "p-name": "List of things to do for DEX",
       "p-instance-of": "n-list",
@@ -539,12 +498,89 @@
       "p-parent-organization": "n-fhi"
     },
     "meta": {
-      "register": {
-        "id": "fhi",
-        "name": "FHI Information",
-        "description": "Contains all essential information.",
-        "version": "0.1"
+      "export": {
+        "id": "b-fhi"
       }
+    },
+    "b-fhi": {
+      "p-name": "FHI Information",
+      "p-description": "Contains all essential information.",
+      "p-version": "0.1",
+      "p-instance-of": "p-data-source"
+    }
+  },
+  {
+    "meta": {
+      "export": {
+        "id": "b-person-index"
+      }
+    },
+    "b-person-index": {
+      "p-name": "Person Index",
+      "p-description": "Contains all essential information for ozzie.",
+      "p-instance-of": "p-data-source",
+      "p-version": "0.1"
+    },
+    "h-nick-bostrom": {
+      "p-name": "Nick Bostrom",
+      "p-instance-of": "n-person",
+      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/3176-97093-Nick_Bostrom-300x200.jpg"
+    },
+    "h-anders-sandberg": {
+      "p-name": "Anders Sandberg",
+      "p-instance-of": "n-person",
+      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14592-AndersSansberg-1-e1481642401930-1-e1510230442224-300x200.jpg"
+    },
+    "h-toby-ord": {
+      "p-name": "Toby Ord",
+      "p-instance-of": "n-person",
+      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/3176-97251-Toby_Ord-1024x683.jpg"
+    },
+    "h-owen-cotton-barratt": {
+      "p-name": "Owen Cotton-Barratt",
+      "p-instance-of": "n-person",
+      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14610-OwenCottonBarratt-1-e1477584015301-1-e1510231344892-1024x683.jpg"
+    },
+    "h-joseph-carlsmith": {
+      "p-name": "Joseph Carlsmith",
+      "p-instance-of": "n-person",
+      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/Joe-Headshot-300x200.jpg"
+    },
+    "h-carl-shulman": {
+      "p-name": "Carl Shulman",
+      "p-instance-of": "n-person",
+      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/carl_shulman1-1-e1510231614617.jpg"
+    },
+    "h-owain-evans": {
+      "p-name": "Owain Evans",
+      "p-instance-of": "n-person",
+      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/owain_small-e1510236236376-300x200.jpg"
+    },
+    "h-stuart-armstrong": {
+      "p-name": "Stuart Armstrong",
+      "p-instance-of": "n-person",
+      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14687-StuartArmstrong-1-e1481640361754-1-e1510230727977-300x200.jpg"
+    },
+    "h-ryan-carey": {
+      "p-name": "Ryan Carey",
+      "p-instance-of": "n-person",
+      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/profile3.png"
+    },
+    "h-jelene-luketina": {
+      "p-name": "Jelena Luketina",
+      "p-instance-of": "n-person",
+      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/Screenshot-2018-01-15-10.17.21.png"
+    },
+    "h-ozzie-gooen": {
+      "p-name": "Ozzie Gooen",
+      "p-instance-of": "n-person",
+      "p-image": "https://pbs.twimg.com/profile_images/682646835358388224/h5j68fAv_400x400.jpg",
+      "p-twitter-username": "ozziegooen",
+      "p-github-username": "oagr",
+      "p-lesswrong-username": "ozziegooen",
+      "p-effective-altruism-forum-username": "oagr",
+      "p-medium-username": "ozziegooen",
+      "p-linkedin-id": "ozzie-gooen-ab307226"
     }
   }
 ]

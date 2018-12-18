@@ -13,15 +13,16 @@ let randomChars = (n) => Math.random().toString(36).substring(2,2+n);
 
 let randomId = () => randomChars(10);
 
-function jsonFormatterSingle(toml){
-    let allTemplates = _.get(toml, "meta.templates") || {};
-    let generators = _.get(toml, "meta.generators") || [];
-    let items = _.omit(toml, specialVars);
-    let registeredId = _.get(toml, 'meta.register.id');
+function jsonFormatterSingle(json){
+    let allTemplates = _.get(json, "meta.templates") || {};
+    let generators = _.get(json, "meta.generators") || [];
+    let items = _.omit(json, specialVars);
+    let registeredId = _.get(json, 'meta.export.id');
+    console.log("HI THERE!", json, registeredId)
 
     let statements = _.keys(items).map(thingId => {
-        let thing = toml[thingId];
-        thing = addTemplates(toml, thing)
+        let thing = json[thingId];
+        thing = addTemplates(json, thing)
         let _statements = _.omit(thing, specialVars);
         let pairs = []
 

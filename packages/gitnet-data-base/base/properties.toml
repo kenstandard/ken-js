@@ -169,6 +169,12 @@ templates = ["property"]
 
 [p-data-source]
 p-name = "Data Source"
+p-inverse-name = "Data source for"
 p-description = "A thing's data source"
 p-data-type = "d-noun"
+templates = ["property"]
+
+[p-version]
+p-name = "Version"
+p-data-type = "d-string"
 templates = ["property"]

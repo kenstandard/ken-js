@@ -1,4 +1,0 @@
-[registry1]
-name = "Registry 1"
-description = "Contains all this cool stuff."
-contents = ["/people.toml"]

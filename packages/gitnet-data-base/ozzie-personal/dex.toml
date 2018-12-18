@@ -1,3 +1,12 @@
+[meta.export]
+id = "b-ozzie-personal"
+
+[b-ozzie-personal]
+p-name = "Ozzie's main lib"
+p-description = "Contains all essential information for ozzie."
+p-instance-of = "p-data-source"
+p-version = "0.1"
+
 [n-dex]
 p-name = "DEX"
 p-description = '''

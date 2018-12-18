@@ -19,3 +19,6 @@ p-subclass-of = "n-role"
 [n-repo-base]
 p-name = "Base Repo"
 p-description = "The base repository"
+
+[n-person]
+p-name = "Person"

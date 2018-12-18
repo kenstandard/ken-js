@@ -1,5 +1,8 @@
-[meta.register]
-id = "base"
-name = "Base Information"
-description = "Contains all essential information."
-version = "0.1"
+[meta.export]
+id = "b-base"
+
+[b-base]
+p-name = "Base"
+p-description = "Contains all essential information."
+p-version = "0.1"
+p-instance-of = "p-data-source"

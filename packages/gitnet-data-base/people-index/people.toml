@@ -1,5 +1,11 @@
-[n-person]
-p-name = "Person"
+[meta.export]
+id = "b-person-index"
+
+[b-person-index]
+p-name = "Person Index"
+p-description = "Contains all essential information for ozzie."
+p-instance-of = "p-data-source"
+p-version = "0.1"
 
 [h-nick-bostrom]
 p-name = "Nick Bostrom"

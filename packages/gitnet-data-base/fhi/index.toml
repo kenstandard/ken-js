@@ -1,5 +1,8 @@
-[meta.register]
-id = "fhi"
-name = "FHI Information"
-description = "Contains all essential information."
-version = "0.1"
+[meta.export]
+id = "b-fhi"
+
+[b-fhi]
+p-name = "FHI Information"
+p-description = "Contains all essential information."
+p-version = "0.1"
+p-instance-of = "p-data-source"

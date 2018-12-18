@@ -2,6 +2,7 @@ imports = [
     "../gitnet-data-base/base/**.toml",
     "../gitnet-data-base/ozzie-personal/**.toml",
     "../gitnet-data-base/fhi/**.toml",
+    "../gitnet-data-base/people-index/**.toml",
 ]
 
 "output" = "src/data.json"
