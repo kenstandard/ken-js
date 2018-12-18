@@ -1,0 +1,5 @@
+[meta.register]
+id = "base"
+name = "Base Information"
+description = "Contains all essential information."
+version = "0.1"

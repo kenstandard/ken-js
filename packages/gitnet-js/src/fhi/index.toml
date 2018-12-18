@@ -1,0 +1,5 @@
+[meta.register]
+id = "fhi"
+name = "FHI Information"
+description = "Contains all essential information."
+version = "0.1"
