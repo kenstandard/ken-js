@@ -17,5 +17,5 @@ module.exports = async function (elements, outfile){
         const item = await concatTomlGlob(element);
         info = [...info, item]
     }
-    jsonfile.writeFile(outfile, info, (e) => {if (e) {console.log("Error:",e)}});
+    jsonfile.writeFile(outfile, info,{ spaces: 2, EOL: '\r\n' }, (e) => {if (e) {console.log("Error:",e)}});
 }

@@ -7,6 +7,7 @@ import {Statement} from "./Statement";
 import _ from "lodash";
 import Markdown from 'markdown-to-jsx';
 import * as R from 'ramda';
+import jsonData from "./data.json"
 
 const expandedRowRender = ({statement}) => {
 
@@ -56,7 +57,7 @@ const InverseStatements = ({property, inverseStatements}) => {
   const allPropertyIds = _.uniq(_.flatten(inverseStatements.map(s => s.thing().statements().map(i => i.propertyId))));
   const relevantPropertyIds = allPropertyIds.filter(p => p !== property.id);
   const columns = relevantPropertyIds.map(id => {
-    const thing = gitnet().findThing(id);
+    const thing = gitnet(jsonData).findThing(id);
     const name = thing.textValue("p-name");
     return {
       title: name,
@@ -107,7 +108,7 @@ const columns = [
 export class Thing extends Component {
   render() {
     const thingId = this.props.match.params.thingId
-    let thing = gitnet().findThing(thingId);
+    let thing = gitnet(jsonData).findThing(thingId);
     let name = thing.textValue("p-name");
     let description = thing.textValue("p-description");
     let formatted = thing.statements().map(statement => ({statement}))

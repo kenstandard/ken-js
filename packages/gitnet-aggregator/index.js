@@ -17,6 +17,7 @@ program
     .description('Processes file')
     .action((a) => {
         const config = interpret(a);
+        console.log("Config", config)
         aggregate(config.imports, config.output)
         console.log("Completed join")
     })

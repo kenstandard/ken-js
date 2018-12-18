@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import gitnet from "../node_modules/gitnet-js/dist/main.js";
 import {Value} from "./Value";
 
+import jsonData from "./data.json"
+
 const columns = [
 {
   title: 'Name',
@@ -36,7 +38,7 @@ const columns = [
 },
 ]
 
-const transformedData = gitnet().things.filter(t => t.textValue("p-name").length > 0).map(t => {
+const transformedData = gitnet(jsonData).things.filter(t => t.textValue("p-name").length > 0).map(t => {
   return {
     id: t.id,
     name: <Value value={t.formattedValue("p-name")}/>,
