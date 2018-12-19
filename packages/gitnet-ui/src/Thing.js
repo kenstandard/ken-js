@@ -115,7 +115,7 @@ export class Thing extends Component {
     let inverseStatements = thing.inverseStatements();
     let inverseProperties = thing.inverseProperties();
     return (
-      <div className="Noun">
+      <div className="Noun" key={thingId}>
         <h1>{name}</h1>
         <h3>ID: {thingId} </h3>
         {description && <div style={{fontSize: "10px"}}><Markdown>{description}</Markdown></div>}
@@ -123,6 +123,7 @@ export class Thing extends Component {
         <br/>
         <h2> Properties </h2>
         <Table columns={columns} dataSource={formatted} pagination={false} size="small"
+            key={thing.id}
               expandedRowRender={expandedRowRender}
         />
         <br/>

@@ -18,7 +18,6 @@ function jsonFormatterSingle(json){
     let generators = _.get(json, "meta.generators") || [];
     let items = _.omit(json, specialVars);
     let registeredId = _.get(json, 'meta.export.id');
-    console.log("HI THERE!", json, registeredId)
 
     let statements = _.keys(items).map(thingId => {
         let thing = json[thingId];
