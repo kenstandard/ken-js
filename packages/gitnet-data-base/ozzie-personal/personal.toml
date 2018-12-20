@@ -1,0 +1,17 @@
+[n-ozzie-gooen-theming-tools]
+p-name = "Services for theming"
+p-instance-of = "n-list"
+
+[p-ozzie-gooen-review-of-10]
+p-name = "Ozzie Gooen's Review from 1-10"
+
+[[meta.generators]]
+[meta.generators.table]
+idPrefix = "dex-todo-"
+columns = ["p-name", "p-official-website","p-ozzie-gooen-review-of-10"]
+data = [
+    ["Pixelarity", "https://pixelarity.com"],
+    ["Creative Market", "https://creativemarket.com"],
+    ["Wrap Bootstrap", "https://wrapbootstrap.com"],
+    ["Bootstrap Themes", "Show data about subpackages"],
+]
