@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import {Thing} from "./Thing"
 import {Home} from "./Home"
 import {TableTool} from "./tools/TableTool"
+const SubMenu = Menu.SubMenu;
 
 const {
   Header, Content, Footer, Sider,
@@ -23,7 +24,29 @@ class App extends Component {
           onCollapse={(collapsed, type) => { console.log(collapsed, type); }}
           theme={"light"}
         >
-          <Link to="/" style={{}}>DEX Explorer</Link>
+          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" style={{height: "100vh"}}>
+            <Menu.Item key="0">
+              <div style={{fontSize: '16px', color: "white", textAlign: "left", fontWeight: "800"}}>
+              Fact Explorer
+              </div>
+            </Menu.Item>
+            <Menu.Item key="1">
+              <Icon type="global" />
+              <span>Things</span>
+            </Menu.Item>
+            <Menu.Item key="2">
+              <Icon type="share-alt" />
+              <span>Properties</span>
+            </Menu.Item>
+            <SubMenu
+              key="sub1"
+              title={<span><Icon type="bank" /><span>Bases</span></span>}
+            >
+              <Menu.Item key="3">Factbase1</Menu.Item>
+              <Menu.Item key="4">Factbase2</Menu.Item>
+              <Menu.Item key="5">Factbase3</Menu.Item>
+            </SubMenu>
+          </Menu>
           </Sider>
         <Content style={{
             margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280,

@@ -53,7 +53,7 @@ export class Home extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <Table columns={columns} dataSource={transformedData} pagination={false}/>
+          <Table columns={columns} dataSource={transformedData} pagination={false} size="small"/>
         </header>
       </div>
     );
