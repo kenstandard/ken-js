@@ -8,6 +8,7 @@ import _ from "lodash";
 import Markdown from 'markdown-to-jsx';
 import * as R from 'ramda';
 import jsonData from "./data.json"
+import {TableShow} from "./instances/table"
 
 const expandedRowRender = ({statement}) => {
 
@@ -105,6 +106,7 @@ const columns = [
   )
 }
 ]
+
 export class Thing extends Component {
   render() {
     const thingId = this.props.match.params.thingId
@@ -137,6 +139,7 @@ export class Thing extends Component {
           </div>
           )
         })}
+        <TableShow thingId={thingId}/>
       </div>
     );
   }

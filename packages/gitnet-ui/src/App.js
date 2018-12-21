@@ -5,6 +5,7 @@ import { Layout, Icon, Table, Divider, Tag, Menu } from 'antd';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import {Thing} from "./Thing"
 import {Home} from "./Home"
+import {TableTool} from "./tools/TableTool"
 
 const {
   Header, Content, Footer, Sider,
@@ -30,6 +31,7 @@ class App extends Component {
           >
           <Route exact path="/" component={Home} />
           <Route path="/things/:thingId" component={Thing} />
+          <Route path="/tools/table" component={TableTool} />
           </Content>
         </Layout>
       </Router>

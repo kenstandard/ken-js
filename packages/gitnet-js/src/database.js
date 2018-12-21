@@ -21,8 +21,14 @@ class Thing {
         const uniq = R.uniqWith(R.eqBy(e => e.propertyId))
         return uniq(this.inverseStatements()).map(s => s.property())
     }
+    propertyStatements(propertyId){
+        return this.statements().filter(s => s.propertyId == propertyId)
+    }
+    propertyThing(propertyId){
+        return this.propertyStatements(propertyId)[0].property();
+    }
     formattedValues(propertyId){
-        return this.statements().filter(s => s.propertyId == propertyId).map(r => r.formatValue())
+        return this.propertyStatements((propertyId)).map(r => r.formatValue())
     }
     formattedValue(propertyId){
         let values = this.formattedValues(propertyId);
@@ -75,6 +81,9 @@ class Statement {
         return {
             thing: this.property()
         }
+    }
+    findValueAsThing(){
+        return this.db.findThing(this.value);
     }
     formatValue(){
         const property = this.property()

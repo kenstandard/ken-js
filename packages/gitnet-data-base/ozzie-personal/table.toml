@@ -1,0 +1,79 @@
+[meta.templates.columns]
+p-instance-of = "n-column"
+p-column-of = "table-00"
+
+[n-table]
+p-name = "Table"
+
+[n-column]
+p-name = "Table Column"
+
+[p-property]
+p-name = "Property"
+p-data-type = "d-property"
+
+[p-column-of]
+p-name = "Column Of"
+p-instance-of = "n-property"
+p-inverse-name = "Column"
+p-data-type = "d-property"
+
+[p-dataset]
+p-name = "Column Of"
+p-instance-of = "n-property"
+p-inverse-name = "Column"
+p-data-type = "d-property"
+
+[p-is-row-of]
+p-name = "Row Of"
+p-instance-of = "n-property"
+p-inverse-name = "Is Row Of"
+p-data-type = "d-noun"
+
+[p-data-ids]
+p-name = "Column Of"
+p-instance-of = "n-property"
+p-inverse-name = "Data Element"
+p-data-type = "d-noun"
+
+[table-00]
+p-name = "Demo table"
+p-instance-of = "n-table"
+[table-00.inverted]
+p-column-of = [
+    "column-1",
+    "column-2",
+    "column-3"
+]
+p-is-row-of = [
+    "r1",
+    "r2",
+    "r3"
+]
+
+[column-3]
+p-property = "p-instance-of"
+p-instance-of = "n-column"
+
+[column-2]
+p-property = "p-description"
+p-instance-of = "n-column"
+
+[column-1]
+p-property = "p-name"
+p-instance-of = "n-column"
+
+[r1]
+p-name = "R1"
+p-description = "sdfsdf"
+p-instance-of = "n-column"
+
+[r2]
+p-name = "R2"
+p-description = "sdfsdf"
+p-instance-of = "n-column"
+
+[r3]
+p-name = "R3"
+p-description = "sdfsdf"
+p-instance-of = "n-column"
