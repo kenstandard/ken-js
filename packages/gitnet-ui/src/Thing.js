@@ -3,7 +3,6 @@ import gitnet from "../node_modules/gitnet-js/dist/main.js";
 import { Table, Divider, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import {Value} from "./Value";
-import {Statement} from "./Statement";
 import _ from "lodash";
 import Markdown from 'markdown-to-jsx';
 import * as R from 'ramda';

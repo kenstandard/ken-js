@@ -1,11 +1,10 @@
 import _ from "lodash";
-
-let specialVars = ['id', 'templates', 'meta', 'inverted'];
+import {THINGS, JSON_DUMP_VALUES, RESTRICTED_VALUES} from "./config";
 
 let addTemplates = (toml, thing) => {
-    const allTemplates = _.get(toml, "meta.templates") || {};
+    const allTemplates = _.get(toml, JSON_DUMP_VALUES.TEMPLATES) || {};
     let values = thing;
-    let relevantTemplates = (_.get(values, "meta.templates") || []).map(t => allTemplates[t])
+    let relevantTemplates = (_.get(values, JSON_DUMP_VALUES.TEMPLATES) || []).map(t => allTemplates[t])
     relevantTemplates.forEach(t => {values = _.merge(values, t)})
     return values
 }
@@ -14,15 +13,15 @@ let randomChars = (n) => Math.random().toString(36).substring(2,2+n);
 let randomId = () => randomChars(10);
 
 function jsonFormatterSingle(json){
-    let allTemplates = _.get(json, "meta.templates") || {};
-    let generators = _.get(json, "meta.generators") || [];
-    let items = _.omit(json, specialVars);
-    let registeredId = _.get(json, 'meta.export.id');
+    let allTemplates = _.get(json, JSON_DUMP_VALUES.TEMPLATES) || {};
+    let generators = _.get(json, JSON_DUMP_VALUES.GENERATORS) || [];
+    let items = _.omit(json, RESTRICTED_VALUES);
+    let registeredId = _.get(json, JSON_DUMP_VALUES.EXPORT_ID);
 
     let statements = _.keys(items).map(thingId => {
         let thing = json[thingId];
         thing = addTemplates(json, thing)
-        let _statements = _.omit(thing, specialVars);
+        let _statements = _.omit(thing, RESTRICTED_VALUES);
         let pairs = []
 
         _.toPairs(_statements).forEach(keyVal => {
@@ -89,7 +88,7 @@ function jsonFormatterSingle(json){
             })
         })
     })
-    return _.flatten(_.flatten(statements).map(s => [s, {thingId: s.id, propertyId: "p-data-source", value: registeredId}]))
+    return _.flatten(_.flatten(statements).map(s => [s, {thingId: s.id, propertyId: THINGS.DATA_SOURCE, value: registeredId}]))
 }
 
 export default function jsonFormatter(json){

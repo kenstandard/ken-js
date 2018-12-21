@@ -1,5 +1,6 @@
 import _ from "lodash";
 import * as R from 'ramda';
+import * as config from "./config";
 
 class Thing {
     constructor(id, db){
@@ -47,12 +48,6 @@ class Thing {
             inverseStatements: this.inverseStatements().map(s => s.toJSON())
         })
     }
-    toJSON(){
-        return {
-        id: this.id,
-        name: this.textValue("p-name")
-        }
-    }
 }
 
 class Statement {
@@ -92,20 +87,11 @@ class Statement {
             return {error: "Nothing found"}
         }
 
-        const dataType = this.property().textValue("p-data-type");
-        if (dataType === "d-noun" || dataType === "d-thing"){
+        const dataType = this.property().textValue(config.THINGS.DATA_TYPE);
+        if (dataType === config.THINGS.NOUN || dataType === config.THINGS.THING){
             return {thing: this.db.findThing(this.value)};
         } else {
             return {text: this.value, dataType};
-        }
-    }
-    toJSON(){
-        return {
-            thingId: this.thingId,
-            propertyId: this.propertyId,
-            thing: this.thing().toJSON(),
-            value: this.formatValue(),
-            property: this.property().toJSON()
         }
     }
 }
