@@ -32,6 +32,14 @@ module Fact = {
   let hasSubjectId = subjectId ||> isEqual;
   let hasPropertyId = propertyId ||> isEqual;
   let value = t => t.value;
+  let id = (t: t) => t.id;
+  let graph = (t: t) => t.graph;
+};
+
+module Nonfact = {
+  type t = nonfact;
+  let id = t => t.id;
+  let graph = t => t.graph;
 };
 
 module Thing = {
@@ -59,8 +67,8 @@ module Thing = {
 
   let bimap = (fn1, fn2, t) =>
     isFact(t) ? t |> toFactExt |> fn1 : t |> toNonFactExt |> fn2;
-
-  let id = bimap(e => e.id, e => e.id);
+  let id = bimap(Fact.id, Nonfact.id);
+  let graph = bimap(Fact.graph, Nonfact.graph);
 };
 
 module Graph = {
@@ -104,26 +112,22 @@ module Graph = {
   let findNonfact = (g, id) =>
     nonfacts(g) |> RList.find((e: nonfact) => e.id == id);
 
-  let findFactWithSubject = id =>
-    facts ||> RList.find(Fact.subjectId ||> isEqual(id));
+  let findFactsWithSubject = id =>
+    facts ||> List.filter(Fact.subjectId ||> isEqual(id));
 
-  let findFactWithProperty = id =>
-    facts ||> RList.find(Fact.propertyId ||> isEqual(id));
+  let findFactsWithProperty = id =>
+    facts ||> List.filter(Fact.propertyId ||> isEqual(id));
 
   let findThingWithId = id =>
     things ||> RList.find(Thing.id ||> isEqual(id));
 };
 
-module Nonfact = {
-  type t = nonfact;
-  let facts = t => t.graph.things;
-};
-
 module FactWithGraph = {
   type t = fact;
-  let findFactWithSubject = (a: t) => Graph.findFactWithSubject(_, a.graph);
-  let findFactWithProperty = (a: t) =>
-    Graph.findFactWithProperty(_, a.graph);
+  let findFactsWithSubject = (a: t) =>
+    Graph.findFactsWithSubject(_, a.graph);
+  let findFactsWithProperty = (a: t) =>
+    Graph.findFactsWithProperty(_, a.graph);
   let findThingWithId = (a: t) => Graph.findThingWithId(_, a.graph);
 
   /* Property Must not be a Fact */
@@ -136,6 +140,22 @@ module FactWithGraph = {
     t |> Fact.subjectId |> findThingWithId(t);
 };
 
+let unpackOptionList = (e: list(option('a))) =>
+  e |> List.filter(Option.isSome) |> List.map(Option.toExn("mistake"));
+
 module ThingWithGraph = {
+  open Thing;
   type t = thing;
+
+  let isSubjectForFacts = (t: t) =>
+    id(t) |> Graph.findFactsWithSubject(_, graph(t));
+
+  let isPropertyForFacts = (t: t) =>
+    id(t) |> Graph.findFactsWithProperty(_, graph(t));
+
+  let propertyNonfacts = (t: t) =>
+    t
+    |> isSubjectForFacts
+    |> List.map(FactWithGraph.findProperty)
+    |> unpackOptionList;
 };

@@ -40,12 +40,35 @@ function value(t) {
   return t[/* value */3];
 }
 
+function id(t) {
+  return t[/* id */0];
+}
+
+function graph(t) {
+  return t[/* graph */4];
+}
+
 var Fact = /* module */[
   /* subjectId */subjectId,
   /* propertyId */propertyId,
   /* hasSubjectId */hasSubjectId,
   /* hasPropertyId */hasPropertyId,
-  /* value */value
+  /* value */value,
+  /* id */id,
+  /* graph */graph
+];
+
+function id$1(t) {
+  return t[/* id */0];
+}
+
+function graph$1(t) {
+  return t[/* graph */1];
+}
+
+var Nonfact = /* module */[
+  /* id */id$1,
+  /* graph */graph$1
 ];
 
 function isFact(t) {
@@ -95,12 +118,12 @@ function bimap(fn1, fn2, t) {
   }
 }
 
-function id(param) {
-  return bimap((function (e) {
-                return e[/* id */0];
-              }), (function (e) {
-                return e[/* id */0];
-              }), param);
+function id$2(param) {
+  return bimap(id, id$1, param);
+}
+
+function graph$2(param) {
+  return bimap(graph, graph$1, param);
 }
 
 var Thing = /* module */[
@@ -109,7 +132,8 @@ var Thing = /* module */[
   /* toFactExt */toFactExt,
   /* toNonFactExt */toNonFactExt,
   /* bimap */bimap,
-  /* id */id
+  /* id */id$2,
+  /* graph */graph$2
 ];
 
 function build(param) {
@@ -216,43 +240,37 @@ function findNonfact(g, id) {
               }), Curry._1(nonfacts, g));
 }
 
-function findFactWithSubject(id) {
+function findFactsWithSubject(id) {
   var partial_arg = Function$Rationale.Infix[/* ||> */1];
-  var partial_arg$1 = function (param) {
-    return partial_arg(subjectId, (function (param) {
-                  return Caml_obj.caml_equal(id, param);
-                }), param);
-  };
-  var partial_arg$2 = function (param) {
-    return RList$Rationale.find(partial_arg$1, param);
-  };
-  var partial_arg$3 = Function$Rationale.Infix[/* ||> */1];
+  var partial_arg$1 = List.filter((function (param) {
+          return partial_arg(subjectId, (function (param) {
+                        return Caml_obj.caml_equal(id, param);
+                      }), param);
+        }));
+  var partial_arg$2 = Function$Rationale.Infix[/* ||> */1];
   return (function (param) {
-      return partial_arg$3(facts, partial_arg$2, param);
+      return partial_arg$2(facts, partial_arg$1, param);
     });
 }
 
-function findFactWithProperty(id) {
+function findFactsWithProperty(id) {
   var partial_arg = Function$Rationale.Infix[/* ||> */1];
-  var partial_arg$1 = function (param) {
-    return partial_arg(propertyId, (function (param) {
-                  return Caml_obj.caml_equal(id, param);
-                }), param);
-  };
-  var partial_arg$2 = function (param) {
-    return RList$Rationale.find(partial_arg$1, param);
-  };
-  var partial_arg$3 = Function$Rationale.Infix[/* ||> */1];
+  var partial_arg$1 = List.filter((function (param) {
+          return partial_arg(propertyId, (function (param) {
+                        return Caml_obj.caml_equal(id, param);
+                      }), param);
+        }));
+  var partial_arg$2 = Function$Rationale.Infix[/* ||> */1];
   return (function (param) {
-      return partial_arg$3(facts, partial_arg$2, param);
+      return partial_arg$2(facts, partial_arg$1, param);
     });
 }
 
-function findThingWithId(id$1) {
+function findThingWithId(id$3) {
   var partial_arg = Function$Rationale.Infix[/* ||> */1];
   var partial_arg$1 = function (param) {
-    return partial_arg(id, (function (param) {
-                  return Caml_obj.caml_equal(id$1, param);
+    return partial_arg(id$2, (function (param) {
+                  return Caml_obj.caml_equal(id$3, param);
                 }), param);
   };
   var partial_arg$2 = function (param) {
@@ -271,23 +289,17 @@ var Graph = /* module */[
   /* nonfacts */nonfacts,
   /* findFact */findFact,
   /* findNonfact */findNonfact,
-  /* findFactWithSubject */findFactWithSubject,
-  /* findFactWithProperty */findFactWithProperty,
+  /* findFactsWithSubject */findFactsWithSubject,
+  /* findFactsWithProperty */findFactsWithProperty,
   /* findThingWithId */findThingWithId
 ];
 
-function facts$1(t) {
-  return t[/* graph */1][/* things */0];
+function findFactsWithSubject$1(a, __x) {
+  return findFactsWithSubject(__x)(a[/* graph */4]);
 }
 
-var Nonfact = /* module */[/* facts */facts$1];
-
-function findFactWithSubject$1(a, __x) {
-  return findFactWithSubject(__x)(a[/* graph */4]);
-}
-
-function findFactWithProperty$1(a, __x) {
-  return findFactWithProperty(__x)(a[/* graph */4]);
+function findFactsWithProperty$1(a, __x) {
+  return findFactsWithProperty(__x)(a[/* graph */4]);
 }
 
 function findThingWithId$1(a, __x) {
@@ -303,21 +315,46 @@ function findSubject(t) {
 }
 
 var FactWithGraph = /* module */[
-  /* findFactWithSubject */findFactWithSubject$1,
-  /* findFactWithProperty */findFactWithProperty$1,
+  /* findFactsWithSubject */findFactsWithSubject$1,
+  /* findFactsWithProperty */findFactsWithProperty$1,
   /* findThingWithId */findThingWithId$1,
   /* findProperty */findProperty,
   /* findSubject */findSubject
 ];
 
-var ThingWithGraph = /* module */[];
+function unpackOptionList(e) {
+  return List.map((function (param) {
+                return Option$Rationale.toExn("mistake", param);
+              }), List.filter(Option$Rationale.isSome)(e));
+}
+
+function isSubjectForFacts(t) {
+  var __x = bimap(id, id$1, t);
+  return findFactsWithSubject(__x)(bimap(graph, graph$1, t));
+}
+
+function isPropertyForFacts(t) {
+  var __x = bimap(id, id$1, t);
+  return findFactsWithProperty(__x)(bimap(graph, graph$1, t));
+}
+
+function propertyNonfacts(t) {
+  return unpackOptionList(List.map(findProperty, isSubjectForFacts(t)));
+}
+
+var ThingWithGraph = /* module */[
+  /* isSubjectForFacts */isSubjectForFacts,
+  /* isPropertyForFacts */isPropertyForFacts,
+  /* propertyNonfacts */propertyNonfacts
+];
 
 exports.getId = getId;
 exports.isEqual = isEqual;
 exports.Fact = Fact;
+exports.Nonfact = Nonfact;
 exports.Thing = Thing;
 exports.Graph = Graph;
-exports.Nonfact = Nonfact;
 exports.FactWithGraph = FactWithGraph;
+exports.unpackOptionList = unpackOptionList;
 exports.ThingWithGraph = ThingWithGraph;
 /* partial_arg Not a pure module */
