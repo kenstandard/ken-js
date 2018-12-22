@@ -122,7 +122,7 @@ module Graph = {
     things ||> RList.find(Thing.id ||> isEqual(id));
 };
 
-module FactWithGraph = {
+module FactG = {
   type t = fact;
   let findFactsWithSubject = (a: t) =>
     Graph.findFactsWithSubject(_, a.graph);
@@ -143,19 +143,52 @@ module FactWithGraph = {
 let unpackOptionList = (e: list(option('a))) =>
   e |> List.filter(Option.isSome) |> List.map(Option.toExn("mistake"));
 
-module ThingWithGraph = {
+type edge =
+  | SUBJECT
+  | PROPERTY
+  | VALUE;
+
+type relationship = (edge, edge);
+
+module FactFilters = {
+  type t = list(fact);
+  let withSubject = (id, t) =>
+    t |> List.filter(Fact.subjectId ||> isEqual(id));
+  let withProperty = (id, t) =>
+    t |> List.filter(Fact.propertyId ||> isEqual(id));
+  let withSubjectAndProperty = (subjectId, propertyId, t) =>
+    t |> withSubject(subjectId) |> withProperty(propertyId);
+  let without = (id, t) => t |> List.filter(e => Fact.id(e) != id);
+};
+
+module ThingG = {
   open Thing;
   type t = thing;
 
+  let allFacts = graph ||> Graph.facts;
+
   let isSubjectForFacts = (t: t) =>
-    id(t) |> Graph.findFactsWithSubject(_, graph(t));
+    t |> allFacts |> FactFilters.withSubject(id(t));
 
   let isPropertyForFacts = (t: t) =>
-    id(t) |> Graph.findFactsWithProperty(_, graph(t));
+    t |> allFacts |> FactFilters.withProperty(id(t));
 
-  let propertyNonfacts = (t: t) =>
-    t
-    |> isSubjectForFacts
-    |> List.map(FactWithGraph.findProperty)
-    |> unpackOptionList;
+  let facts = (t: t) =>
+    List.append(isSubjectForFacts(t), isPropertyForFacts(t));
+
+  /* This doesn't apply if this thing is the value! */
+  let connectedPropertyNonfacts =
+    facts ||> List.map(FactG.findProperty) ||> unpackOptionList;
+
+  let connectedSubjectThings =
+    facts ||> List.map(FactG.findSubject) ||> unpackOptionList;
+
+  let connectedPropertyWithId = (id: string, t: t) =>
+    t |> connectedPropertyNonfacts |> RList.find(Nonfact.id ||> isEqual(id));
+
+  let connectedSubjectWithId = (id: string, t: t) =>
+    t |> connectedSubjectThings |> RList.find(Thing.id ||> isEqual(id));
+
+  let isSubjectForPropertyId = id =>
+    isSubjectForFacts ||> List.filter(Fact.hasSubjectId(_, id));
 };

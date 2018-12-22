@@ -314,7 +314,7 @@ function findSubject(t) {
   return findThingWithId$1(t, t[/* subjectId */1]);
 }
 
-var FactWithGraph = /* module */[
+var FactG = /* module */[
   /* findFactsWithSubject */findFactsWithSubject$1,
   /* findFactsWithProperty */findFactsWithProperty$1,
   /* findThingWithId */findThingWithId$1,
@@ -328,24 +328,125 @@ function unpackOptionList(e) {
               }), List.filter(Option$Rationale.isSome)(e));
 }
 
+function withSubject(id, t) {
+  var partial_arg = Function$Rationale.Infix[/* ||> */1];
+  return List.filter((function (param) {
+                  return partial_arg(subjectId, (function (param) {
+                                return Caml_obj.caml_equal(id, param);
+                              }), param);
+                }))(t);
+}
+
+function withProperty(id, t) {
+  var partial_arg = Function$Rationale.Infix[/* ||> */1];
+  return List.filter((function (param) {
+                  return partial_arg(propertyId, (function (param) {
+                                return Caml_obj.caml_equal(id, param);
+                              }), param);
+                }))(t);
+}
+
+function withSubjectAndProperty(subjectId, propertyId, t) {
+  return withProperty(propertyId, withSubject(subjectId, t));
+}
+
+function without(id, t) {
+  return List.filter((function (e) {
+                  return e[/* id */0] !== id;
+                }))(t);
+}
+
+var FactFilters = /* module */[
+  /* withSubject */withSubject,
+  /* withProperty */withProperty,
+  /* withSubjectAndProperty */withSubjectAndProperty,
+  /* without */without
+];
+
+var partial_arg$11 = Function$Rationale.Infix[/* ||> */1];
+
+function allFacts(param) {
+  return partial_arg$11(graph$2, facts, param);
+}
+
 function isSubjectForFacts(t) {
-  var __x = bimap(id, id$1, t);
-  return findFactsWithSubject(__x)(bimap(graph, graph$1, t));
+  return withSubject(bimap(id, id$1, t), Curry._1(allFacts, t));
 }
 
 function isPropertyForFacts(t) {
-  var __x = bimap(id, id$1, t);
-  return findFactsWithProperty(__x)(bimap(graph, graph$1, t));
+  return withProperty(bimap(id, id$1, t), Curry._1(allFacts, t));
 }
 
-function propertyNonfacts(t) {
-  return unpackOptionList(List.map(findProperty, isSubjectForFacts(t)));
+function facts$1(t) {
+  return List.append(isSubjectForFacts(t), isPropertyForFacts(t));
 }
 
-var ThingWithGraph = /* module */[
+var partial_arg$12 = Function$Rationale.Infix[/* ||> */1];
+
+function partial_arg$13(param) {
+  return partial_arg$12(facts$1, (function (param) {
+                return List.map(findProperty, param);
+              }), param);
+}
+
+var partial_arg$14 = Function$Rationale.Infix[/* ||> */1];
+
+function connectedPropertyNonfacts(param) {
+  return partial_arg$14(partial_arg$13, unpackOptionList, param);
+}
+
+var partial_arg$15 = Function$Rationale.Infix[/* ||> */1];
+
+function partial_arg$16(param) {
+  return partial_arg$15(facts$1, (function (param) {
+                return List.map(findSubject, param);
+              }), param);
+}
+
+var partial_arg$17 = Function$Rationale.Infix[/* ||> */1];
+
+function connectedSubjectThings(param) {
+  return partial_arg$17(partial_arg$16, unpackOptionList, param);
+}
+
+function connectedPropertyWithId(id$3, t) {
+  var partial_arg = Function$Rationale.Infix[/* ||> */1];
+  return RList$Rationale.find((function (param) {
+                return partial_arg(id$1, (function (param) {
+                              return Caml_obj.caml_equal(id$3, param);
+                            }), param);
+              }), Curry._1(connectedPropertyNonfacts, t));
+}
+
+function connectedSubjectWithId(id$3, t) {
+  var partial_arg = Function$Rationale.Infix[/* ||> */1];
+  return RList$Rationale.find((function (param) {
+                return partial_arg(id$2, (function (param) {
+                              return Caml_obj.caml_equal(id$3, param);
+                            }), param);
+              }), Curry._1(connectedSubjectThings, t));
+}
+
+function isSubjectForPropertyId(id) {
+  var partial_arg = List.filter((function (__x) {
+          return Curry._2(hasSubjectId, __x, id);
+        }));
+  var partial_arg$1 = Function$Rationale.Infix[/* ||> */1];
+  return (function (param) {
+      return partial_arg$1(isSubjectForFacts, partial_arg, param);
+    });
+}
+
+var ThingG = /* module */[
+  /* allFacts */allFacts,
   /* isSubjectForFacts */isSubjectForFacts,
   /* isPropertyForFacts */isPropertyForFacts,
-  /* propertyNonfacts */propertyNonfacts
+  /* facts */facts$1,
+  /* connectedPropertyNonfacts */connectedPropertyNonfacts,
+  /* connectedSubjectThings */connectedSubjectThings,
+  /* connectedPropertyWithId */connectedPropertyWithId,
+  /* connectedSubjectWithId */connectedSubjectWithId,
+  /* isSubjectForPropertyId */isSubjectForPropertyId
 ];
 
 exports.getId = getId;
@@ -354,7 +455,8 @@ exports.Fact = Fact;
 exports.Nonfact = Nonfact;
 exports.Thing = Thing;
 exports.Graph = Graph;
-exports.FactWithGraph = FactWithGraph;
+exports.FactG = FactG;
 exports.unpackOptionList = unpackOptionList;
-exports.ThingWithGraph = ThingWithGraph;
+exports.FactFilters = FactFilters;
+exports.ThingG = ThingG;
 /* partial_arg Not a pure module */
