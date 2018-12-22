@@ -16,7 +16,8 @@
   },
   "suffix": ".bs.js",
   "bs-dependencies": [
-    "@glennsl/bs-jest"
+    "@glennsl/bs-jest",
+    "rationale"
   ],
   "warnings": {
     "error": "+101"
