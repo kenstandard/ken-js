@@ -17,11 +17,20 @@
   "suffix": ".bs.js",
   "bs-dependencies": [
     "@glennsl/bs-jest",
+    "@glennsl/bs-json",
     "rationale"
   ],
   "warnings": {
     "error": "+101"
   },
   "namespace": true,
-  "refmt": 3
+  "refmt": 3,
+  "gentypeconfig": {
+    "language": "untyped",
+    "shims": {},
+    "debug": {
+      "all": false,
+      "basic": false
+    }
+  }
 }

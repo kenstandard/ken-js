@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "build": "bsb -make-world",
+    "nbuild": "export BS_CMT_POST_PROCESS_CMD=\"gentype\" && bsb -make-world -w",
     "start": "bsb -make-world -w",
     "clean": "bsb -clean-world",
     "test": "yarn build && jest",
@@ -15,9 +16,11 @@
   "license": "MIT",
   "devDependencies": {
     "@glennsl/bs-jest": "^0.4.2",
-    "bs-platform": "^4.0.8"
+    "bs-platform": "^4.0.8",
+    "gentype": "^1.6.1"
   },
   "dependencies": {
+    "@glennsl/bs-json": "^3.0.0",
     "rationale": "^0.1.10"
   },
   "jest": {

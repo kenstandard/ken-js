@@ -11,6 +11,15 @@ module T = {
   let hasPropertyId = propertyId ||> isEqual;
   let value = t => t.value;
   let id = (t: t) => t.id;
+  let to_json = (t: t) =>
+    Json.Encode.(
+      object_([
+        ("id", Json.Encode.string(t.id)),
+        ("subjectId", Json.Encode.string(t.subjectId)),
+        ("propertyId", Json.Encode.string(t.propertyId)),
+        /* ("value", Json.Encode.string(t.value)), */
+      ])
+    );
 };
 
 module Query = {

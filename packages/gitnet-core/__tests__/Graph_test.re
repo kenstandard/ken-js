@@ -33,7 +33,7 @@ describe("#findFact", () =>
       id: "0",
       subjectId: "n-george",
       propertyId: "p-name",
-      value: "George",
+      value: String("George"),
     };
     expect(fact) |> toEqual(Some(expected));
   })
@@ -44,5 +44,13 @@ describe("#findThing", () =>
     let id =
       graph |> findThing("n-george") |> Rationale.Option.fmap(Base.Thing.id);
     expect(id) |> toEqual(Some("n-george"));
+  })
+);
+
+describe("#to_json", () =>
+  test("works", () => {
+    let id = graph |> to_json;
+    Js.log(id);
+    expect(true) |> toEqual(true);
   })
 );

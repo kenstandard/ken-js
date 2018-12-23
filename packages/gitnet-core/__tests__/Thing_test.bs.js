@@ -3,9 +3,10 @@
 
 var Jest = require("@glennsl/bs-jest/src/jest.js");
 var List = require("bs-platform/lib/js/list.js");
-var Base$Reason = require("../src/Base.bs.js");
-var Graph$Reason = require("../src/Graph.bs.js");
-var ThingG$Reason = require("../src/ThingG.bs.js");
+var Block = require("bs-platform/lib/js/block.js");
+var Base$Reason = require("../src/Graph/Base.bs.js");
+var Graph$Reason = require("../src/Graph/Graph.bs.js");
+var ThingG$Reason = require("../src/Graph/ThingG.bs.js");
 var Option$Rationale = require("rationale/src/Option.js");
 
 var testData = /* :: */[
@@ -94,7 +95,7 @@ describe("#connectedPropertyWithId", (function () {
 describe("#propertyValues", (function () {
         return Jest.test("finds correct name for George", (function (param) {
                       return Jest.Expect[/* toEqual */12](/* :: */[
-                                  "George",
+                                  /* String */Block.__(1, ["George"]),
                                   /* [] */0
                                 ], Jest.Expect[/* expect */0](ThingG$Reason.propertyValues("p-name", item("n-george"))));
                     }));

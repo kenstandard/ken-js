@@ -25,6 +25,11 @@
   dependencies:
     jest "^23.5.0"
 
+"@glennsl/bs-json@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@glennsl/bs-json/-/bs-json-3.0.0.tgz#b4e1cf6612270a8dd7287a8a71ebe17e8f0fb683"
+  integrity sha512-slqtGLd/c3yQK9Qfd1gfMB9JCzNU4wzCpVPfO9pXlG64M+te5r30FK++tb3uQEVlVLYtpgZ4wCHtkI8xoshgxQ==
+
 abab@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.0.tgz#aba0ab4c5eee2d4c79d3487d85450fb2376ebb0f"
@@ -1119,6 +1124,11 @@ gauge@~2.7.3:
     string-width "^1.0.1"
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
+
+gentype@^1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/gentype/-/gentype-1.6.1.tgz#e3481b5e630342d591131443e8b1061d9d5edcfa"
+  integrity sha512-bEe8ozaJRvkFGWBrBKeny+5hi8w4unM+/vK1Dv9FNwPK1jLIMZrqM8jatigWR+gO5abxfQM+9XiLo3ORulw8wg==
 
 get-caller-file@^1.0.1:
   version "1.0.3"

@@ -56,6 +56,6 @@ describe("#connectedPropertyWithId", () =>
 describe("#propertyValues", () =>
   test("finds correct name for George", () =>
     expect(item("n-george") |> propertyValues("p-name"))
-    |> toEqual(["George"])
+    |> toEqual([String("George")])
   )
 );

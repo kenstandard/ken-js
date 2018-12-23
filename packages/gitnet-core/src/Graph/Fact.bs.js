@@ -4,6 +4,7 @@
 var List = require("bs-platform/lib/js/list.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Base$Reason = require("./Base.bs.js");
+var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
 var Function$Rationale = require("rationale/src/Function.js");
 
@@ -44,6 +45,28 @@ function id(t) {
   return t[/* id */0];
 }
 
+function to_json(t) {
+  return Json_encode.object_(/* :: */[
+              /* tuple */[
+                "id",
+                t[/* id */0]
+              ],
+              /* :: */[
+                /* tuple */[
+                  "subjectId",
+                  t[/* subjectId */1]
+                ],
+                /* :: */[
+                  /* tuple */[
+                    "propertyId",
+                    t[/* propertyId */2]
+                  ],
+                  /* [] */0
+                ]
+              ]
+            ]);
+}
+
 var T = /* module */[
   /* subjectId */subjectId,
   /* propertyId */propertyId,
@@ -51,7 +74,8 @@ var T = /* module */[
   /* hasSubjectId */hasSubjectId,
   /* hasPropertyId */hasPropertyId,
   /* value */value,
-  /* id */id
+  /* id */id,
+  /* to_json */to_json
 ];
 
 function run(q, f) {

@@ -2,8 +2,11 @@
 'use strict';
 
 var List = require("bs-platform/lib/js/list.js");
+var $$Array = require("bs-platform/lib/js/array.js");
+var Block = require("bs-platform/lib/js/block.js");
 var Base$Reason = require("./Base.bs.js");
 var Fact$Reason = require("./Fact.bs.js");
+var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
 var Function$Rationale = require("rationale/src/Function.js");
 
@@ -34,7 +37,7 @@ function build(fs) {
                   /* id */param[0],
                   /* subjectId */param[1],
                   /* propertyId */param[2],
-                  /* value */param[3]
+                  /* value : String */Block.__(1, ["sdfs"])
                 ];
         }), fs);
   var graph = /* record */[
@@ -46,6 +49,47 @@ function build(fs) {
   }
   return graph;
 }
+
+var testData = /* array */[
+  /* tuple */[
+    "g-0",
+    "n-george",
+    "p-name",
+    "George"
+  ],
+  /* tuple */[
+    "g-1",
+    "n-george",
+    "p-description",
+    "The person named Goerge"
+  ],
+  /* tuple */[
+    "1",
+    "n-cindy",
+    "p-name",
+    "Cindy"
+  ],
+  /* tuple */[
+    "2",
+    "p-name",
+    "p-name",
+    "Name of Item"
+  ],
+  /* tuple */[
+    "3",
+    "p-name",
+    "p-description",
+    "The name of something"
+  ],
+  /* tuple */[
+    "4",
+    "2",
+    "p-name",
+    "The 2nd fact"
+  ]
+];
+
+var start = build($$Array.to_list(testData));
 
 function things(g) {
   return g[/* things */1];
@@ -81,10 +125,31 @@ function findThingFromFact(g, edge, f) {
   return findThing(Fact$Reason.T[/* edgeId */2](edge)(f))(g);
 }
 
+function to_json(t) {
+  var facts = $$Array.map(Fact$Reason.T[/* to_json */7], $$Array.of_list(t[/* facts */0]));
+  var things = $$Array.map(Base$Reason.Thing[/* to_json */4], $$Array.of_list(t[/* things */1]));
+  return Json_encode.object_(/* :: */[
+              /* tuple */[
+                "facts",
+                facts
+              ],
+              /* :: */[
+                /* tuple */[
+                  "things",
+                  things
+                ],
+                /* [] */0
+              ]
+            ]);
+}
+
 exports.build = build;
+exports.testData = testData;
+exports.start = start;
 exports.things = things;
 exports.facts = facts;
 exports.findFact = findFact;
 exports.findThing = findThing;
 exports.findThingFromFact = findThingFromFact;
-/* Base-Reason Not a pure module */
+exports.to_json = to_json;
+/* start Not a pure module */

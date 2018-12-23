@@ -3,9 +3,10 @@
 
 var Jest = require("@glennsl/bs-jest/src/jest.js");
 var List = require("bs-platform/lib/js/list.js");
+var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
-var Base$Reason = require("../src/Base.bs.js");
-var Graph$Reason = require("../src/Graph.bs.js");
+var Base$Reason = require("../src/Graph/Base.bs.js");
+var Graph$Reason = require("../src/Graph/Graph.bs.js");
 var Option$Rationale = require("rationale/src/Option.js");
 
 var testData = /* :: */[
@@ -52,7 +53,7 @@ describe("#findFact", (function () {
                                   /* id */"0",
                                   /* subjectId */"n-george",
                                   /* propertyId */"p-name",
-                                  /* value */"George"
+                                  /* value : String */Block.__(1, ["George"])
                                 ], Jest.Expect[/* expect */0](fact));
                     }));
       }));
@@ -61,6 +62,14 @@ describe("#findThing", (function () {
         return Jest.test("finds correct thing", (function (param) {
                       var id = Curry._2(Option$Rationale.fmap, Base$Reason.Thing[/* id */0], Graph$Reason.findThing("n-george")(graph));
                       return Jest.Expect[/* toEqual */12]("n-george", Jest.Expect[/* expect */0](id));
+                    }));
+      }));
+
+describe("#to_json", (function () {
+        return Jest.test("works", (function (param) {
+                      var id = Graph$Reason.to_json(graph);
+                      console.log(id);
+                      return Jest.Expect[/* toEqual */12](true, Jest.Expect[/* expect */0](true));
                     }));
       }));
 

@@ -2,6 +2,7 @@
 'use strict';
 
 var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
+var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
 
 var isEqual = Caml_obj.caml_equal;
@@ -26,11 +27,22 @@ function to_s(e) {
   return "[ID: " + (e[/* id */0] + "]");
 }
 
+function to_json(t) {
+  return Json_encode.object_(/* :: */[
+              /* tuple */[
+                "id",
+                t[/* id */0]
+              ],
+              /* [] */0
+            ]);
+}
+
 var Thing = /* module */[
   /* id */id,
   /* graph */graph,
   /* find */find,
-  /* to_s */to_s
+  /* to_s */to_s,
+  /* to_json */to_json
 ];
 
 exports.isEqual = isEqual;
