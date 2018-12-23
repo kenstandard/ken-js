@@ -128,6 +128,28 @@ function find(id, t) {
               }), t);
 }
 
+function withEdge(edge, id) {
+  var partial_arg = /* record */[
+    /* edge */edge,
+    /* id */id,
+    /* q : IS */0
+  ];
+  return List.filter((function (param) {
+                return run(partial_arg, param);
+              }));
+}
+
+function withoutEdge(edge, id) {
+  var partial_arg = /* record */[
+    /* edge */edge,
+    /* id */id,
+    /* q : IS_NOT */1
+  ];
+  return List.filter((function (param) {
+                return run(partial_arg, param);
+              }));
+}
+
 function withSubject(id) {
   var partial_arg = /* record */[
     /* edge : SUBJECT */0,
@@ -208,6 +230,8 @@ var FactFilters = /* module */[
   /* query */query,
   /* find */find,
   /* filter */List.filter,
+  /* withEdge */withEdge,
+  /* withoutEdge */withoutEdge,
   /* withSubject */withSubject,
   /* withoutSubject */withoutSubject,
   /* withProperty */withProperty,
@@ -334,46 +358,63 @@ function filterFacts(f, t) {
   return Curry._2(f, t[/* id */0], Curry._1(allFacts, t));
 }
 
+function isEdgeForFacts(edge) {
+  return (function (param) {
+      return filterFacts((function (param) {
+                    return withEdge(edge, param);
+                  }), param);
+    });
+}
+
 function isSubjectForFacts(param) {
-  return filterFacts(withSubject, param);
+  return filterFacts((function (param) {
+                return withEdge(/* SUBJECT */0, param);
+              }), param);
 }
 
 function isPropertyForFacts(param) {
-  return filterFacts(withProperty, param);
+  return filterFacts((function (param) {
+                return withEdge(/* PROPERTY */1, param);
+              }), param);
 }
 
 function facts$1(param) {
   return filterFacts(withIdAsAnyEdge, param);
 }
 
-function connectedPropertyThings(t) {
+function filterFactsAndSelectThings(fromEdge, toEdge, t) {
   var partial_arg = t[/* graph */1];
   return unpackOptionList(List.map((function (param) {
-                    return findThing$1(partial_arg, /* PROPERTY */1, param);
-                  }), filterFacts(withSubject, t)));
+                    return findThing$1(partial_arg, toEdge, param);
+                  }), filterFacts((function (param) {
+                        return withEdge(fromEdge, param);
+                      }), t)));
 }
 
-function connectedSubjectThings(t) {
-  var partial_arg = t[/* graph */1];
-  return unpackOptionList(List.map((function (param) {
-                    return findThing$1(partial_arg, /* SUBJECT */0, param);
-                  }), filterFacts(withProperty, t)));
+function connectedPropertyThings(param) {
+  return filterFactsAndSelectThings(/* SUBJECT */0, /* PROPERTY */1, param);
+}
+
+function connectedSubjectThings(param) {
+  return filterFactsAndSelectThings(/* PROPERTY */1, /* SUBJECT */0, param);
 }
 
 function connectedPropertyWithId(id, t) {
-  return find$1(id, connectedPropertyThings(t));
+  return find$1(id, filterFactsAndSelectThings(/* SUBJECT */0, /* PROPERTY */1, t));
 }
 
 function connectedSubjectWithId(id, t) {
-  return find$1(id, connectedSubjectThings(t));
+  return find$1(id, filterFactsAndSelectThings(/* PROPERTY */1, /* SUBJECT */0, t));
 }
 
 var ThingG = /* module */[
   /* allFacts */allFacts,
   /* filterFacts */filterFacts,
+  /* isEdgeForFacts */isEdgeForFacts,
   /* isSubjectForFacts */isSubjectForFacts,
   /* isPropertyForFacts */isPropertyForFacts,
   /* facts */facts$1,
+  /* filterFactsAndSelectThings */filterFactsAndSelectThings,
   /* connectedPropertyThings */connectedPropertyThings,
   /* connectedSubjectThings */connectedSubjectThings,
   /* connectedPropertyWithId */connectedPropertyWithId,
