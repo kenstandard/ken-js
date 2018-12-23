@@ -1,7 +1,7 @@
 open Rationale.Function.Infix;
 open Rationale;
 
-type nonfact = {
+type thing = {
   id: string,
   mutable graph,
 }
@@ -10,65 +10,97 @@ and fact = {
   subjectId: string,
   propertyId: string,
   value: string,
-  mutable graph,
 }
-and thing =
-  | Fact(fact)
-  | Nonfact(nonfact)
-and graph = {things: list(thing)};
-
-let getId = thing =>
-  switch (thing) {
-  | Fact(f) => f.id
-  | Nonfact(f) => f.id
-  };
+and graph = {
+  facts: list(fact),
+  things: list(thing),
+};
 
 let isEqual = (a, b) => a == b;
+let isNotEqual = (a, b) => a != b;
+
+type edge =
+  | SUBJECT
+  | PROPERTY;
 
 module Fact = {
   type t = fact;
   let subjectId = t => t.subjectId;
   let propertyId = t => t.propertyId;
+  let edgeId = edge => edge == SUBJECT ? subjectId : propertyId;
   let hasSubjectId = subjectId ||> isEqual;
   let hasPropertyId = propertyId ||> isEqual;
   let value = t => t.value;
   let id = (t: t) => t.id;
-  let graph = (t: t) => t.graph;
-};
-
-module Nonfact = {
-  type t = nonfact;
-  let id = t => t.id;
-  let graph = t => t.graph;
 };
 
 module Thing = {
   type t = thing;
+  let id = e => e.id;
+  let graph = e => e.graph;
+};
 
-  let isFact = t =>
-    switch (t) {
-    | Fact(_) => true
-    | _ => false
+module Query = {
+  type condition =
+    | IS
+    | IS_NOT;
+
+  type t = {
+    edge,
+    id: string,
+    q: condition,
+  };
+
+  let run = (q: t, f: fact) => {
+    let equality = q.q == IS ? isEqual(q.id) : isNotEqual(q.id);
+    switch (q.edge) {
+    | SUBJECT => equality(f.subjectId)
+    | PROPERTY => equality(f.propertyId)
     };
+  };
 
-  let isNonfact = isFact ||> (e => !e);
+  let qOr = (q1: t, q2: t, f: fact) => run(q1, f) || run(q2, f);
+  let qAnd = (q1: t, q2: t, f: fact) => run(q1, f) && run(q2, f);
+};
 
-  let toFactExt = t =>
-    switch (t) {
-    | Fact(a) => a
-    | _ => raise(Failure("Assumed nonfact was fact"))
-    };
+module FactFilters = {
+  type t = list(fact);
+  let query = (q: Query.t, t) => t |> List.filter(Query.run(q));
+  let find = (id, t) => t |> RList.find((e: fact) => e.id == id);
+  let filter = List.filter;
 
-  let toNonFactExt = t =>
-    switch (t) {
-    | Nonfact(a) => a
-    | _ => raise(Failure("Assumed fact was nonfact"))
-    };
+  let withSubject = id =>
+    filter(Query.run({edge: SUBJECT, q: Query.IS, id}));
 
-  let bimap = (fn1, fn2, t) =>
-    isFact(t) ? t |> toFactExt |> fn1 : t |> toNonFactExt |> fn2;
-  let id = bimap(Fact.id, Nonfact.id);
-  let graph = bimap(Fact.graph, Nonfact.graph);
+  let withoutSubject = id =>
+    filter(Query.run({edge: SUBJECT, q: Query.IS_NOT, id}));
+
+  let withProperty = id =>
+    filter(Query.run({edge: PROPERTY, q: Query.IS, id}));
+
+  let withoutProperty = id =>
+    filter(Query.run({edge: PROPERTY, q: Query.IS_NOT, id}));
+
+  let withIdAsAnyEdge = id =>
+    filter(
+      Query.qOr(
+        {edge: PROPERTY, q: Query.IS, id},
+        {edge: PROPERTY, q: Query.IS, id},
+      ),
+    );
+
+  let withIdAsNoEdge = id =>
+    filter(
+      Query.qOr(
+        {edge: PROPERTY, q: Query.IS_NOT, id},
+        {edge: PROPERTY, q: Query.IS_NOT, id},
+      ),
+    );
+};
+
+module ThingFilters = {
+  type t = list(thing);
+  let find = (id, t) => t |> RList.find((e: thing) => e.id == id);
 };
 
 module Graph = {
@@ -76,119 +108,64 @@ module Graph = {
   let build = () => {
     let ffacts = [("0", "1", "2", "sdfsdf"), ("8", "1", "3", "bar")];
     let nodes = ["1", "2", "3"];
-    let empty = {things: []};
-    let nonfacts = nodes |> List.map(e => {id: e, graph: empty});
+    let empty = {things: [], facts: []};
+    let things = nodes |> List.map(e => {id: e, graph: empty});
     let facts =
       ffacts
       |> List.map(((a, b, c, d)) =>
-           {id: a, subjectId: b, propertyId: c, value: d, graph: empty}
+           {id: a, subjectId: b, propertyId: c, value: d}
          );
-    let graph = {
-      things:
-        List.append(
-          facts |> List.map(e => Fact(e)),
-          nonfacts |> List.map(e => Nonfact(e)),
-        ),
-    };
-    for (x in 0 to List.length(nonfacts)) {
-      List.nth(nonfacts, x).graph = graph;
-    };
-    for (x in 0 to List.length(facts)) {
-      List.nth(facts, x).graph = graph;
+    let graph = {facts, things};
+    for (x in 0 to List.length(things)) {
+      List.nth(things, x).graph = graph;
     };
     graph;
   };
 
   let things = g => g.things;
-
-  let facts =
-    things ||> List.filter(Thing.isFact) ||> List.map(Thing.toFactExt);
-
-  let nonfacts =
-    things ||> List.filter(Thing.isNonfact) ||> List.map(Thing.toNonFactExt);
-
-  let findFact = (g, id) => facts(g) |> RList.find((e: fact) => e.id == id);
-
-  let findNonfact = (g, id) =>
-    nonfacts(g) |> RList.find((e: nonfact) => e.id == id);
-
-  let findFactsWithSubject = id =>
-    facts ||> List.filter(Fact.subjectId ||> isEqual(id));
-
-  let findFactsWithProperty = id =>
-    facts ||> List.filter(Fact.propertyId ||> isEqual(id));
-
-  let findThingWithId = id =>
-    things ||> RList.find(Thing.id ||> isEqual(id));
+  let facts = g => g.facts;
+  let findFact = id => facts ||> FactFilters.find(id);
+  let findThing = id => things ||> ThingFilters.find(id);
 };
 
 module FactG = {
   type t = fact;
-  let findFactsWithSubject = (a: t) =>
-    Graph.findFactsWithSubject(_, a.graph);
-  let findFactsWithProperty = (a: t) =>
-    Graph.findFactsWithProperty(_, a.graph);
-  let findThingWithId = (a: t) => Graph.findThingWithId(_, a.graph);
-
-  /* Property Must not be a Fact */
-  let findProperty = (t: t): option(nonfact) =>
-    Option.Infix.(
-      t |> Fact.propertyId |> findThingWithId(t) <$> Thing.toNonFactExt
-    );
-
-  let findSubject = (t: t): option(thing) =>
-    t |> Fact.subjectId |> findThingWithId(t);
+  let findThing = (g: graph, edge: edge, t: t): option(thing) =>
+    t |> Fact.edgeId(edge) |> Graph.findThing(_, g);
 };
 
 let unpackOptionList = (e: list(option('a))) =>
   e |> List.filter(Option.isSome) |> List.map(Option.toExn("mistake"));
 
-type edge =
-  | SUBJECT
-  | PROPERTY
-  | VALUE;
-
-type relationship = (edge, edge);
-
-module FactFilters = {
-  type t = list(fact);
-  let withSubject = (id, t) =>
-    t |> List.filter(Fact.subjectId ||> isEqual(id));
-  let withProperty = (id, t) =>
-    t |> List.filter(Fact.propertyId ||> isEqual(id));
-  let withSubjectAndProperty = (subjectId, propertyId, t) =>
-    t |> withSubject(subjectId) |> withProperty(propertyId);
-  let without = (id, t) => t |> List.filter(e => Fact.id(e) != id);
-};
-
 module ThingG = {
   open Thing;
   type t = thing;
-
   let allFacts = graph ||> Graph.facts;
+  let filterFacts = (f: (string, list(fact)) => list(fact), t: t) =>
+    f(id(t), allFacts(t));
 
-  let isSubjectForFacts = (t: t) =>
-    t |> allFacts |> FactFilters.withSubject(id(t));
-
-  let isPropertyForFacts = (t: t) =>
-    t |> allFacts |> FactFilters.withProperty(id(t));
-
-  let facts = (t: t) =>
-    List.append(isSubjectForFacts(t), isPropertyForFacts(t));
+  let isSubjectForFacts = filterFacts(FactFilters.withSubject);
+  let isPropertyForFacts = filterFacts(FactFilters.withProperty);
+  let facts = filterFacts(FactFilters.withIdAsAnyEdge);
 
   /* This doesn't apply if this thing is the value! */
-  let connectedPropertyNonfacts =
-    facts ||> List.map(FactG.findProperty) ||> unpackOptionList;
+  let connectedPropertyThings = (t: t) =>
+    t
+    |> filterFacts(FactFilters.withSubject)
+    |> List.map(FactG.findThing(t.graph, PROPERTY))
+    |> unpackOptionList;
 
-  let connectedSubjectThings =
-    facts ||> List.map(FactG.findSubject) ||> unpackOptionList;
+  let connectedSubjectThings = (t: t) =>
+    t
+    |> filterFacts(FactFilters.withProperty)
+    |> List.map(FactG.findThing(t.graph, SUBJECT))
+    |> unpackOptionList;
 
   let connectedPropertyWithId = (id: string, t: t) =>
-    t |> connectedPropertyNonfacts |> RList.find(Nonfact.id ||> isEqual(id));
+    connectedPropertyThings(t) |> ThingFilters.find(id);
 
   let connectedSubjectWithId = (id: string, t: t) =>
-    t |> connectedSubjectThings |> RList.find(Thing.id ||> isEqual(id));
-
-  let isSubjectForPropertyId = id =>
-    isSubjectForFacts ||> List.filter(Fact.hasSubjectId(_, id));
+    connectedSubjectThings(t) |> ThingFilters.find(id);
+  /* let isSubjectForPropertyId = id =>
+     isSubjectForFacts ||> List.filter(Fact.hasSubjectId(_, id)); */
 };
