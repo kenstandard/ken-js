@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import gitnet from "../node_modules/gitnet-js/dist/main.js";
+import core from "../node_modules/gitnet-core/src/Index.bs.js";
 import { Table, Divider, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import {Value} from "./Value";

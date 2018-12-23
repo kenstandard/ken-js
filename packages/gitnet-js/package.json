@@ -15,7 +15,6 @@
     "author": "",
     "license": "MIT",
     "dependencies": {
-        "gitnet-data-base": "0.0.1",
         "lodash": "^4.17.11",
         "ramda": "^0.26.1"
     },

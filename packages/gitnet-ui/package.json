@@ -4,6 +4,7 @@
   "dependencies": {
     "antd": "3.11.2",
     "gitnet-js": "0.0.1",
+    "gitnet-core": "0.0.1",
     "install": "^0.12.2",
     "lodash": "^4.17.11",
     "markdown-to-jsx": "^6.9.0",
