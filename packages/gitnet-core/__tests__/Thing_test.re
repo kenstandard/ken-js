@@ -1,7 +1,6 @@
 open Jest;
 
 open Expect;
-open Index;
 open ThingG;
 open Rationale;
 open Base;

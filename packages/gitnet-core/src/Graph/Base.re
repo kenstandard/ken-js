@@ -1,6 +1,11 @@
 open Rationale.Function.Infix;
 open Rationale;
 
+type valueType =
+  | THING_ID
+  | STRING
+  | JSON;
+
 type value =
   | ThingId(string)
   | String(string)
@@ -22,8 +27,6 @@ and graph = {
   things: list(thing),
 };
 
-type bar = {idd: string};
-
 type edge =
   | SUBJECT
   | PROPERTY;
@@ -40,13 +43,5 @@ module Thing = {
   let to_s = e => "[ID: " ++ e.id ++ "]";
   [@genType]
   let to_json = (t: t) =>
-    Json.Encode.(object_([("id", Json.Encode.string(t.id))]));
-
-  let decode = (t: Js.Json.t) =>
-    Json.Decode.{
-      id: t |> field("id", string),
-      subjectId: t |> field("subject", string),
-      propertyId: t |> field("property", string),
-      value: String("d"),
-    };
+    Json.Encode.(object_([(Config.FactJson.Fields.id, string(t.id))]));
 };

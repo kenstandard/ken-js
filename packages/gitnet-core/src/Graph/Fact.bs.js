@@ -7,20 +7,21 @@ var Curry = require("bs-platform/lib/js/curry.js");
 var Base$Reason = require("./Base.bs.js");
 var Json_decode = require("@glennsl/bs-json/src/Json_decode.bs.js");
 var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
+var Config$Reason = require("./Config.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
 var Function$Rationale = require("rationale/src/Function.js");
 
-function encodeValue(v) {
+function to_json(v) {
   switch (v.tag | 0) {
     case 0 : 
         return Json_encode.object_(/* :: */[
                     /* tuple */[
-                      "dataValue",
-                      "thingId"
+                      Config$Reason.FactJson[/* Value */0][/* dataTypeField */0],
+                      Config$Reason.FactJson[/* Value */0][/* thingIdType */4]
                     ],
                     /* :: */[
                       /* tuple */[
-                        "data",
+                        Config$Reason.FactJson[/* Value */0][/* dataField */1],
                         v[0]
                       ],
                       /* [] */0
@@ -29,12 +30,12 @@ function encodeValue(v) {
     case 1 : 
         return Json_encode.object_(/* :: */[
                     /* tuple */[
-                      "dataValue",
-                      "string"
+                      Config$Reason.FactJson[/* Value */0][/* dataTypeField */0],
+                      Config$Reason.FactJson[/* Value */0][/* stringType */3]
                     ],
                     /* :: */[
                       /* tuple */[
-                        "data",
+                        Config$Reason.FactJson[/* Value */0][/* dataField */1],
                         v[0]
                       ],
                       /* [] */0
@@ -43,12 +44,12 @@ function encodeValue(v) {
     case 2 : 
         return Json_encode.object_(/* :: */[
                     /* tuple */[
-                      "dataValue",
-                      "json"
+                      Config$Reason.FactJson[/* Value */0][/* dataTypeField */0],
+                      Config$Reason.FactJson[/* Value */0][/* jsonType */2]
                     ],
                     /* :: */[
                       /* tuple */[
-                        "data",
+                        Config$Reason.FactJson[/* Value */0][/* dataField */1],
                         v[0]
                       ],
                       /* [] */0
@@ -58,17 +59,22 @@ function encodeValue(v) {
   }
 }
 
-function decodeValue(v) {
-  var _type = Json_decode.field("dataType", Json_decode.string, v);
+function from_json(v) {
+  var _type = Json_decode.field(Config$Reason.FactJson[/* Value */0][/* dataTypeField */0], Json_decode.string, v);
   switch (_type) {
     case "string" : 
-        return /* String */Block.__(1, [Json_decode.field("data", Json_decode.string, v)]);
+        return /* String */Block.__(1, [Json_decode.field(Config$Reason.FactJson[/* Value */0][/* dataField */1], Json_decode.string, v)]);
     case "thingId" : 
-        return /* ThingId */Block.__(0, [Json_decode.field("data", Json_decode.string, v)]);
+        return /* ThingId */Block.__(0, [Json_decode.field(Config$Reason.FactJson[/* Value */0][/* dataField */1], Json_decode.string, v)]);
     default:
-      return /* ThingId */Block.__(0, [Json_decode.field("data", Json_decode.string, v)]);
+      return /* ThingId */Block.__(0, [Json_decode.field(Config$Reason.FactJson[/* Value */0][/* dataField */1], Json_decode.string, v)]);
   }
 }
+
+var Value = /* module */[
+  /* to_json */to_json,
+  /* from_json */from_json
+];
 
 function subjectId(t) {
   return t[/* subjectId */1];
@@ -107,32 +113,41 @@ function id(t) {
   return t[/* id */0];
 }
 
-function to_json(t) {
+function to_json$1(t) {
   return Json_encode.object_(/* :: */[
               /* tuple */[
-                "id",
+                Config$Reason.FactJson[/* Fields */1][/* id */0],
                 t[/* id */0]
               ],
               /* :: */[
                 /* tuple */[
-                  "subjectId",
+                  Config$Reason.FactJson[/* Fields */1][/* subjectId */1],
                   t[/* subjectId */1]
                 ],
                 /* :: */[
                   /* tuple */[
-                    "propertyId",
+                    Config$Reason.FactJson[/* Fields */1][/* propertyId */2],
                     t[/* propertyId */2]
                   ],
                   /* :: */[
                     /* tuple */[
-                      "value",
-                      encodeValue(t[/* value */3])
+                      Config$Reason.FactJson[/* Fields */1][/* value */3],
+                      to_json(t[/* value */3])
                     ],
                     /* [] */0
                   ]
                 ]
               ]
             ]);
+}
+
+function from_json$1(t) {
+  return /* record */[
+          /* id */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* id */0], Json_decode.string, t),
+          /* subjectId */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* subjectId */1], Json_decode.string, t),
+          /* propertyId */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* propertyId */2], Json_decode.string, t),
+          /* value */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* value */3], from_json, t)
+        ];
 }
 
 var T = /* module */[
@@ -143,7 +158,8 @@ var T = /* module */[
   /* hasPropertyId */hasPropertyId,
   /* value */value,
   /* id */id,
-  /* to_json */to_json
+  /* to_json */to_json$1,
+  /* from_json */from_json$1
 ];
 
 function run(q, f) {
@@ -314,8 +330,7 @@ var Filters = /* module */[
   /* withIdAsNoEdge */withIdAsNoEdge
 ];
 
-exports.encodeValue = encodeValue;
-exports.decodeValue = decodeValue;
+exports.Value = Value;
 exports.T = T;
 exports.Query = Query;
 exports.Filters = Filters;

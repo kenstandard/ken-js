@@ -2,44 +2,18 @@
 'use strict';
 
 var Jest = require("@glennsl/bs-jest/src/jest.js");
+var Json = require("@glennsl/bs-json/src/Json.bs.js");
 var Graph$Reason = require("../src/Graph/Graph.bs.js");
+
+var textValue2 = Json.parseOrRaise("\n      [{\n        \"id\": \"g-1\",\n        \"subjectId\": \"n-george\",\n        \"propertyId\": \"p-name\",\n        \"value\": {\n            \"dataValue\": \"string\",\n            \"data\": \"George\"\n        }\n    },\n    {\n        \"id\": \"g-2\",\n        \"subjectId\": \"n-george\",\n        \"propertyId\": \"p-description\",\n        \"value\": {\n            \"dataValue\": \"string\",\n            \"data\": \"A test person!\"\n        }\n    },\n    {\n        \"id\": \"p-name-name\",\n        \"subjectId\": \"n-name\",\n        \"propertyId\": \"n-name\",\n        \"value\": {\n            \"dataValue\": \"string\",\n            \"data\": \"Name\"\n        }\n    }\n]\n       ");
 
 describe("#to_json", (function () {
         return Jest.test("works", (function (param) {
-                      var id = Graph$Reason.to_json(Graph$Reason.start);
-                      console.log(id);
+                      var id = Graph$Reason.$$import(textValue2);
+                      console.log(JSON.stringify(Graph$Reason.to_json(id)));
                       return Jest.Expect[/* toEqual */12](true, Jest.Expect[/* expect */0](true));
                     }));
       }));
 
-var testData = /* :: */[
-  /* tuple */[
-    "0",
-    "n-george",
-    "p-name",
-    "George"
-  ],
-  /* :: */[
-    /* tuple */[
-      "1",
-      "n-cindy",
-      "p-name",
-      "Cindy"
-    ],
-    /* :: */[
-      /* tuple */[
-        "2",
-        "p-name",
-        "p-name",
-        "Name of Item"
-      ],
-      /* [] */0
-    ]
-  ]
-];
-
-var graph = Graph$Reason.start;
-
-exports.testData = testData;
-exports.graph = graph;
-/*  Not a pure module */
+exports.textValue2 = textValue2;
+/* textValue2 Not a pure module */

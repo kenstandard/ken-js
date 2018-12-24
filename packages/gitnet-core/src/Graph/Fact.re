@@ -1,34 +1,39 @@
 open Rationale.Function.Infix;
 open Rationale;
 open Base;
+open Config;
 
-let encodeValue = (v: value) =>
-  Json.Encode.(
-    switch (v) {
-    | ThingId(s) =>
-      object_([
-        ("dataValue", Json.Encode.string("thingId")),
-        ("data", Json.Encode.string(s)),
-      ])
-    | String(s) =>
-      object_([
-        ("dataValue", Json.Encode.string("string")),
-        ("data", Json.Encode.string(s)),
-      ])
-    | JSON(s) =>
-      object_([("dataValue", Json.Encode.string("json")), ("data", s)])
-    }
-  );
+module Value = {
+  open FactJson.Value;
+  let to_json = (v: value) =>
+    Json.Encode.(
+      switch (v) {
+      | ThingId(s) =>
+        object_([
+          (dataTypeField, string(thingIdType)),
+          (dataField, string(s)),
+        ])
+      | String(s) =>
+        object_([
+          (dataTypeField, string(stringType)),
+          (dataField, string(s)),
+        ])
+      | JSON(s) =>
+        object_([(dataTypeField, string(jsonType)), (dataField, s)])
+      }
+    );
 
-let decodeValue = (v: Js.Json.t) => {
-  open Json.Decode;
-  let _type = v |> field("dataType", string);
-  switch (_type) {
-  | "string" => v |> field("data", string) |> (e => String(e))
-  | "thingId" => v |> field("data", string) |> (e => ThingId(e))
-  | _ => v |> field("data", string) |> (e => ThingId(e))
+  let from_json = (v: Js.Json.t) => {
+    open Json.Decode;
+    let _type = v |> field(dataTypeField, string);
+    switch (_type) {
+    | "string" => v |> field(dataField, string) |> (e => String(e))
+    | "thingId" => v |> field(dataField, string) |> (e => ThingId(e))
+    | _ => v |> field(dataField, string) |> (e => ThingId(e))
+    };
   };
 };
+
 module T = {
   type t = fact;
   let subjectId = t => t.subjectId;
@@ -41,12 +46,20 @@ module T = {
   let to_json = (t: t) =>
     Json.Encode.(
       object_([
-        ("id", Json.Encode.string(t.id)),
-        ("subjectId", Json.Encode.string(t.subjectId)),
-        ("propertyId", Json.Encode.string(t.propertyId)),
-        ("value", encodeValue(t.value)),
+        (FactJson.Fields.id, string(t.id)),
+        (FactJson.Fields.subjectId, string(t.subjectId)),
+        (FactJson.Fields.propertyId, string(t.propertyId)),
+        (FactJson.Fields.value, Value.to_json(t.value)),
       ])
     );
+
+  let from_json = (t: Js.Json.t) =>
+    Json.Decode.{
+      id: t |> field(FactJson.Fields.id, string),
+      subjectId: t |> field(FactJson.Fields.subjectId, string),
+      propertyId: t |> field(FactJson.Fields.propertyId, string),
+      value: t |> field(FactJson.Fields.value, Value.from_json),
+    };
 };
 
 module Query = {

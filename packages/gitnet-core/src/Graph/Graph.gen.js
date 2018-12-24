@@ -2,8 +2,8 @@
 
 import * as GraphBS from './Graph.bs';
 
-export const start = GraphBS.start;
-
 export const findThing = GraphBS.findThing;
 
 export const to_json = GraphBS.to_json;
+
+export const import = GraphBS.import;

@@ -27,6 +27,12 @@ function filterFacts(f, t) {
   return Curry._2(f, Base$Reason.Thing[/* id */0](t), allFacts(t));
 }
 
+var partial_arg$2 = Fact$Reason.Filters[/* withIdAsAnyEdge */9];
+
+function facts(param) {
+  return filterFacts(partial_arg$2, param);
+}
+
 function isEdgeForFacts(edge) {
   var partial_arg = Fact$Reason.Filters[/* withEdge */3];
   var partial_arg$1 = function (param) {
@@ -37,29 +43,23 @@ function isEdgeForFacts(edge) {
     });
 }
 
-var partial_arg$2 = Fact$Reason.Filters[/* withEdge */3];
+var partial_arg$3 = Fact$Reason.Filters[/* withEdge */3];
 
-function partial_arg$3(param) {
-  return partial_arg$2(/* SUBJECT */0, param);
+function partial_arg$4(param) {
+  return partial_arg$3(/* SUBJECT */0, param);
 }
 
 function isSubjectForFacts(param) {
-  return filterFacts(partial_arg$3, param);
+  return filterFacts(partial_arg$4, param);
 }
 
-var partial_arg$4 = Fact$Reason.Filters[/* withEdge */3];
+var partial_arg$5 = Fact$Reason.Filters[/* withEdge */3];
 
-function partial_arg$5(param) {
-  return partial_arg$4(/* PROPERTY */1, param);
+function partial_arg$6(param) {
+  return partial_arg$5(/* PROPERTY */1, param);
 }
 
 function isPropertyForFacts(param) {
-  return filterFacts(partial_arg$5, param);
-}
-
-var partial_arg$6 = Fact$Reason.Filters[/* withIdAsAnyEdge */9];
-
-function facts(param) {
   return filterFacts(partial_arg$6, param);
 }
 
@@ -96,10 +96,10 @@ function propertyValues(propertyId, t) {
 exports.unpackOptionList = unpackOptionList;
 exports.allFacts = allFacts;
 exports.filterFacts = filterFacts;
+exports.facts = facts;
 exports.isEdgeForFacts = isEdgeForFacts;
 exports.isSubjectForFacts = isSubjectForFacts;
 exports.isPropertyForFacts = isPropertyForFacts;
-exports.facts = facts;
 exports.filterFactsAndSelectThings = filterFactsAndSelectThings;
 exports.connectedPropertyThings = connectedPropertyThings;
 exports.connectedSubjectThings = connectedSubjectThings;

@@ -11,8 +11,8 @@ import jsonData from "./data.json"
 import {TableShow} from "./instances/table"
 
 console.log(test());
-let foo = test;
-debugger;
+// let foo = test;
+// debugger;
 const expandedRowRender = ({statement}) => {
 
   let _thing = statement.internalThing;

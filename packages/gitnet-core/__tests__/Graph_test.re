@@ -1,16 +1,41 @@
 open Jest;
 
 open Expect;
-open Index;
 open Graph;
 
-let testData = [
-  ("0", "n-george", "p-name", "George"),
-  ("1", "n-cindy", "p-name", "Cindy"),
-  ("2", "p-name", "p-name", "Name of Item"),
-];
-
-let graph = start;
+let textValue2 =
+  Json.parseOrRaise(
+    {|
+      [{
+        "id": "g-1",
+        "subjectId": "n-george",
+        "propertyId": "p-name",
+        "value": {
+            "dataValue": "string",
+            "data": "George"
+        }
+    },
+    {
+        "id": "g-2",
+        "subjectId": "n-george",
+        "propertyId": "p-description",
+        "value": {
+            "dataValue": "string",
+            "data": "A test person!"
+        }
+    },
+    {
+        "id": "p-name-name",
+        "subjectId": "n-name",
+        "propertyId": "n-name",
+        "value": {
+            "dataValue": "string",
+            "data": "Name"
+        }
+    }
+]
+       |},
+  );
 
 /* Js.log(
      graph |> things |> List.map(Base.Thing.to_s) |> String.concat(","),
@@ -49,8 +74,8 @@ let graph = start;
 
 describe("#to_json", () =>
   test("works", () => {
-    let id = graph |> to_json;
-    Js.log(id);
+    let id = textValue2 |> import;
+    Js.log(id |> to_json |> Js.Json.stringify);
     expect(true) |> toEqual(true);
   })
 );

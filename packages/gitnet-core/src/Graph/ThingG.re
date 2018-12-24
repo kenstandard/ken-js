@@ -1,20 +1,21 @@
 open Rationale.Function.Infix;
 open Rationale;
 open Base;
+open Thing;
+
+type t = thing;
 
 let unpackOptionList = (e: list(option('a))) =>
   e |> List.filter(Option.isSome) |> List.map(Option.toExn("mistake"));
 
-open Thing;
-type t = thing;
 let allFacts = graph ||> Graph.facts;
 let filterFacts = (f: (string, list(fact)) => list(fact), t: t) =>
   f(id(t), allFacts(t));
 
+let facts = filterFacts(Fact.Filters.withIdAsAnyEdge);
 let isEdgeForFacts = edge => filterFacts(Fact.Filters.withEdge(edge));
 let isSubjectForFacts = filterFacts(Fact.Filters.withEdge(SUBJECT));
 let isPropertyForFacts = filterFacts(Fact.Filters.withEdge(PROPERTY));
-let facts = filterFacts(Fact.Filters.withIdAsAnyEdge);
 
 /* This doesn't apply if this thing is the value! */
 let filterFactsAndSelectThings = (fromEdge, toEdge, t: t) =>
