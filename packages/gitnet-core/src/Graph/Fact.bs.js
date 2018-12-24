@@ -10,6 +10,7 @@ var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
 var Config$Reason = require("./Config.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
 var Function$Rationale = require("rationale/src/Function.js");
+var Caml_builtin_exceptions = require("bs-platform/lib/js/caml_builtin_exceptions.js");
 
 function to_json(v) {
   switch (v.tag | 0) {
@@ -177,10 +178,21 @@ function run(q, f) {
       });
   }
   var match$1 = q[/* edge */0];
-  if (match$1) {
-    return Curry._1(equality, f[/* propertyId */2]);
-  } else {
-    return Curry._1(equality, f[/* subjectId */1]);
+  switch (match$1) {
+    case 0 : 
+        return Curry._1(equality, f[/* subjectId */1]);
+    case 1 : 
+        return Curry._1(equality, f[/* propertyId */2]);
+    case 2 : 
+        throw [
+              Caml_builtin_exceptions.match_failure,
+              /* tuple */[
+                "Fact.re",
+                81,
+                4
+              ]
+            ];
+    
   }
 }
 

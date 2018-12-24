@@ -5,6 +5,7 @@ open Config;
 
 module Value = {
   open FactJson.Value;
+  [@genType]
   let to_json = (v: value) =>
     Json.Encode.(
       switch (v) {
@@ -41,8 +42,10 @@ module T = {
   let edgeId = edge => edge == SUBJECT ? subjectId : propertyId;
   let hasSubjectId = subjectId ||> isEqual;
   let hasPropertyId = propertyId ||> isEqual;
+  [@genType]
   let value = t => t.value;
   let id = (t: t) => t.id;
+  [@genType]
   let to_json = (t: t) =>
     Json.Encode.(
       object_([

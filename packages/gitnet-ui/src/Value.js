@@ -4,6 +4,7 @@ import Markdown from 'markdown-to-jsx';
 
 export class Value extends Component {
   render() {
+    console.log("VALUE", this.props)
     if (!this.props.value){
       return "Error: No value"
     }

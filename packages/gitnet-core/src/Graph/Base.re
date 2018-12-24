@@ -29,9 +29,11 @@ and graph = {
   things: list(thing),
 };
 
+[@genType]
 type edge =
   | SUBJECT
-  | PROPERTY;
+  | PROPERTY
+  | VALUE;
 
 let isEqual = (a, b) => a == b;
 

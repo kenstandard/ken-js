@@ -31,6 +31,7 @@ let findFact = id => facts ||> Fact.Filters.find(id);
 [@genType]
 let findThing = (id: string, g: graph): option(Thing.t) =>
   g |> things |> Thing.find(id);
+[@genType]
 let findThingFromFact = (g: graph, edge: edge, f: fact) =>
   f |> Fact.T.edgeId(edge) |> findThing(_, g);
 let from_json = Json.Decode.list(Fact.T.from_json);

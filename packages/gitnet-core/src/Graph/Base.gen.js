@@ -2,6 +2,14 @@
 
 import * as BaseBS from './Base.bs';
 
+import * as CreateBucklescriptBlock from 'bs-platform/lib/es6/block.js';
+
+export const SUBJECT = 0;
+
+export const PROPERTY = 1;
+
+export const VALUE = 2;
+
 export const Thing_find = BaseBS.Thing[2];
 
 export const Thing_to_json = BaseBS.Thing[4];

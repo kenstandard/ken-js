@@ -9,6 +9,7 @@ import Markdown from 'markdown-to-jsx';
 import * as R from 'ramda';
 import jsonData from "./data.json"
 import {TableShow} from "./instances/table"
+import {ThingName} from "./ThingName"
 
 const expandedRowRender = ({statement}) => {
 
@@ -91,31 +92,38 @@ const InverseStatements = ({property, inverseStatements}) => {
 const columns = [
 {
   title: 'Property',
-  dataIndex: 'statement',
+  dataIndex: 'fact',
   key: 'name',
   render: (s) => (
-    <Value value={(s.formatProperty())}/>
+    <ThingName thing={(s.property())}/>
   )
 },
   {
   title: 'Value',
-  dataIndex: 'statement',
+  dataIndex: 'fact',
   key: 'value',
-  render: (s) => (
-    <Value value={(s.formatValue())}/>
-  )
+  render: (s) => {
+    return (
+    s.value().json().data
+    )
+  }
 }
 ]
 
 export class Thing extends Component {
   render() {
     const thingId = this.props.match.params.thingId
-    let thing = gitnet(jsonData).findThing(thingId);
-    let name = thing.textValue("p-name");
-    let description = thing.textValue("p-description");
-    let formatted = thing.statements().map(statement => ({statement}))
-    let inverseStatements = thing.inverseStatements();
-    let inverseProperties = thing.inverseProperties();
+    let db = main();
+    let thing1 = db.findThing(thingId);
+    let name = thing1.propertyValues("p-name")[0].data
+    let description = thing1.propertyValues("p-description")[0].data
+    // let thing = gitnet(jsonData).findThing(thingId);
+    let formatted = thing1.isSubjectForFacts().map(fact => ({fact}));
+    // let a2 = thing1.isPropertyForFacts();
+    // let a3 = thing1.connectedPropertyThings();
+    // let formatted = thing.statements().map(statement => ({statement}))
+    // let inverseStatements = thing.inverseStatements();
+    // let inverseProperties = thing.inverseProperties();
     return (
       <div className="Noun" key={thingId}>
         <h1>{name}</h1>
@@ -125,13 +133,13 @@ export class Thing extends Component {
         <br/>
         <h2> Properties </h2>
         <Table columns={columns} dataSource={formatted} pagination={false} size="small"
-            key={thing.id}
+            key={thingId}
               expandedRowRender={expandedRowRender}
         />
         <br/>
         <br/>
         <br/>
-        {inverseProperties.map(p => {
+        {/* {inverseProperties.map(p => {
           return (
           <div>
             <h2> {p.textValue("p-inverse-name")} List</h2>
@@ -139,7 +147,7 @@ export class Thing extends Component {
           </div>
           )
         })}
-        <TableShow thingId={thingId}/>
+        <TableShow thingId={thingId}/> */}
       </div>
     );
   }
