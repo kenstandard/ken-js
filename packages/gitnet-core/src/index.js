@@ -1,15 +1,43 @@
 let foo = "bar";
-import {start, findThing, to_json} from "./Graph/Graph.gen"
-import {Thing_to_json} from "./Graph/Base.gen"
+import * as graphLib from "./Graph/Graph.gen"
+import {Thing_to_json, Thing_to_jsonr} from "./Graph/Base.gen"
+import * as glib from "./Graph/Graph.gen"
+import * as blib from "./Graph/Base.gen"
 // import 
 
-export function graph(){
-    start
-}
+let data =
+      [{
+        "id": "g-1",
+        "subjectId": "n-george",
+        "propertyId": "p-name",
+        "value": {
+            "dataValue": "string",
+            "data": "George"
+        }
+    },
+    {
+        "id": "g-2",
+        "subjectId": "n-george",
+        "propertyId": "p-description",
+        "value": {
+            "dataValue": "string",
+            "data": "A test person!"
+        }
+    },
+    {
+        "id": "p-name-name",
+        "subjectId": "n-name",
+        "propertyId": "n-name",
+        "value": {
+            "dataValue": "string",
+            "data": "Name"
+        }
+    }
+]
 
 export class Thing {
     constructor(thing, db){
-        this.thing = item;
+        this.thing = thing;
         this.db = db;
         return this;
     }
@@ -20,18 +48,19 @@ export class Thing {
 
 export class Database {
     constructor(graph){
-        this.graph = start;
+        this.graph = glib.load(data);
         return this;
     }
     findThing(id){
-      return new Thing(findThing(id, this.graph), this);
+      let thing = glib.findThing(id, this.graph);
+      return new Thing(thing, this);
     }
     json(){
-        return to_json(this.graph)
+        return glib.to_json(this.graph)
     }
 }
 
-export default function main(){
+export function main(){
     // console.log("HI!", start, testData, to_json(start))
     return new Database();
 }

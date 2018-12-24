@@ -29,8 +29,8 @@
     "language": "untyped",
     "shims": {},
     "debug": {
-      "all": false,
-      "basic": false
+      "all": true,
+      "basic": true
     }
   }
 }

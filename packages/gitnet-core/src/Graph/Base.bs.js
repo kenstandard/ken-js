@@ -3,7 +3,6 @@
 
 var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
 var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
-var Config$Reason = require("./Config.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
 
 var isEqual = Caml_obj.caml_equal;
@@ -31,7 +30,7 @@ function to_s(e) {
 function to_json(t) {
   return Json_encode.object_(/* :: */[
               /* tuple */[
-                Config$Reason.FactJson[/* Fields */1][/* id */0],
+                "id",
                 t[/* id */0]
               ],
               /* [] */0

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import gitnet from "../node_modules/gitnet-js/dist/main.js";
-import test from "../node_modules/gitnet-core/src/index.js";
+import {main} from "../node_modules/gitnet-core/src/index.js";
 import { Table, Divider, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import {Value} from "./Value";
@@ -10,9 +10,6 @@ import * as R from 'ramda';
 import jsonData from "./data.json"
 import {TableShow} from "./instances/table"
 
-console.log(test());
-// let foo = test;
-// debugger;
 const expandedRowRender = ({statement}) => {
 
   let _thing = statement.internalThing;

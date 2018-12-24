@@ -2,4 +2,6 @@
 
 import * as BaseBS from './Base.bs';
 
-export const Thing_to_json = function _(Arg1) { const result = BaseBS.Thing[4]([Arg1.id, [Arg1.graph.facts, Arg1.graph.things]]); return result };
+export const Thing_find = BaseBS.Thing[2];
+
+export const Thing_to_json = BaseBS.Thing[4];

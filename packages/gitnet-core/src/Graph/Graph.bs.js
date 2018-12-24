@@ -9,6 +9,8 @@ var Json_decode = require("@glennsl/bs-json/src/Json_decode.bs.js");
 var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
 var Config$Reason = require("./Config.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
+var Option$Rationale = require("rationale/src/Option.js");
+var Js_null_undefined = require("bs-platform/lib/js/js_null_undefined.js");
 var Function$Rationale = require("rationale/src/Function.js");
 
 function from_facts(facts) {
@@ -43,6 +45,17 @@ function from_facts(facts) {
   return graph;
 }
 
+function toJs(s) {
+  var match = Option$Rationale.isSome(s);
+  if (match) {
+    return "TRUE";
+  } else {
+    return "FALSE";
+  }
+}
+
+var toJs2 = Js_null_undefined.fromOption;
+
 function things(g) {
   return g[/* things */1];
 }
@@ -62,19 +75,12 @@ function findFact(id) {
     });
 }
 
-function findThing(id) {
-  var partial_arg = Base$Reason.Thing[/* find */2];
-  var partial_arg$1 = function (param) {
-    return partial_arg(id, param);
-  };
-  var partial_arg$2 = Function$Rationale.Infix[/* ||> */1];
-  return (function (param) {
-      return partial_arg$2(things, partial_arg$1, param);
-    });
+function findThing(id, g) {
+  return Base$Reason.Thing[/* find */2](id, g[/* things */1]);
 }
 
 function findThingFromFact(g, edge, f) {
-  return findThing(Fact$Reason.T[/* edgeId */2](edge)(f))(g);
+  return findThing(Fact$Reason.T[/* edgeId */2](edge)(f), g);
 }
 
 var partial_arg = Fact$Reason.T[/* from_json */8];
@@ -101,11 +107,13 @@ function to_json(t) {
             ]);
 }
 
-function $$import(v) {
+function load(v) {
   return from_facts(from_json(v));
 }
 
 exports.from_facts = from_facts;
+exports.toJs = toJs;
+exports.toJs2 = toJs2;
 exports.things = things;
 exports.facts = facts;
 exports.findFact = findFact;
@@ -113,5 +121,5 @@ exports.findThing = findThing;
 exports.findThingFromFact = findThingFromFact;
 exports.from_json = from_json;
 exports.to_json = to_json;
-exports.$$import = $$import;
+exports.load = load;
 /* Base-Reason Not a pure module */

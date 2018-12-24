@@ -20,11 +20,17 @@ let from_facts = (facts: list(fact)) => {
   graph;
 };
 
+[@genType]
+let toJs = (s: option('a)) => Option.isSome(s) ? "TRUE" : "FALSE";
+[@genType]
+let toJs2 = (s: option('a)) => Js.Nullable.fromOption(s);
+
 let things = g => g.things;
 let facts = g => g.facts;
 let findFact = id => facts ||> Fact.Filters.find(id);
 [@genType]
-let findThing = id => things ||> Thing.find(id);
+let findThing = (id: string, g: graph): option(Thing.t) =>
+  g |> things |> Thing.find(id);
 let findThingFromFact = (g: graph, edge: edge, f: fact) =>
   f |> Fact.T.edgeId(edge) |> findThing(_, g);
 let from_json = Json.Decode.list(Fact.T.from_json);
@@ -41,4 +47,4 @@ let to_json = (t: t) => {
 };
 
 [@genType]
-let import = v => v |> from_json |> from_facts;
+let load = v => v |> from_json |> from_facts;

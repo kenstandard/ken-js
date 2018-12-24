@@ -19,3 +19,20 @@ module FactJson = {
     let value = "value";
   };
 };
+
+[@genType]
+type foo = {
+  a: string,
+  b: string,
+};
+
+[@genType]
+let c = () => {a: "lkjsdf", b: "sdfsdf"};
+
+[@genType]
+type position = {
+  latitude: int,
+  longitude: int,
+};
+[@genType]
+let updateLatitude = p => {...p, latitude: p.latitude + 2};

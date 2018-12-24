@@ -124,3 +124,6 @@ module Filters = {
       ),
     );
 };
+
+[@genType]
+let c = () => {a: "sdf", b: "sdfsdf"};

@@ -330,8 +330,16 @@ var Filters = /* module */[
   /* withIdAsNoEdge */withIdAsNoEdge
 ];
 
+function c(param) {
+  return /* record */[
+          /* a */"sdf",
+          /* b */"sdfsdf"
+        ];
+}
+
 exports.Value = Value;
 exports.T = T;
 exports.Query = Query;
 exports.Filters = Filters;
+exports.c = c;
 /* Base-Reason Not a pure module */

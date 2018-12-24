@@ -11,6 +11,7 @@ type value =
   | String(string)
   | JSON(Js.Json.t);
 
+[@genType.opaque]
 type fact = {
   id: string,
   subjectId: string,
@@ -18,6 +19,7 @@ type fact = {
   value,
 };
 
+[@genType.opaque]
 type thing = {
   id: string,
   mutable graph,
@@ -39,9 +41,9 @@ module Thing = {
   type t = thing;
   let id = e => e.id;
   let graph = e => e.graph;
+  [@genType]
   let find = (id, t: list(t)) => t |> RList.find((e: thing) => e.id == id);
   let to_s = e => "[ID: " ++ e.id ++ "]";
   [@genType]
-  let to_json = (t: t) =>
-    Json.Encode.(object_([(Config.FactJson.Fields.id, string(t.id))]));
+  let to_json = (t: t) => Json.Encode.(object_([("id", string(t.id))]));
 };
