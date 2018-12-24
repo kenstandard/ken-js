@@ -3,20 +3,16 @@ open Rationale;
 open Base;
 
 type t = graph;
-type importStatement = (string, string, string, string);
-let build = (fs: list(importStatement)) => {
+type importStatement = (string, string, string, Js.Json.t);
+
+let build = (facts: list(fact)) => {
   let nodes =
-    fs
-    |> List.map(((id1, id2, id3, _)) => [id1, id2, id3])
+    facts
+    |> List.map((e: fact) => [e.id, e.subjectId, e.propertyId])
     |> List.flatten
     |> Rationale.RList.uniq;
   let empty = {things: [], facts: []};
   let things = nodes |> List.map(e => {id: e, graph: empty});
-  let facts =
-    fs
-    |> List.map(((a, b, c, d)) =>
-         {id: a, subjectId: b, propertyId: c, value: String("sdfs")}
-       );
   let graph = {facts, things};
   for (x in 0 to List.length(things) - 1) {
     List.nth(things, x).graph = graph;
@@ -24,18 +20,44 @@ let build = (fs: list(importStatement)) => {
   graph;
 };
 
-[@genType]
-let testData = [|
-  ("g-0", "n-george", "p-name", "George"),
-  ("g-1", "n-george", "p-description", "The person named Goerge"),
-  ("1", "n-cindy", "p-name", "Cindy"),
-  ("2", "p-name", "p-name", "Name of Item"),
-  ("3", "p-name", "p-description", "The name of something"),
-  ("4", "2", "p-name", "The 2nd fact"),
-|];
+let textValue2 =
+  Json.parseOrRaise(
+    {|
+[{
+        "id": "g-1",
+        "subject": "n-george",
+        "property": "p-name",
+        "value": {
+            "dataValue": "string",
+            "data": "George"
+        }
+    },
+    {
+        "id": "g-2",
+        "subject": "n-george",
+        "property": "p-description",
+        "value": {
+            "dataValue": "string",
+            "data": "A test person!"
+        }
+    },
+    {
+        "id": "p-name-name",
+        "subject": "n-name",
+        "property": "n-name",
+        "value": {
+            "dataValue": "string",
+            "data": "Name"
+        }
+    }
+]
+       |},
+  );
+
+let decode = Json.Decode.list(Thing.decode);
 
 [@genType]
-let start = build(testData |> Array.to_list);
+let start = build(textValue2 |> decode);
 
 let things = g => g.things;
 let facts = g => g.facts;

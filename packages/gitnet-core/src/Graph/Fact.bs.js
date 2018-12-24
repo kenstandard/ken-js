@@ -2,11 +2,73 @@
 'use strict';
 
 var List = require("bs-platform/lib/js/list.js");
+var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Base$Reason = require("./Base.bs.js");
+var Json_decode = require("@glennsl/bs-json/src/Json_decode.bs.js");
 var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
 var Function$Rationale = require("rationale/src/Function.js");
+
+function encodeValue(v) {
+  switch (v.tag | 0) {
+    case 0 : 
+        return Json_encode.object_(/* :: */[
+                    /* tuple */[
+                      "dataValue",
+                      "thingId"
+                    ],
+                    /* :: */[
+                      /* tuple */[
+                        "data",
+                        v[0]
+                      ],
+                      /* [] */0
+                    ]
+                  ]);
+    case 1 : 
+        return Json_encode.object_(/* :: */[
+                    /* tuple */[
+                      "dataValue",
+                      "string"
+                    ],
+                    /* :: */[
+                      /* tuple */[
+                        "data",
+                        v[0]
+                      ],
+                      /* [] */0
+                    ]
+                  ]);
+    case 2 : 
+        return Json_encode.object_(/* :: */[
+                    /* tuple */[
+                      "dataValue",
+                      "json"
+                    ],
+                    /* :: */[
+                      /* tuple */[
+                        "data",
+                        v[0]
+                      ],
+                      /* [] */0
+                    ]
+                  ]);
+    
+  }
+}
+
+function decodeValue(v) {
+  var _type = Json_decode.field("dataType", Json_decode.string, v);
+  switch (_type) {
+    case "string" : 
+        return /* String */Block.__(1, [Json_decode.field("data", Json_decode.string, v)]);
+    case "thingId" : 
+        return /* ThingId */Block.__(0, [Json_decode.field("data", Json_decode.string, v)]);
+    default:
+      return /* ThingId */Block.__(0, [Json_decode.field("data", Json_decode.string, v)]);
+  }
+}
 
 function subjectId(t) {
   return t[/* subjectId */1];
@@ -61,7 +123,13 @@ function to_json(t) {
                     "propertyId",
                     t[/* propertyId */2]
                   ],
-                  /* [] */0
+                  /* :: */[
+                    /* tuple */[
+                      "value",
+                      encodeValue(t[/* value */3])
+                    ],
+                    /* [] */0
+                  ]
                 ]
               ]
             ]);
@@ -246,6 +314,8 @@ var Filters = /* module */[
   /* withIdAsNoEdge */withIdAsNoEdge
 ];
 
+exports.encodeValue = encodeValue;
+exports.decodeValue = decodeValue;
 exports.T = T;
 exports.Query = Query;
 exports.Filters = Filters;

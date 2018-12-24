@@ -2,6 +2,33 @@ open Rationale.Function.Infix;
 open Rationale;
 open Base;
 
+let encodeValue = (v: value) =>
+  Json.Encode.(
+    switch (v) {
+    | ThingId(s) =>
+      object_([
+        ("dataValue", Json.Encode.string("thingId")),
+        ("data", Json.Encode.string(s)),
+      ])
+    | String(s) =>
+      object_([
+        ("dataValue", Json.Encode.string("string")),
+        ("data", Json.Encode.string(s)),
+      ])
+    | JSON(s) =>
+      object_([("dataValue", Json.Encode.string("json")), ("data", s)])
+    }
+  );
+
+let decodeValue = (v: Js.Json.t) => {
+  open Json.Decode;
+  let _type = v |> field("dataType", string);
+  switch (_type) {
+  | "string" => v |> field("data", string) |> (e => String(e))
+  | "thingId" => v |> field("data", string) |> (e => ThingId(e))
+  | _ => v |> field("data", string) |> (e => ThingId(e))
+  };
+};
 module T = {
   type t = fact;
   let subjectId = t => t.subjectId;
@@ -17,7 +44,7 @@ module T = {
         ("id", Json.Encode.string(t.id)),
         ("subjectId", Json.Encode.string(t.subjectId)),
         ("propertyId", Json.Encode.string(t.propertyId)),
-        /* ("value", Json.Encode.string(t.value)), */
+        ("value", encodeValue(t.value)),
       ])
     );
 };

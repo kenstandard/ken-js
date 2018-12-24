@@ -2,8 +2,6 @@
 
 import * as GraphBS from './Graph.bs';
 
-export const testData = GraphBS.testData;
-
 export const start = GraphBS.start;
 
 export const findThing = GraphBS.findThing;

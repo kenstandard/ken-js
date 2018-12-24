@@ -41,4 +41,12 @@ module Thing = {
   [@genType]
   let to_json = (t: t) =>
     Json.Encode.(object_([("id", Json.Encode.string(t.id))]));
+
+  let decode = (t: Js.Json.t) =>
+    Json.Decode.{
+      id: t |> field("id", string),
+      subjectId: t |> field("subject", string),
+      propertyId: t |> field("property", string),
+      value: String("d"),
+    };
 };
