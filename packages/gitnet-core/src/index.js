@@ -101,8 +101,15 @@ export class Value {
     json() {
         return factLib.Value_to_json(this.value);
     }
+    dataType(){
+        return this.json().dataValue
+    }
     data(){
         return this.json().data
+    }
+    thing(){
+        if (this.dataType() !=="thingId"){ return false }
+        return this.db.findThing(this.data())
     }
 }
 
@@ -195,7 +202,6 @@ export class Thing {
             facts: facts.filter({id: property.json().id, edge: "PROPERTY", q: ""}).facts()
         }))
         return bunch
-
     }
     isSubjectForFactsByProperty(){
         return this._byProperty("SUBJECT");

@@ -1,27 +1,21 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Markdown from 'markdown-to-jsx';
+import {ThingProperty} from "./ThingProperty"
 
 export class Value extends Component {
   render() {
-    console.log("VALUE", this.props)
-    if (!this.props.value){
+    if (!this.props.fact){
       return "Error: No value"
     }
-    const {value: {text, thing, error, dataType}} = this.props;
-    if (text){
-      if (dataType === "d-image-url") {
-        return <img src={text} alt={"image"} style={{maxWidth: "70px", maxHeight: "70px"}}/>
-      }
-      return <Markdown>{text}</Markdown>
-    } else if (thing){
-      const name = thing.textValue("p-name");
-      const id = thing.id;
-      return <Link to={("/things/" + id)}> {name} </Link>
-    } else if (error){
-      return JSON.stringify(error)
-    } else {
-      return ""
+    let value = this.props.fact.value();
+    let type = value.dataType();
+    if (type === "string"){
+      return value.data();
+    } else if (type === "thingId"){
+      let thing = value.thing();
+      return (<ThingProperty thing={thing} propertyName="p-name" isLink={true}/>);
     }
+    return "Unsupported type input"
   }
 }

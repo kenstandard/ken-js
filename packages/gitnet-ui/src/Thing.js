@@ -9,7 +9,7 @@ import Markdown from 'markdown-to-jsx';
 import * as R from 'ramda';
 import jsonData from "./data.json"
 import {TableShow} from "./instances/table"
-import {ThingName} from "./ThingName"
+import {ThingProperty} from "./ThingProperty"
 
 const expandedRowRender = ({facts}) => {
   let connectedProperties = _.uniqBy(_.flatten(facts.map(f => f.internalThing()).map(p => p.connectedPropertyThings())), r => r.id())
@@ -26,8 +26,7 @@ const expandedRowRender = ({facts}) => {
     dataIndex: 'fact',
     key: "thing",
     render: (fact) => {
-      return fact.value().data();
-      // return <Value value={fact.formatValue()}/>
+      return(<Value fact={fact}/>)
     }
   }]
   const columns = connectedProperties.map(p => ({
@@ -35,7 +34,7 @@ const expandedRowRender = ({facts}) => {
     dataIndex: 'fact',
     key: p.id(),
     render: (fact) => {
-      return fact.internalThing().propertyIdFacts(p.id())[0].value().data()
+      return(<Value fact={fact.internalThing().propertyIdFacts(p.id())[0]}/>)
     }
   }))
 
@@ -83,7 +82,7 @@ const columns = [
   dataIndex: 'property',
   key: 'property',
   render: (s) => {
-    return (<ThingName thing={(s)} propertyName="p-name"/>);
+    return (<ThingProperty thing={(s)} propertyName="p-name" isLink={true}/>);
   }
 },
   {
@@ -92,7 +91,7 @@ const columns = [
   key: 'facts',
   render: (s) => {
     return (
-      s[0].value().data()
+      <Value fact={s[0]}/>
     )
   }
 }
@@ -102,12 +101,11 @@ export class Thing extends Component {
   render() {
     const thingId = this.props.match.params.thingId
     let db = main();
-    let thing1 = db.findThing(thingId);
-    let name = thing1.propertyIdFacts("p-name").map(e => e.value().data())[0]
-    let description = thing1.propertyIdFacts("p-description").map(e => e.value().data()).data
-    let isSubjectForFacts = thing1.isSubjectForFactsByProperty().map(property => (property));
-    console.log("IS", isSubjectForFacts)
-    let isValueForFactsByProperty = thing1.isValueForFactsByProperty()
+    let thing = db.findThing(thingId);
+    let name = thing.propertyIdFacts("p-name").map(e => e.value().data())[0]
+    let description = thing.propertyIdFacts("p-description").map(e => e.value().data()).data
+    let isSubjectForFacts = thing.isSubjectForFactsByProperty().map(property => (property));
+    let isValueForFactsByProperty = thing.isValueForFactsByProperty()
     return (
       <div className="Noun" key={thingId}>
         <h1>{name}</h1>
@@ -126,7 +124,7 @@ export class Thing extends Component {
         {isValueForFactsByProperty.map(p => {
           return (
           <div>
-            {/* <h2> <ThingName thing={(p.property)} propertyName="p-name"/> List</h2> */}
+            <h2> <ThingProperty thing={(p.property)} propertyName="p-name" /> List</h2>
             <InverseStatements property={p.property} facts={(p.facts)} />
           </div>
           )
