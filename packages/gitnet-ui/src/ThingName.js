@@ -9,7 +9,7 @@ export class ThingName extends Component {
       return "Error: No value"
     }
     const {thing, propertyName} = this.props;
-    let name = thing.propertyValues(propertyName)[0].data
-    return name
+    let facts = thing.propertyIdFacts(propertyName)
+    return facts.map(e => e.value().data())[0];
   }
 }

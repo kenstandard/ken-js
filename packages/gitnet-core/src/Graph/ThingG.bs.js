@@ -43,36 +43,6 @@ function isEdgeForFacts(edge) {
     });
 }
 
-var partial_arg$3 = Fact$Reason.Filters[/* withEdge */4];
-
-function partial_arg$4(param) {
-  return partial_arg$3(/* SUBJECT */0, param);
-}
-
-function isSubjectForFacts(param) {
-  return filterFacts(partial_arg$4, param);
-}
-
-var partial_arg$5 = Fact$Reason.Filters[/* withEdge */4];
-
-function partial_arg$6(param) {
-  return partial_arg$5(/* PROPERTY */1, param);
-}
-
-function isPropertyForFacts(param) {
-  return filterFacts(partial_arg$6, param);
-}
-
-var partial_arg$7 = Fact$Reason.Filters[/* withEdge */4];
-
-function partial_arg$8(param) {
-  return partial_arg$7(/* VALUE */2, param);
-}
-
-function isValueForFacts(param) {
-  return filterFacts(partial_arg$8, param);
-}
-
 function filterFactsAndSelectThings(fromEdge, toEdge, t) {
   var partial_arg = t[/* graph */1];
   var partial_arg$1 = Fact$Reason.Filters[/* withEdge */4];
@@ -99,22 +69,14 @@ function connectedSubjectWithId(id, t) {
   return Base$Reason.Thing[/* find */2](id, connectedSubjectThings(t));
 }
 
-function propertyValues(propertyId, t) {
-  return List.map(Fact$Reason.T[/* value */5], Curry._1(Fact$Reason.Filters[/* withProperty */8](propertyId), isSubjectForFacts(t)));
-}
-
 exports.unpackOptionList = unpackOptionList;
 exports.allFacts = allFacts;
 exports.filterFacts = filterFacts;
 exports.facts = facts;
 exports.isEdgeForFacts = isEdgeForFacts;
-exports.isSubjectForFacts = isSubjectForFacts;
-exports.isPropertyForFacts = isPropertyForFacts;
-exports.isValueForFacts = isValueForFacts;
 exports.filterFactsAndSelectThings = filterFactsAndSelectThings;
 exports.connectedPropertyThings = connectedPropertyThings;
 exports.connectedSubjectThings = connectedSubjectThings;
 exports.connectedPropertyWithId = connectedPropertyWithId;
 exports.connectedSubjectWithId = connectedSubjectWithId;
-exports.propertyValues = propertyValues;
 /* Base-Reason Not a pure module */

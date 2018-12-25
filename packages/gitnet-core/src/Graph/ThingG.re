@@ -15,14 +15,6 @@ let filterFacts = (f: (string, list(fact)) => list(fact), t: t) =>
 let facts = filterFacts(Fact.Filters.withIdAsAnyEdge);
 let isEdgeForFacts = edge => filterFacts(Fact.Filters.withEdge(edge));
 
-[@genType]
-let isSubjectForFacts = filterFacts(Fact.Filters.withEdge(SUBJECT));
-[@genType]
-let isPropertyForFacts = filterFacts(Fact.Filters.withEdge(PROPERTY));
-[@genType]
-let isValueForFacts = filterFacts(Fact.Filters.withEdge(VALUE));
-[@genType]
-[@genType]
 /* let  = filterFacts(Fact.Filters.withEdge(VALUE)); */
 /* This doesn't apply if this thing is the value! */
 let filterFactsAndSelectThings = (fromEdge, toEdge, t: t) =>
@@ -40,9 +32,9 @@ let connectedPropertyWithId = (id: string, t: t) =>
 let connectedSubjectWithId = (id: string, t: t) =>
   connectedSubjectThings(t) |> Thing.find(id);
 
-[@genType]
-let propertyValues = (propertyId: string, t: t) =>
-  t
-  |> isSubjectForFacts
-  |> Fact.Filters.withProperty(propertyId)
-  |> List.map(Fact.T.value);
+/* [@genType]
+   let propertyValues = (propertyId: string, t: t) =>
+     t
+     |> isSubjectForFacts
+     |> Fact.Filters.withProperty(propertyId)
+     |> List.map(Fact.T.value); */

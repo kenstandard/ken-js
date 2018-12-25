@@ -115,8 +115,8 @@ export class Thing extends Component {
     const thingId = this.props.match.params.thingId
     let db = main();
     let thing1 = db.findThing(thingId);
-    let name = thing1.propertyValues("p-name")[0].data
-    let description = thing1.propertyValues("p-description")[0].data
+    let name = thing1.propertyIdFacts("p-name").map(e => e.value().data())[0]
+    let description = thing1.propertyIdFacts("p-description").map(e => e.value().data()).data
     let isSubjectForFacts = thing1.isSubjectForFacts().map(fact => ({fact}));
     let isValueForFacts = thing1.isValueForFacts();
     let isValueForFactsByProperty = thing1.isValueForFactsByProperty()

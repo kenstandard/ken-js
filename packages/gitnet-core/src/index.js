@@ -2,7 +2,6 @@ let foo = "bar";
 import {Thing_to_json, Thing_to_jsonr} from "./Graph/Base.gen"
 import * as baseLib from "./Graph/Base.gen"
 import * as graphLib from "./Graph/Graph.gen"
-import * as thingLib from "./Graph/ThingG.gen"
 import * as factLib from "./Graph/Fact.gen"
 import * as converters from "./Converters.gen"
 import * as R from "ramda";
@@ -93,6 +92,9 @@ export class Value {
     json() {
         return factLib.Value_to_json(this.value);
     }
+    data(){
+        return this.json().data
+    }
 }
 
 export class FactList {
@@ -129,7 +131,7 @@ export class Fact {
     }
     thing(edge){
       let thing = graphLib.findThingFromFact(this.db.graph, edge, this.fact);
-      return new Thing(thing, this);
+      return new Thing(thing, this.db);
     }
     property(){
         return this.thing(baseLib.PROPERTY)
@@ -154,28 +156,26 @@ export class Thing {
     id() {
         return this.json().id;
     }
-    propertyValues(id){
-        let tt = thingLib;
-        let ps = converters.list_to_array(thingLib.propertyValues(id, this.thing));
-        return ps.map(e => factLib.Value_to_json(e))
+    propertyIdFacts(id){
+        return this.isEdge("SUBJECT").filter({id: id, edge: "PROPERTY", q: ""}).facts();
     }
     isEdge(edge){
-        return (new FactList(this.db)).filter({id: this.json().id, edge, q: ""}).facts()
+        return (new FactList(this.db)).filter({id: this.json().id, edge, q: ""})
     }
     isSubjectForFacts(){
-        return this.isEdge("SUBJECT")
+        return this.isEdge("SUBJECT").facts()
     }
     isPropertyForFacts(){
-        return this.isEdge("PROPERTY")
+        return this.isEdge("PROPERTY").facts()
     }
     isValueForFacts(){
-        return this.isEdge("VALUE")
+        return this.isEdge("VALUE").facts()
     }
     connectedPropertyThings(){
-        return this.isEdge("SUBJECT").map(f => f.property())
+        return this.isEdge("SUBJECT").facts().map(f => f.property())
     }
     isValueForFactsByProperty(){
-        let facts = (new FactList(this.db)).filter({id: this.json().id, edge: "VALUE", q: ""});
+        let facts = this.isEdge("VALUE");
         let props = facts.facts().map(f => f.property());
         let properties = R.uniqBy(r => r.id(), props);
         let bunch = properties.map(property => ({
@@ -201,6 +201,5 @@ export class Database {
 }
 
 export function main(){
-    // console.log("HI!", start, testData, to_json(start))
     return new Database();
 }
