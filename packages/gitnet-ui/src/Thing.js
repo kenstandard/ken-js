@@ -55,38 +55,28 @@ const expandedRowRender = ({statement}) => {
   );
 };
 
-const InverseStatements = ({property, inverseStatements}) => {
-  const allPropertyIds = _.uniq(_.flatten(inverseStatements.map(s => s.thing().statements().map(i => i.propertyId))));
-  const relevantPropertyIds = allPropertyIds.filter(p => p !== property.id);
-  const columns = relevantPropertyIds.map(id => {
-    const thing = gitnet(jsonData).findThing(id);
-    const name = thing.textValue("p-name");
+const InverseStatements = ({property, facts}) => {
+  let connectedProperties = _.uniqBy(_.flatten(facts.map(f => f.subject()).map(p => p.connectedPropertyThings())), r => r.id())
+  const columns = connectedProperties.map(p => {
+    const name = p.propertyIdFacts("p-name")[0].value().data();
     return {
       title: name,
-      dataIndex: id,
-      key: id,
-      render: (e, r) => {
-        if (id === "p-name"){
-          return <Link to={("/things/" + r.id)}> {e.text} </Link>
+      dataIndex: p.id(),
+      key: p.id(),
+      render: (e, fact) => {
+        let val = fact.subject().propertyIdFacts(p.id())[0].value().data();
+        if (p.id() === "p-name"){
+          return <Link to={("/things/" + fact.subject().id())}> {val} </Link>
         } else {
-          return <Value value={(e)}/>
+          return val
         }
       }
     }
   })
-  const data = inverseStatements.map(s => {
-    const sThing = s.thing();
-    let v = {id: sThing.id};
-    relevantPropertyIds.forEach(id => {
-      v[id] = sThing.formattedValue(id)
-    })
-    return v
-  })
   return (
-  <div>
-      <Table columns={columns} dataSource={data} pagination={false} size="small"/>
-  </div>
+   <Table columns={columns} dataSource={facts} pagination={false} size="small"/>
   )
+
 }
 
 const columns = [
@@ -118,14 +108,7 @@ export class Thing extends Component {
     let name = thing1.propertyIdFacts("p-name").map(e => e.value().data())[0]
     let description = thing1.propertyIdFacts("p-description").map(e => e.value().data()).data
     let isSubjectForFacts = thing1.isSubjectForFacts().map(fact => ({fact}));
-    let isValueForFacts = thing1.isValueForFacts();
     let isValueForFactsByProperty = thing1.isValueForFactsByProperty()
-    console.log('yoyoyo',isValueForFactsByProperty)
-    // let a2 = thing1.isPropertyForFacts();
-    // let a3 = thing1.connectedPropertyThings();
-    // let formatted = thing.statements().map(statement => ({statement}))
-    // let inverseStatements = thing.inverseStatements();
-    // let inverseProperties = thing.inverseProperties();
     return (
       <div className="Noun" key={thingId}>
         <h1>{name}</h1>
@@ -145,7 +128,7 @@ export class Thing extends Component {
           return (
           <div>
             <h2> <ThingName thing={(p.property)} propertyName="p-name"/> List</h2>
-            {/* <InverseStatements property={p} inverseStatements={p.facts}/> */}
+            <InverseStatements property={p.property} facts={(p.facts)} />
           </div>
           )
         })}
