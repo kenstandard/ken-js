@@ -5,6 +5,7 @@ import * as graphLib from "./Graph/Graph.gen"
 import * as thingLib from "./Graph/ThingG.gen"
 import * as factLib from "./Graph/Fact.gen"
 import * as converters from "./Converters.gen"
+import * as R from "ramda";
 // import 
 
 let data =
@@ -123,13 +124,18 @@ export class Fact {
     json() {
         return factLib.T_to_json(this.fact)
     }
-    property(){
-      let thing = graphLib.findThingFromFact(this.db.graph, baseLib.PROPERTY, this.fact);
+    id() {
+        return this.json().id;
+    }
+    thing(edge){
+      let thing = graphLib.findThingFromFact(this.db.graph, edge, this.fact);
       return new Thing(thing, this);
     }
+    property(){
+        return this.thing(baseLib.PROPERTY)
+    }
     subject(){
-      let thing = graphLib.findThingFromFact(this.db.graph, baseLib.SUBJECT, this.fact);
-      return new Thing(thing, this);
+        return this.thing(baseLib.SUBJECT)
     }
     value(){
         return new Value(factLib.T_value(this.fact), this, this.db);
@@ -144,6 +150,9 @@ export class Thing {
     }
     json(){
         return Thing_to_json(this.thing)
+    }
+    id() {
+        return this.json().id;
     }
     propertyValues(id){
         let tt = thingLib;
@@ -165,12 +174,13 @@ export class Thing {
     connectedPropertyThings(){
         return this.isEdge("SUBJECT").map(f => f.property())
     }
-    isSubjectForFactsByProperty(){
-        let properties = this.connectedPropertyThings();
-        let subjectFacts = (new FactList(this.db)).filter({id: this.json().id, edge: "SUBJECT", q: ""});
+    isValueForFactsByProperty(){
+        let facts = (new FactList(this.db)).filter({id: this.json().id, edge: "VALUE", q: ""});
+        let props = facts.facts().map(f => f.property());
+        let properties = R.uniqBy(r => r.id(), props);
         let bunch = properties.map(property => ({
             property: property,
-            facts: subjectFacts.filter({id: property.json().id, edge: "PROPERTY", q: ""}).facts()
+            facts: facts.filter({id: property.json().id, edge: "PROPERTY", q: ""}).facts()
         }))
         return bunch
     }

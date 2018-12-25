@@ -21,6 +21,8 @@
   },
   "dependencies": {
     "@glennsl/bs-json": "^3.0.0",
+    "lodash": "^4.17.11",
+    "ramda": "^0.26.1",
     "rationale": "^0.1.10"
   },
   "jest": {

@@ -119,8 +119,8 @@ export class Thing extends Component {
     let description = thing1.propertyValues("p-description")[0].data
     let isSubjectForFacts = thing1.isSubjectForFacts().map(fact => ({fact}));
     let isValueForFacts = thing1.isValueForFacts();
-    let testing = thing1.isSubjectForFactsByProperty()
-    console.log(testing)
+    let isValueForFactsByProperty = thing1.isValueForFactsByProperty()
+    console.log('yoyoyo',isValueForFactsByProperty)
     // let a2 = thing1.isPropertyForFacts();
     // let a3 = thing1.connectedPropertyThings();
     // let formatted = thing.statements().map(statement => ({statement}))
@@ -141,11 +141,11 @@ export class Thing extends Component {
         <br/>
         <br/>
         <br/>
-        {isValueForFacts.map(p => {
+        {isValueForFactsByProperty.map(p => {
           return (
           <div>
-            <h2> <ThingName thing={(p.property())} propertyName="p-name"/> List</h2>
-            {/* <InverseStatements property={p} inverseStatements={inverseStatements.filter(s => s.propertyId === p.id)}/> */}
+            <h2> <ThingName thing={(p.property)} propertyName="p-name"/> List</h2>
+            {/* <InverseStatements property={p} inverseStatements={p.facts}/> */}
           </div>
           )
         })}
