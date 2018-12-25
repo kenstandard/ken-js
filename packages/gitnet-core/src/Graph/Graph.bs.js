@@ -83,14 +83,14 @@ function findThingFromFact(g, edge, f) {
   return findThing(Fact$Reason.T[/* edgeId */2](edge)(f), g);
 }
 
-var partial_arg = Fact$Reason.T[/* from_json */8];
+var partial_arg = Fact$Reason.T[/* from_json */6];
 
 function from_json(param) {
   return Json_decode.list(partial_arg, param);
 }
 
 function to_json(t) {
-  var facts = $$Array.map(Fact$Reason.T[/* to_json */7], $$Array.of_list(t[/* facts */0]));
+  var facts = $$Array.map(Fact$Reason.T[/* to_json */5], $$Array.of_list(t[/* facts */0]));
   var things = $$Array.map(Base$Reason.Thing[/* to_json */4], $$Array.of_list(t[/* things */1]));
   return Json_encode.object_(/* :: */[
               /* tuple */[

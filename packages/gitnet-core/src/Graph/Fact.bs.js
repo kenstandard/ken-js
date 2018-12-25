@@ -9,7 +9,6 @@ var Json_decode = require("@glennsl/bs-json/src/Json_decode.bs.js");
 var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
 var Config$Reason = require("./Config.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
-var Function$Rationale = require("rationale/src/Function.js");
 
 function to_json(v) {
   switch (v.tag | 0) {
@@ -93,18 +92,6 @@ function edgeId(edge) {
   }
 }
 
-var partial_arg = Function$Rationale.Infix[/* ||> */1];
-
-function hasSubjectId(param) {
-  return partial_arg(subjectId, Base$Reason.isEqual, param);
-}
-
-var partial_arg$1 = Function$Rationale.Infix[/* ||> */1];
-
-function hasPropertyId(param) {
-  return partial_arg$1(propertyId, Base$Reason.isEqual, param);
-}
-
 function value(t) {
   return t[/* value */3];
 }
@@ -154,8 +141,6 @@ var T = /* module */[
   /* subjectId */subjectId,
   /* propertyId */propertyId,
   /* edgeId */edgeId,
-  /* hasSubjectId */hasSubjectId,
-  /* hasPropertyId */hasPropertyId,
   /* value */value,
   /* id */id,
   /* to_json */to_json$1,

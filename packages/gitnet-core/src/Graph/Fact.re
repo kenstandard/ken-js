@@ -40,8 +40,6 @@ module T = {
   let subjectId = t => t.subjectId;
   let propertyId = t => t.propertyId;
   let edgeId = edge => edge == SUBJECT ? subjectId : propertyId;
-  let hasSubjectId = subjectId ||> isEqual;
-  let hasPropertyId = propertyId ||> isEqual;
   [@genType]
   let value = t => t.value;
   let id = (t: t) => t.id;

@@ -31,10 +31,3 @@ let connectedPropertyWithId = (id: string, t: t) =>
 
 let connectedSubjectWithId = (id: string, t: t) =>
   connectedSubjectThings(t) |> Thing.find(id);
-
-/* [@genType]
-   let propertyValues = (propertyId: string, t: t) =>
-     t
-     |> isSubjectForFacts
-     |> Fact.Filters.withProperty(propertyId)
-     |> List.map(Fact.T.value); */

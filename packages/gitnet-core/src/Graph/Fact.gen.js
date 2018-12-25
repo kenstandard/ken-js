@@ -10,9 +10,9 @@ export const Query_IS_NOT = 1;
 
 export const Value_to_json = FactBS.Value[0];
 
-export const T_value = FactBS.T[5];
+export const T_value = FactBS.T[3];
 
-export const T_to_json = FactBS.T[7];
+export const T_to_json = FactBS.T[5];
 
 export const Query_fromJson = FactBS.Query[4];
 

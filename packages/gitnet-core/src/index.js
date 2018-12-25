@@ -27,6 +27,15 @@ let data =
         }
     },
     {
+        "id": "g-2983",
+        "subjectId": "g-2",
+        "propertyId": "p-name",
+        "value": {
+            "dataValue": "string",
+            "data": "Name here!"
+        }
+    },
+    {
         "id": "g-3",
         "subjectId": "n-george",
         "propertyId": "p-best-friend",
@@ -129,6 +138,9 @@ export class Fact {
     id() {
         return this.json().id;
     }
+    internalThing(){
+        return this.db.findThing(this.id())
+    }
     thing(edge){
       let thing = graphLib.findThingFromFact(this.db.graph, edge, this.fact);
       return new Thing(thing, this.db);
@@ -174,8 +186,8 @@ export class Thing {
     connectedPropertyThings(){
         return this.isEdge("SUBJECT").facts().map(f => f.property())
     }
-    isValueForFactsByProperty(){
-        let facts = this.isEdge("VALUE");
+    _byProperty(edge){
+        let facts = this.isEdge(edge);
         let props = facts.facts().map(f => f.property());
         let properties = R.uniqBy(r => r.id(), props);
         let bunch = properties.map(property => ({
@@ -183,6 +195,13 @@ export class Thing {
             facts: facts.filter({id: property.json().id, edge: "PROPERTY", q: ""}).facts()
         }))
         return bunch
+
+    }
+    isSubjectForFactsByProperty(){
+        return this._byProperty("SUBJECT");
+    }
+    isValueForFactsByProperty(){
+        return this._byProperty("VALUE");
     }
 }
 
