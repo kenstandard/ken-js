@@ -26,6 +26,7 @@ let toJs = (s: option('a)) => Option.isSome(s) ? "TRUE" : "FALSE";
 let toJs2 = (s: option('a)) => Js.Nullable.fromOption(s);
 
 let things = g => g.things;
+[@genType]
 let facts = g => g.facts;
 let findFact = id => facts ||> Fact.Filters.find(id);
 [@genType]

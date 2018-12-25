@@ -95,7 +95,7 @@ const columns = [
   dataIndex: 'fact',
   key: 'name',
   render: (s) => (
-    <ThingName thing={(s.property())}/>
+    <ThingName thing={(s.property())} propertyName="p-name"/>
   )
 },
   {
@@ -104,7 +104,7 @@ const columns = [
   key: 'value',
   render: (s) => {
     return (
-    s.value().json().data
+      s.value().json().data
     )
   }
 }
@@ -117,8 +117,10 @@ export class Thing extends Component {
     let thing1 = db.findThing(thingId);
     let name = thing1.propertyValues("p-name")[0].data
     let description = thing1.propertyValues("p-description")[0].data
-    // let thing = gitnet(jsonData).findThing(thingId);
-    let formatted = thing1.isSubjectForFacts().map(fact => ({fact}));
+    let isSubjectForFacts = thing1.isSubjectForFacts().map(fact => ({fact}));
+    let isValueForFacts = thing1.isValueForFacts();
+    let testing = thing1.isSubjectForFactsByProperty()
+    console.log(testing)
     // let a2 = thing1.isPropertyForFacts();
     // let a3 = thing1.connectedPropertyThings();
     // let formatted = thing.statements().map(statement => ({statement}))
@@ -132,22 +134,22 @@ export class Thing extends Component {
         <br/>
         <br/>
         <h2> Properties </h2>
-        <Table columns={columns} dataSource={formatted} pagination={false} size="small"
+        <Table columns={columns} dataSource={isSubjectForFacts} pagination={false} size="small"
             key={thingId}
               expandedRowRender={expandedRowRender}
         />
         <br/>
         <br/>
         <br/>
-        {/* {inverseProperties.map(p => {
+        {isValueForFacts.map(p => {
           return (
           <div>
-            <h2> {p.textValue("p-inverse-name")} List</h2>
-            <InverseStatements property={p} inverseStatements={inverseStatements.filter(s => s.propertyId === p.id)}/>
+            <h2> <ThingName thing={(p.property())} propertyName="p-name"/> List</h2>
+            {/* <InverseStatements property={p} inverseStatements={inverseStatements.filter(s => s.propertyId === p.id)}/> */}
           </div>
           )
         })}
-        <TableShow thingId={thingId}/> */}
+        {/* // <TableShow thingId={thingId}/>} */}
       </div>
     );
   }

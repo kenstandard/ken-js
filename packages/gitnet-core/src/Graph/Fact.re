@@ -66,10 +66,12 @@ module T = {
 };
 
 module Query = {
+  [@genType.opaque]
   type condition =
     | IS
     | IS_NOT;
 
+  [@genType.opaque]
   type t = {
     edge,
     id: string,
@@ -81,50 +83,79 @@ module Query = {
     switch (q.edge) {
     | SUBJECT => equality(f.subjectId)
     | PROPERTY => equality(f.propertyId)
+    | VALUE =>
+      switch (f.value) {
+      | ThingId(id) => equality(id)
+      | _ => q.q != IS
+      }
     };
   };
 
-  let qOr = (q1: t, q2: t, f: fact) => run(q1, f) || run(q2, f);
-  let qAnd = (q1: t, q2: t, f: fact) => run(q1, f) && run(q2, f);
+  let qOr = (qs: list(t), f: fact) => List.exists(q => run(q, f), qs);
+  let qAnd = (qs: list(t), f: fact) => List.for_all(q => run(q, f), qs);
+
+  let item_from_json = i => {
+    open Json.Decode;
+    let id = i |> field("id", string);
+    let _q = i |> field("q", string);
+    let _edge = i |> field("edge", string);
+    {
+      id,
+      q:
+        switch (_q) {
+        | "IS_NOT" => IS_NOT
+        | _ => IS
+        },
+      edge:
+        switch (_edge) {
+        | "VALUE" => VALUE
+        | "PROPERTY" => PROPERTY
+        | _ => SUBJECT
+        },
+    };
+  };
+  [@genType]
+  let fromJson = (t: Js.Json.t) => t |> item_from_json;
 };
 
 module Filters = {
+  [@genType.opaque]
   type t = list(fact);
+
+  [@genType]
   let query = (q: Query.t, t) => t |> List.filter(Query.run(q));
+
   let find = (id, t) => t |> RList.find((e: fact) => e.id == id);
   let filter = List.filter;
 
-  let withEdge = (edge, id) => filter(Query.run({edge, q: Query.IS, id}));
-
-  let withoutEdge = (edge, id) =>
-    filter(Query.run({edge, q: Query.IS_NOT, id}));
-
-  let withSubject = id =>
-    filter(Query.run({edge: SUBJECT, q: Query.IS, id}));
-
-  let withoutSubject = id =>
-    filter(Query.run({edge: SUBJECT, q: Query.IS_NOT, id}));
-
-  let withProperty = id =>
-    filter(Query.run({edge: PROPERTY, q: Query.IS, id}));
-
+  [@genType]
+  let withQuery = query => filter(Query.run(query));
+  let withEdge = (edge, id) => withQuery({edge, q: Query.IS, id});
+  let withoutEdge = (edge, id) => withQuery({edge, q: Query.IS_NOT, id});
+  let withSubject = id => withQuery({edge: SUBJECT, q: Query.IS, id});
+  let withoutSubject = id => withQuery({edge: SUBJECT, q: Query.IS_NOT, id});
+  let withProperty = id => withQuery({edge: PROPERTY, q: Query.IS, id});
   let withoutProperty = id =>
-    filter(Query.run({edge: PROPERTY, q: Query.IS_NOT, id}));
+    withQuery({edge: PROPERTY, q: Query.IS_NOT, id});
+  let withValue = id => withQuery({edge: VALUE, q: Query.IS, id});
+  let withoutValue = id => withQuery({edge: VALUE, q: Query.IS_NOT, id});
 
   let withIdAsAnyEdge = id =>
     filter(
-      Query.qOr(
+      Query.qOr([
         {edge: SUBJECT, q: Query.IS, id},
         {edge: PROPERTY, q: Query.IS, id},
-      ),
+        {edge: VALUE, q: Query.IS, id},
+      ]),
     );
 
   let withIdAsNoEdge = id =>
     filter(
-      Query.qOr(
+      Query.qAnd([
         {edge: SUBJECT, q: Query.IS_NOT, id},
         {edge: PROPERTY, q: Query.IS_NOT, id},
-      ),
+        {edge: VALUE, q: Query.IS_NOT, id},
+      ]),
     );
 };
 

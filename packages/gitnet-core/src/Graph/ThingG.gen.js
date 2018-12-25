@@ -6,6 +6,8 @@ export const isSubjectForFacts = ThingGBS.isSubjectForFacts;
 
 export const isPropertyForFacts = ThingGBS.isPropertyForFacts;
 
+export const isValueForFacts = ThingGBS.isValueForFacts;
+
 export const filterFactsAndSelectThings = ThingGBS.filterFactsAndSelectThings;
 
 export const propertyValues = ThingGBS.propertyValues;

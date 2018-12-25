@@ -27,6 +27,33 @@ let data =
         }
     },
     {
+        "id": "g-3",
+        "subjectId": "n-george",
+        "propertyId": "p-best-friend",
+        "value": {
+            "dataValue": "thingId",
+            "data": "n-geoff"
+        }
+    },
+    {
+        "id": "g-4",
+        "subjectId": "n-geoff",
+        "propertyId": "p-name",
+        "value": {
+            "dataValue": "string",
+            "data": "Geoff"
+        }
+    },
+    {
+        "id": "g-5",
+        "subjectId": "n-geoff",
+        "propertyId": "p-description",
+        "value": {
+            "dataValue": "string",
+            "data": "Geoff!!"
+        }
+    },
+    {
         "id": "p-0",
         "subjectId": "p-name",
         "propertyId": "p-name",
@@ -43,6 +70,15 @@ let data =
             "dataValue": "string",
             "data": "Description"
         }
+    },
+    {
+        "id": "p-2",
+        "subjectId": "p-best-friend",
+        "propertyId": "p-name",
+        "value": {
+            "dataValue": "string",
+            "data": "Best Friend"
+        }
     }
 ]
 
@@ -55,6 +91,26 @@ export class Value {
     }
     json() {
         return factLib.Value_to_json(this.value);
+    }
+}
+
+export class FactList {
+    constructor(db, factList=[]){
+        this.db = db;
+        this.factList = factList;
+        return this;
+    }
+    filter(query){
+        if (this.factList.length == 0){
+            this.factList = graphLib.facts(this.db.graph);
+        }
+        let _query = factLib.Query_fromJson(query);
+        let list = factLib.Filters_query(_query,this.factList)
+        return (new FactList(this.db, list))
+    }
+    facts(){
+        let ps = converters.list_to_array(this.factList);
+        return ps.map(e => new Fact(e, this.db))
     }
 }
 
@@ -94,17 +150,29 @@ export class Thing {
         let ps = converters.list_to_array(thingLib.propertyValues(id, this.thing));
         return ps.map(e => factLib.Value_to_json(e))
     }
-    connectedPropertyThings(){
-        let ps = converters.list_to_array(thingLib.filterFactsAndSelectThings(baseLib.SUBJECT, baseLib.PROPERTY, this.thing))
-        return ps.map(e => new Thing(e, this.db))
+    isEdge(edge){
+        return (new FactList(this.db)).filter({id: this.json().id, edge, q: ""}).facts()
     }
     isSubjectForFacts(){
-        let ps = converters.list_to_array(thingLib.isSubjectForFacts(this.thing))
-        return ps.map(e => new Fact(e, this.db))
+        return this.isEdge("SUBJECT")
     }
     isPropertyForFacts(){
-        let ps = converters.list_to_array(thingLib.isPropertyForFacts(this.thing))
-        return ps.map(e => new Fact(e, this.db))
+        return this.isEdge("PROPERTY")
+    }
+    isValueForFacts(){
+        return this.isEdge("VALUE")
+    }
+    connectedPropertyThings(){
+        return this.isEdge("SUBJECT").map(f => f.property())
+    }
+    isSubjectForFactsByProperty(){
+        let properties = this.connectedPropertyThings();
+        let subjectFacts = (new FactList(this.db)).filter({id: this.json().id, edge: "SUBJECT", q: ""});
+        let bunch = properties.map(property => ({
+            property: property,
+            facts: subjectFacts.filter({id: property.json().id, edge: "PROPERTY", q: ""}).facts()
+        }))
+        return bunch
     }
 }
 

@@ -8,8 +8,8 @@ export class ThingName extends Component {
     if (!this.props.thing){
       return "Error: No value"
     }
-    const {thing} = this.props;
-    let name = thing.propertyValues("p-name")[0].data
+    const {thing, propertyName} = this.props;
+    let name = thing.propertyValues(propertyName)[0].data
     return name
   }
 }

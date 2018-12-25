@@ -10,7 +10,6 @@ var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
 var Config$Reason = require("./Config.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
 var Function$Rationale = require("rationale/src/Function.js");
-var Caml_builtin_exceptions = require("bs-platform/lib/js/caml_builtin_exceptions.js");
 
 function to_json(v) {
   switch (v.tag | 0) {
@@ -184,38 +183,62 @@ function run(q, f) {
     case 1 : 
         return Curry._1(equality, f[/* propertyId */2]);
     case 2 : 
-        throw [
-              Caml_builtin_exceptions.match_failure,
-              /* tuple */[
-                "Fact.re",
-                81,
-                4
-              ]
-            ];
+        var match$2 = f[/* value */3];
+        switch (match$2.tag | 0) {
+          case 0 : 
+              return Curry._1(equality, match$2[0]);
+          case 1 : 
+          case 2 : 
+              return q[/* q */2] !== /* IS */0;
+          
+        }
     
   }
 }
 
-function qOr(q1, q2, f) {
-  if (run(q1, f)) {
-    return true;
-  } else {
-    return run(q2, f);
-  }
+function qOr(qs, f) {
+  return List.exists((function (q) {
+                return run(q, f);
+              }), qs);
 }
 
-function qAnd(q1, q2, f) {
-  if (run(q1, f)) {
-    return run(q2, f);
-  } else {
-    return false;
-  }
+function qAnd(qs, f) {
+  return List.for_all((function (q) {
+                return run(q, f);
+              }), qs);
 }
+
+function item_from_json(i) {
+  var id = Json_decode.field("id", Json_decode.string, i);
+  var _q = Json_decode.field("q", Json_decode.string, i);
+  var _edge = Json_decode.field("edge", Json_decode.string, i);
+  var tmp;
+  switch (_edge) {
+    case "PROPERTY" : 
+        tmp = /* PROPERTY */1;
+        break;
+    case "VALUE" : 
+        tmp = /* VALUE */2;
+        break;
+    default:
+      tmp = /* SUBJECT */0;
+  }
+  var tmp$1 = _q === "IS_NOT" ? /* IS_NOT */1 : /* IS */0;
+  return /* record */[
+          /* edge */tmp,
+          /* id */id,
+          /* q */tmp$1
+        ];
+}
+
+var fromJson = item_from_json;
 
 var Query = /* module */[
   /* run */run,
   /* qOr */qOr,
-  /* qAnd */qAnd
+  /* qAnd */qAnd,
+  /* item_from_json */item_from_json,
+  /* fromJson */fromJson
 ];
 
 function query(q, t) {
@@ -228,6 +251,12 @@ function find(id, t) {
   return RList$Rationale.find((function (e) {
                 return e[/* id */0] === id;
               }), t);
+}
+
+function withQuery(query) {
+  return List.filter((function (param) {
+                return run(query, param);
+              }));
 }
 
 function withEdge(edge, id) {
@@ -296,35 +325,85 @@ function withoutProperty(id) {
               }));
 }
 
-function withIdAsAnyEdge(id) {
+function withValue(id) {
   var partial_arg = /* record */[
-    /* edge : PROPERTY */1,
-    /* id */id,
-    /* q : IS */0
-  ];
-  var partial_arg$1 = /* record */[
-    /* edge : SUBJECT */0,
+    /* edge : VALUE */2,
     /* id */id,
     /* q : IS */0
   ];
   return List.filter((function (param) {
-                return qOr(partial_arg$1, partial_arg, param);
+                return run(partial_arg, param);
+              }));
+}
+
+function withoutValue(id) {
+  var partial_arg = /* record */[
+    /* edge : VALUE */2,
+    /* id */id,
+    /* q : IS_NOT */1
+  ];
+  return List.filter((function (param) {
+                return run(partial_arg, param);
+              }));
+}
+
+function withIdAsAnyEdge(id) {
+  var partial_arg_000 = /* record */[
+    /* edge : SUBJECT */0,
+    /* id */id,
+    /* q : IS */0
+  ];
+  var partial_arg_001 = /* :: */[
+    /* record */[
+      /* edge : PROPERTY */1,
+      /* id */id,
+      /* q : IS */0
+    ],
+    /* :: */[
+      /* record */[
+        /* edge : VALUE */2,
+        /* id */id,
+        /* q : IS */0
+      ],
+      /* [] */0
+    ]
+  ];
+  var partial_arg = /* :: */[
+    partial_arg_000,
+    partial_arg_001
+  ];
+  return List.filter((function (param) {
+                return qOr(partial_arg, param);
               }));
 }
 
 function withIdAsNoEdge(id) {
-  var partial_arg = /* record */[
-    /* edge : PROPERTY */1,
-    /* id */id,
-    /* q : IS_NOT */1
-  ];
-  var partial_arg$1 = /* record */[
+  var partial_arg_000 = /* record */[
     /* edge : SUBJECT */0,
     /* id */id,
     /* q : IS_NOT */1
   ];
+  var partial_arg_001 = /* :: */[
+    /* record */[
+      /* edge : PROPERTY */1,
+      /* id */id,
+      /* q : IS_NOT */1
+    ],
+    /* :: */[
+      /* record */[
+        /* edge : VALUE */2,
+        /* id */id,
+        /* q : IS_NOT */1
+      ],
+      /* [] */0
+    ]
+  ];
+  var partial_arg = /* :: */[
+    partial_arg_000,
+    partial_arg_001
+  ];
   return List.filter((function (param) {
-                return qOr(partial_arg$1, partial_arg, param);
+                return qAnd(partial_arg, param);
               }));
 }
 
@@ -332,12 +411,15 @@ var Filters = /* module */[
   /* query */query,
   /* find */find,
   /* filter */List.filter,
+  /* withQuery */withQuery,
   /* withEdge */withEdge,
   /* withoutEdge */withoutEdge,
   /* withSubject */withSubject,
   /* withoutSubject */withoutSubject,
   /* withProperty */withProperty,
   /* withoutProperty */withoutProperty,
+  /* withValue */withValue,
+  /* withoutValue */withoutValue,
   /* withIdAsAnyEdge */withIdAsAnyEdge,
   /* withIdAsNoEdge */withIdAsNoEdge
 ];
