@@ -6,7 +6,7 @@ import {ThingProperty} from "./ThingProperty"
 export class Value extends Component {
   render() {
     if (!this.props.fact){
-      return "Error: No value"
+      return ""
     }
     let value = this.props.fact.value();
     let type = value.dataType();

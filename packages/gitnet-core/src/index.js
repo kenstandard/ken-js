@@ -220,6 +220,9 @@ export class Database {
       let thing = graphLib.findThing(id, this.graph);
       return new Thing(thing, this);
     }
+    things(){
+        return converters.list_to_array(graphLib.things(this.graph)).map(t => new Thing(t, this))
+    }
     json(){
         return graphLib.to_json(this.graph)
     }

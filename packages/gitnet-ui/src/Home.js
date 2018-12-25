@@ -4,6 +4,7 @@ import _ from "lodash";
 import { Link } from 'react-router-dom';
 import gitnet from "../node_modules/gitnet-js/dist/main.js";
 import {Value} from "./Value";
+import {db} from "./gitnet";
 
 import jsonData from "./data.json"
 
@@ -26,25 +27,13 @@ const columns = [
   dataIndex: 'instanceOf',
   key: 'instanceOf',
 },
-  {
-  title: 'Inverse Name',
-  dataIndex: 'inverseName',
-  key: 'inverseName',
-},
-  {
-  title: 'Data Type',
-  dataIndex: 'dataType',
-  key: 'data-type',
-},
 ]
 
-const transformedData = gitnet(jsonData).things.filter(t => t.textValue("p-name").length > 0).map(t => {
+const transformedData = db.things().filter(t => t.propertyIdFacts("p-name").length > 0).map(t => {
   return {
-    id: t.id,
-    name: <Value value={t.formattedValue("p-name")}/>,
-    inverseName: <Value value={t.formattedValue("p-inverse-name")}/>,
-    instanceOf: <Value value={t.formattedValue("p-instance-of")}/>,
-    dataType: <Value value={t.formattedValue("p-data-type")}/>
+    id: t.id(),
+    name: <Value fact={t.propertyIdFacts("p-name")[0]}/>,
+    instanceOf: <Value fact={t.propertyIdFacts("p-instance-of")[0]}/>,
   }
 });
 

@@ -6,6 +6,8 @@ export const toJs = function _(Arg1) { const result = GraphBS.toJs((Arg1 == null
 
 export const toJs2 = function _(Arg1) { const result = GraphBS.toJs2((Arg1 == null ? undefined : Arg1)); return result };
 
+export const things = GraphBS.things;
+
 export const facts = GraphBS.facts;
 
 export const findThing = GraphBS.findThing;

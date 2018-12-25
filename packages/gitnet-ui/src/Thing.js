@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import gitnet from "../node_modules/gitnet-js/dist/main.js";
-import {main} from "../node_modules/gitnet-core/src/index.js";
+import {db} from "./gitnet";
 import { Table, Divider, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import {Value} from "./Value";
@@ -100,7 +100,6 @@ const columns = [
 export class Thing extends Component {
   render() {
     const thingId = this.props.match.params.thingId
-    let db = main();
     let thing = db.findThing(thingId);
     let name = thing.propertyIdFacts("p-name").map(e => e.value().data())[0]
     let description = thing.propertyIdFacts("p-description").map(e => e.value().data()).data
