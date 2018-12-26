@@ -3,18 +3,12 @@ open Jest;
 open Expect;
 
 module Importer1 = {
-  type longVal = {
-    id: option(string),
-    value: option(string),
-    json: option(Js.Json.t),
-  };
-
   type value =
     | String(string)
-    | Array(array(string))
-    | Json(longVal);
+    | Array(array(string));
 
   type fact = {
+    id: option(string),
     p: string,
     v: value,
   };
@@ -25,21 +19,21 @@ module Importer1 = {
     templates: array(string),
   };
 
-  let valueJsonDecoder = json =>
-    Json.Decode.{
-      id: json |> optional(field("id", string)),
-      value: json |> optional(field("value", string)),
-      json: None,
-    };
-
-  let valueDecoder = json =>
+  let factDecoder = (p, json) =>
     switch (json |> Js.Json.classify) {
-    | JSONString(_) => String(json |> Json.Decode.string)
-    | JSONObject(_) => Json(json |> valueJsonDecoder)
-    | JSONArray(rs) => Array(rs |> Array.map(Json.Decode.string))
-    | _ => String("Couldn't find")
+    | JSONString(_) => {p, v: String(json |> Json.Decode.string), id: None}
+    | JSONObject(_) => {
+        p,
+        v: String(json |> Json.Decode.field("value", Json.Decode.string)),
+        id: Some("sddf"),
+      }
+    | JSONArray(rs) => {
+        p,
+        v: Array(rs |> Array.map(Json.Decode.string)),
+        id: None,
+      }
+    | _ => {p, id: None, v: String("Couldn't find")}
     };
-  /* json |>  Json.Decode.dict(Json.Decode.string) */
 
   let propertyDecoder = json => {
     let banned = ["templates"];
@@ -50,7 +44,7 @@ module Importer1 = {
     let toFact = id => {
       let _value =
         Js.Dict.get(thing0, id) |> Rationale.Option.toExn("Parse Error");
-      {p: id, v: _value |> valueDecoder};
+      factDecoder(id, _value);
     };
 
     let nonTemplateKeys =
@@ -80,7 +74,6 @@ let toFacts = (ts: array(Importer1.thing)) => {
     switch (v) {
     | String(s) => [|s|]
     | Array(r) => r
-    | Json(l) => [|"sdfsdf"|]
     };
   ts
   |> Array.map((thing: Importer1.thing) =>
@@ -91,10 +84,11 @@ let toFacts = (ts: array(Importer1.thing)) => {
             |> Array.map((value: string) =>
                  (
                    {
-                     id: "sdfsdf",
+                     id: fact.id |> Rationale.Option.default("null-id"),
                      subjectId: thing.id,
                      propertyId: fact.p,
                      value: Base.String(value),
+                     idIsPublic: false,
                    }: Base.fact
                  )
                )
@@ -110,7 +104,7 @@ let value =
       {"foobar": {
         "p-name": "Fred",
         "p-test": ["sdf", "sdfsdf", "sdfsdf"],
-        "p-description": "George"
+        "p-description": {"id": "sdf", "value": "sdffsd"}
       }
     }
    |},
@@ -118,7 +112,6 @@ let value =
 
 describe("#to_json", () =>
   test("works", () => {
-    /* js.log(id |> to_json |> js.json.stringify); */
     let foo =
       value
       |> Importer1.decode
@@ -128,7 +121,6 @@ describe("#to_json", () =>
       |> Graph.to_json;
     Js.log("SUCCSS");
     Js.log(foo);
-    /* let bar = value |> propertyDecoder; */
     expect(true) |> toEqual(true);
   })
 );

@@ -17,6 +17,7 @@ type fact = {
   subjectId: string,
   propertyId: string,
   value,
+  idIsPublic: bool,
 };
 
 [@genType.opaque]

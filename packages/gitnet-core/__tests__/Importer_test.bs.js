@@ -13,32 +13,40 @@ var Graph$Reason = require("../src/Graph/Graph.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
 var Option$Rationale = require("rationale/src/Option.js");
 
-function valueJsonDecoder(json) {
-  return /* record */[
-          /* id */Json_decode.optional((function (param) {
-                  return Json_decode.field("id", Json_decode.string, param);
-                }), json),
-          /* value */Json_decode.optional((function (param) {
-                  return Json_decode.field("value", Json_decode.string, param);
-                }), json),
-          /* json */undefined
-        ];
-}
-
-function valueDecoder(json) {
+function factDecoder(p, json) {
   var match = Js_json.classify(json);
   if (typeof match === "number") {
-    return /* String */Block.__(0, ["Couldn't find"]);
+    return /* record */[
+            /* id */undefined,
+            /* p */p,
+            /* v : String */Block.__(0, ["Couldn't find"])
+          ];
   } else {
     switch (match.tag | 0) {
       case 0 : 
-          return /* String */Block.__(0, [Json_decode.string(json)]);
+          return /* record */[
+                  /* id */undefined,
+                  /* p */p,
+                  /* v : String */Block.__(0, [Json_decode.string(json)])
+                ];
       case 2 : 
-          return /* Json */Block.__(2, [valueJsonDecoder(json)]);
+          return /* record */[
+                  /* id */"sddf",
+                  /* p */p,
+                  /* v : String */Block.__(0, [Json_decode.field("value", Json_decode.string, json)])
+                ];
       case 3 : 
-          return /* Array */Block.__(1, [$$Array.map(Json_decode.string, match[0])]);
+          return /* record */[
+                  /* id */undefined,
+                  /* p */p,
+                  /* v : Array */Block.__(1, [$$Array.map(Json_decode.string, match[0])])
+                ];
       default:
-        return /* String */Block.__(0, ["Couldn't find"]);
+        return /* record */[
+                /* id */undefined,
+                /* p */p,
+                /* v : String */Block.__(0, ["Couldn't find"])
+              ];
     }
   }
 }
@@ -47,10 +55,7 @@ function propertyDecoder(json) {
   var thing0 = Option$Rationale.toExn("Parse Error", Js_json.decodeObject(json));
   var toFact = function (id) {
     var _value = Option$Rationale.toExn("Parse Error", Js_dict.get(thing0, id));
-    return /* record */[
-            /* p */id,
-            /* v */valueDecoder(_value)
-          ];
+    return factDecoder(id, _value);
   };
   var nonTemplateKeys = $$Array.of_list(RList$Rationale.without(/* :: */[
             "templates",
@@ -71,39 +76,35 @@ function decode(json) {
 }
 
 var Importer1 = /* module */[
-  /* valueJsonDecoder */valueJsonDecoder,
-  /* valueDecoder */valueDecoder,
+  /* factDecoder */factDecoder,
   /* propertyDecoder */propertyDecoder,
   /* decode */decode
 ];
 
 function toFacts(ts) {
   var valueToValues = function (v) {
-    switch (v.tag | 0) {
-      case 0 : 
-          return /* array */[v[0]];
-      case 1 : 
-          return v[0];
-      case 2 : 
-          return /* array */["sdfsdf"];
-      
+    if (v.tag) {
+      return v[0];
+    } else {
+      return /* array */[v[0]];
     }
   };
   return Belt_Array.concatMany(Belt_Array.concatMany($$Array.map((function (thing) {
                         return $$Array.map((function (fact) {
                                       return $$Array.map((function (value) {
                                                     return /* record */[
-                                                            /* id */"sdfsdf",
+                                                            /* id */Option$Rationale.$$default("null-id", fact[/* id */0]),
                                                             /* subjectId */thing[/* id */0],
-                                                            /* propertyId */fact[/* p */0],
-                                                            /* value : String */Block.__(1, [value])
+                                                            /* propertyId */fact[/* p */1],
+                                                            /* value : String */Block.__(1, [value]),
+                                                            /* idIsPublic */false
                                                           ];
-                                                  }), valueToValues(fact[/* v */1]));
+                                                  }), valueToValues(fact[/* v */2]));
                                     }), thing[/* facts */1]);
                       }), ts)));
 }
 
-var value = Json.parseOrRaise("\n      {\"foobar\": {\n        \"p-name\": \"Fred\",\n        \"p-test\": [\"sdf\", \"sdfsdf\", \"sdfsdf\"],\n        \"p-description\": \"George\"\n      }\n    }\n   ");
+var value = Json.parseOrRaise("\n      {\"foobar\": {\n        \"p-name\": \"Fred\",\n        \"p-test\": [\"sdf\", \"sdfsdf\", \"sdfsdf\"],\n        \"p-description\": {\"id\": \"sdf\", \"value\": \"sdffsd\"}\n      }\n    }\n   ");
 
 describe("#to_json", (function () {
         return Jest.test("works", (function (param) {

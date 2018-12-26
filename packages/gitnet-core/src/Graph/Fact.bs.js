@@ -133,7 +133,8 @@ function from_json$1(t) {
           /* id */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* id */0], Json_decode.string, t),
           /* subjectId */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* subjectId */1], Json_decode.string, t),
           /* propertyId */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* propertyId */2], Json_decode.string, t),
-          /* value */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* value */3], from_json, t)
+          /* value */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* value */3], from_json, t),
+          /* idIsPublic */true
         ];
 }
 

@@ -60,6 +60,7 @@ module T = {
       subjectId: t |> field(FactJson.Fields.subjectId, string),
       propertyId: t |> field(FactJson.Fields.propertyId, string),
       value: t |> field(FactJson.Fields.value, Value.from_json),
+      idIsPublic: true,
     };
 };
 
