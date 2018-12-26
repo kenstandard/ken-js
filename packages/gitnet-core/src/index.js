@@ -5,7 +5,6 @@ import * as graphLib from "./Graph/Graph.gen"
 import * as factLib from "./Graph/Fact.gen"
 import * as converters from "./Converters.gen"
 import * as R from "ramda";
-// import 
 
 let data =
       [{

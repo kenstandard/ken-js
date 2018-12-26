@@ -9,8 +9,8 @@ var textValue2 = Json.parseOrRaise("\n      [{\n        \"id\": \"g-1\",\n      
 
 describe("#to_json", (function () {
         return Jest.test("works", (function (param) {
-                      var id = Graph$Reason.load(textValue2);
-                      console.log(JSON.stringify(Graph$Reason.to_json(id)));
+                      Graph$Reason.load(textValue2);
+                      console.log("HI");
                       return Jest.Expect[/* toEqual */12](true, Jest.Expect[/* expect */0](true));
                     }));
       }));
