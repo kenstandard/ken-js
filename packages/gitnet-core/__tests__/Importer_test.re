@@ -16,6 +16,8 @@ module Importer1 = {
   type fact = {
     id: option(string),
     p: string,
+    baseId: string,
+    resourceId: string,
     v: value,
   };
 
@@ -25,31 +27,36 @@ module Importer1 = {
     templates: array(string),
   };
 
-  type graph = {
-    things: array(thing),
-    bases: list(Base.base),
-  };
-
-  let factDecoder = (p, json) =>
+  let factDecoder = (p, json, baseId, resourceId) =>
     switch (json |> Js.Json.classify) {
-    | JSONString(_) => {p, v: String(json |> Json.Decode.string), id: None}
+    | JSONString(_) => {
+        p,
+        v: String(json |> Json.Decode.string),
+        id: None,
+        baseId,
+        resourceId,
+      }
     | JSONObject(_) => {
         p,
         v: String(json |> Json.Decode.field("value", Json.Decode.string)),
         id: Some("sddf"),
+        baseId,
+        resourceId,
       }
     | JSONArray(rs) => {
         p,
         v: Array(rs |> Array.map(Json.Decode.string)),
         id: None,
+        baseId,
+        resourceId,
       }
-    | _ => {p, id: None, v: String("Couldn't find")}
+    | _ => {p, id: None, v: String("Couldn't find"), baseId, resourceId}
     };
 
   let filterArray = (filter, ar) =>
     ar |> Array.to_list |> filter |> Array.of_list;
 
-  let propertyDecoder = json => {
+  let propertyDecoder = (json, baseId, resourceId) => {
     let filteredFactKeys = ["templates"];
 
     let thing0 =
@@ -58,7 +65,7 @@ module Importer1 = {
     let toFact = id => {
       let _value =
         Js.Dict.get(thing0, id) |> Rationale.Option.toExn("Parse Error");
-      factDecoder(id, _value);
+      factDecoder(id, _value, baseId, resourceId);
     };
 
     let nonTemplateKeys =
@@ -75,8 +82,8 @@ module Importer1 = {
       e |> fn |> Rationale.RList.contains(_, list) |> (e => !e)
     );
 
-  let decode = json => {
-    let filteredFactKeys = ["meta"];
+  let decodeBase = json => {
+    let filteredFactKeys = ["baseId", "resourceId"];
 
     let entries =
       json
@@ -85,21 +92,28 @@ module Importer1 = {
       |> Js.Dict.entries
       |> Array.to_list;
     open Json.Decode;
-    let baseId = json |> field("meta", field("base", field("id", string)));
+    let baseId = json |> field("baseId", string);
+    let resourceId = json |> field("baseId", string);
     let things =
       entries
       |> removeIfInList(filteredFactKeys, ((k, _)) => k)
       |> List.map(((key, value)) =>
-           {id: key, facts: propertyDecoder(value), templates: [||]}
+           {
+             id: key,
+             facts: propertyDecoder(value, baseId, resourceId),
+             templates: [||],
+           }
          );
-    {
-      things: things |> Array.of_list,
-      bases: [{id: baseId, parentBaseId: None}],
-    };
+    things |> Array.of_list;
   };
+
+  let decode = json =>
+    Json.Decode.(
+      json |> Json.Decode.array(decodeBase) |> Belt.Array.concatMany
+    );
 };
 
-let toGraph = (graph: Importer1.graph) => {
+let toGraph = (things: array(Importer1.thing)) => {
   let valueToValues = (v: Importer1.value) =>
     switch (v) {
     | String(s) => [|s|]
@@ -107,7 +121,7 @@ let toGraph = (graph: Importer1.graph) => {
     };
 
   let things =
-    graph.things
+    things
     |> Array.to_list
     |> List.map((thing: Importer1.thing) =>
          thing.facts
@@ -117,18 +131,22 @@ let toGraph = (graph: Importer1.graph) => {
               |> Array.map((value: string) =>
                    (
                      {
-                       id: fact.id |> Rationale.Option.default("null-id"),
+                       id:
+                         fact.id
+                         |> Rationale.Option.default(
+                              SecureRandomString.genSync(
+                                ~length=8,
+                                ~alphaNumeric=true,
+                                (),
+                              ),
+                            ),
                        subjectId: thing.id,
                        propertyId: fact.p,
                        value: Base.String(value),
-                       idIsPublic: false,
-                       baseId:
-                         graph.bases
-                         |> Belt.List.get(_, 0)
-                         |> Rationale.Option.toExn(
-                              "Needs at least one graph base",
-                            )
-                         |> ((b: Base.base) => b.id),
+                       idIsPublic:
+                         fact.id |> Rationale.Option.isSome ? true : false,
+                       baseId: fact.baseId,
+                       resourceId: fact.resourceId,
                      }: Base.fact
                    )
                  )
@@ -139,24 +157,35 @@ let toGraph = (graph: Importer1.graph) => {
     |> Belt.Array.concatMany
     |> Array.to_list;
 
-  Graph.from_facts(things, graph.bases);
+  Graph.from_facts(things);
 };
 
 let value =
   Json.parseOrRaise(
     {|
-      {
-    "meta": {
-        "base":{
-          "id": "my-cool-base"
-        }
-      },
+      [{
+        "resourceId": "111",
+        "baseId":"1",
         "n-fred": {
           "p-name": "Fred",
           "p-test": ["sdf", "sdfsdf", "sdfsdf"],
           "p-description": {"id": "sdf", "value": "sdffsd"}
         }
-    }
+      },
+      {
+        "resourceId": "111",
+        "baseId":"2",
+        "n-george": {
+          "p-name": "George",
+          "p-test": ["sdf", "sdfsdf", "sdfsdf"],
+          "p-description": {"id": "sdf", "value": "sdffsd"}
+        },
+        "n-jeremy": {
+          "p-name": "George",
+          "p-test": ["sdf", "sdfsdf", "sdfsdf"],
+          "p-description": {"id": "sdf", "value": "sdffsd"}
+        }
+      }]
    |},
   );
 

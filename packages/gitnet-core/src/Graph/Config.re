@@ -18,6 +18,8 @@ module FactJson = {
     let propertyId = "propertyId";
     let value = "value";
     let baseId = "baseId";
+    let resourceId = "resourceId";
+    let idIsPublic = "idIsPublic";
   };
 };
 

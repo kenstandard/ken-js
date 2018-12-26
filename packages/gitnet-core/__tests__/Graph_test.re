@@ -77,7 +77,6 @@ let textValue2 =
 
 describe("#to_json", () =>
   test("works", () => {
-    let id = textValue2 |> load;
     /* Js.log(id |> to_json |> Js.Json.stringify); */
     Js.log("HI");
     expect(true) |> toEqual(true);

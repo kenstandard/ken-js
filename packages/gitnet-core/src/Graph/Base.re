@@ -1,11 +1,6 @@
 open Rationale.Function.Infix;
 open Rationale;
 
-type base = {
-  id: string,
-  parentBaseId: option(string),
-};
-
 type valueType =
   | THING_ID
   | STRING
@@ -21,9 +16,10 @@ type fact = {
   id: string,
   subjectId: string,
   propertyId: string,
-  baseId: string,
   value,
   idIsPublic: bool,
+  baseId: string,
+  resourceId: string,
 };
 
 [@genType.opaque]
@@ -34,7 +30,6 @@ type thing = {
 and graph = {
   facts: list(fact),
   things: list(thing),
-  bases: list(base),
 };
 
 [@genType]

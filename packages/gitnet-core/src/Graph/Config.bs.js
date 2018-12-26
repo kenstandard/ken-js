@@ -21,7 +21,9 @@ var Fields = /* module */[
   /* subjectId */"subjectId",
   /* propertyId */"propertyId",
   /* value */"value",
-  /* baseId */"baseId"
+  /* baseId */"baseId",
+  /* resourceId */"resourceId",
+  /* idIsPublic */"idIsPublic"
 ];
 
 var FactJson = /* module */[

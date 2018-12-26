@@ -18,6 +18,7 @@
   "bs-dependencies": [
     "@glennsl/bs-jest",
     "@glennsl/bs-json",
+    "@ncthbrt/re-secure-random-string",
     "rationale"
   ],
   "warnings": {

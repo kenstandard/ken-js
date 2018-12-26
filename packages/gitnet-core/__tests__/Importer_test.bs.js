@@ -9,19 +9,21 @@ var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var Js_json = require("bs-platform/lib/js/js_json.js");
-var Belt_List = require("bs-platform/lib/js/belt_List.js");
 var Belt_Array = require("bs-platform/lib/js/belt_Array.js");
 var Json_decode = require("@glennsl/bs-json/src/Json_decode.bs.js");
 var Graph$Reason = require("../src/Graph/Graph.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
 var Option$Rationale = require("rationale/src/Option.js");
+var SecureRandomString = require("@ncthbrt/re-secure-random-string/src/SecureRandomString.bs.js");
 
-function factDecoder(p, json) {
+function factDecoder(p, json, baseId, resourceId) {
   var match = Js_json.classify(json);
   if (typeof match === "number") {
     return /* record */[
             /* id */undefined,
             /* p */p,
+            /* baseId */baseId,
+            /* resourceId */resourceId,
             /* v : String */Block.__(0, ["Couldn't find"])
           ];
   } else {
@@ -30,24 +32,32 @@ function factDecoder(p, json) {
           return /* record */[
                   /* id */undefined,
                   /* p */p,
+                  /* baseId */baseId,
+                  /* resourceId */resourceId,
                   /* v : String */Block.__(0, [Json_decode.string(json)])
                 ];
       case 2 : 
           return /* record */[
                   /* id */"sddf",
                   /* p */p,
+                  /* baseId */baseId,
+                  /* resourceId */resourceId,
                   /* v : String */Block.__(0, [Json_decode.field("value", Json_decode.string, json)])
                 ];
       case 3 : 
           return /* record */[
                   /* id */undefined,
                   /* p */p,
+                  /* baseId */baseId,
+                  /* resourceId */resourceId,
                   /* v : Array */Block.__(1, [$$Array.map(Json_decode.string, match[0])])
                 ];
       default:
         return /* record */[
                 /* id */undefined,
                 /* p */p,
+                /* baseId */baseId,
+                /* resourceId */resourceId,
                 /* v : String */Block.__(0, ["Couldn't find"])
               ];
     }
@@ -58,7 +68,7 @@ function filterArray(filter, ar) {
   return $$Array.of_list(Curry._1(filter, $$Array.to_list(ar)));
 }
 
-function propertyDecoder(json) {
+function propertyDecoder(json, baseId, resourceId) {
   var filteredFactKeys = /* :: */[
     "templates",
     /* [] */0
@@ -66,7 +76,7 @@ function propertyDecoder(json) {
   var thing0 = Option$Rationale.toExn("Parse Error", Js_json.decodeObject(json));
   var toFact = function (id) {
     var _value = Option$Rationale.toExn("Parse Error", Js_dict.get(thing0, id));
-    return factDecoder(id, _value);
+    return factDecoder(id, _value, baseId, resourceId);
   };
   var ar = Object.keys(thing0);
   var param = $$Array.to_list(ar);
@@ -81,35 +91,29 @@ function removeIfInList(list, fn) {
               }));
 }
 
-function decode(json) {
+function decodeBase(json) {
   var entries = $$Array.to_list(Js_dict.entries(Option$Rationale.toExn("Parse Error", Js_json.decodeObject(json))));
-  var baseId = Json_decode.field("meta", (function (param) {
-          return Json_decode.field("base", (function (param) {
-                        return Json_decode.field("id", Json_decode.string, param);
-                      }), param);
-        }), json);
-  var things = List.map((function (param) {
-          return /* record */[
-                  /* id */param[0],
-                  /* facts */propertyDecoder(param[1]),
-                  /* templates : array */[]
-                ];
-        }), removeIfInList(/* :: */[
-              "meta",
-              /* [] */0
-            ], (function (param) {
-                return param[0];
-              }))(entries));
-  return /* record */[
-          /* things */$$Array.of_list(things),
-          /* bases : :: */[
-            /* record */[
-              /* id */baseId,
-              /* parentBaseId */undefined
-            ],
-            /* [] */0
-          ]
-        ];
+  var baseId = Json_decode.field("baseId", Json_decode.string, json);
+  var resourceId = Json_decode.field("baseId", Json_decode.string, json);
+  return $$Array.of_list(List.map((function (param) {
+                    return /* record */[
+                            /* id */param[0],
+                            /* facts */propertyDecoder(param[1], baseId, resourceId),
+                            /* templates : array */[]
+                          ];
+                  }), removeIfInList(/* :: */[
+                        "baseId",
+                        /* :: */[
+                          "resourceId",
+                          /* [] */0
+                        ]
+                      ], (function (param) {
+                          return param[0];
+                        }))(entries)));
+}
+
+function decode(json) {
+  return Belt_Array.concatMany(Json_decode.array(decodeBase, json));
 }
 
 var Importer1 = /* module */[
@@ -117,10 +121,11 @@ var Importer1 = /* module */[
   /* filterArray */filterArray,
   /* propertyDecoder */propertyDecoder,
   /* removeIfInList */removeIfInList,
+  /* decodeBase */decodeBase,
   /* decode */decode
 ];
 
-function toGraph(graph) {
+function toGraph(things) {
   var valueToValues = function (v) {
     if (v.tag) {
       return v[0];
@@ -128,29 +133,29 @@ function toGraph(graph) {
       return /* array */[v[0]];
     }
   };
-  var things = $$Array.to_list(Belt_Array.concatMany(Belt_Array.concatMany($$Array.of_list(List.map((function (thing) {
-                          return $$Array.map((function (fact) {
-                                        return $$Array.map((function (value) {
-                                                      var __x = graph[/* bases */1];
-                                                      return /* record */[
-                                                              /* id */Option$Rationale.$$default("null-id", fact[/* id */0]),
-                                                              /* subjectId */thing[/* id */0],
-                                                              /* propertyId */fact[/* p */1],
-                                                              /* baseId */Option$Rationale.toExn("Needs at least one graph base", Belt_List.get(__x, 0))[/* id */0],
-                                                              /* value : String */Block.__(1, [value]),
-                                                              /* idIsPublic */false
-                                                            ];
-                                                    }), valueToValues(fact[/* v */2]));
-                                      }), thing[/* facts */1]);
-                        }), $$Array.to_list(graph[/* things */0]))))));
-  return Graph$Reason.from_facts(things, graph[/* bases */1]);
+  return Graph$Reason.from_facts($$Array.to_list(Belt_Array.concatMany(Belt_Array.concatMany($$Array.of_list(List.map((function (thing) {
+                                    return $$Array.map((function (fact) {
+                                                  return $$Array.map((function (value) {
+                                                                var match = Option$Rationale.isSome(fact[/* id */0]);
+                                                                return /* record */[
+                                                                        /* id */Option$Rationale.$$default(SecureRandomString.genSync(8, true, /* () */0), fact[/* id */0]),
+                                                                        /* subjectId */thing[/* id */0],
+                                                                        /* propertyId */fact[/* p */1],
+                                                                        /* value : String */Block.__(1, [value]),
+                                                                        /* idIsPublic */match ? true : false,
+                                                                        /* baseId */fact[/* baseId */2],
+                                                                        /* resourceId */fact[/* resourceId */3]
+                                                                      ];
+                                                              }), valueToValues(fact[/* v */4]));
+                                                }), thing[/* facts */1]);
+                                  }), $$Array.to_list(things)))))));
 }
 
-var value = Json.parseOrRaise("\n      {\n    \"meta\": {\n        \"base\":{\n          \"id\": \"my-cool-base\"\n        }\n      },\n        \"n-fred\": {\n          \"p-name\": \"Fred\",\n          \"p-test\": [\"sdf\", \"sdfsdf\", \"sdfsdf\"],\n          \"p-description\": {\"id\": \"sdf\", \"value\": \"sdffsd\"}\n        }\n    }\n   ");
+var value = Json.parseOrRaise("\n      [{\n        \"resourceId\": \"111\",\n        \"baseId\":\"1\",\n        \"n-fred\": {\n          \"p-name\": \"Fred\",\n          \"p-test\": [\"sdf\", \"sdfsdf\", \"sdfsdf\"],\n          \"p-description\": {\"id\": \"sdf\", \"value\": \"sdffsd\"}\n        }\n      },\n      {\n        \"resourceId\": \"111\",\n        \"baseId\":\"2\",\n        \"n-george\": {\n          \"p-name\": \"George\",\n          \"p-test\": [\"sdf\", \"sdfsdf\", \"sdfsdf\"],\n          \"p-description\": {\"id\": \"sdf\", \"value\": \"sdffsd\"}\n        },\n        \"n-jeremy\": {\n          \"p-name\": \"George\",\n          \"p-test\": [\"sdf\", \"sdfsdf\", \"sdfsdf\"],\n          \"p-description\": {\"id\": \"sdf\", \"value\": \"sdffsd\"}\n        }\n      }]\n   ");
 
 describe("#to_json", (function () {
         return Jest.test("works", (function (param) {
-                      var foo = Graph$Reason.to_json(toGraph(decode(value)));
+                      var foo = Graph$Reason.to_json(toGraph(Belt_Array.concatMany(Json_decode.array(decodeBase, value))));
                       console.log(foo);
                       return Jest.Expect[/* toEqual */12](true, Jest.Expect[/* expect */0](true));
                     }));

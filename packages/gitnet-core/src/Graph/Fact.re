@@ -52,6 +52,8 @@ module T = {
         (FactJson.Fields.propertyId, string(t.propertyId)),
         (FactJson.Fields.value, Value.to_json(t.value)),
         (FactJson.Fields.baseId, string(t.baseId)),
+        (FactJson.Fields.resourceId, string(t.resourceId)),
+        (FactJson.Fields.idIsPublic, bool(t.idIsPublic)),
       ])
     );
 
@@ -62,6 +64,7 @@ module T = {
       subjectId: t |> field(FactJson.Fields.subjectId, string),
       propertyId: t |> field(FactJson.Fields.propertyId, string),
       value: t |> field(FactJson.Fields.value, Value.from_json),
+      resourceId: t |> field(FactJson.Fields.resourceId, string),
       idIsPublic: true,
     };
 };
