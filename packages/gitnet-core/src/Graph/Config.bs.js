@@ -20,7 +20,8 @@ var Fields = /* module */[
   /* id */"id",
   /* subjectId */"subjectId",
   /* propertyId */"propertyId",
-  /* value */"value"
+  /* value */"value",
+  /* baseId */"baseId"
 ];
 
 var FactJson = /* module */[

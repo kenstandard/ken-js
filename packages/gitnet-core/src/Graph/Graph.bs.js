@@ -13,7 +13,7 @@ var Option$Rationale = require("rationale/src/Option.js");
 var Js_null_undefined = require("bs-platform/lib/js/js_null_undefined.js");
 var Function$Rationale = require("rationale/src/Function.js");
 
-function from_facts(facts) {
+function from_facts(facts, bases) {
   var nodes = RList$Rationale.uniq(List.flatten(List.map((function (e) {
                   return /* :: */[
                           e[/* id */0],
@@ -26,18 +26,21 @@ function from_facts(facts) {
                           ]
                         ];
                 }), facts)));
+  var empty = /* record */[
+    /* facts : [] */0,
+    /* things : [] */0,
+    /* bases */bases
+  ];
   var things = List.map((function (e) {
           return /* record */[
                   /* id */e,
-                  /* graph : record */[
-                    /* facts : [] */0,
-                    /* things : [] */0
-                  ]
+                  /* graph */empty
                 ];
         }), nodes);
   var graph = /* record */[
     /* facts */facts,
-    /* things */things
+    /* things */things,
+    /* bases */bases
   ];
   for(var x = 0 ,x_finish = List.length(things) - 1 | 0; x <= x_finish; ++x){
     List.nth(things, x)[/* graph */1] = graph;
@@ -108,7 +111,10 @@ function to_json(t) {
 }
 
 function load(v) {
-  return from_facts(from_json(v));
+  var partial_arg = from_json(v);
+  return (function (param) {
+      return from_facts(partial_arg, param);
+    });
 }
 
 exports.from_facts = from_facts;

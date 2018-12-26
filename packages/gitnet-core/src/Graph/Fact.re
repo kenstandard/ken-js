@@ -51,11 +51,13 @@ module T = {
         (FactJson.Fields.subjectId, string(t.subjectId)),
         (FactJson.Fields.propertyId, string(t.propertyId)),
         (FactJson.Fields.value, Value.to_json(t.value)),
+        (FactJson.Fields.baseId, string(t.baseId)),
       ])
     );
 
   let from_json = (t: Js.Json.t) =>
     Json.Decode.{
+      baseId: t |> field(FactJson.Fields.baseId, string),
       id: t |> field(FactJson.Fields.id, string),
       subjectId: t |> field(FactJson.Fields.subjectId, string),
       propertyId: t |> field(FactJson.Fields.propertyId, string),

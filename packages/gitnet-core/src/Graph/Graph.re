@@ -5,15 +5,15 @@ open Base;
 type t = graph;
 type importStatement = (string, string, string, Js.Json.t);
 
-let from_facts = (facts: list(fact)) => {
+let from_facts = (facts: list(fact), bases: list(base)) => {
   let nodes =
     facts
     |> List.map((e: fact) => [e.id, e.subjectId, e.propertyId])
     |> List.flatten
     |> Rationale.RList.uniq;
-  let empty = {things: [], facts: []};
+  let empty = {things: [], facts: [], bases};
   let things = nodes |> List.map(e => {id: e, graph: empty});
-  let graph = {facts, things};
+  let graph = {facts, things, bases};
   for (x in 0 to List.length(things) - 1) {
     List.nth(things, x).graph = graph;
   };

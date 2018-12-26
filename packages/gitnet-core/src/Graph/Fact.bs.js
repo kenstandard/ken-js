@@ -93,7 +93,7 @@ function edgeId(edge) {
 }
 
 function value(t) {
-  return t[/* value */3];
+  return t[/* value */4];
 }
 
 function id(t) {
@@ -119,9 +119,15 @@ function to_json$1(t) {
                   /* :: */[
                     /* tuple */[
                       Config$Reason.FactJson[/* Fields */1][/* value */3],
-                      to_json(t[/* value */3])
+                      to_json(t[/* value */4])
                     ],
-                    /* [] */0
+                    /* :: */[
+                      /* tuple */[
+                        Config$Reason.FactJson[/* Fields */1][/* baseId */4],
+                        t[/* baseId */3]
+                      ],
+                      /* [] */0
+                    ]
                   ]
                 ]
               ]
@@ -133,6 +139,7 @@ function from_json$1(t) {
           /* id */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* id */0], Json_decode.string, t),
           /* subjectId */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* subjectId */1], Json_decode.string, t),
           /* propertyId */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* propertyId */2], Json_decode.string, t),
+          /* baseId */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* baseId */4], Json_decode.string, t),
           /* value */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* value */3], from_json, t),
           /* idIsPublic */true
         ];
@@ -169,7 +176,7 @@ function run(q, f) {
     case 1 : 
         return Curry._1(equality, f[/* propertyId */2]);
     case 2 : 
-        var match$2 = f[/* value */3];
+        var match$2 = f[/* value */4];
         switch (match$2.tag | 0) {
           case 0 : 
               return Curry._1(equality, match$2[0]);

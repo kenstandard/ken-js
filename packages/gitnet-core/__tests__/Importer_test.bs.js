@@ -3,10 +3,13 @@
 
 var Jest = require("@glennsl/bs-jest/src/jest.js");
 var Json = require("@glennsl/bs-json/src/Json.bs.js");
+var List = require("bs-platform/lib/js/list.js");
 var $$Array = require("bs-platform/lib/js/array.js");
 var Block = require("bs-platform/lib/js/block.js");
+var Curry = require("bs-platform/lib/js/curry.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var Js_json = require("bs-platform/lib/js/js_json.js");
+var Belt_List = require("bs-platform/lib/js/belt_List.js");
 var Belt_Array = require("bs-platform/lib/js/belt_Array.js");
 var Json_decode = require("@glennsl/bs-json/src/Json_decode.bs.js");
 var Graph$Reason = require("../src/Graph/Graph.bs.js");
@@ -51,37 +54,73 @@ function factDecoder(p, json) {
   }
 }
 
+function filterArray(filter, ar) {
+  return $$Array.of_list(Curry._1(filter, $$Array.to_list(ar)));
+}
+
 function propertyDecoder(json) {
+  var filteredFactKeys = /* :: */[
+    "templates",
+    /* [] */0
+  ];
   var thing0 = Option$Rationale.toExn("Parse Error", Js_json.decodeObject(json));
   var toFact = function (id) {
     var _value = Option$Rationale.toExn("Parse Error", Js_dict.get(thing0, id));
     return factDecoder(id, _value);
   };
-  var nonTemplateKeys = $$Array.of_list(RList$Rationale.without(/* :: */[
-            "templates",
-            /* [] */0
-          ], $$Array.to_list(Object.keys(thing0))));
+  var ar = Object.keys(thing0);
+  var param = $$Array.to_list(ar);
+  var nonTemplateKeys = $$Array.of_list(RList$Rationale.without(filteredFactKeys, param));
   return $$Array.map(toFact, nonTemplateKeys);
 }
 
+function removeIfInList(list, fn) {
+  return List.filter((function (e) {
+                var __x = Curry._1(fn, e);
+                return !RList$Rationale.contains(__x)(list);
+              }));
+}
+
 function decode(json) {
-  var dict = Option$Rationale.toExn("Parse Error", Js_json.decodeObject(json));
-  return $$Array.map((function (param) {
-                return /* record */[
-                        /* id */param[0],
-                        /* facts */propertyDecoder(param[1]),
-                        /* templates : array */[]
-                      ];
-              }), Js_dict.entries(dict));
+  var entries = $$Array.to_list(Js_dict.entries(Option$Rationale.toExn("Parse Error", Js_json.decodeObject(json))));
+  var baseId = Json_decode.field("meta", (function (param) {
+          return Json_decode.field("base", (function (param) {
+                        return Json_decode.field("id", Json_decode.string, param);
+                      }), param);
+        }), json);
+  var things = List.map((function (param) {
+          return /* record */[
+                  /* id */param[0],
+                  /* facts */propertyDecoder(param[1]),
+                  /* templates : array */[]
+                ];
+        }), removeIfInList(/* :: */[
+              "meta",
+              /* [] */0
+            ], (function (param) {
+                return param[0];
+              }))(entries));
+  return /* record */[
+          /* things */$$Array.of_list(things),
+          /* bases : :: */[
+            /* record */[
+              /* id */baseId,
+              /* parentBaseId */undefined
+            ],
+            /* [] */0
+          ]
+        ];
 }
 
 var Importer1 = /* module */[
   /* factDecoder */factDecoder,
+  /* filterArray */filterArray,
   /* propertyDecoder */propertyDecoder,
+  /* removeIfInList */removeIfInList,
   /* decode */decode
 ];
 
-function toFacts(ts) {
+function toGraph(graph) {
   var valueToValues = function (v) {
     if (v.tag) {
       return v[0];
@@ -89,33 +128,35 @@ function toFacts(ts) {
       return /* array */[v[0]];
     }
   };
-  return Belt_Array.concatMany(Belt_Array.concatMany($$Array.map((function (thing) {
-                        return $$Array.map((function (fact) {
-                                      return $$Array.map((function (value) {
-                                                    return /* record */[
-                                                            /* id */Option$Rationale.$$default("null-id", fact[/* id */0]),
-                                                            /* subjectId */thing[/* id */0],
-                                                            /* propertyId */fact[/* p */1],
-                                                            /* value : String */Block.__(1, [value]),
-                                                            /* idIsPublic */false
-                                                          ];
-                                                  }), valueToValues(fact[/* v */2]));
-                                    }), thing[/* facts */1]);
-                      }), ts)));
+  var things = $$Array.to_list(Belt_Array.concatMany(Belt_Array.concatMany($$Array.of_list(List.map((function (thing) {
+                          return $$Array.map((function (fact) {
+                                        return $$Array.map((function (value) {
+                                                      var __x = graph[/* bases */1];
+                                                      return /* record */[
+                                                              /* id */Option$Rationale.$$default("null-id", fact[/* id */0]),
+                                                              /* subjectId */thing[/* id */0],
+                                                              /* propertyId */fact[/* p */1],
+                                                              /* baseId */Option$Rationale.toExn("Needs at least one graph base", Belt_List.get(__x, 0))[/* id */0],
+                                                              /* value : String */Block.__(1, [value]),
+                                                              /* idIsPublic */false
+                                                            ];
+                                                    }), valueToValues(fact[/* v */2]));
+                                      }), thing[/* facts */1]);
+                        }), $$Array.to_list(graph[/* things */0]))))));
+  return Graph$Reason.from_facts(things, graph[/* bases */1]);
 }
 
-var value = Json.parseOrRaise("\n      {\"foobar\": {\n        \"p-name\": \"Fred\",\n        \"p-test\": [\"sdf\", \"sdfsdf\", \"sdfsdf\"],\n        \"p-description\": {\"id\": \"sdf\", \"value\": \"sdffsd\"}\n      }\n    }\n   ");
+var value = Json.parseOrRaise("\n      {\n    \"meta\": {\n        \"base\":{\n          \"id\": \"my-cool-base\"\n        }\n      },\n        \"n-fred\": {\n          \"p-name\": \"Fred\",\n          \"p-test\": [\"sdf\", \"sdfsdf\", \"sdfsdf\"],\n          \"p-description\": {\"id\": \"sdf\", \"value\": \"sdffsd\"}\n        }\n    }\n   ");
 
 describe("#to_json", (function () {
         return Jest.test("works", (function (param) {
-                      var foo = Graph$Reason.to_json(Graph$Reason.from_facts($$Array.to_list(toFacts(decode(value)))));
-                      console.log("SUCCSS");
+                      var foo = Graph$Reason.to_json(toGraph(decode(value)));
                       console.log(foo);
                       return Jest.Expect[/* toEqual */12](true, Jest.Expect[/* expect */0](true));
                     }));
       }));
 
 exports.Importer1 = Importer1;
-exports.toFacts = toFacts;
+exports.toGraph = toGraph;
 exports.value = value;
 /* value Not a pure module */

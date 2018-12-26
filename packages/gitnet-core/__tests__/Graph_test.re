@@ -8,6 +8,7 @@ let textValue2 =
     {|
       [{
         "id": "g-1",
+        "baseId": "sdfs",
         "subjectId": "n-george",
         "propertyId": "p-name",
         "value": {
@@ -18,6 +19,7 @@ let textValue2 =
     {
         "id": "g-2",
         "subjectId": "n-george",
+        "baseId": "sdfs",
         "propertyId": "p-description",
         "value": {
             "dataValue": "string",
@@ -27,6 +29,7 @@ let textValue2 =
     {
         "id": "p-name-name",
         "subjectId": "n-name",
+        "baseId": "sdfs",
         "propertyId": "n-name",
         "value": {
             "dataValue": "string",
