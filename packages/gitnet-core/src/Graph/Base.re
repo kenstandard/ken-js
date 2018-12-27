@@ -22,9 +22,15 @@ type fact = {
   resourceId: string,
 };
 
+type thingType =
+  | FACT
+  | BASE
+  | RESOURCE;
+
 [@genType.opaque]
 type thing = {
   id: string,
+  thingType: option(thingType),
   mutable graph,
 }
 and graph = {

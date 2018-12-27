@@ -14,7 +14,7 @@ function id(e) {
 }
 
 function graph(e) {
-  return e[/* graph */1];
+  return e[/* graph */2];
 }
 
 function find(id, t) {

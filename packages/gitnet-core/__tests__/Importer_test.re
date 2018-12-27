@@ -4,8 +4,10 @@ open Expect;
 
 /*
  TODO:
+ - Convert from String to thingId
  - Random Local Ids
- - Templates
+ - Templates: do natively!
+ - https://github.com/glennsl/bucklescript-cookbook/blob/master/README.md
  */
 
 module Importer1 = {
@@ -163,7 +165,8 @@ let toGraph = (things: array(Importer1.thing)) => {
 let value =
   Json.parseOrRaise(
     {|
-      [{
+      [
+        {
         "resourceId": "111",
         "baseId":"1",
         "n-fred": {
@@ -177,6 +180,7 @@ let value =
         "baseId":"2",
         "n-george": {
           "p-name": "George",
+          "p-friend": "n-jeremy",
           "p-test": ["sdf", "sdfsdf", "sdfsdf"],
           "p-description": {"id": "sdf", "value": "sdffsd"}
         },

@@ -5,21 +5,6 @@ open Base;
 type t = graph;
 type importStatement = (string, string, string, Js.Json.t);
 
-let from_facts = (facts: list(fact)) => {
-  let nodes =
-    facts
-    |> List.map((e: fact) => [e.id, e.subjectId, e.propertyId])
-    |> List.flatten
-    |> Rationale.RList.uniq;
-  let empty = {things: [], facts: []};
-  let things = nodes |> List.map(e => {id: e, graph: empty});
-  let graph = {facts, things};
-  for (x in 0 to List.length(things) - 1) {
-    List.nth(things, x).graph = graph;
-  };
-  graph;
-};
-
 [@genType]
 let toJs = (s: option('a)) => Option.isSome(s) ? "TRUE" : "FALSE";
 [@genType]
@@ -49,5 +34,41 @@ let to_json = (t: t) => {
   );
 };
 
+let from_facts = (facts: list(fact)) => {
+  let nodes =
+    facts
+    |> List.map((e: fact) =>
+         [e.id, e.subjectId, e.propertyId, e.baseId, e.resourceId]
+       )
+    |> List.flatten
+    |> Rationale.RList.uniq;
+  let empty = {things: [], facts: []};
+  let things = nodes |> List.map(e => {id: e, graph: empty, thingType: None});
+  let graph = {facts, things};
+  for (x in 0 to List.length(things) - 1) {
+    List.nth(things, x).graph = graph;
+  };
+  graph;
+};
+
+let withThingIds = (g: t) => {
+  let facts =
+    g.facts
+    |> List.map(f => {
+         let value =
+           switch (f.value) {
+           | String(f) =>
+             findThing(f, g) |> Rationale.Option.isSome ?
+               ThingId(f) : String(f)
+           | _ => f.value
+           };
+         {...f, value};
+       });
+  {things: g.things, facts};
+};
+
+/* let withCorrectThingTypes = (g: t) => {
+   } */
+
 [@genType]
-let load = v => v |> from_json |> from_facts;
+let load = v => v |> from_json |> from_facts |> withThingIds;

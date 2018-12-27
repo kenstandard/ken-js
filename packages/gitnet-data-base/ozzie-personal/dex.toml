@@ -35,6 +35,8 @@ https://en.wikipedia.org/wiki/Federated_database_system
 https://en.wikipedia.org/wiki/IndieWeb
 https://github.com/kustomzone/awesome-solid
 https://remotestorage.io
+https://news.ycombinator.com/item?id=17660131ou
+https://hashbase.io
 '''
 
 [h-ozzie-gooen]
@@ -60,7 +62,8 @@ data = [
     ["MetaBase", "Simple, but there are tons of 'base' names out there"],
     ["GitNet", "Somewhat to the point, but instances may not rely on git."],
     ["FactBank Standard", "Could be cool"],
-    ["Harmony", "Sounds nice, but some people may not get it."]
+    ["Harmony", "Sounds nice, but some people may not get it."],
+    ["Markdata", "There's a company called this."]
 ]
 
 [n-dex-todo]

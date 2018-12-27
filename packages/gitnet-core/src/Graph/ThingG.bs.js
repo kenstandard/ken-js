@@ -44,7 +44,7 @@ function isEdgeForFacts(edge) {
 }
 
 function filterFactsAndSelectThings(fromEdge, toEdge, t) {
-  var partial_arg = t[/* graph */1];
+  var partial_arg = t[/* graph */2];
   var partial_arg$1 = Fact$Reason.Filters[/* withEdge */4];
   return unpackOptionList(List.map((function (param) {
                     return Graph$Reason.findThingFromFact(partial_arg, toEdge, param);
