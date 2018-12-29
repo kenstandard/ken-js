@@ -10,114 +10,9 @@ open Expect;
  - https://github.com/glennsl/bucklescript-cookbook/blob/master/README.md
  */
 
-module Importer1 = {
-  type value =
-    | String(string)
-    | Array(array(string));
-
-  type fact = {
-    id: option(string),
-    p: string,
-    baseId: string,
-    resourceId: string,
-    v: value,
-  };
-
-  type thing = {
-    id: string,
-    facts: array(fact),
-    templates: array(string),
-  };
-
-  let factDecoder = (p, json, baseId, resourceId) =>
-    switch (json |> Js.Json.classify) {
-    | JSONString(_) => {
-        p,
-        v: String(json |> Json.Decode.string),
-        id: None,
-        baseId,
-        resourceId,
-      }
-    | JSONObject(_) => {
-        p,
-        v: String(json |> Json.Decode.field("value", Json.Decode.string)),
-        id: Some("sddf"),
-        baseId,
-        resourceId,
-      }
-    | JSONArray(rs) => {
-        p,
-        v: Array(rs |> Array.map(Json.Decode.string)),
-        id: None,
-        baseId,
-        resourceId,
-      }
-    | _ => {p, id: None, v: String("Couldn't find"), baseId, resourceId}
-    };
-
-  let filterArray = (filter, ar) =>
-    ar |> Array.to_list |> filter |> Array.of_list;
-
-  let propertyDecoder = (json, baseId, resourceId) => {
-    let filteredFactKeys = ["templates"];
-
-    let thing0 =
-      Js.Json.decodeObject(json) |> Rationale.Option.toExn("Parse Error");
-
-    let toFact = id => {
-      let _value =
-        Js.Dict.get(thing0, id) |> Rationale.Option.toExn("Parse Error");
-      factDecoder(id, _value, baseId, resourceId);
-    };
-
-    let nonTemplateKeys =
-      thing0
-      |> Js.Dict.keys
-      |> filterArray(Rationale.RList.without(filteredFactKeys));
-
-    let facts = nonTemplateKeys |> Array.map(toFact);
-    facts;
-  };
-
-  let removeIfInList = (list, fn) =>
-    List.filter(e =>
-      e |> fn |> Rationale.RList.contains(_, list) |> (e => !e)
-    );
-
-  let decodeBase = json => {
-    let filteredFactKeys = ["baseId", "resourceId"];
-
-    let entries =
-      json
-      |> Js.Json.decodeObject
-      |> Rationale.Option.toExn("Parse Error")
-      |> Js.Dict.entries
-      |> Array.to_list;
-    open Json.Decode;
-    let baseId = json |> field("baseId", string);
-    let resourceId = json |> field("baseId", string);
-    let things =
-      entries
-      |> removeIfInList(filteredFactKeys, ((k, _)) => k)
-      |> List.map(((key, value)) =>
-           {
-             id: key,
-             facts: propertyDecoder(value, baseId, resourceId),
-             templates: [||],
-           }
-         );
-    things |> Array.of_list;
-  };
-
-  let decode = json =>
-    Json.Decode.(
-      json |> Json.Decode.array(decodeBase) |> Belt.Array.concatMany
-    );
-};
-
-let toGraph = (things: array(Importer1.thing)) => {
-  let valueToValues = (v: Importer1.value) =>
-    switch (v) {
+let toGraph = (things: array(UnprocessedGraph.thing)) => {
+  let valueToValues = (value: UnprocessedGraph.value) =>
+    switch (value) {
     | String(s) => [|s|]
     | Array(r) => r
     };
@@ -125,10 +20,10 @@ let toGraph = (things: array(Importer1.thing)) => {
   let things =
     things
     |> Array.to_list
-    |> List.map((thing: Importer1.thing) =>
+    |> List.map((thing: UnprocessedGraph.thing) =>
          thing.facts
-         |> Array.map((fact: Importer1.fact) =>
-              fact.v
+         |> Array.map((fact: UnprocessedGraph.fact) =>
+              fact.value
               |> valueToValues
               |> Array.map((value: string) =>
                    (
@@ -143,7 +38,7 @@ let toGraph = (things: array(Importer1.thing)) => {
                               ),
                             ),
                        subjectId: thing.id,
-                       propertyId: fact.p,
+                       propertyId: fact.property,
                        value: Base.String(value),
                        idIsPublic:
                          fact.id |> Rationale.Option.isSome ? true : false,
@@ -167,8 +62,8 @@ let value =
     {|
       [
         {
-        "resourceId": "111",
-        "baseId":"1",
+        "baseId": "base12",
+        "resourceId": "2/1",
         "n-fred": {
           "p-name": "Fred",
           "p-test": ["sdf", "sdfsdf", "sdfsdf"],
@@ -176,8 +71,8 @@ let value =
         }
       },
       {
-        "resourceId": "111",
-        "baseId":"2",
+        "baseId": "base12",
+        "resourceId": "2/2",
         "n-george": {
           "p-name": "George",
           "p-friend": "n-jeremy",
@@ -195,8 +90,58 @@ let value =
 
 describe("#to_json", () =>
   test("works", () => {
-    let foo = value |> Importer1.decode |> toGraph |> Graph.to_json;
+    let foo = value |> JsonToUnprocessed.run |> toGraph |> Graph.to_json;
     Js.log(foo);
     expect(true) |> toEqual(true);
   })
 );
+
+/*
+ let value =
+   Json.parseOrRaise(
+     {|
+       [
+         {
+         "baseId": "test123",
+         "path": "foo/bar",
+         "aliases": [{"base/10/p/p-name": "p-name"}]]
+         "n-fred": {
+           "p-name": "Fred",
+           "p-test": ["sdf", "sdfsdf", "sdfsdf"],
+           "p-description": {"id": "sdf", "value": "sdffsd"}
+         }
+       },
+    |},
+   ); */
+
+/* bases get facts & things, nothing else! */
+/* No imports or any of that now. */
+/* There are both files and folders.
+   However, there could be a file for any folder, which would be assumed to reference it.*/
+/*
+ let value3 =
+   Json.parseOrRaise(
+     {|
+         [
+           {
+           "base: "sdf",
+           "directory: "sdffsd",
+           "id": "",
+           "subject": "n-fred",
+           "property": "base/l0/p/p-name",
+           "value": {"type": "string"}
+         },
+     |},
+   );
+ let value2 =
+   Json.parseOrRaise(
+     {|
+         [
+           {
+           "id": "@test123/foo/bar/_facts/sd8f.f",
+           "subject": "test123/foo/bar/n-fred",
+           "property": "base/l0/p/p-name",
+           "value": {"type": "string", "id": "@t.test123/foo/bar/_values/sd8f"}
+         },
+     |},
+   ); */
