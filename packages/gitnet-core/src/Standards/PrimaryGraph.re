@@ -1,41 +1,39 @@
 type thingId = string;
 type baseId = string;
 
-module Graph = {
-  type base = {thingId};
+type base = {id: string};
 
-  type valueType =
-    | Thing(thingId)
-    | String(string)
-    | JSON(Js.Json.t);
+type valueType =
+  | Thing(thingId)
+  | String(string)
+  | JSON(Js.Json.t);
 
-  type value = {
-    thingId,
-    valueType,
-  };
+type value = {valueType};
 
-  type fact = {
-    thingId,
-    subject: thingId,
-    property: thingId,
-    value,
-  };
+type fact = {
+  thingId,
+  subjectId: thingId,
+  propertyId: thingId,
+  value,
+};
 
-  type thingType =
-    | Fact(fact)
-    | Value(value)
-    | Base
-    | Directory
-    | Item;
+type thingTypes =
+  | FACT
+  | BASE
+  | ITEM;
 
-  type thing = {
-    thingId,
-    idIsPublic: bool,
-    thingType,
-  };
+type thingType =
+  | Fact(fact)
+  | Item;
 
-  type graph = {
-    things: Js.Dict.t(thing),
-    bases: list(thingId),
-  };
+type thing = {
+  thingId,
+  idIsPublic: bool,
+  thingType,
+};
+
+type graph = {
+  things: Js.Dict.t(thing),
+  facts: Js.Dict.t(fact),
+  bases: list(thingId),
 };

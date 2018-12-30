@@ -50,19 +50,17 @@ let lastStepConvert = (g: unprocessedGraph): SimpleFactList.graph =>
               {
                 subjectId: {
                   id: thing.id,
+                  baseId: thing.baseId,
                   isPublic: true,
                 },
                 propertyId: {
                   id: fact.property,
-                  isPublic: true,
-                },
-                baseId: {
-                  id: fact.baseId,
+                  baseId: fact.baseId,
                   isPublic: true,
                 },
                 value: {
                   valueType:
-                    SimpleFactList.String(
+                    PrimaryGraph.String(
                       switch (fact.value) {
                       | String(str) => str
                       | _ => "ERROR"
@@ -71,6 +69,7 @@ let lastStepConvert = (g: unprocessedGraph): SimpleFactList.graph =>
                 },
                 id: {
                   id: "fact-id-implement-me!",
+                  baseId: fact.baseId,
                   isPublic: false,
                 },
               }: SimpleFactList.fact

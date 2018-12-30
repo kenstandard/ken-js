@@ -71,18 +71,17 @@ function lastStepConvert(g) {
                                       return /* record */[
                                               /* id : record */[
                                                 /* id */"fact-id-implement-me!",
+                                                /* baseId */fact[/* baseId */2],
                                                 /* isPublic */false
                                               ],
                                               /* subjectId : record */[
                                                 /* id */thing[/* id */0],
+                                                /* baseId */thing[/* baseId */1],
                                                 /* isPublic */true
                                               ],
                                               /* propertyId : record */[
                                                 /* id */fact[/* property */1],
-                                                /* isPublic */true
-                                              ],
-                                              /* baseId : record */[
-                                                /* id */fact[/* baseId */2],
+                                                /* baseId */fact[/* baseId */2],
                                                 /* isPublic */true
                                               ],
                                               /* value : record */[/* valueType : String */Block.__(1, [tmp])]
