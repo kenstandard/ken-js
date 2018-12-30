@@ -5,12 +5,14 @@ type baseId = string;
 type base = {id: string};
 
 type valueType =
-  | Thing(thingId)
   | String(string)
+  | Thing(thingId)
   | JSON(Js.Json.t);
 
+[@bs.deriving jsConverter]
 type value = {valueType};
 
+[@bs.deriving jsConverter]
 type fact = {
   thingId,
   subjectId: thingId,
@@ -27,6 +29,7 @@ type thingType =
   | Fact(fact)
   | Item;
 
+[@bs.deriving jsConverter]
 type thing = {
   thingId,
   idIsPublic: bool,
@@ -39,3 +42,12 @@ type graph = {
   facts: Js.Dict.t(fact),
   bases: list(thingId),
 };
+
+let showFacts = (g: graph) =>
+  g.facts |> Js.Dict.values |> Array.map(factToJs);
+
+let showThings = (g: graph) =>
+  g.things |> Js.Dict.values |> Array.map(thingToJs);
+
+let showValues = (g: graph) =>
+  g.facts |> Js.Dict.values |> Array.map(f => f.value) |> Array.map(valueToJs);

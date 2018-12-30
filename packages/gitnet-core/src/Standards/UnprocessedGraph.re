@@ -3,6 +3,8 @@ type value =
   | Array(array(string));
 
 /* Note that the thing ID is not in the fact. */
+/* Change import area. */
+[@bs.deriving jsConverter]
 type fact = {
   id: option(string),
   property: string,
@@ -11,6 +13,7 @@ type fact = {
   value,
 };
 
+[@bs.deriving jsConverter]
 type thing = {
   id: string,
   baseId: string,
@@ -20,3 +23,6 @@ type thing = {
 };
 
 type graph = array(thing);
+
+let showFacts = (g: graph) =>
+  g |> Array.map(r => r.facts) |> Belt.Array.concatMany |> Array.map(factToJs);

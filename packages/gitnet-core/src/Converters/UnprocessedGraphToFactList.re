@@ -5,6 +5,16 @@ let convertId = (id, resourceId, baseId) => {
   baseId ++ "/" ++ resourceId ++ "/" ++ idd;
 };
 
+let generateFactId = thingId =>
+  thingId
+  ++ "/"
+  ++ "_f/"
+  ++ SecureRandomString.genSync(~length=12, ~alphaNumeric=true, ());
+
+/* Step 1: Make graph of Ids: properties and values
+   Step 2: Mutate ids of subjects
+   Step 3: Mutate ids of facts */
+
 let convertIds = (g: unprocessedGraph): unprocessedGraph =>
   UnprocessedGraph.(
     g
@@ -12,7 +22,21 @@ let convertIds = (g: unprocessedGraph): unprocessedGraph =>
          {
            ...r,
            id: convertId(Some(r.id), r.resourceId, r.baseId),
-           facts: r.facts |> Array.map((f: fact) => {...f, id: f.id}),
+           facts:
+             r.facts
+             |> Array.map((f: fact) =>
+                  {
+                    ...f,
+                    id:
+                      Some(
+                        generateFactId(
+                          convertId(Some(r.id), r.resourceId, r.baseId),
+                        ),
+                      ),
+                    property:
+                      convertId(Some(f.property), f.resourceId, f.baseId),
+                  }
+                ),
          }
        )
   );
@@ -41,7 +65,7 @@ let flattenValues = (g: unprocessedGraph): unprocessedGraph =>
        )
   );
 
-let lastStepConvert = (g: unprocessedGraph): SimpleFactList.graph =>
+let shape = (g: unprocessedGraph): SimpleFactList.graph =>
   g
   |> Array.map((thing: UnprocessedGraph.thing) =>
        thing.facts
@@ -68,7 +92,7 @@ let lastStepConvert = (g: unprocessedGraph): SimpleFactList.graph =>
                     ),
                 },
                 id: {
-                  id: "fact-id-implement-me!",
+                  id: fact.id |> Rationale.Option.toExn("ERROR"),
                   baseId: fact.baseId,
                   isPublic: false,
                 },
@@ -79,5 +103,4 @@ let lastStepConvert = (g: unprocessedGraph): SimpleFactList.graph =>
   |> Belt.Array.concatMany
   |> Array.to_list;
 
-let run =
-  Rationale.Function.Infix.(convertIds ||> flattenValues ||> lastStepConvert);
+let run = Rationale.Function.Infix.(flattenValues ||> convertIds ||> shape);

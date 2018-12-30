@@ -2,8 +2,12 @@
 'use strict';
 
 var List = require("bs-platform/lib/js/list.js");
+var $$Array = require("bs-platform/lib/js/array.js");
+var Block = require("bs-platform/lib/js/block.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
+var Utility$Reason = require("../Utility.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
+var Option$Rationale = require("rationale/src/Option.js");
 
 function uniqueIds(facts) {
   return RList$Rationale.uniqBy((function (a) {
@@ -44,6 +48,45 @@ function listFacts(graph) {
               }), graph);
 }
 
+function possiblyConvertValueTypesToThing(graph, value) {
+  var match = value[/* valueType */0];
+  switch (match.tag | 0) {
+    case 0 : 
+        var s = match[0];
+        var __x = Utility$Reason.log2(s, graph[/* things */0]);
+        var match$1 = Option$Rationale.isSome(Js_dict.get(__x, s));
+        if (match$1) {
+          return /* Thing */Block.__(1, [s]);
+        } else {
+          return /* String */Block.__(0, [s]);
+        }
+    case 1 : 
+    case 2 : 
+        return value[/* valueType */0];
+    
+  }
+}
+
+function connectValuesToFacts(graph) {
+  return /* record */[
+          /* things */graph[/* things */0],
+          /* facts */Js_dict.fromList(List.map((function (r) {
+                      return /* tuple */[
+                              r[/* thingId */0],
+                              r
+                            ];
+                    }), $$Array.to_list($$Array.map((function (f) {
+                              return /* record */[
+                                      /* thingId */f[/* thingId */0],
+                                      /* subjectId */f[/* subjectId */1],
+                                      /* propertyId */f[/* propertyId */2],
+                                      /* value : record */[/* valueType */possiblyConvertValueTypesToThing(graph, f[/* value */3])]
+                                    ];
+                            }), Js_dict.values(graph[/* facts */1]))))),
+          /* bases */graph[/* bases */2]
+        ];
+}
+
 function listThings(facts) {
   return List.map((function (id) {
                 return /* record */[
@@ -56,28 +99,30 @@ function listThings(facts) {
 }
 
 function run(facts) {
-  return /* record */[
-          /* things */Js_dict.fromList(List.map((function (r) {
-                      return /* tuple */[
-                              r[/* thingId */0],
-                              r
-                            ];
-                    }), listThings(facts))),
-          /* facts */Js_dict.fromList(List.map((function (r) {
-                      return /* tuple */[
-                              r[/* thingId */0],
-                              r
-                            ];
-                    }), listFacts(facts))),
-          /* bases */RList$Rationale.uniq(List.map((function (r) {
-                      return r[/* baseId */2];
-                    }), listThings(facts)))
-        ];
+  return connectValuesToFacts(/* record */[
+              /* things */Js_dict.fromList(List.map((function (r) {
+                          return /* tuple */[
+                                  r[/* thingId */0],
+                                  r
+                                ];
+                        }), listThings(facts))),
+              /* facts */Js_dict.fromList(List.map((function (r) {
+                          return /* tuple */[
+                                  r[/* thingId */0],
+                                  r
+                                ];
+                        }), listFacts(facts))),
+              /* bases */RList$Rationale.uniq(List.map((function (r) {
+                          return r[/* baseId */2];
+                        }), listThings(facts)))
+            ]);
 }
 
 exports.uniqueIds = uniqueIds;
 exports.findType = findType;
 exports.listFacts = listFacts;
+exports.possiblyConvertValueTypesToThing = possiblyConvertValueTypesToThing;
+exports.connectValuesToFacts = connectValuesToFacts;
 exports.listThings = listThings;
 exports.run = run;
 /* RList-Rationale Not a pure module */

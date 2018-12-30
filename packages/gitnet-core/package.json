@@ -6,8 +6,9 @@
     "nbuild": "export BS_CMT_POST_PROCESS_CMD=\"gentype\" && bsb -make-world -w",
     "start": "bsb -make-world -w",
     "clean": "bsb -clean-world",
-    "test": "yarn build && jest",
-    "watch:test": "jest --watchAll"
+    "test": "jest",
+    "watch:test": "jest --watchAll",
+    "watch:s": "yarn run jest -- Converter_test --watch"
   },
   "keywords": [
     "BuckleScript"

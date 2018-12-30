@@ -8,6 +8,7 @@ type id = {
   isPublic: bool,
 };
 
+[@bs.deriving jsConverter]
 type fact = {
   id,
   subjectId: id,
@@ -16,3 +17,5 @@ type fact = {
 };
 
 type graph = list(fact);
+
+let showFacts = (g: graph) => g |> Array.of_list |> Array.map(factToJs);

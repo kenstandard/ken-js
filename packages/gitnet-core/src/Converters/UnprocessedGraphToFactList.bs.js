@@ -6,10 +6,15 @@ var Block = require("bs-platform/lib/js/block.js");
 var Belt_Array = require("bs-platform/lib/js/belt_Array.js");
 var Option$Rationale = require("rationale/src/Option.js");
 var Function$Rationale = require("rationale/src/Function.js");
+var SecureRandomString = require("@ncthbrt/re-secure-random-string/src/SecureRandomString.bs.js");
 
 function convertId(id, resourceId, baseId) {
   var idd = Option$Rationale.$$default("random-id", id);
   return baseId + ("/" + (resourceId + ("/" + idd)));
+}
+
+function generateFactId(thingId) {
+  return thingId + ("/_f/" + SecureRandomString.genSync(12, true, /* () */0));
 }
 
 function convertIds(g) {
@@ -20,8 +25,8 @@ function convertIds(g) {
                         /* resourceId */r[/* resourceId */2],
                         /* facts */$$Array.map((function (f) {
                                 return /* record */[
-                                        /* id */f[/* id */0],
-                                        /* property */f[/* property */1],
+                                        /* id */generateFactId(convertId(r[/* id */0], r[/* resourceId */2], r[/* baseId */1])),
+                                        /* property */convertId(f[/* property */1], f[/* resourceId */3], f[/* baseId */2]),
                                         /* baseId */f[/* baseId */2],
                                         /* resourceId */f[/* resourceId */3],
                                         /* value */f[/* value */4]
@@ -62,7 +67,7 @@ function flattenValues(g) {
               }), g);
 }
 
-function lastStepConvert(g) {
+function shape(g) {
   return $$Array.to_list(Belt_Array.concatMany($$Array.map((function (thing) {
                         return $$Array.map((function (fact) {
                                       var match = fact[/* value */4];
@@ -70,7 +75,7 @@ function lastStepConvert(g) {
                                       tmp = match.tag ? "ERROR" : match[0];
                                       return /* record */[
                                               /* id : record */[
-                                                /* id */"fact-id-implement-me!",
+                                                /* id */Option$Rationale.toExn("ERROR", fact[/* id */0]),
                                                 /* baseId */fact[/* baseId */2],
                                                 /* isPublic */false
                                               ],
@@ -84,7 +89,7 @@ function lastStepConvert(g) {
                                                 /* baseId */fact[/* baseId */2],
                                                 /* isPublic */true
                                               ],
-                                              /* value : record */[/* valueType : String */Block.__(1, [tmp])]
+                                              /* value : record */[/* valueType : String */Block.__(0, [tmp])]
                                             ];
                                     }), thing[/* facts */3]);
                       }), g)));
@@ -93,19 +98,20 @@ function lastStepConvert(g) {
 var partial_arg = Function$Rationale.Infix[/* ||> */1];
 
 function partial_arg$1(param) {
-  return partial_arg(convertIds, flattenValues, param);
+  return partial_arg(flattenValues, convertIds, param);
 }
 
 var partial_arg$2 = Function$Rationale.Infix[/* ||> */1];
 
 function run(param) {
-  return partial_arg$2(partial_arg$1, lastStepConvert, param);
+  return partial_arg$2(partial_arg$1, shape, param);
 }
 
 exports.convertId = convertId;
+exports.generateFactId = generateFactId;
 exports.convertIds = convertIds;
 exports.valueToArray = valueToArray;
 exports.flattenValues = flattenValues;
-exports.lastStepConvert = lastStepConvert;
+exports.shape = shape;
 exports.run = run;
 /* Option-Rationale Not a pure module */
