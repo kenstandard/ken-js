@@ -34,7 +34,7 @@ function factDecoder(property, json, baseId, resourceId) {
                 ];
       case 2 : 
           return /* record */[
-                  /* id */"NOT IMPLEMENTED",
+                  /* id */"json-values-TODO",
                   /* property */property,
                   /* baseId */baseId,
                   /* resourceId */resourceId,

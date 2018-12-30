@@ -2,17 +2,67 @@
 'use strict';
 
 var List = require("bs-platform/lib/js/list.js");
+var $$Array = require("bs-platform/lib/js/array.js");
+var Block = require("bs-platform/lib/js/block.js");
 var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
+var Belt_List = require("bs-platform/lib/js/belt_List.js");
 var RList$Rationale = require("rationale/src/RList.js");
+var Option$Rationale = require("rationale/src/Option.js");
+var Function$Rationale = require("rationale/src/Function.js");
+var SecureRandomString = require("@ncthbrt/re-secure-random-string/src/SecureRandomString.bs.js");
+
+function thingIdToJs(param) {
+  return {
+          rawId: param[/* rawId */0],
+          baseId: param[/* baseId */1],
+          resourceId: param[/* resourceId */2],
+          thingIdType: param[/* thingIdType */3],
+          updatedId: param[/* updatedId */4]
+        };
+}
+
+function thingIdFromJs(param) {
+  return /* record */[
+          /* rawId */param.rawId,
+          /* baseId */param.baseId,
+          /* resourceId */param.resourceId,
+          /* thingIdType */param.thingIdType,
+          /* updatedId */param.updatedId
+        ];
+}
+
+function factToJs(param) {
+  return {
+          thingId: param[/* thingId */0],
+          subjectId: param[/* subjectId */1],
+          propertyId: param[/* propertyId */2],
+          value: param[/* value */3]
+        };
+}
+
+function factFromJs(param) {
+  return /* record */[
+          /* thingId */param.thingId,
+          /* subjectId */param.subjectId,
+          /* propertyId */param.propertyId,
+          /* value */param.value
+        ];
+}
+
+var Graph = /* module */[
+  /* thingIdToJs */thingIdToJs,
+  /* thingIdFromJs */thingIdFromJs,
+  /* factToJs */factToJs,
+  /* factFromJs */factFromJs
+];
 
 function makeThingId(id, baseId, resourceId) {
   return /* record */[
           /* rawId */id,
           /* baseId */baseId,
           /* resourceId */resourceId,
-          /* updatedId */undefined,
-          /* isExternal */undefined,
-          /* thingIdType */undefined
+          /* thingIdType */undefined,
+          /* updatedId */undefined
         ];
 }
 
@@ -61,9 +111,8 @@ function useUniqueThingIds(g) {
 }
 
 function handleThingTypes(g) {
-  allPrimaryIds(g);
   var propertyOrSubjectType = function (id) {
-    var match = id[/* thingIdType */5];
+    var match = id[/* thingIdType */3];
     if (match !== undefined && !match) {
       return /* FACT */0;
     } else {
@@ -72,23 +121,117 @@ function handleThingTypes(g) {
   };
   List.iter((function (r) {
           var id = r[/* thingId */0];
-          id[/* thingIdType */5] = /* FACT */0;
+          id[/* thingIdType */3] = /* FACT */0;
           return /* () */0;
         }), g);
   List.iter((function (r) {
           var propertyId = r[/* propertyId */2];
-          propertyId[/* thingIdType */5] = propertyOrSubjectType(propertyId);
+          propertyId[/* thingIdType */3] = propertyOrSubjectType(propertyId);
           var subjectId = r[/* subjectId */1];
-          subjectId[/* thingIdType */5] = propertyOrSubjectType(subjectId);
+          subjectId[/* thingIdType */3] = propertyOrSubjectType(subjectId);
           return /* () */0;
         }), g);
   return g;
 }
 
+function findId(uniqueIds, thingId) {
+  return List.find((function (e) {
+                return Caml_obj.caml_equal(thingIdKey(e), thingIdKey(thingId));
+              }), uniqueIds);
+}
+
+function _convertValue(uniqueIds, fact) {
+  var match = fact[/* value */3];
+  if (match.tag) {
+    return /* Id */Block.__(1, [match[0]]);
+  } else {
+    var str = match[0];
+    var e = Belt_List.getBy(uniqueIds, (function (e) {
+            return Caml_obj.caml_equal(thingIdKey(e), /* tuple */[
+                        str,
+                        fact[/* thingId */0][/* baseId */1],
+                        fact[/* thingId */0][/* resourceId */2]
+                      ]);
+          }));
+    if (e !== undefined) {
+      return /* Id */Block.__(1, [e]);
+    } else {
+      return /* String */Block.__(0, [str]);
+    }
+  }
+}
+
+function linkValues(g) {
+  var uniqueIds = RList$Rationale.uniqBy(thingIdKey, allPrimaryIds(g));
+  List.iter((function (fact) {
+          fact[/* value */3] = _convertValue(uniqueIds, fact);
+          return /* () */0;
+        }), g);
+  return g;
+}
+
+function convertId(thingId) {
+  var rawId = Option$Rationale.$$default("CHANGE_ME_SHOULD_BE_RANDOM", thingId[/* rawId */0]);
+  return Option$Rationale.some(Option$Rationale.toExn("BASE_ID_ERROR_89sjdf", thingId[/* baseId */1]) + ("/" + (Option$Rationale.toExn("RESOURCE_ID_ERROR_89sjdf", thingId[/* resourceId */2]) + ("/" + rawId))));
+}
+
+function generateFactId(thingId) {
+  return Option$Rationale.toExn("sdf", thingId[/* updatedId */4]) + ("/_f/" + SecureRandomString.genSync(12, true, /* () */0));
+}
+
+function handleUpdatedIds(g) {
+  var uniqueIds = RList$Rationale.uniqBy(thingIdKey, allPrimaryIds(g));
+  List.iter((function (id) {
+          var match = id[/* thingIdType */3];
+          if (match !== undefined && match) {
+            id[/* updatedId */4] = convertId(id);
+            return /* () */0;
+          } else {
+            return /* () */0;
+          }
+        }), uniqueIds);
+  List.iter((function (fact) {
+          fact[/* thingId */0][/* updatedId */4] = generateFactId(fact[/* subjectId */1]);
+          return /* () */0;
+        }), g);
+  return g;
+}
+
+var partial_arg = Function$Rationale.Infix[/* ||> */1];
+
+function partial_arg$1(param) {
+  return partial_arg(useUniqueThingIds, handleThingTypes, param);
+}
+
+var partial_arg$2 = Function$Rationale.Infix[/* ||> */1];
+
+function partial_arg$3(param) {
+  return partial_arg$2(partial_arg$1, linkValues, param);
+}
+
+var partial_arg$4 = Function$Rationale.Infix[/* ||> */1];
+
+function run(param) {
+  return partial_arg$4(partial_arg$3, handleUpdatedIds, param);
+}
+
+function showFacts(g) {
+  return $$Array.map(factToJs, $$Array.of_list(g));
+}
+
+exports.Graph = Graph;
 exports.makeThingId = makeThingId;
 exports.thingIdKey = thingIdKey;
 exports.allPrimaryIds = allPrimaryIds;
 exports.findUniqueIds = findUniqueIds;
 exports.useUniqueThingIds = useUniqueThingIds;
 exports.handleThingTypes = handleThingTypes;
+exports.findId = findId;
+exports._convertValue = _convertValue;
+exports.linkValues = linkValues;
+exports.convertId = convertId;
+exports.generateFactId = generateFactId;
+exports.handleUpdatedIds = handleUpdatedIds;
+exports.run = run;
+exports.showFacts = showFacts;
 /* RList-Rationale Not a pure module */

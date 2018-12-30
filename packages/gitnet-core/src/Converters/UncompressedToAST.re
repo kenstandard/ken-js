@@ -24,7 +24,7 @@ let flattenValues = (g: unprocessedGraph): unprocessedGraph =>
        )
   );
 
-let shape = (g: unprocessedGraph): ADT.graph =>
+let shape = (g: unprocessedGraph): ADT.Graph.graph =>
   g
   |> Array.map((thing: UnprocessedGraph.thing) =>
        thing.facts
@@ -46,13 +46,13 @@ let shape = (g: unprocessedGraph): ADT.graph =>
                     fact.resourceId,
                   ),
                 value:
-                  ADT.String(
+                  ADT.Graph.String(
                     switch (fact.value) {
                     | String(str) => str
                     | _ => "ERROR"
                     },
                   ),
-              }: ADT.fact
+              }: ADT.Graph.fact
             )
           )
      )

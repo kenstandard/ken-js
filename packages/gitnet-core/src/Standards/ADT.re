@@ -1,39 +1,43 @@
 /* Algebraic Data Type */
-type thingIdType =
-  | FACT
-  | NONFACT;
+module Graph = {
+  type thingIdType =
+    | FACT
+    | NONFACT;
 
-type thingId = {
-  rawId: option(string),
-  baseId: option(string),
-  resourceId: option(string),
-  mutable updatedId: option(string),
-  mutable isExternal: option(bool),
-  mutable thingIdType: option(thingIdType),
+  [@bs.deriving jsConverter]
+  type thingId = {
+    rawId: option(string),
+    baseId: option(string),
+    resourceId: option(string),
+    mutable thingIdType: option(thingIdType),
+    mutable updatedId: option(string),
+  };
+
+  type value =
+    | String(string)
+    | Id(thingId);
+
+  [@bs.deriving jsConverter]
+  type fact = {
+    thingId,
+    subjectId: thingId,
+    propertyId: thingId,
+    mutable value,
+  };
+
+  type graph = list(fact);
 };
 
-type value =
-  | String(string)
-  | Id(thingId);
-
-type fact = {
-  thingId,
-  subjectId: thingId,
-  propertyId: thingId,
-  mutable value,
-};
-
+open Graph;
 /* ADT ENDS HERE */
 let makeThingId = (id, baseId, resourceId) => {
   rawId: id,
   updatedId: None,
   baseId: Some(baseId),
   resourceId: Some(resourceId),
-  isExternal: None,
+  /* isExternal: None, */
   thingIdType: None,
 };
-
-type graph = list(fact);
 
 let thingIdKey = (e: thingId) => (e.rawId, e.baseId, e.resourceId);
 
@@ -43,6 +47,8 @@ let allPrimaryIds = (g: graph): list(thingId) =>
 let findUniqueIds = (g: graph): list(thingId) =>
   g |> allPrimaryIds |> Rationale.RList.uniqBy(thingIdKey);
 
+/* Make sure that all thing Ids are only represented once. */
+/* Don't do this for facts! */
 let useUniqueThingIds = g: graph => {
   let uniqueIds = findUniqueIds(g);
   let findId = thingId =>
@@ -58,8 +64,8 @@ let useUniqueThingIds = g: graph => {
      );
 };
 
+/* Mutate thing types to correct formats */
 let handleThingTypes = (g: graph) => {
-  let ids = g |> allPrimaryIds;
   let propertyOrSubjectType = (id: thingId) =>
     switch (id.thingIdType) {
     | Some(FACT) => Some(FACT)
@@ -79,32 +85,71 @@ let handleThingTypes = (g: graph) => {
      });
   g;
 };
-/* |> List.map(r =>
-        {
-          ...r,
-          thingId: {
-            ...r.thingId,
-            thingIdType: Some(FACT),
-          },
+
+let findId = (uniqueIds, thingId) =>
+  uniqueIds |> List.find(e => thingIdKey(e) == thingIdKey(thingId));
+
+/* TODO: Improve this with more logic */
+let _convertValue = (uniqueIds, fact) =>
+  switch (fact.value) {
+  | Id(id) => Id(id)
+  | String(str) =>
+    uniqueIds
+    |> Belt.List.getBy(_, e =>
+         thingIdKey(e)
+         == (Some(str), fact.thingId.baseId, fact.thingId.resourceId)
+       )
+    |> (
+      e =>
+        switch (e) {
+        | Some(id) => Id(id)
+        | _ => String(str)
         }
-      )
-   |> List.map(r =>
-        {
-          ...r,
-          subjectId: {
-            ...r.subjectId,
-            thingIdType:
-              switch (r.thingId.thingIdType) {
-              | Some(FACT) => Some(FACT)
-              | _ => Some(NONFACT)
-              },
-          },
-        }
-      ); */
-/* let run =
-   Rationale.Function.Infix.(
-     useUniqueThingIds
-     ||> handleThingTypes
-     ||> handleIsExternal
-     ||> handleUpdatedIds
-   ); */
+    )
+  };
+
+let linkValues = g: graph => {
+  let uniqueIds = findUniqueIds(g);
+  g |> List.iter(fact => fact.value = _convertValue(uniqueIds, fact));
+  g;
+};
+
+let convertId = thingId => {
+  open Rationale.Option;
+  let rawId = thingId.rawId |> default("CHANGE_ME_SHOULD_BE_RANDOM");
+  (thingId.baseId |> toExn("BASE_ID_ERROR_89sjdf"))
+  ++ "/"
+  ++ (thingId.resourceId |> toExn("RESOURCE_ID_ERROR_89sjdf"))
+  ++ "/"
+  ++ rawId
+  |> Rationale.Option.some;
+};
+
+let generateFactId = thingId =>
+  (thingId.updatedId |> Rationale.Option.toExn("sdf"))
+  ++ "/_f/"
+  ++ SecureRandomString.genSync(~length=12, ~alphaNumeric=true, ());
+
+let handleUpdatedIds = g: graph => {
+  let uniqueIds = findUniqueIds(g);
+  uniqueIds
+  |> List.iter(id =>
+       switch (id.thingIdType) {
+       | Some(NONFACT) => id.updatedId = convertId(id)
+       | _ => ()
+       }
+     );
+
+  g
+  |> List.iter(fact =>
+       fact.thingId.updatedId = Some(generateFactId(fact.subjectId))
+     );
+  g;
+};
+
+let run =
+  Rationale.Function.Infix.(
+    useUniqueThingIds ||> handleThingTypes ||> linkValues ||> handleUpdatedIds
+  );
+
+let showFacts = (g: graph) => g |> Array.of_list |> Array.map(factToJs);

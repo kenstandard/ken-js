@@ -39,10 +39,14 @@ describe("#to_json", () =>
     let bar =
       value
       |> JsonToUnprocessed.run
-      |> UnprocessedGraphToFactList.run
-      |> SimpleToPrimary.run
-      |> PrimaryGraph.showValues;
-    Js.log(bar);
+      |> UncompressedToAST.run
+      |> ADT.run
+      |> ADT.showFacts
+      |> Js.log;
+    /* |> UnprocessedGraphToFactList.run */
+    /* |> SimpleToPrimary.run
+       |> PrimaryGraph.showValues; */
+    /* Js.log(bar); */
     expect(true) |> toEqual(true);
   })
 );

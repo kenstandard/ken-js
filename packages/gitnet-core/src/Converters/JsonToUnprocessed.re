@@ -12,7 +12,7 @@ let factDecoder = (property, json, baseId, resourceId) =>
   | JSONObject(_) => {
       property,
       value: String(json |> Json.Decode.field("value", Json.Decode.string)),
-      id: Some("NOT IMPLEMENTED"),
+      id: Some("json-values-TODO"),
       baseId,
       resourceId,
     }
