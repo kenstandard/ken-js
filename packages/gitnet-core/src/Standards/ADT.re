@@ -35,7 +35,6 @@ let makeThingId = (id, baseId, resourceId) => {
   updatedId: None,
   baseId: Some(baseId),
   resourceId: Some(resourceId),
-  /* isExternal: None, */
   thingIdType: None,
 };
 
@@ -117,16 +116,26 @@ let linkValues = g: graph => {
 let convertId = thingId => {
   open Rationale.Option;
   let rawId = thingId.rawId |> default("CHANGE_ME_SHOULD_BE_RANDOM");
-  (thingId.baseId |> toExn("BASE_ID_ERROR_89sjdf"))
-  ++ "/"
-  ++ (thingId.resourceId |> toExn("RESOURCE_ID_ERROR_89sjdf"))
-  ++ "/"
-  ++ rawId
-  |> Rationale.Option.some;
+  if (rawId |> String.get(_, 0) == "@".[0]) {
+    Some(rawId);
+  } else {
+    "@"
+    ++ (thingId.baseId |> toExn("BASE_ID_ERROR_89sjdf"))
+    ++ "/"
+    ++ (thingId.resourceId |> toExn("RESOURCE_ID_ERROR_89sjdf"))
+    ++ "/"
+    ++ rawId
+    |> Rationale.Option.some;
+  };
 };
 
 let generateFactId = thingId =>
-  (thingId.updatedId |> Rationale.Option.toExn("sdf"))
+  (
+    thingId.updatedId
+    |> Rationale.Option.toExn(
+         "Subject ThingID expected to have updatedID by this point of pipeline",
+       )
+  )
   ++ "/_f/"
   ++ SecureRandomString.genSync(~length=12, ~alphaNumeric=true, ());
 
@@ -153,3 +162,5 @@ let run =
   );
 
 let showFacts = (g: graph) => g |> Array.of_list |> Array.map(factToJs);
+let showIds = (g: graph) =>
+  g |> findUniqueIds |> Array.of_list |> Array.map(thingIdToJs);

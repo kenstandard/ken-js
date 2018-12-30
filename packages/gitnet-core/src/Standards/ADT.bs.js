@@ -6,6 +6,7 @@ var $$Array = require("bs-platform/lib/js/array.js");
 var Block = require("bs-platform/lib/js/block.js");
 var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
 var Belt_List = require("bs-platform/lib/js/belt_List.js");
+var Caml_string = require("bs-platform/lib/js/caml_string.js");
 var RList$Rationale = require("rationale/src/RList.js");
 var Option$Rationale = require("rationale/src/Option.js");
 var Function$Rationale = require("rationale/src/Function.js");
@@ -172,11 +173,15 @@ function linkValues(g) {
 
 function convertId(thingId) {
   var rawId = Option$Rationale.$$default("CHANGE_ME_SHOULD_BE_RANDOM", thingId[/* rawId */0]);
-  return Option$Rationale.some(Option$Rationale.toExn("BASE_ID_ERROR_89sjdf", thingId[/* baseId */1]) + ("/" + (Option$Rationale.toExn("RESOURCE_ID_ERROR_89sjdf", thingId[/* resourceId */2]) + ("/" + rawId))));
+  if (Caml_string.get(rawId, 0) === /* "@" */64) {
+    return rawId;
+  } else {
+    return Option$Rationale.some("@" + (Option$Rationale.toExn("BASE_ID_ERROR_89sjdf", thingId[/* baseId */1]) + ("/" + (Option$Rationale.toExn("RESOURCE_ID_ERROR_89sjdf", thingId[/* resourceId */2]) + ("/" + rawId)))));
+  }
 }
 
 function generateFactId(thingId) {
-  return Option$Rationale.toExn("sdf", thingId[/* updatedId */4]) + ("/_f/" + SecureRandomString.genSync(12, true, /* () */0));
+  return Option$Rationale.toExn("Subject ThingID expected to have updatedID by this point of pipeline", thingId[/* updatedId */4]) + ("/_f/" + SecureRandomString.genSync(12, true, /* () */0));
 }
 
 function handleUpdatedIds(g) {
@@ -219,6 +224,10 @@ function showFacts(g) {
   return $$Array.map(factToJs, $$Array.of_list(g));
 }
 
+function showIds(g) {
+  return $$Array.map(thingIdToJs, $$Array.of_list(RList$Rationale.uniqBy(thingIdKey, allPrimaryIds(g))));
+}
+
 exports.Graph = Graph;
 exports.makeThingId = makeThingId;
 exports.thingIdKey = thingIdKey;
@@ -234,4 +243,5 @@ exports.generateFactId = generateFactId;
 exports.handleUpdatedIds = handleUpdatedIds;
 exports.run = run;
 exports.showFacts = showFacts;
+exports.showIds = showIds;
 /* RList-Rationale Not a pure module */
