@@ -5,7 +5,6 @@ var List = require("bs-platform/lib/js/list.js");
 var $$Array = require("bs-platform/lib/js/array.js");
 var Block = require("bs-platform/lib/js/block.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
-var Utility$Reason = require("../Utility.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
 var Option$Rationale = require("rationale/src/Option.js");
 
@@ -53,7 +52,7 @@ function possiblyConvertValueTypesToThing(graph, value) {
   switch (match.tag | 0) {
     case 0 : 
         var s = match[0];
-        var __x = Utility$Reason.log2(s, graph[/* things */0]);
+        var __x = graph[/* things */0];
         var match$1 = Option$Rationale.isSome(Js_dict.get(__x, s));
         if (match$1) {
           return /* Thing */Block.__(1, [s]);

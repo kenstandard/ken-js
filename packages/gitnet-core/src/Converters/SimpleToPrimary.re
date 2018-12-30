@@ -30,10 +30,7 @@ let possiblyConvertValueTypesToThing =
     (graph: PrimaryGraph.graph, value: PrimaryGraph.value) =>
   switch (value.valueType) {
   | String(s) =>
-    graph.things
-    |> Utility.log2(s)
-    |> Js.Dict.get(_, s)
-    |> Rationale.Option.isSome ?
+    graph.things |> Js.Dict.get(_, s) |> Rationale.Option.isSome ?
       PrimaryGraph.Thing(s) : PrimaryGraph.String(s)
   | _ => value.valueType
   };

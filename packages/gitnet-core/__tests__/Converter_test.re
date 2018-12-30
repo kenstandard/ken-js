@@ -10,7 +10,7 @@ let value =
         "baseId": "base12",
         "resourceId": "2/1",
         "n-fred": {
-          "p-name": "Fred"
+          "@p-name": "Fred"
         }
       },
       {
@@ -35,7 +35,9 @@ describe("#to_json", () =>
       |> JsonToUnprocessed.run
       |> UncompressedToAST.run
       |> ADT.run
-      |> ADT.showFacts
+      |> ADTToSimple.run
+      |> SimpleToPrimary.run
+      |> PrimaryGraph.showThings
       |> Js.log;
     /* |> UnprocessedGraphToFactList.run */
     /* |> SimpleToPrimary.run
