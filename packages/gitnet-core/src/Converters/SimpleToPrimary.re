@@ -33,8 +33,27 @@ let listThings = (facts: SimpleFactList.graph): list(PrimaryGraph.thing) =>
        (
          {
            thingId: id.id,
+           baseId: id.baseId,
            idIsPublic: id.isPublic,
            thingType: PrimaryGraph.Item,
          }: PrimaryGraph.thing
        )
      );
+
+let run = (facts: SimpleFactList.graph): PrimaryGraph.graph => {
+  bases:
+    facts
+    |> listThings
+    |> List.map((r: PrimaryGraph.thing) => r.baseId)
+    |> Rationale.RList.uniq,
+  things:
+    facts
+    |> listThings
+    |> List.map((r: PrimaryGraph.thing) => (r.thingId, r))
+    |> Js.Dict.fromList,
+  facts:
+    facts
+    |> listFacts
+    |> List.map((r: PrimaryGraph.fact) => (r.thingId, r))
+    |> Js.Dict.fromList,
+};

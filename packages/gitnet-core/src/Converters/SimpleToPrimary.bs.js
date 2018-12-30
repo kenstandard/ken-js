@@ -2,6 +2,7 @@
 'use strict';
 
 var List = require("bs-platform/lib/js/list.js");
+var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var RList$Rationale = require("rationale/src/RList.js");
 
 function uniqueIds(facts) {
@@ -48,13 +49,35 @@ function listThings(facts) {
                 return /* record */[
                         /* thingId */id[/* id */0],
                         /* idIsPublic */id[/* isPublic */2],
+                        /* baseId */id[/* baseId */1],
                         /* thingType : Item */0
                       ];
               }), uniqueIds(facts));
+}
+
+function run(facts) {
+  return /* record */[
+          /* things */Js_dict.fromList(List.map((function (r) {
+                      return /* tuple */[
+                              r[/* thingId */0],
+                              r
+                            ];
+                    }), listThings(facts))),
+          /* facts */Js_dict.fromList(List.map((function (r) {
+                      return /* tuple */[
+                              r[/* thingId */0],
+                              r
+                            ];
+                    }), listFacts(facts))),
+          /* bases */RList$Rationale.uniq(List.map((function (r) {
+                      return r[/* baseId */2];
+                    }), listThings(facts)))
+        ];
 }
 
 exports.uniqueIds = uniqueIds;
 exports.findType = findType;
 exports.listFacts = listFacts;
 exports.listThings = listThings;
+exports.run = run;
 /* RList-Rationale Not a pure module */

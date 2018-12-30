@@ -1,4 +1,5 @@
 type thingId = string;
+
 type baseId = string;
 
 type base = {id: string};
@@ -29,6 +30,7 @@ type thingType =
 type thing = {
   thingId,
   idIsPublic: bool,
+  baseId,
   thingType,
 };
 
