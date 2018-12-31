@@ -4,6 +4,7 @@
 var Jest = require("@glennsl/bs-jest/src/jest.js");
 var Json = require("@glennsl/bs-json/src/Json.bs.js");
 var ADT$Reason = require("../src/Standards/ADT.bs.js");
+var Graph$Reason = require("../src/Graph/Graph.bs.js");
 var ADTToSimple$Reason = require("../src/Converters/ADTToSimple.bs.js");
 var PrimaryGraph$Reason = require("../src/Standards/PrimaryGraph.bs.js");
 var SimpleToPrimary$Reason = require("../src/Converters/SimpleToPrimary.bs.js");
@@ -14,7 +15,7 @@ var value = Json.parseOrRaise("\n      [\n        {\n        \"baseId\": \"base1
 
 describe("#to_json", (function () {
         return Jest.test("works", (function (param) {
-                      console.log(PrimaryGraph$Reason.showThings(SimpleToPrimary$Reason.run(ADTToSimple$Reason.run(ADT$Reason.run(UncompressedToAST$Reason.run(JsonToUnprocessed$Reason.run(value)))))));
+                      console.log(Graph$Reason.to_json(PrimaryGraph$Reason.toBase(SimpleToPrimary$Reason.run(ADTToSimple$Reason.run(ADT$Reason.run(UncompressedToAST$Reason.run(JsonToUnprocessed$Reason.run(value))))))));
                       return Jest.Expect[/* toEqual */12](true, Jest.Expect[/* expect */0](true));
                     }));
       }));

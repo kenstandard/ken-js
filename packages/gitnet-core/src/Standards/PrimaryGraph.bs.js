@@ -2,7 +2,9 @@
 'use strict';
 
 var $$Array = require("bs-platform/lib/js/array.js");
+var Block = require("bs-platform/lib/js/block.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
+var Graph$Reason = require("../Graph/Graph.bs.js");
 
 function valueToJs(param) {
   return {
@@ -64,6 +66,32 @@ function showValues(g) {
                   }), Js_dict.values(g[/* facts */1])));
 }
 
+function toBase(g) {
+  return Graph$Reason.from_facts($$Array.to_list($$Array.map((function (f) {
+                        var match = f[/* value */3][/* valueType */0];
+                        var tmp;
+                        switch (match.tag | 0) {
+                          case 0 : 
+                          case 1 : 
+                              tmp = /* String */Block.__(1, [match[0]]);
+                              break;
+                          case 2 : 
+                              tmp = /* JSON */Block.__(2, [match[0]]);
+                              break;
+                          
+                        }
+                        return /* record */[
+                                /* id */f[/* thingId */0],
+                                /* subjectId */f[/* subjectId */1],
+                                /* propertyId */f[/* propertyId */2],
+                                /* value */tmp,
+                                /* idIsPublic */false,
+                                /* baseId */"false",
+                                /* resourceId */"false"
+                              ];
+                      }), Js_dict.values(g[/* facts */1]))));
+}
+
 exports.valueToJs = valueToJs;
 exports.valueFromJs = valueFromJs;
 exports.factToJs = factToJs;
@@ -73,4 +101,5 @@ exports.thingFromJs = thingFromJs;
 exports.showFacts = showFacts;
 exports.showThings = showThings;
 exports.showValues = showValues;
-/* No side effect */
+exports.toBase = toBase;
+/* Graph-Reason Not a pure module */

@@ -17,8 +17,9 @@ function thingIdToJs(param) {
           rawId: param[/* rawId */0],
           baseId: param[/* baseId */1],
           resourceId: param[/* resourceId */2],
-          thingIdType: param[/* thingIdType */3],
-          updatedId: param[/* updatedId */4]
+          tag: param[/* tag */3],
+          thingIdType: param[/* thingIdType */4],
+          updatedId: param[/* updatedId */5]
         };
 }
 
@@ -27,6 +28,7 @@ function thingIdFromJs(param) {
           /* rawId */param.rawId,
           /* baseId */param.baseId,
           /* resourceId */param.resourceId,
+          /* tag */param.tag,
           /* thingIdType */param.thingIdType,
           /* updatedId */param.updatedId
         ];
@@ -62,6 +64,7 @@ function makeThingId(id, baseId, resourceId) {
           /* rawId */id,
           /* baseId */baseId,
           /* resourceId */resourceId,
+          /* tag */undefined,
           /* thingIdType */undefined,
           /* updatedId */undefined
         ];
@@ -71,7 +74,8 @@ function thingIdKey(e) {
   return /* tuple */[
           e[/* rawId */0],
           e[/* baseId */1],
-          e[/* resourceId */2]
+          e[/* resourceId */2],
+          e[/* tag */3]
         ];
 }
 
@@ -94,6 +98,14 @@ function findUniqueIds(g) {
   return RList$Rationale.uniqBy(thingIdKey, allPrimaryIds(g));
 }
 
+function tagFacts(g) {
+  List.iter((function (fact) {
+          fact[/* thingId */0][/* tag */3] = SecureRandomString.genSync(12, true, /* () */0);
+          return /* () */0;
+        }), g);
+  return g;
+}
+
 function useUniqueThingIds(g) {
   var uniqueIds = RList$Rationale.uniqBy(thingIdKey, allPrimaryIds(g));
   var findId = function (thingId) {
@@ -113,7 +125,7 @@ function useUniqueThingIds(g) {
 
 function handleThingTypes(g) {
   var propertyOrSubjectType = function (id) {
-    var match = id[/* thingIdType */3];
+    var match = id[/* thingIdType */4];
     if (match !== undefined && !match) {
       return /* FACT */0;
     } else {
@@ -122,14 +134,14 @@ function handleThingTypes(g) {
   };
   List.iter((function (r) {
           var id = r[/* thingId */0];
-          id[/* thingIdType */3] = /* FACT */0;
+          id[/* thingIdType */4] = /* FACT */0;
           return /* () */0;
         }), g);
   List.iter((function (r) {
           var propertyId = r[/* propertyId */2];
-          propertyId[/* thingIdType */3] = propertyOrSubjectType(propertyId);
+          propertyId[/* thingIdType */4] = propertyOrSubjectType(propertyId);
           var subjectId = r[/* subjectId */1];
-          subjectId[/* thingIdType */3] = propertyOrSubjectType(subjectId);
+          subjectId[/* thingIdType */4] = propertyOrSubjectType(subjectId);
           return /* () */0;
         }), g);
   return g;
@@ -151,7 +163,8 @@ function _convertValue(uniqueIds, fact) {
             return Caml_obj.caml_equal(thingIdKey(e), /* tuple */[
                         str,
                         fact[/* thingId */0][/* baseId */1],
-                        fact[/* thingId */0][/* resourceId */2]
+                        fact[/* thingId */0][/* resourceId */2],
+                        fact[/* thingId */0][/* tag */3]
                       ]);
           }));
     if (e !== undefined) {
@@ -180,44 +193,26 @@ function convertId(thingId) {
   }
 }
 
-function generateFactId(thingId) {
-  return Option$Rationale.toExn("Subject ThingID expected to have updatedID by this point of pipeline", thingId[/* updatedId */4]) + ("/_f/" + SecureRandomString.genSync(12, true, /* () */0));
+function generateFactId(thingId, subjectId) {
+  return Option$Rationale.toExn("Subject ThingID expected to have updatedID by this point of pipeline", subjectId[/* updatedId */5]) + ("/_f/" + Option$Rationale.$$default("ERROR", thingId[/* tag */3]));
 }
 
 function handleUpdatedIds(g) {
   var uniqueIds = RList$Rationale.uniqBy(thingIdKey, allPrimaryIds(g));
   List.iter((function (id) {
-          var match = id[/* thingIdType */3];
+          var match = id[/* thingIdType */4];
           if (match !== undefined && match) {
-            id[/* updatedId */4] = convertId(id);
+            id[/* updatedId */5] = convertId(id);
             return /* () */0;
           } else {
             return /* () */0;
           }
         }), uniqueIds);
   List.iter((function (fact) {
-          fact[/* thingId */0][/* updatedId */4] = generateFactId(fact[/* subjectId */1]);
+          fact[/* thingId */0][/* updatedId */5] = generateFactId(fact[/* thingId */0], fact[/* subjectId */1]);
           return /* () */0;
         }), g);
   return g;
-}
-
-var partial_arg = Function$Rationale.Infix[/* ||> */1];
-
-function partial_arg$1(param) {
-  return partial_arg(useUniqueThingIds, handleThingTypes, param);
-}
-
-var partial_arg$2 = Function$Rationale.Infix[/* ||> */1];
-
-function partial_arg$3(param) {
-  return partial_arg$2(partial_arg$1, linkValues, param);
-}
-
-var partial_arg$4 = Function$Rationale.Infix[/* ||> */1];
-
-function run(param) {
-  return partial_arg$4(partial_arg$3, handleUpdatedIds, param);
 }
 
 function showFacts(g) {
@@ -228,11 +223,36 @@ function showIds(g) {
   return $$Array.map(thingIdToJs, $$Array.of_list(RList$Rationale.uniqBy(thingIdKey, allPrimaryIds(g))));
 }
 
+var partial_arg = Function$Rationale.Infix[/* ||> */1];
+
+function partial_arg$1(param) {
+  return partial_arg(tagFacts, useUniqueThingIds, param);
+}
+
+var partial_arg$2 = Function$Rationale.Infix[/* ||> */1];
+
+function partial_arg$3(param) {
+  return partial_arg$2(partial_arg$1, handleThingTypes, param);
+}
+
+var partial_arg$4 = Function$Rationale.Infix[/* ||> */1];
+
+function partial_arg$5(param) {
+  return partial_arg$4(partial_arg$3, linkValues, param);
+}
+
+var partial_arg$6 = Function$Rationale.Infix[/* ||> */1];
+
+function run(param) {
+  return partial_arg$6(partial_arg$5, handleUpdatedIds, param);
+}
+
 exports.Graph = Graph;
 exports.makeThingId = makeThingId;
 exports.thingIdKey = thingIdKey;
 exports.allPrimaryIds = allPrimaryIds;
 exports.findUniqueIds = findUniqueIds;
+exports.tagFacts = tagFacts;
 exports.useUniqueThingIds = useUniqueThingIds;
 exports.handleThingTypes = handleThingTypes;
 exports.findId = findId;
@@ -241,7 +261,7 @@ exports.linkValues = linkValues;
 exports.convertId = convertId;
 exports.generateFactId = generateFactId;
 exports.handleUpdatedIds = handleUpdatedIds;
-exports.run = run;
 exports.showFacts = showFacts;
 exports.showIds = showIds;
+exports.run = run;
 /* RList-Rationale Not a pure module */

@@ -51,3 +51,27 @@ let showThings = (g: graph) =>
 
 let showValues = (g: graph) =>
   g.facts |> Js.Dict.values |> Array.map(f => f.value) |> Array.map(valueToJs);
+
+let toBase = (g: graph): Base.graph =>
+  g.facts
+  |> Js.Dict.values
+  |> Array.map((f: fact) =>
+       (
+         {
+           id: f.thingId,
+           subjectId: f.subjectId,
+           propertyId: f.propertyId,
+           value:
+             switch (f.value.valueType) {
+             | String(str) => Base.String(str)
+             | Thing(str) => Base.String(str)
+             | JSON(r) => Base.JSON(r)
+             },
+           idIsPublic: false,
+           baseId: "false",
+           resourceId: "false",
+         }: Base.fact
+       )
+     )
+  |> Array.to_list
+  |> Graph.from_facts;

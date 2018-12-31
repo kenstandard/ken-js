@@ -36,8 +36,12 @@ describe("#to_json", () =>
       |> UncompressedToAST.run
       |> ADT.run
       |> ADTToSimple.run
+      /* |> SimpleFactList.showFacts */
       |> SimpleToPrimary.run
-      |> PrimaryGraph.showThings
+      /* |> PrimaryGraph.showFacts */
+      /* |> Js.log; */
+      |> PrimaryGraph.toBase
+      |> Graph.to_json
       |> Js.log;
     /* |> UnprocessedGraphToFactList.run */
     /* |> SimpleToPrimary.run

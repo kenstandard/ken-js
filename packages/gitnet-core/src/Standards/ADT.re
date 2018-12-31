@@ -9,6 +9,7 @@ module Graph = {
     rawId: option(string),
     baseId: option(string),
     resourceId: option(string),
+    mutable tag: option(string),
     mutable thingIdType: option(thingIdType),
     mutable updatedId: option(string),
   };
@@ -29,16 +30,17 @@ module Graph = {
 };
 
 open Graph;
-/* ADT ENDS HERE */
+
 let makeThingId = (id, baseId, resourceId) => {
   rawId: id,
   updatedId: None,
   baseId: Some(baseId),
   resourceId: Some(resourceId),
   thingIdType: None,
+  tag: None,
 };
 
-let thingIdKey = (e: thingId) => (e.rawId, e.baseId, e.resourceId);
+let thingIdKey = (e: thingId) => (e.rawId, e.baseId, e.resourceId, e.tag);
 
 let allPrimaryIds = (g: graph): list(thingId) =>
   g |> List.map(r => [r.thingId, r.subjectId, r.propertyId]) |> List.flatten;
@@ -48,6 +50,15 @@ let findUniqueIds = (g: graph): list(thingId) =>
 
 /* Make sure that all thing Ids are only represented once. */
 /* Don't do this for facts! */
+let tagFacts = g: graph => {
+  g
+  |> List.iter(fact =>
+       fact.thingId.tag =
+         Some(SecureRandomString.genSync(~length=12, ~alphaNumeric=true, ()))
+     );
+  g;
+};
+
 let useUniqueThingIds = g: graph => {
   let uniqueIds = findUniqueIds(g);
   let findId = thingId =>
@@ -96,7 +107,12 @@ let _convertValue = (uniqueIds, fact) =>
     uniqueIds
     |> Belt.List.getBy(_, e =>
          thingIdKey(e)
-         == (Some(str), fact.thingId.baseId, fact.thingId.resourceId)
+         == (
+              Some(str),
+              fact.thingId.baseId,
+              fact.thingId.resourceId,
+              fact.thingId.tag,
+            )
        )
     |> (
       e =>
@@ -129,15 +145,15 @@ let convertId = thingId => {
   };
 };
 
-let generateFactId = thingId =>
+let generateFactId = (thingId, subjectId) =>
   (
-    thingId.updatedId
+    subjectId.updatedId
     |> Rationale.Option.toExn(
          "Subject ThingID expected to have updatedID by this point of pipeline",
        )
   )
   ++ "/_f/"
-  ++ SecureRandomString.genSync(~length=12, ~alphaNumeric=true, ());
+  ++ (thingId.tag |> Rationale.Option.default("ERROR"));
 
 let handleUpdatedIds = g: graph => {
   let uniqueIds = findUniqueIds(g);
@@ -151,16 +167,21 @@ let handleUpdatedIds = g: graph => {
 
   g
   |> List.iter(fact =>
-       fact.thingId.updatedId = Some(generateFactId(fact.subjectId))
+       fact.thingId.updatedId =
+         Some(generateFactId(fact.thingId, fact.subjectId))
      );
   g;
 };
 
-let run =
-  Rationale.Function.Infix.(
-    useUniqueThingIds ||> handleThingTypes ||> linkValues ||> handleUpdatedIds
-  );
-
 let showFacts = (g: graph) => g |> Array.of_list |> Array.map(factToJs);
 let showIds = (g: graph) =>
   g |> findUniqueIds |> Array.of_list |> Array.map(thingIdToJs);
+
+let run =
+  Rationale.Function.Infix.(
+    tagFacts
+    ||> useUniqueThingIds
+    ||> handleThingTypes
+    ||> linkValues
+    ||> handleUpdatedIds
+  );
