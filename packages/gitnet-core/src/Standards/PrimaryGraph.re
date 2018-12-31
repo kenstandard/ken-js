@@ -68,8 +68,8 @@ let toBase = (g: graph): Base.graph =>
              | JSON(r) => Base.JSON(r)
              },
            idIsPublic: false,
-           baseId: "false",
-           resourceId: "false",
+           baseId: "base25",
+           resourceId: "resourceRandom",
          }: Base.fact
        )
      )

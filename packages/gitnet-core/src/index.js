@@ -4,11 +4,14 @@ import * as baseLib from "./Graph/Base.gen"
 import * as graphLib from "./Graph/Graph.gen"
 import * as factLib from "./Graph/Fact.gen"
 import * as converters from "./Converters.gen"
+import * as tempLib from "./Temp.gen"
 import * as R from "ramda";
 
 let data =
       [{
         "id": "g-1",
+        "baseId": "sdf",
+        "resourceId": "resource-31",
         "subjectId": "n-george",
         "propertyId": "p-name",
         "value": {
@@ -19,6 +22,8 @@ let data =
     {
         "id": "g-2",
         "subjectId": "n-george",
+        "baseId": "sdf",
+        "resourceId": "resource-31",
         "propertyId": "p-description",
         "value": {
             "dataValue": "string",
@@ -29,6 +34,8 @@ let data =
         "id": "g-2983",
         "subjectId": "g-2",
         "propertyId": "p-name",
+        "baseId": "sdf",
+        "resourceId": "resource-31",
         "value": {
             "dataValue": "string",
             "data": "Name here!"
@@ -38,6 +45,8 @@ let data =
         "id": "g-3",
         "subjectId": "n-george",
         "propertyId": "p-best-friend",
+        "baseId": "sdf",
+        "resourceId": "resource-31",
         "value": {
             "dataValue": "thingId",
             "data": "n-geoff"
@@ -47,6 +56,8 @@ let data =
         "id": "g-4",
         "subjectId": "n-geoff",
         "propertyId": "p-name",
+        "baseId": "sdf",
+        "resourceId": "resource-31",
         "value": {
             "dataValue": "string",
             "data": "Geoff"
@@ -56,6 +67,8 @@ let data =
         "id": "g-5",
         "subjectId": "n-geoff",
         "propertyId": "p-description",
+        "baseId": "sdf",
+        "resourceId": "resource-31",
         "value": {
             "dataValue": "string",
             "data": "Geoff!!"
@@ -65,6 +78,8 @@ let data =
         "id": "p-0",
         "subjectId": "p-name",
         "propertyId": "p-name",
+        "baseId": "sdf",
+        "resourceId": "resource-31",
         "value": {
             "dataValue": "string",
             "data": "Name"
@@ -74,6 +89,8 @@ let data =
         "id": "p-1",
         "subjectId": "p-description",
         "propertyId": "p-name",
+        "baseId": "sdf",
+        "resourceId": "resource-31",
         "value": {
             "dataValue": "string",
             "data": "Description"
@@ -83,12 +100,41 @@ let data =
         "id": "p-2",
         "subjectId": "p-best-friend",
         "propertyId": "p-name",
+        "baseId": "sdf",
+        "resourceId": "resource-31",
         "value": {
             "dataValue": "string",
             "data": "Best Friend"
         }
     }
 ]
+
+let data2 =       [
+    {
+    "baseId": "base12",
+    "resourceId": "2/2",
+    "n-fred": {
+      "p-name": "Fred",
+      "p-description": "THing3"
+    },
+    "p-name": {
+        "p-name": "Name"
+    },
+    "p-description": {
+        "p-name": "Description"
+    }
+  },
+  {
+    "baseId": "base13",
+    "resourceId": "2/2",
+    "n-george": {
+      "@base12/2/2/p-name": ["GEORGIE!!", "GEORGEOO", "sfdsdf"],
+      "p-friend": "n-jeremy"
+    },
+    "n-jeremy": {
+      "p-name": "George"
+    }
+  }]
 
 export class Value {
     constructor(value, fact, db){
@@ -212,15 +258,20 @@ export class Thing {
 
 export class Database {
     constructor(graph){
-        this.graph = graphLib.load(data);
+        this.graph = tempLib.run(data2);
+        console.log(this.json())
         return this;
     }
     findThing(id){
       let thing = graphLib.findThing(id, this.graph);
+      if (!!thing){
       return new Thing(thing, this);
+      } else {
+          return false
+      }
     }
     things(){
-        return converters.list_to_array(graphLib.things(this.graph)).map(t => new Thing(t, this))
+        return converters.list_to_array(graphLib.things(this.graph)).filter(t => !!t).map(t => new Thing(t, this))
     }
     json(){
         return graphLib.to_json(this.graph)

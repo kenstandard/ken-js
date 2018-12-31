@@ -11,6 +11,7 @@ import jsonData from "./data.json"
 import {TableShow} from "./instances/table"
 import {ThingProperty} from "./ThingProperty"
 
+const nameKey = "@base12/2/2/p-name";
 const expandedRowRender = ({facts}) => {
   let connectedProperties = _.uniqBy(_.flatten(facts.map(f => f.internalThing()).map(p => p.connectedPropertyThings())), r => r.id())
   const constants = [{
@@ -30,7 +31,7 @@ const expandedRowRender = ({facts}) => {
     }
   }]
   const columns = connectedProperties.map(p => ({
-    title: p.propertyIdFacts("p-name")[0].value().data(),
+    title: p.propertyIdFacts(nameKey)[0].value().data(),
     dataIndex: 'fact',
     key: p.id(),
     render: (fact) => {
@@ -55,14 +56,14 @@ const expandedRowRender = ({facts}) => {
 const InverseStatements = ({property, facts}) => {
   let connectedProperties = _.uniqBy(_.flatten(facts.map(f => f.subject()).map(p => p.connectedPropertyThings())), r => r.id())
   const columns = connectedProperties.map(p => {
-    const name = p.propertyIdFacts("p-name")[0].value().data();
+    const name = p.propertyIdFacts(nameKey)[0].value().data();
     return {
       title: name,
       dataIndex: p.id(),
       key: p.id(),
       render: (e, fact) => {
         let val = fact.subject().propertyIdFacts(p.id())[0].value().data();
-        if (p.id() === "p-name"){
+        if (p.id() === nameKey){
           return <Link to={("/things/" + fact.subject().id())}> {val} </Link>
         } else {
           return val
@@ -82,7 +83,7 @@ const columns = [
   dataIndex: 'property',
   key: 'property',
   render: (s) => {
-    return (<ThingProperty thing={(s)} propertyName="p-name" isLink={true}/>);
+    return (<ThingProperty thing={(s)} propertyName={nameKey} isLink={true}/>);
   }
 },
   {
@@ -99,10 +100,11 @@ const columns = [
 
 export class Thing extends Component {
   render() {
-    const thingId = this.props.match.params.thingId
+    const location = this.props.location;
+    const thingId = location.pathname.split("/things/")[1];
     let thing = db.findThing(thingId);
-    let name = thing.propertyIdFacts("p-name").map(e => e.value().data())[0]
-    let description = thing.propertyIdFacts("p-description").map(e => e.value().data()).data
+    let name = thing.propertyIdFacts(nameKey).map(e => e.value().data())[0]
+    let description = thing.propertyIdFacts("@base12/2/2/p-description").map(e => e.value().data()).data
     let isSubjectForFacts = thing.isSubjectForFactsByProperty().map(property => (property));
     let isValueForFactsByProperty = thing.isValueForFactsByProperty()
     return (
@@ -123,7 +125,7 @@ export class Thing extends Component {
         {isValueForFactsByProperty.map(p => {
           return (
           <div>
-            <h2> <ThingProperty thing={(p.property)} propertyName="p-name" /> List</h2>
+            <h2> <ThingProperty thing={(p.property)} propertyName={nameKey} /> List</h2>
             <InverseStatements property={p.property} facts={(p.facts)} />
           </div>
           )

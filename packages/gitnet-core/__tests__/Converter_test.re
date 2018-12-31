@@ -17,7 +17,7 @@ let value =
         "baseId": "base13",
         "resourceId": "2/2",
         "n-george": {
-          "p-name": ["GEORGIE!!", "GEORGEOO"],
+          "p-name": ["GEORGIE!!", "GEORGEOO", "sfdsdf"],
           "@foo/p-friend": "n-jeremy"
         },
         "n-jeremy": {
@@ -36,17 +36,10 @@ describe("#to_json", () =>
       |> UncompressedToAST.run
       |> ADT.run
       |> ADTToSimple.run
-      /* |> SimpleFactList.showFacts */
       |> SimpleToPrimary.run
-      /* |> PrimaryGraph.showFacts */
-      /* |> Js.log; */
       |> PrimaryGraph.toBase
       |> Graph.to_json
       |> Js.log;
-    /* |> UnprocessedGraphToFactList.run */
-    /* |> SimpleToPrimary.run
-       |> PrimaryGraph.showValues; */
-    /* Js.log(bar); */
     expect(true) |> toEqual(true);
   })
 );
