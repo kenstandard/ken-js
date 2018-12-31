@@ -1,3 +1,6 @@
+baseId = "base"
+resourceId = "properties"
+
 [meta.templates.property]
 p-instance-of = "n-property"
 

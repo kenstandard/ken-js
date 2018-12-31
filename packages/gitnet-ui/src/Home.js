@@ -8,6 +8,8 @@ import {db} from "./gitnet";
 
 import jsonData from "./data.json"
 
+import {CONSTANTS} from "./setup.js"
+
 const columns = [
 {
   title: 'Name',
@@ -29,11 +31,11 @@ const columns = [
 },
 ]
 
-const transformedData = db.things().filter(t => t.propertyIdFacts("@base12/2/2/p-name").length > 0).map(t => {
+const transformedData = db.things().filter(t => t.propertyIdFacts(CONSTANTS.NAME).length > 0).map(t => {
   return {
     id: t.id(),
-    name: <Value fact={t.propertyIdFacts("@base12/2/2/p-name")[0]}/>,
-    instanceOf: <Value fact={t.propertyIdFacts("p-instance-of")[0]}/>,
+    name: <Value fact={t.propertyIdFacts(CONSTANTS.NAME)[0]}/>,
+    instanceOf: <Value fact={t.propertyIdFacts(CONSTANTS.INSTANCE_OF)[0]}/>,
   }
 });
 
