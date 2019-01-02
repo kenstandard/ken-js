@@ -1,6 +1,6 @@
 type thingId = string;
-type valueType = PrimaryGraph.valueType;
-type value = PrimaryGraph.value;
+type valueType = Graph_T.T.valueType;
+type value = Graph_T.T.value;
 
 type id = {
   id: string,

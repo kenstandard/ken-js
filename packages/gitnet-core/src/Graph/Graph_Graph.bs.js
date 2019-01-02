@@ -3,60 +3,39 @@
 
 var $$Array = require("bs-platform/lib/js/array.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
-var Fact$Reason = require("./Fact.bs.js");
 var Json_decode = require("@glennsl/bs-json/src/Json_decode.bs.js");
 var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
 var Config$Reason = require("../Config.bs.js");
-var Option$Rationale = require("rationale/src/Option.js");
-var Js_null_undefined = require("bs-platform/lib/js/js_null_undefined.js");
+var Graph_T$Reason = require("./Graph_T.bs.js");
+var Graph_Fact$Reason = require("./Graph_Fact.bs.js");
 var Function$Rationale = require("rationale/src/Function.js");
-var PrimaryGraph$Reason = require("../Standards/PrimaryGraph.bs.js");
-
-function toJs(s) {
-  var match = Option$Rationale.isSome(s);
-  if (match) {
-    return "TRUE";
-  } else {
-    return "FALSE";
-  }
-}
-
-var toJs2 = Js_null_undefined.fromOption;
-
-function things(g) {
-  return g[/* things */0];
-}
-
-function facts(g) {
-  return g[/* facts */1];
-}
 
 function findFact(id) {
-  var partial_arg = Function$Rationale.Infix[/* ||> */1];
+  var partial_arg = Graph_T$Reason.F[/* facts */2];
+  var partial_arg$1 = Function$Rationale.Infix[/* ||> */1];
   return (function (param) {
-      return partial_arg(facts, (function (e) {
+      return partial_arg$1(partial_arg, (function (e) {
                     return Js_dict.get(e, id);
                   }), param);
     });
 }
 
 function findThing(id, g) {
-  return PrimaryGraph$Reason.Thing[/* find */1](id, g[/* things */0]);
+  return Graph_T$Reason.F[/* findThing */1](id, g);
 }
 
 function findThingFromFact(g, edge, f) {
-  return findThing(Fact$Reason.T[/* edgeId */2](edge)(f), g);
+  var id = Graph_Fact$Reason.edgeId(edge)(f);
+  return Graph_T$Reason.F[/* findThing */1](id, g);
 }
 
-var partial_arg = Fact$Reason.T[/* from_json */6];
-
 function from_json(param) {
-  return Json_decode.list(partial_arg, param);
+  return Json_decode.list(Graph_Fact$Reason.from_json, param);
 }
 
 function to_json(t) {
-  var facts = $$Array.map(Fact$Reason.T[/* to_json */5], Js_dict.values(t[/* facts */1]));
-  var things = $$Array.map(PrimaryGraph$Reason.Thing[/* to_json */3], Js_dict.values(t[/* things */0]));
+  var facts = $$Array.map(Graph_Fact$Reason.to_json, Js_dict.values(t[/* facts */1]));
+  var things = $$Array.map(Graph_T$Reason.Thing[/* to_json */2], Js_dict.values(t[/* things */0]));
   return Json_encode.object_(/* :: */[
               /* tuple */[
                 Config$Reason.JsonKeys[/* facts */0],
@@ -72,13 +51,9 @@ function to_json(t) {
             ]);
 }
 
-exports.toJs = toJs;
-exports.toJs2 = toJs2;
-exports.things = things;
-exports.facts = facts;
 exports.findFact = findFact;
 exports.findThing = findThing;
 exports.findThingFromFact = findThingFromFact;
 exports.from_json = from_json;
 exports.to_json = to_json;
-/* Fact-Reason Not a pure module */
+/* No side effect */

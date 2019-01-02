@@ -5,15 +5,14 @@ let uniqueIds = (facts: SimpleFactList.graph): list(SimpleFactList.id) =>
   |> Rationale.RList.uniqBy((a: SimpleFactList.id) => a.id);
 
 let findType =
-    (id: SimpleFactList.id, facts: SimpleFactList.graph)
-    : PrimaryGraph.thingTypes =>
+    (id: SimpleFactList.id, facts: SimpleFactList.graph): Graph_T.T.thingTypes =>
   switch (id) {
   | {id} when facts |> List.exists((f: SimpleFactList.fact) => f.id.id == id) =>
     FACT
   | _ => ITEM
   };
 
-let listFacts = (graph: SimpleFactList.graph): list(PrimaryGraph.fact) =>
+let listFacts = (graph: SimpleFactList.graph): list(Graph_T.T.fact) =>
   graph
   |> List.map((f: SimpleFactList.fact) =>
        (
@@ -22,26 +21,26 @@ let listFacts = (graph: SimpleFactList.graph): list(PrimaryGraph.fact) =>
            subjectId: f.subjectId.id,
            propertyId: f.propertyId.id,
            value: f.value,
-         }: PrimaryGraph.fact
+         }: Graph_T.T.fact
        )
      );
 
 /* TODO: Possibly delete. */
 let possiblyConvertValueTypesToThing =
-    (graph: PrimaryGraph.graph, value: PrimaryGraph.value) =>
+    (graph: Graph_T.T.t, value: Graph_T.T.value) =>
   switch (value.valueType) {
   | String(s) =>
     graph.things |> Js.Dict.get(_, s) |> Rationale.Option.isSome ?
-      PrimaryGraph.ThingId(s) : PrimaryGraph.String(s)
+      Graph_T.T.ThingId(s) : Graph_T.T.String(s)
   | _ => value.valueType
   };
 
-let connectValuesToFacts = (graph: PrimaryGraph.graph): PrimaryGraph.graph => {
+let connectValuesToFacts = (graph: Graph_T.T.t): Graph_T.T.t => {
   ...graph,
   facts:
     graph.facts
     |> Js.Dict.values
-    |> Array.map((f: PrimaryGraph.fact) =>
+    |> Array.map((f: Graph_T.T.fact) =>
          {
            ...f,
            value: {
@@ -50,11 +49,11 @@ let connectValuesToFacts = (graph: PrimaryGraph.graph): PrimaryGraph.graph => {
          }
        )
     |> Array.to_list
-    |> List.map((r: PrimaryGraph.fact) => (r.thingIdString, r))
+    |> List.map((r: Graph_T.T.fact) => (r.thingIdString, r))
     |> Js.Dict.fromList,
 };
 
-let listThings = (facts: SimpleFactList.graph): list(PrimaryGraph.thing) =>
+let listThings = (facts: SimpleFactList.graph): list(Graph_T.T.thing) =>
   facts
   |> uniqueIds
   |> List.map((id: SimpleFactList.id) =>
@@ -65,28 +64,28 @@ let listThings = (facts: SimpleFactList.graph): list(PrimaryGraph.thing) =>
              baseId: id.baseId,
              isPublic: id.isPublic,
            },
-           thingType: PrimaryGraph.Item,
-         }: PrimaryGraph.thing
+           thingType: Graph_T.T.Item,
+         }: Graph_T.T.thing
        )
      );
 
-let run = (facts: SimpleFactList.graph): PrimaryGraph.graph =>
-  PrimaryGraph.(
+let run = (facts: SimpleFactList.graph): Graph_T.T.t =>
+  Graph_T.T.(
     {
       bases:
         facts
         |> listThings
-        |> List.map((r: PrimaryGraph.thing) => r.thingId.baseId)
+        |> List.map((r: Graph_T.T.thing) => r.thingId.baseId)
         |> Rationale.RList.uniq,
       things:
         facts
         |> listThings
-        |> List.map((r: PrimaryGraph.thing) => (r.thingId.thingIdString, r))
+        |> List.map((r: Graph_T.T.thing) => (r.thingId.thingIdString, r))
         |> Js.Dict.fromList,
       facts:
         facts
         |> listFacts
-        |> List.map((r: PrimaryGraph.fact) => (r.thingIdString, r))
+        |> List.map((r: Graph_T.T.fact) => (r.thingIdString, r))
         |> Js.Dict.fromList,
     }
     |> connectValuesToFacts

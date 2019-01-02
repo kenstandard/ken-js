@@ -1,10 +1,5 @@
 open Jest;
 
-open Expect;
-open ThingG;
-open Rationale;
-open PrimaryGraph;
-
 let testData = [
   ("g-0", "n-george", "p-name", "George"),
   ("g-1", "n-george", "p-description", "The person named Goerge"),

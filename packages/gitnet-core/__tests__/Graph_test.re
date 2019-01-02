@@ -1,7 +1,6 @@
 open Jest;
 
 open Expect;
-open Graph;
 
 let textValue2 =
   Json.parseOrRaise(

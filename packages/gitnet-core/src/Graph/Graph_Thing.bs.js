@@ -5,11 +5,11 @@ var List = require("bs-platform/lib/js/list.js");
 var $$Array = require("bs-platform/lib/js/array.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
-var Fact$Reason = require("./Fact.bs.js");
-var Graph$Reason = require("./Graph.bs.js");
+var Graph_T$Reason = require("./Graph_T.bs.js");
 var Option$Rationale = require("rationale/src/Option.js");
 var Function$Rationale = require("rationale/src/Function.js");
-var PrimaryGraph$Reason = require("../Standards/PrimaryGraph.bs.js");
+var Graph_Graph$Reason = require("./Graph_Graph.bs.js");
+var Graph_Fact_Filters$Reason = require("./Graph_Fact_Filters.bs.js");
 
 function findFromList(id, t) {
   return List.find((function (e) {
@@ -23,10 +23,14 @@ function unpackOptionList(e) {
               }), List.filter(Option$Rationale.isSome)(e));
 }
 
+function allFacts(g) {
+  return g[/* facts */1];
+}
+
 var partial_arg = Function$Rationale.Infix[/* ||> */1];
 
 function partial_arg$1(param) {
-  return partial_arg(Graph$Reason.facts, Js_dict.values, param);
+  return partial_arg(allFacts, Js_dict.values, param);
 }
 
 var partial_arg$2 = Function$Rationale.Infix[/* ||> */1];
@@ -36,32 +40,28 @@ function allFactsList(param) {
 }
 
 function filterFacts(g, f, t) {
-  return Curry._2(f, PrimaryGraph$Reason.Thing[/* id */0](t), allFactsList(g));
+  return Curry._2(f, Graph_T$Reason.Thing[/* id */0](t), allFactsList(g));
 }
 
 function facts(g) {
-  var partial_arg = Fact$Reason.Filters[/* withIdAsAnyEdge */12];
   return (function (param) {
-      return filterFacts(g, partial_arg, param);
+      return filterFacts(g, Graph_Fact_Filters$Reason.withIdAsAnyEdge, param);
     });
 }
 
 function isEdgeForFacts(g, edge) {
-  var partial_arg = Fact$Reason.Filters[/* withEdge */4];
-  var partial_arg$1 = function (param) {
-    return partial_arg(edge, param);
-  };
   return (function (param) {
-      return filterFacts(g, partial_arg$1, param);
+      return filterFacts(g, (function (param) {
+                    return Graph_Fact_Filters$Reason.withEdge(edge, param);
+                  }), param);
     });
 }
 
 function filterFactsAndSelectThings(g, fromEdge, toEdge, t) {
-  var partial_arg = Fact$Reason.Filters[/* withEdge */4];
   return unpackOptionList(List.map((function (param) {
-                    return Graph$Reason.findThingFromFact(g, toEdge, param);
+                    return Graph_Graph$Reason.findThingFromFact(g, toEdge, param);
                   }), filterFacts(g, (function (param) {
-                        return partial_arg(fromEdge, param);
+                        return Graph_Fact_Filters$Reason.withEdge(fromEdge, param);
                       }), t)));
 }
 
@@ -85,8 +85,6 @@ function connectedSubjectWithId(g, id, t) {
   return findFromList(id, filterFactsAndSelectThings(g, /* PROPERTY */1, /* SUBJECT */0, t));
 }
 
-var allFacts = Graph$Reason.facts;
-
 exports.findFromList = findFromList;
 exports.unpackOptionList = unpackOptionList;
 exports.allFacts = allFacts;
@@ -99,4 +97,4 @@ exports.connectedPropertyThings = connectedPropertyThings;
 exports.connectedSubjectThings = connectedSubjectThings;
 exports.connectedPropertyWithId = connectedPropertyWithId;
 exports.connectedSubjectWithId = connectedSubjectWithId;
-/* Fact-Reason Not a pure module */
+/* Option-Rationale Not a pure module */

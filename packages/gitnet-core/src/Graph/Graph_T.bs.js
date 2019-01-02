@@ -3,7 +3,6 @@
 
 var $$Array = require("bs-platform/lib/js/array.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
-var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
 var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
 
 function valueToJs(param) {
@@ -48,6 +47,27 @@ function thingFromJs(param) {
         ];
 }
 
+var T = /* module */[
+  /* valueToJs */valueToJs,
+  /* valueFromJs */valueFromJs,
+  /* factToJs */factToJs,
+  /* factFromJs */factFromJs,
+  /* thingToJs */thingToJs,
+  /* thingFromJs */thingFromJs
+];
+
+function things(g) {
+  return g[/* things */0];
+}
+
+function findThing(id, t) {
+  return Js_dict.get(t[/* things */0], id);
+}
+
+function facts(g) {
+  return g[/* facts */1];
+}
+
 function showFacts(g) {
   return $$Array.map(factToJs, Js_dict.values(g[/* facts */1]));
 }
@@ -62,16 +82,17 @@ function showValues(g) {
                   }), Js_dict.values(g[/* facts */1])));
 }
 
-var isEqual = Caml_obj.caml_equal;
-
-var isNotEqual = Caml_obj.caml_notequal;
+var F = /* module */[
+  /* things */things,
+  /* findThing */findThing,
+  /* facts */facts,
+  /* showFacts */showFacts,
+  /* showThings */showThings,
+  /* showValues */showValues
+];
 
 function id(e) {
   return e[/* thingId */0][/* thingIdString */0];
-}
-
-function find(id, t) {
-  return Js_dict.get(t, id);
 }
 
 function to_s(e) {
@@ -90,21 +111,11 @@ function to_json(t) {
 
 var Thing = /* module */[
   /* id */id,
-  /* find */find,
   /* to_s */to_s,
   /* to_json */to_json
 ];
 
-exports.valueToJs = valueToJs;
-exports.valueFromJs = valueFromJs;
-exports.factToJs = factToJs;
-exports.factFromJs = factFromJs;
-exports.thingToJs = thingToJs;
-exports.thingFromJs = thingFromJs;
-exports.showFacts = showFacts;
-exports.showThings = showThings;
-exports.showValues = showValues;
-exports.isEqual = isEqual;
-exports.isNotEqual = isNotEqual;
+exports.T = T;
+exports.F = F;
 exports.Thing = Thing;
 /* No side effect */

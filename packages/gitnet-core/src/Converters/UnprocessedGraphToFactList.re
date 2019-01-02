@@ -84,7 +84,7 @@ let shape = (g: unprocessedGraph): SimpleFactList.graph =>
                 },
                 value: {
                   valueType:
-                    PrimaryGraph.String(
+                    Graph_T.T.String(
                       switch (fact.value) {
                       | String(str) => str
                       | _ => "ERROR"

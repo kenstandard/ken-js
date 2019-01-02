@@ -15,9 +15,9 @@ let run = (g: ADT.Graph.graph): SimpleFactList.graph =>
            value: {
              valueType:
                switch (f.value) {
-               | String(str) => PrimaryGraph.String(str)
+               | String(str) => Graph_T.T.String(str)
                | Id(id) =>
-                 PrimaryGraph.ThingId(
+                 Graph_T.T.ThingId(
                    id.updatedId |> Rationale.Option.toExn("Error"),
                  )
                },
