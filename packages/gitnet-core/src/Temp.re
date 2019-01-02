@@ -6,5 +6,4 @@ let run =
     ||> ADT.run
     ||> ADTToSimple.run
     ||> SimpleToPrimary.run
-    ||> PrimaryGraph.toBase
   );

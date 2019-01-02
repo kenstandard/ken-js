@@ -5,29 +5,38 @@ open Thing;
 
 type t = thing;
 
+let findFromList = (id, t) =>
+  t |> List.find(e => e.thingId.thingIdString == id);
+
 let unpackOptionList = (e: list(option('a))) =>
   e |> List.filter(Option.isSome) |> List.map(Option.toExn("mistake"));
 
-let allFacts = graph ||> Graph.facts;
-let filterFacts = (f: (string, list(fact)) => list(fact), t: t) =>
-  f(id(t), allFacts(t));
+let allFacts = Graph.facts;
+let allFactsList = allFacts ||> Js.Dict.values ||> Array.to_list;
 
-let facts = filterFacts(Fact.Filters.withIdAsAnyEdge);
-let isEdgeForFacts = edge => filterFacts(Fact.Filters.withEdge(edge));
+let filterFacts =
+    (g: Base.graph, f: (string, list(fact)) => list(fact), t: t) =>
+  f(id(t), allFactsList(g));
 
-/* let  = filterFacts(Fact.Filters.withEdge(VALUE)); */
-/* This doesn't apply if this thing is the value! */
-let filterFactsAndSelectThings = (fromEdge, toEdge, t: t) =>
+let facts = g => filterFacts(g, Fact.Filters.withIdAsAnyEdge);
+
+let isEdgeForFacts = (g, edge) =>
+  filterFacts(g, Fact.Filters.withEdge(edge));
+
+let filterFactsAndSelectThings = (g, fromEdge, toEdge, t: t) =>
   t
-  |> filterFacts(Fact.Filters.withEdge(fromEdge))
-  |> List.map(Graph.findThingFromFact(t.graph, toEdge))
+  |> filterFacts(g, Fact.Filters.withEdge(fromEdge))
+  |> List.map(Graph.findThingFromFact(g, toEdge))
   |> unpackOptionList;
 
-let connectedPropertyThings = filterFactsAndSelectThings(SUBJECT, PROPERTY);
-let connectedSubjectThings = filterFactsAndSelectThings(PROPERTY, SUBJECT);
+let connectedPropertyThings = g =>
+  filterFactsAndSelectThings(g, SUBJECT, PROPERTY);
 
-let connectedPropertyWithId = (id: string, t: t) =>
-  connectedPropertyThings(t) |> Thing.find(id);
+let connectedSubjectThings = g =>
+  filterFactsAndSelectThings(g, PROPERTY, SUBJECT);
 
-let connectedSubjectWithId = (id: string, t: t) =>
-  connectedSubjectThings(t) |> Thing.find(id);
+let connectedPropertyWithId = (g, id: string, t: t) =>
+  connectedPropertyThings(g, t) |> findFromList(id);
+
+let connectedSubjectWithId = (g, id: string, t: t) =>
+  connectedSubjectThings(g, t) |> findFromList(id);

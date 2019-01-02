@@ -42,30 +42,24 @@ module T = {
   let edgeId = edge => edge == SUBJECT ? subjectId : propertyId;
   [@genType]
   let value = t => t.value;
-  let id = (t: t) => t.id;
+  let id = (t: t) => t.thingIdString;
   [@genType]
   let to_json = (t: t) =>
     Json.Encode.(
       object_([
-        (FactJson.Fields.id, string(t.id)),
+        (FactJson.Fields.id, string(t.thingIdString)),
         (FactJson.Fields.subjectId, string(t.subjectId)),
         (FactJson.Fields.propertyId, string(t.propertyId)),
         (FactJson.Fields.value, Value.to_json(t.value)),
-        (FactJson.Fields.baseId, string(t.baseId)),
-        (FactJson.Fields.resourceId, string(t.resourceId)),
-        (FactJson.Fields.idIsPublic, bool(t.idIsPublic)),
       ])
     );
 
   let from_json = (t: Js.Json.t) =>
     Json.Decode.{
-      baseId: t |> field(FactJson.Fields.baseId, string),
-      id: t |> field(FactJson.Fields.id, string),
+      thingIdString: t |> field(FactJson.Fields.id, string),
       subjectId: t |> field(FactJson.Fields.subjectId, string),
       propertyId: t |> field(FactJson.Fields.propertyId, string),
       value: t |> field(FactJson.Fields.value, Value.from_json),
-      resourceId: t |> field(FactJson.Fields.resourceId, string),
-      idIsPublic: true,
     };
 };
 
@@ -129,7 +123,7 @@ module Filters = {
   [@genType]
   let query = (q: Query.t, t) => t |> List.filter(Query.run(q));
 
-  let find = (id, t) => t |> RList.find((e: fact) => e.id == id);
+  let find = (id, t) => t |> RList.find((e: fact) => e.thingIdString == id);
   let filter = List.filter;
 
   [@genType]

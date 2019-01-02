@@ -10,6 +10,6 @@ export const PROPERTY = 1;
 
 export const VALUE = 2;
 
-export const Thing_find = BaseBS.Thing[2];
+export const Thing_find = BaseBS.Thing[1];
 
-export const Thing_to_json = BaseBS.Thing[4];
+export const Thing_to_json = BaseBS.Thing[3];

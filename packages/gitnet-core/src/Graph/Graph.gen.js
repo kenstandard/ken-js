@@ -15,5 +15,3 @@ export const findThing = GraphBS.findThing;
 export const findThingFromFact = GraphBS.findThingFromFact;
 
 export const to_json = GraphBS.to_json;
-
-export const load = GraphBS.load;

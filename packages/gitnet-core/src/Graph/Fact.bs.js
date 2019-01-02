@@ -97,14 +97,14 @@ function value(t) {
 }
 
 function id(t) {
-  return t[/* id */0];
+  return t[/* thingIdString */0];
 }
 
 function to_json$1(t) {
   return Json_encode.object_(/* :: */[
               /* tuple */[
                 Config$Reason.FactJson[/* Fields */1][/* id */0],
-                t[/* id */0]
+                t[/* thingIdString */0]
               ],
               /* :: */[
                 /* tuple */[
@@ -121,25 +121,7 @@ function to_json$1(t) {
                       Config$Reason.FactJson[/* Fields */1][/* value */3],
                       to_json(t[/* value */3])
                     ],
-                    /* :: */[
-                      /* tuple */[
-                        Config$Reason.FactJson[/* Fields */1][/* baseId */4],
-                        t[/* baseId */5]
-                      ],
-                      /* :: */[
-                        /* tuple */[
-                          Config$Reason.FactJson[/* Fields */1][/* resourceId */5],
-                          t[/* resourceId */6]
-                        ],
-                        /* :: */[
-                          /* tuple */[
-                            Config$Reason.FactJson[/* Fields */1][/* idIsPublic */6],
-                            t[/* idIsPublic */4]
-                          ],
-                          /* [] */0
-                        ]
-                      ]
-                    ]
+                    /* [] */0
                   ]
                 ]
               ]
@@ -148,13 +130,10 @@ function to_json$1(t) {
 
 function from_json$1(t) {
   return /* record */[
-          /* id */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* id */0], Json_decode.string, t),
+          /* thingIdString */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* id */0], Json_decode.string, t),
           /* subjectId */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* subjectId */1], Json_decode.string, t),
           /* propertyId */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* propertyId */2], Json_decode.string, t),
-          /* value */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* value */3], from_json, t),
-          /* idIsPublic */true,
-          /* baseId */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* baseId */4], Json_decode.string, t),
-          /* resourceId */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* resourceId */5], Json_decode.string, t)
+          /* value */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* value */3], from_json, t)
         ];
 }
 
@@ -255,7 +234,7 @@ function query(q, t) {
 
 function find(id, t) {
   return RList$Rationale.find((function (e) {
-                return e[/* id */0] === id;
+                return e[/* thingIdString */0] === id;
               }), t);
 }
 
@@ -442,4 +421,4 @@ exports.T = T;
 exports.Query = Query;
 exports.Filters = Filters;
 exports.c = c;
-/* Base-Reason Not a pure module */
+/* RList-Rationale Not a pure module */

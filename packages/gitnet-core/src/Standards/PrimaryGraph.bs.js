@@ -2,9 +2,7 @@
 'use strict';
 
 var $$Array = require("bs-platform/lib/js/array.js");
-var Block = require("bs-platform/lib/js/block.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
-var Graph$Reason = require("../Graph/Graph.bs.js");
 
 function valueToJs(param) {
   return {
@@ -18,7 +16,7 @@ function valueFromJs(param) {
 
 function factToJs(param) {
   return {
-          thingId: param[/* thingId */0],
+          thingIdString: param[/* thingIdString */0],
           subjectId: param[/* subjectId */1],
           propertyId: param[/* propertyId */2],
           value: param[/* value */3]
@@ -27,7 +25,7 @@ function factToJs(param) {
 
 function factFromJs(param) {
   return /* record */[
-          /* thingId */param.thingId,
+          /* thingIdString */param.thingIdString,
           /* subjectId */param.subjectId,
           /* propertyId */param.propertyId,
           /* value */param.value
@@ -37,17 +35,13 @@ function factFromJs(param) {
 function thingToJs(param) {
   return {
           thingId: param[/* thingId */0],
-          idIsPublic: param[/* idIsPublic */1],
-          baseId: param[/* baseId */2],
-          thingType: param[/* thingType */3]
+          thingType: param[/* thingType */1]
         };
 }
 
 function thingFromJs(param) {
   return /* record */[
           /* thingId */param.thingId,
-          /* idIsPublic */param.idIsPublic,
-          /* baseId */param.baseId,
           /* thingType */param.thingType
         ];
 }
@@ -66,34 +60,6 @@ function showValues(g) {
                   }), Js_dict.values(g[/* facts */1])));
 }
 
-function toBase(g) {
-  return Graph$Reason.from_facts($$Array.to_list($$Array.map((function (f) {
-                        var match = f[/* value */3][/* valueType */0];
-                        var tmp;
-                        switch (match.tag | 0) {
-                          case 0 : 
-                              tmp = /* String */Block.__(1, [match[0]]);
-                              break;
-                          case 1 : 
-                              tmp = /* ThingId */Block.__(0, [match[0]]);
-                              break;
-                          case 2 : 
-                              tmp = /* JSON */Block.__(2, [match[0]]);
-                              break;
-                          
-                        }
-                        return /* record */[
-                                /* id */f[/* thingId */0],
-                                /* subjectId */f[/* subjectId */1],
-                                /* propertyId */f[/* propertyId */2],
-                                /* value */tmp,
-                                /* idIsPublic */false,
-                                /* baseId */"base25",
-                                /* resourceId */"resourceRandom"
-                              ];
-                      }), Js_dict.values(g[/* facts */1]))));
-}
-
 exports.valueToJs = valueToJs;
 exports.valueFromJs = valueFromJs;
 exports.factToJs = factToJs;
@@ -103,5 +69,4 @@ exports.thingFromJs = thingFromJs;
 exports.showFacts = showFacts;
 exports.showThings = showThings;
 exports.showValues = showValues;
-exports.toBase = toBase;
-/* Graph-Reason Not a pure module */
+/* No side effect */

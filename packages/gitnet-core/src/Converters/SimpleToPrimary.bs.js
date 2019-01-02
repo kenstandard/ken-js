@@ -39,7 +39,7 @@ function findType(id, facts) {
 function listFacts(graph) {
   return List.map((function (f) {
                 return /* record */[
-                        /* thingId */f[/* id */0][/* id */0],
+                        /* thingIdString */f[/* id */0][/* id */0],
                         /* subjectId */f[/* subjectId */1][/* id */0],
                         /* propertyId */f[/* propertyId */2][/* id */0],
                         /* value */f[/* value */3]
@@ -55,7 +55,7 @@ function possiblyConvertValueTypesToThing(graph, value) {
         var __x = graph[/* things */0];
         var match$1 = Option$Rationale.isSome(Js_dict.get(__x, s));
         if (match$1) {
-          return /* Thing */Block.__(1, [s]);
+          return /* ThingId */Block.__(1, [s]);
         } else {
           return /* String */Block.__(0, [s]);
         }
@@ -71,12 +71,12 @@ function connectValuesToFacts(graph) {
           /* things */graph[/* things */0],
           /* facts */Js_dict.fromList(List.map((function (r) {
                       return /* tuple */[
-                              r[/* thingId */0],
+                              r[/* thingIdString */0],
                               r
                             ];
                     }), $$Array.to_list($$Array.map((function (f) {
                               return /* record */[
-                                      /* thingId */f[/* thingId */0],
+                                      /* thingIdString */f[/* thingIdString */0],
                                       /* subjectId */f[/* subjectId */1],
                                       /* propertyId */f[/* propertyId */2],
                                       /* value : record */[/* valueType */possiblyConvertValueTypesToThing(graph, f[/* value */3])]
@@ -89,9 +89,11 @@ function connectValuesToFacts(graph) {
 function listThings(facts) {
   return List.map((function (id) {
                 return /* record */[
-                        /* thingId */id[/* id */0],
-                        /* idIsPublic */id[/* isPublic */2],
-                        /* baseId */id[/* baseId */1],
+                        /* thingId : record */[
+                          /* thingIdString */id[/* id */0],
+                          /* isPublic */id[/* isPublic */2],
+                          /* baseId */id[/* baseId */1]
+                        ],
                         /* thingType : Item */0
                       ];
               }), uniqueIds(facts));
@@ -101,18 +103,18 @@ function run(facts) {
   return connectValuesToFacts(/* record */[
               /* things */Js_dict.fromList(List.map((function (r) {
                           return /* tuple */[
-                                  r[/* thingId */0],
+                                  r[/* thingId */0][/* thingIdString */0],
                                   r
                                 ];
                         }), listThings(facts))),
               /* facts */Js_dict.fromList(List.map((function (r) {
                           return /* tuple */[
-                                  r[/* thingId */0],
+                                  r[/* thingIdString */0],
                                   r
                                 ];
                         }), listFacts(facts))),
               /* bases */RList$Rationale.uniq(List.map((function (r) {
-                          return r[/* baseId */2];
+                          return r[/* thingId */0][/* baseId */2];
                         }), listThings(facts)))
             ]);
 }

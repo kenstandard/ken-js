@@ -18,7 +18,7 @@ let listFacts = (graph: SimpleFactList.graph): list(PrimaryGraph.fact) =>
   |> List.map((f: SimpleFactList.fact) =>
        (
          {
-           thingId: f.id.id,
+           thingIdString: f.id.id,
            subjectId: f.subjectId.id,
            propertyId: f.propertyId.id,
            value: f.value,
@@ -26,12 +26,13 @@ let listFacts = (graph: SimpleFactList.graph): list(PrimaryGraph.fact) =>
        )
      );
 
+/* TODO: Possibly delete. */
 let possiblyConvertValueTypesToThing =
     (graph: PrimaryGraph.graph, value: PrimaryGraph.value) =>
   switch (value.valueType) {
   | String(s) =>
     graph.things |> Js.Dict.get(_, s) |> Rationale.Option.isSome ?
-      PrimaryGraph.Thing(s) : PrimaryGraph.String(s)
+      PrimaryGraph.ThingId(s) : PrimaryGraph.String(s)
   | _ => value.valueType
   };
 
@@ -49,7 +50,7 @@ let connectValuesToFacts = (graph: PrimaryGraph.graph): PrimaryGraph.graph => {
          }
        )
     |> Array.to_list
-    |> List.map((r: PrimaryGraph.fact) => (r.thingId, r))
+    |> List.map((r: PrimaryGraph.fact) => (r.thingIdString, r))
     |> Js.Dict.fromList,
 };
 
@@ -59,9 +60,11 @@ let listThings = (facts: SimpleFactList.graph): list(PrimaryGraph.thing) =>
   |> List.map((id: SimpleFactList.id) =>
        (
          {
-           thingId: id.id,
-           baseId: id.baseId,
-           idIsPublic: id.isPublic,
+           thingId: {
+             thingIdString: id.id,
+             baseId: id.baseId,
+             isPublic: id.isPublic,
+           },
            thingType: PrimaryGraph.Item,
          }: PrimaryGraph.thing
        )
@@ -73,17 +76,17 @@ let run = (facts: SimpleFactList.graph): PrimaryGraph.graph =>
       bases:
         facts
         |> listThings
-        |> List.map((r: PrimaryGraph.thing) => r.baseId)
+        |> List.map((r: PrimaryGraph.thing) => r.thingId.baseId)
         |> Rationale.RList.uniq,
       things:
         facts
         |> listThings
-        |> List.map((r: PrimaryGraph.thing) => (r.thingId, r))
+        |> List.map((r: PrimaryGraph.thing) => (r.thingId.thingIdString, r))
         |> Js.Dict.fromList,
       facts:
         facts
         |> listFacts
-        |> List.map((r: PrimaryGraph.fact) => (r.thingId, r))
+        |> List.map((r: PrimaryGraph.fact) => (r.thingIdString, r))
         |> Js.Dict.fromList,
     }
     |> connectValuesToFacts

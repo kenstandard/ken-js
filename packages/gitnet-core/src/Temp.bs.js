@@ -4,7 +4,6 @@
 var ADT$Reason = require("./Standards/ADT.bs.js");
 var ADTToSimple$Reason = require("./Converters/ADTToSimple.bs.js");
 var Function$Rationale = require("rationale/src/Function.js");
-var PrimaryGraph$Reason = require("./Standards/PrimaryGraph.bs.js");
 var SimpleToPrimary$Reason = require("./Converters/SimpleToPrimary.bs.js");
 var JsonToUnprocessed$Reason = require("./Converters/JsonToUnprocessed.bs.js");
 var UncompressedToAST$Reason = require("./Converters/UncompressedToAST.bs.js");
@@ -29,14 +28,8 @@ function partial_arg$5(param) {
 
 var partial_arg$6 = Function$Rationale.Infix[/* ||> */1];
 
-function partial_arg$7(param) {
-  return partial_arg$6(partial_arg$5, SimpleToPrimary$Reason.run, param);
-}
-
-var partial_arg$8 = Function$Rationale.Infix[/* ||> */1];
-
 function run(param) {
-  return partial_arg$8(partial_arg$7, PrimaryGraph$Reason.toBase, param);
+  return partial_arg$6(partial_arg$5, SimpleToPrimary$Reason.run, param);
 }
 
 exports.run = run;

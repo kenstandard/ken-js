@@ -1,42 +1,50 @@
 open Rationale.Function.Infix;
 open Rationale;
 
+type thingIdString = string;
+type baseId = string;
+
 type valueType =
   | THING_ID
   | STRING
   | JSON;
 
 type value =
-  | ThingId(string)
+  | ThingId(thingIdString)
   | String(string)
   | JSON(Js.Json.t);
 
 [@genType.opaque]
 type fact = {
-  id: string,
-  subjectId: string,
-  propertyId: string,
+  thingIdString,
+  subjectId: thingIdString,
+  propertyId: thingIdString,
   value,
-  idIsPublic: bool,
-  baseId: string,
-  resourceId: string,
+};
+
+type thingId = {
+  thingIdString,
+  isPublic: bool,
+  baseId,
 };
 
 type thingType =
-  | FACT
-  | BASE
-  | RESOURCE;
+  | Fact(fact)
+  | Item;
 
 [@genType.opaque]
 type thing = {
-  id: string,
-  thingType: option(thingType),
-  mutable graph,
+  thingId,
+  thingType,
 }
 and graph = {
-  facts: list(fact),
-  things: list(thing),
+  things: Js.Dict.t(thing),
+  facts: Js.Dict.t(fact),
+  bases: list(thingIdString),
 };
+
+type things = Js.Dict.t(thing);
+type facts = Js.Dict.t(fact);
 
 [@genType]
 type edge =
@@ -50,11 +58,12 @@ let isNotEqual = (a, b) => a != b;
 
 module Thing = {
   type t = thing;
-  let id = e => e.id;
-  let graph = e => e.graph;
+  let id = e => e.thingId.thingIdString;
   [@genType]
-  let find = (id, t: list(t)) => t |> RList.find((e: thing) => e.id == id);
-  let to_s = e => "[ID: " ++ e.id ++ "]";
+  let find = (id: thingIdString, t: things) => Js.Dict.get(t, id);
+  let to_s = e => "[ID: " ++ (e |> id) ++ "]";
+
+  /* TODO: Remove this, seems useless */
   [@genType]
-  let to_json = (t: t) => Json.Encode.(object_([("id", string(t.id))]));
+  let to_json = (t: t) => Json.Encode.(object_([("id", string(id(t)))]));
 };

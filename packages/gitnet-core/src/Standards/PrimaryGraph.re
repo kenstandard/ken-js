@@ -1,12 +1,10 @@
-type thingId = string;
+type thingIdString = string;
 
 type baseId = string;
 
-type base = {id: string};
-
 type valueType =
   | String(string)
-  | Thing(thingId)
+  | ThingId(thingIdString)
   | JSON(Js.Json.t);
 
 [@bs.deriving jsConverter]
@@ -14,9 +12,9 @@ type value = {valueType};
 
 [@bs.deriving jsConverter]
 type fact = {
-  thingId,
-  subjectId: thingId,
-  propertyId: thingId,
+  thingIdString,
+  subjectId: thingIdString,
+  propertyId: thingIdString,
   value,
 };
 
@@ -29,18 +27,22 @@ type thingType =
   | Fact(fact)
   | Item;
 
+type thingId = {
+  thingIdString,
+  isPublic: bool,
+  baseId,
+};
+
 [@bs.deriving jsConverter]
 type thing = {
   thingId,
-  idIsPublic: bool,
-  baseId,
   thingType,
 };
 
 type graph = {
   things: Js.Dict.t(thing),
   facts: Js.Dict.t(fact),
-  bases: list(thingId),
+  bases: list(thingIdString),
 };
 
 let showFacts = (g: graph) =>
@@ -52,26 +54,49 @@ let showThings = (g: graph) =>
 let showValues = (g: graph) =>
   g.facts |> Js.Dict.values |> Array.map(f => f.value) |> Array.map(valueToJs);
 
-let toBase = (g: graph): Base.graph =>
-  g.facts
-  |> Js.Dict.values
-  |> Array.map((f: fact) =>
-       (
-         {
-           id: f.thingId,
-           subjectId: f.subjectId,
-           propertyId: f.propertyId,
-           value:
-             switch (f.value.valueType) {
-             | String(str) => Base.String(str)
-             | Thing(str) => Base.ThingId(str)
-             | JSON(r) => Base.JSON(r)
-             },
-           idIsPublic: false,
-           baseId: "base25",
-           resourceId: "resourceRandom",
-         }: Base.fact
-       )
-     )
-  |> Array.to_list
-  |> Graph.from_facts;
+/* TODO: Fix baseId and resource if needed */
+/* let toBase = (g: graph): Base.graph => {
+     let empty: Base.graph = {
+       things: Js.Dict.empty(),
+       facts: Js.Dict.empty(),
+       bases: [],
+     };
+     let facts: Base.facts =
+       g.facts
+       |> Js.Dict.values
+       |> Array.map((f: fact) =>
+            (
+              f.thingIdString,
+              {
+                thingIdString: f.thingIdString,
+                value:
+                  switch (f.value.valueType) {
+                  | String(str) => Base.String(str)
+                  | ThingId(str) => Base.ThingId(str)
+                  | JSON(r) => Base.JSON(r)
+                  },
+                subjectId: f.subjectId,
+                propertyId: f.propertyId,
+              }: Base.fact,
+            )
+          )
+       |> Js.Dict.fromArray;
+     let things: Base.things =
+       g.things
+       |> Js.Dict.values
+       |> Array.map((f: thing) =>
+            (
+              f.thingId.thingIdString,
+              {
+                thingId: {
+                  thingIdString: f.thingId.thingIdString,
+                  isPublic: true,
+                  baseId: "FALSSSE",
+                },
+                thingType: Item,
+              }: Base.thing,
+            )
+          )
+       |> Js.Dict.fromArray;
+     {things, facts, bases: []};
+   }; */

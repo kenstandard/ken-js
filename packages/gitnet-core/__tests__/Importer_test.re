@@ -10,52 +10,50 @@ open Expect;
  - https://github.com/glennsl/bucklescript-cookbook/blob/master/README.md
  */
 
-let toGraph = (things: array(UnprocessedGraph.thing)) => {
-  let valueToValues = (value: UnprocessedGraph.value) =>
-    switch (value) {
-    | String(s) => [|s|]
-    | Array(r) => r
-    };
+/* let toGraph = (things: array(UnprocessedGraph.thing)) => {
+     let valueToValues = (value: UnprocessedGraph.value) =>
+       switch (value) {
+       | String(s) => [|s|]
+       | Array(r) => r
+       };
 
-  let things =
-    things
-    |> Array.to_list
-    |> List.map((thing: UnprocessedGraph.thing) =>
-         thing.facts
-         |> Array.map((fact: UnprocessedGraph.fact) =>
-              fact.value
-              |> valueToValues
-              |> Array.map((value: string) =>
-                   (
-                     {
-                       id:
-                         fact.id
-                         |> Rationale.Option.default(
-                              SecureRandomString.genSync(
-                                ~length=8,
-                                ~alphaNumeric=true,
-                                (),
-                              ),
-                            ),
-                       subjectId: thing.id,
-                       propertyId: fact.property,
-                       value: Base.String(value),
-                       idIsPublic:
-                         fact.id |> Rationale.Option.isSome ? true : false,
-                       baseId: fact.baseId,
-                       resourceId: fact.resourceId,
-                     }: Base.fact
-                   )
-                 )
-            )
-       )
-    |> Array.of_list
-    |> Belt.Array.concatMany
-    |> Belt.Array.concatMany
-    |> Array.to_list;
+     let things =
+       things
+       |> Array.to_list
+       |> List.map((thing: UnprocessedGraph.thing) =>
+            thing.facts
+            |> Array.map((fact: UnprocessedGraph.fact) =>
+                 fact.value
+                 |> valueToValues
+                 |> Array.map((value: string) =>
+                      (
+                        {
+                          thingIdString:
+                            fact.id
+                            |> Rationale.Option.default(
+                                 SecureRandomString.genSync(
+                                   ~length=8,
+                                   ~alphaNumeric=true,
+                                   (),
+                                 ),
+                               ),
+                          subjectId: thing.id,
+                          propertyId: fact.property,
+                          value: Base.String(value),
+                          idIsPublic:
+                            fact.id |> Rationale.Option.isSome ? true : false,
+                        }: Base.fact
+                      )
+                    )
+               )
+          )
+       |> Array.of_list
+       |> Belt.Array.concatMany
+       |> Belt.Array.concatMany
+       |> Array.to_list;
 
-  Graph.from_facts(things);
-};
+     Graph.from_facts(things);
+   }; */
 
 let value =
   Json.parseOrRaise(
@@ -88,13 +86,13 @@ let value =
    |},
   );
 
-describe("#to_json", () =>
-  test("works", () => {
-    let foo = value |> JsonToUnprocessed.run |> toGraph |> Graph.to_json;
-    Js.log(foo);
-    expect(true) |> toEqual(true);
-  })
-);
+/* describe("#to_json", () =>
+     test("works", () => {
+       let foo = value |> JsonToUnprocessed.run |> toGraph |> Graph.to_json;
+       Js.log(foo);
+       expect(true) |> toEqual(true);
+     })
+   ); */
 
 /*
  let value =

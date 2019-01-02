@@ -36,10 +36,10 @@ describe("#to_json", () =>
       |> UncompressedToAST.run
       |> ADT.run
       |> ADTToSimple.run
-      |> SimpleToPrimary.run
-      |> PrimaryGraph.toBase
-      |> Graph.to_json
-      |> Js.log;
+      |> SimpleToPrimary.run;
+    /* |> Js.log; */
+    /* |> PrimaryGraph.toBase */
+    /* |> Graph.to_json */
     expect(true) |> toEqual(true);
   })
 );

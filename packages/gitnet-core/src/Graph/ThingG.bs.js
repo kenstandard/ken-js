@@ -2,12 +2,20 @@
 'use strict';
 
 var List = require("bs-platform/lib/js/list.js");
+var $$Array = require("bs-platform/lib/js/array.js");
 var Curry = require("bs-platform/lib/js/curry.js");
+var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var Base$Reason = require("./Base.bs.js");
 var Fact$Reason = require("./Fact.bs.js");
 var Graph$Reason = require("./Graph.bs.js");
 var Option$Rationale = require("rationale/src/Option.js");
 var Function$Rationale = require("rationale/src/Function.js");
+
+function findFromList(id, t) {
+  return List.find((function (e) {
+                return e[/* thingId */0][/* thingIdString */0] === id;
+              }), t);
+}
 
 function unpackOptionList(e) {
   return List.map((function (param) {
@@ -15,62 +23,74 @@ function unpackOptionList(e) {
               }), List.filter(Option$Rationale.isSome)(e));
 }
 
-var partial_arg = Base$Reason.Thing[/* graph */1];
+var partial_arg = Function$Rationale.Infix[/* ||> */1];
 
-var partial_arg$1 = Function$Rationale.Infix[/* ||> */1];
-
-function allFacts(param) {
-  return partial_arg$1(partial_arg, Graph$Reason.facts, param);
+function partial_arg$1(param) {
+  return partial_arg(Graph$Reason.facts, Js_dict.values, param);
 }
 
-function filterFacts(f, t) {
-  return Curry._2(f, Base$Reason.Thing[/* id */0](t), allFacts(t));
+var partial_arg$2 = Function$Rationale.Infix[/* ||> */1];
+
+function allFactsList(param) {
+  return partial_arg$2(partial_arg$1, $$Array.to_list, param);
 }
 
-var partial_arg$2 = Fact$Reason.Filters[/* withIdAsAnyEdge */12];
-
-function facts(param) {
-  return filterFacts(partial_arg$2, param);
+function filterFacts(g, f, t) {
+  return Curry._2(f, Base$Reason.Thing[/* id */0](t), allFactsList(g));
 }
 
-function isEdgeForFacts(edge) {
+function facts(g) {
+  var partial_arg = Fact$Reason.Filters[/* withIdAsAnyEdge */12];
+  return (function (param) {
+      return filterFacts(g, partial_arg, param);
+    });
+}
+
+function isEdgeForFacts(g, edge) {
   var partial_arg = Fact$Reason.Filters[/* withEdge */4];
   var partial_arg$1 = function (param) {
     return partial_arg(edge, param);
   };
   return (function (param) {
-      return filterFacts(partial_arg$1, param);
+      return filterFacts(g, partial_arg$1, param);
     });
 }
 
-function filterFactsAndSelectThings(fromEdge, toEdge, t) {
-  var partial_arg = t[/* graph */2];
-  var partial_arg$1 = Fact$Reason.Filters[/* withEdge */4];
+function filterFactsAndSelectThings(g, fromEdge, toEdge, t) {
+  var partial_arg = Fact$Reason.Filters[/* withEdge */4];
   return unpackOptionList(List.map((function (param) {
-                    return Graph$Reason.findThingFromFact(partial_arg, toEdge, param);
-                  }), filterFacts((function (param) {
-                        return partial_arg$1(fromEdge, param);
+                    return Graph$Reason.findThingFromFact(g, toEdge, param);
+                  }), filterFacts(g, (function (param) {
+                        return partial_arg(fromEdge, param);
                       }), t)));
 }
 
-function connectedPropertyThings(param) {
-  return filterFactsAndSelectThings(/* SUBJECT */0, /* PROPERTY */1, param);
+function connectedPropertyThings(g) {
+  return (function (param) {
+      return filterFactsAndSelectThings(g, /* SUBJECT */0, /* PROPERTY */1, param);
+    });
 }
 
-function connectedSubjectThings(param) {
-  return filterFactsAndSelectThings(/* PROPERTY */1, /* SUBJECT */0, param);
+function connectedSubjectThings(g) {
+  return (function (param) {
+      return filterFactsAndSelectThings(g, /* PROPERTY */1, /* SUBJECT */0, param);
+    });
 }
 
-function connectedPropertyWithId(id, t) {
-  return Base$Reason.Thing[/* find */2](id, connectedPropertyThings(t));
+function connectedPropertyWithId(g, id, t) {
+  return findFromList(id, filterFactsAndSelectThings(g, /* SUBJECT */0, /* PROPERTY */1, t));
 }
 
-function connectedSubjectWithId(id, t) {
-  return Base$Reason.Thing[/* find */2](id, connectedSubjectThings(t));
+function connectedSubjectWithId(g, id, t) {
+  return findFromList(id, filterFactsAndSelectThings(g, /* PROPERTY */1, /* SUBJECT */0, t));
 }
 
+var allFacts = Graph$Reason.facts;
+
+exports.findFromList = findFromList;
 exports.unpackOptionList = unpackOptionList;
 exports.allFacts = allFacts;
+exports.allFactsList = allFactsList;
 exports.filterFacts = filterFacts;
 exports.facts = facts;
 exports.isEdgeForFacts = isEdgeForFacts;
@@ -79,4 +99,4 @@ exports.connectedPropertyThings = connectedPropertyThings;
 exports.connectedSubjectThings = connectedSubjectThings;
 exports.connectedPropertyWithId = connectedPropertyWithId;
 exports.connectedSubjectWithId = connectedSubjectWithId;
-/* Base-Reason Not a pure module */
+/* Fact-Reason Not a pure module */

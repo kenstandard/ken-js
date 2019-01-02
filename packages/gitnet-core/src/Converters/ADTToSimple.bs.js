@@ -17,7 +17,7 @@ function run(g) {
   return List.map((function (f) {
                 var match = f[/* value */3];
                 var tmp;
-                tmp = match.tag ? /* Thing */Block.__(1, [Option$Rationale.toExn("Error", match[0][/* updatedId */5])]) : /* String */Block.__(0, [match[0]]);
+                tmp = match.tag ? /* ThingId */Block.__(1, [Option$Rationale.toExn("Error", match[0][/* updatedId */5])]) : /* String */Block.__(0, [match[0]]);
                 return /* record */[
                         /* id */convertId(f[/* thingId */0]),
                         /* subjectId */convertId(f[/* subjectId */1]),
