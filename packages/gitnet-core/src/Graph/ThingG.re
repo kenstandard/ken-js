@@ -1,6 +1,6 @@
 open Rationale.Function.Infix;
 open Rationale;
-open Base;
+open PrimaryGraph;
 open Thing;
 
 type t = thing;
@@ -15,7 +15,7 @@ let allFacts = Graph.facts;
 let allFactsList = allFacts ||> Js.Dict.values ||> Array.to_list;
 
 let filterFacts =
-    (g: Base.graph, f: (string, list(fact)) => list(fact), t: t) =>
+    (g: PrimaryGraph.graph, f: (string, list(fact)) => list(fact), t: t) =>
   f(id(t), allFactsList(g));
 
 let facts = g => filterFacts(g, Fact.Filters.withIdAsAnyEdge);

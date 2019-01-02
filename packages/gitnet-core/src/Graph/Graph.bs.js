@@ -3,14 +3,14 @@
 
 var $$Array = require("bs-platform/lib/js/array.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
-var Base$Reason = require("./Base.bs.js");
 var Fact$Reason = require("./Fact.bs.js");
 var Json_decode = require("@glennsl/bs-json/src/Json_decode.bs.js");
 var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
-var Config$Reason = require("./Config.bs.js");
+var Config$Reason = require("../Config.bs.js");
 var Option$Rationale = require("rationale/src/Option.js");
 var Js_null_undefined = require("bs-platform/lib/js/js_null_undefined.js");
 var Function$Rationale = require("rationale/src/Function.js");
+var PrimaryGraph$Reason = require("../Standards/PrimaryGraph.bs.js");
 
 function toJs(s) {
   var match = Option$Rationale.isSome(s);
@@ -41,7 +41,7 @@ function findFact(id) {
 }
 
 function findThing(id, g) {
-  return Base$Reason.Thing[/* find */1](id, g[/* things */0]);
+  return PrimaryGraph$Reason.Thing[/* find */1](id, g[/* things */0]);
 }
 
 function findThingFromFact(g, edge, f) {
@@ -56,7 +56,7 @@ function from_json(param) {
 
 function to_json(t) {
   var facts = $$Array.map(Fact$Reason.T[/* to_json */5], Js_dict.values(t[/* facts */1]));
-  var things = $$Array.map(Base$Reason.Thing[/* to_json */3], Js_dict.values(t[/* things */0]));
+  var things = $$Array.map(PrimaryGraph$Reason.Thing[/* to_json */3], Js_dict.values(t[/* things */0]));
   return Json_encode.object_(/* :: */[
               /* tuple */[
                 Config$Reason.JsonKeys[/* facts */0],

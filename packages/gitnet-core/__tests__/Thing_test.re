@@ -3,7 +3,7 @@ open Jest;
 open Expect;
 open ThingG;
 open Rationale;
-open Base;
+open PrimaryGraph;
 
 let testData = [
   ("g-0", "n-george", "p-name", "George"),

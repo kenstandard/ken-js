@@ -4,11 +4,11 @@
 var List = require("bs-platform/lib/js/list.js");
 var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
-var Base$Reason = require("./Base.bs.js");
 var Json_decode = require("@glennsl/bs-json/src/Json_decode.bs.js");
 var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
-var Config$Reason = require("./Config.bs.js");
+var Config$Reason = require("../Config.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
+var PrimaryGraph$Reason = require("../Standards/PrimaryGraph.bs.js");
 
 function to_json(v) {
   switch (v.tag | 0) {
@@ -16,7 +16,7 @@ function to_json(v) {
         return Json_encode.object_(/* :: */[
                     /* tuple */[
                       Config$Reason.FactJson[/* Value */0][/* dataTypeField */0],
-                      Config$Reason.FactJson[/* Value */0][/* thingIdType */4]
+                      Config$Reason.FactJson[/* Value */0][/* stringType */3]
                     ],
                     /* :: */[
                       /* tuple */[
@@ -30,7 +30,7 @@ function to_json(v) {
         return Json_encode.object_(/* :: */[
                     /* tuple */[
                       Config$Reason.FactJson[/* Value */0][/* dataTypeField */0],
-                      Config$Reason.FactJson[/* Value */0][/* stringType */3]
+                      Config$Reason.FactJson[/* Value */0][/* thingIdType */4]
                     ],
                     /* :: */[
                       /* tuple */[
@@ -62,11 +62,11 @@ function from_json(v) {
   var _type = Json_decode.field(Config$Reason.FactJson[/* Value */0][/* dataTypeField */0], Json_decode.string, v);
   switch (_type) {
     case "string" : 
-        return /* String */Block.__(1, [Json_decode.field(Config$Reason.FactJson[/* Value */0][/* dataField */1], Json_decode.string, v)]);
+        return /* String */Block.__(0, [Json_decode.field(Config$Reason.FactJson[/* Value */0][/* dataField */1], Json_decode.string, v)]);
     case "thingId" : 
-        return /* ThingId */Block.__(0, [Json_decode.field(Config$Reason.FactJson[/* Value */0][/* dataField */1], Json_decode.string, v)]);
+        return /* ThingId */Block.__(1, [Json_decode.field(Config$Reason.FactJson[/* Value */0][/* dataField */1], Json_decode.string, v)]);
     default:
-      return /* ThingId */Block.__(0, [Json_decode.field(Config$Reason.FactJson[/* Value */0][/* dataField */1], Json_decode.string, v)]);
+      return /* ThingId */Block.__(1, [Json_decode.field(Config$Reason.FactJson[/* Value */0][/* dataField */1], Json_decode.string, v)]);
   }
 }
 
@@ -119,7 +119,7 @@ function to_json$1(t) {
                   /* :: */[
                     /* tuple */[
                       Config$Reason.FactJson[/* Fields */1][/* value */3],
-                      to_json(t[/* value */3])
+                      to_json(t[/* value */3][/* valueType */0])
                     ],
                     /* [] */0
                   ]
@@ -133,7 +133,7 @@ function from_json$1(t) {
           /* thingIdString */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* id */0], Json_decode.string, t),
           /* subjectId */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* subjectId */1], Json_decode.string, t),
           /* propertyId */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* propertyId */2], Json_decode.string, t),
-          /* value */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* value */3], from_json, t)
+          /* value : record */[/* valueType */Json_decode.field(Config$Reason.FactJson[/* Fields */1][/* value */3], from_json, t)]
         ];
 }
 
@@ -153,12 +153,12 @@ function run(q, f) {
   if (match) {
     var partial_arg = q[/* id */1];
     equality = (function (param) {
-        return Base$Reason.isEqual(partial_arg, param);
+        return PrimaryGraph$Reason.isEqual(partial_arg, param);
       });
   } else {
     var partial_arg$1 = q[/* id */1];
     equality = (function (param) {
-        return Base$Reason.isNotEqual(partial_arg$1, param);
+        return PrimaryGraph$Reason.isNotEqual(partial_arg$1, param);
       });
   }
   var match$1 = q[/* edge */0];
@@ -168,11 +168,11 @@ function run(q, f) {
     case 1 : 
         return Curry._1(equality, f[/* propertyId */2]);
     case 2 : 
-        var match$2 = f[/* value */3];
+        var match$2 = f[/* value */3][/* valueType */0];
         switch (match$2.tag | 0) {
-          case 0 : 
-              return Curry._1(equality, match$2[0]);
           case 1 : 
+              return Curry._1(equality, match$2[0]);
+          case 0 : 
           case 2 : 
               return q[/* q */2] !== /* IS */0;
           

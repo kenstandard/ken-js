@@ -1,6 +1,6 @@
 open Rationale.Function.Infix;
 open Rationale;
-open Base;
+open PrimaryGraph;
 
 type t = graph;
 type importStatement = (string, string, string, Js.Json.t);

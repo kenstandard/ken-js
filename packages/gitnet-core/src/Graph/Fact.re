@@ -1,12 +1,12 @@
 open Rationale.Function.Infix;
 open Rationale;
-open Base;
+open PrimaryGraph;
 open Config;
 
 module Value = {
   open FactJson.Value;
   [@genType]
-  let to_json = (v: value) =>
+  let to_json = (v: valueType) =>
     Json.Encode.(
       switch (v) {
       | ThingId(s) =>
@@ -50,7 +50,7 @@ module T = {
         (FactJson.Fields.id, string(t.thingIdString)),
         (FactJson.Fields.subjectId, string(t.subjectId)),
         (FactJson.Fields.propertyId, string(t.propertyId)),
-        (FactJson.Fields.value, Value.to_json(t.value)),
+        (FactJson.Fields.value, Value.to_json(t.value.valueType)),
       ])
     );
 
@@ -59,7 +59,9 @@ module T = {
       thingIdString: t |> field(FactJson.Fields.id, string),
       subjectId: t |> field(FactJson.Fields.subjectId, string),
       propertyId: t |> field(FactJson.Fields.propertyId, string),
-      value: t |> field(FactJson.Fields.value, Value.from_json),
+      value: {
+        valueType: t |> field(FactJson.Fields.value, Value.from_json),
+      },
     };
 };
 
@@ -82,7 +84,7 @@ module Query = {
     | SUBJECT => equality(f.subjectId)
     | PROPERTY => equality(f.propertyId)
     | VALUE =>
-      switch (f.value) {
+      switch (f.value.valueType) {
       | ThingId(id) => equality(id)
       | _ => q.q != IS
       }

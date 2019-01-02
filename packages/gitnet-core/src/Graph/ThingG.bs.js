@@ -5,11 +5,11 @@ var List = require("bs-platform/lib/js/list.js");
 var $$Array = require("bs-platform/lib/js/array.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
-var Base$Reason = require("./Base.bs.js");
 var Fact$Reason = require("./Fact.bs.js");
 var Graph$Reason = require("./Graph.bs.js");
 var Option$Rationale = require("rationale/src/Option.js");
 var Function$Rationale = require("rationale/src/Function.js");
+var PrimaryGraph$Reason = require("../Standards/PrimaryGraph.bs.js");
 
 function findFromList(id, t) {
   return List.find((function (e) {
@@ -36,7 +36,7 @@ function allFactsList(param) {
 }
 
 function filterFacts(g, f, t) {
-  return Curry._2(f, Base$Reason.Thing[/* id */0](t), allFactsList(g));
+  return Curry._2(f, PrimaryGraph$Reason.Thing[/* id */0](t), allFactsList(g));
 }
 
 function facts(g) {
