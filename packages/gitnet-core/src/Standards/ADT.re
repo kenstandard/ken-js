@@ -99,7 +99,7 @@ let handleThingTypes = (g: graph) => {
 let findId = (uniqueIds, thingId) =>
   uniqueIds |> List.find(e => thingIdKey(e) == thingIdKey(thingId));
 
-/* TODO: Improve this with more logic */
+/* TODO: Improve this with more logic. For one, it should check if the value thingId is external*/
 let _convertValue = (uniqueIds, fact) =>
   switch (fact.value) {
   | Id(id) => Id(id)
@@ -107,12 +107,7 @@ let _convertValue = (uniqueIds, fact) =>
     uniqueIds
     |> Belt.List.getBy(_, e =>
          thingIdKey(e)
-         == (
-              Some(str),
-              fact.thingId.baseId,
-              fact.thingId.resourceId,
-              fact.thingId.tag,
-            )
+         == (Some(str), fact.thingId.baseId, fact.thingId.resourceId, None)
        )
     |> (
       e =>

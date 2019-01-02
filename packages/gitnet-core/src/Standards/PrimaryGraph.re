@@ -64,7 +64,7 @@ let toBase = (g: graph): Base.graph =>
            value:
              switch (f.value.valueType) {
              | String(str) => Base.String(str)
-             | Thing(str) => Base.String(str)
+             | Thing(str) => Base.ThingId(str)
              | JSON(r) => Base.JSON(r)
              },
            idIsPublic: false,

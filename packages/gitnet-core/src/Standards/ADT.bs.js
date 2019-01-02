@@ -164,7 +164,7 @@ function _convertValue(uniqueIds, fact) {
                         str,
                         fact[/* thingId */0][/* baseId */1],
                         fact[/* thingId */0][/* resourceId */2],
-                        fact[/* thingId */0][/* tag */3]
+                        undefined
                       ]);
           }));
     if (e !== undefined) {

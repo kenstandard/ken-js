@@ -30,6 +30,9 @@
   {
     "baseId": "base",
     "resourceId": "properties",
+    "base": {
+      "p-represents-base": "base"
+    },
     "meta": {
       "templates": {
         "property": {
@@ -37,7 +40,7 @@
         }
       }
     },
-    "n-property": {
+    "p-property": {
       "p-name": "Property"
     },
     "p-name": {

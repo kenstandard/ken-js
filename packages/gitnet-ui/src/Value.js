@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Markdown from 'markdown-to-jsx';
 import {ThingProperty} from "./ThingProperty"
+import {CONSTANTS} from "./setup.js"
 
 export class Value extends Component {
   render() {
@@ -14,7 +15,7 @@ export class Value extends Component {
       return value.data();
     } else if (type === "thingId"){
       let thing = value.thing();
-      return (<ThingProperty thing={thing} propertyName="p-name" isLink={true}/>);
+      return (<ThingProperty thing={thing} propertyName={CONSTANTS.NAME} isLink={true}/>);
     }
     return "Unsupported type input"
   }

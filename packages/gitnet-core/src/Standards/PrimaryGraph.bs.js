@@ -72,8 +72,10 @@ function toBase(g) {
                         var tmp;
                         switch (match.tag | 0) {
                           case 0 : 
-                          case 1 : 
                               tmp = /* String */Block.__(1, [match[0]]);
+                              break;
+                          case 1 : 
+                              tmp = /* ThingId */Block.__(0, [match[0]]);
                               break;
                           case 2 : 
                               tmp = /* JSON */Block.__(2, [match[0]]);

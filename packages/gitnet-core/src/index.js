@@ -115,34 +115,34 @@ let data2 =       [
     "resourceId": "2/2",
     "n-fred": {
       "@base/properties/p-name": "Fred",
-      "p-description": "THing3"
+      // "p-description": "THing3"
     },
-    "p-name": {
+    "@base/properties/p-name": {
         "@base/properties/p-name": "Name"
     },
     "p-friend": {
         "@base/properties/p-name": "Friend"
     },
-    "p-description": {
-        "@base/properties/p-name": "Description"
-    }
+    // "p-description": {
+    //     "@base/properties/p-name": "Description"
+    // }
   },
   {
     "baseId": "base12",
     "resourceId": "2/2",
     "n-george": {
-      "@base12/2/2/p-name": ["GEORGIE!!", "GEORGEOO", "sfdsdf"],
+      // "@base/properties/p-name": ["GEORGIE!!", "GEORGEOO", "sfdsdf"],
       "p-friend": "n-fred"
     },
-    "n-jeremy": {
-      "@base/properties/p-name": "George"
-    }
+    // "n-jeremy": {
+    //   "@base/properties/p-name": "George"
+    // }
   }]
 
   let data3 = [
     {
       "baseId": "base",
-      "resourceId": "nouns-r",
+      "resourceId": "properties",
       "n-thing": {
         "p-name": "Thing"
       },
