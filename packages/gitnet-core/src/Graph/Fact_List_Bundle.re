@@ -23,26 +23,26 @@ module Internal = {
   let unpackOptionList = (e: list(option('a))) =>
     e |> List.filter(Option.isSome) |> List.map(Option.toExn("mistake"));
 
-  let filterFacts = (t: t, filter: (string, factList) => factList) => {
+  let filterFacts = (filter: (string, factList) => factList, t: t) => {
     ...t,
     list: filter(Thing.id(t.thing), t.list),
   };
 
-  let facts = g => filterFacts(g, Graph_Fact_Filters.withIdAsAnyEdge);
+  let facts = filterFacts(Graph_Fact_Filters.withIdAsAnyEdge);
 
-  let isEdgeForFacts = (g, edge) =>
-    filterFacts(g, Graph_Fact_Filters.withEdge(edge));
+  let isEdgeForFacts = edge =>
+    filterFacts(Graph_Fact_Filters.withEdge(edge));
 
-  let filterFactsAndSelectThings = (t: t, fromEdge, toEdge) =>
-    filterFacts(t, Graph_Fact_Filters.withEdge(fromEdge))
+  let filterFactsAndSelectThings = (fromEdge, toEdge, t: t) =>
+    t
+    |> filterFacts(Graph_Fact_Filters.withEdge(fromEdge))
     |> (e => e.list)
     |> List.map(Graph_Graph.findThingFromFact(t.graph, toEdge))
     |> unpackOptionList;
-  let connectedPropertyThings = (t: t) =>
-    filterFactsAndSelectThings(t, SUBJECT, PROPERTY);
 
-  let connectedSubjectThings = (t: t) =>
-    filterFactsAndSelectThings(t, PROPERTY, SUBJECT);
+  let connectedPropertyThings = filterFactsAndSelectThings(SUBJECT, PROPERTY);
+
+  let connectedSubjectThings = filterFactsAndSelectThings(PROPERTY, SUBJECT);
 
   let connectedPropertyWithId = (id: string, t: t) =>
     connectedPropertyThings(t) |> findFromList(id);

@@ -1,35 +1,4 @@
-/* Algebraic Data Type */
-module Graph = {
-  type thingIdType =
-    | FACT
-    | NONFACT;
-
-  [@bs.deriving jsConverter]
-  type thingId = {
-    rawId: option(string),
-    baseId: option(string),
-    resourceId: option(string),
-    mutable tag: option(string),
-    mutable thingIdType: option(thingIdType),
-    mutable updatedId: option(string),
-  };
-
-  type value =
-    | String(string)
-    | Id(thingId);
-
-  [@bs.deriving jsConverter]
-  type fact = {
-    thingId,
-    subjectId: thingId,
-    propertyId: thingId,
-    mutable value,
-  };
-
-  type graph = list(fact);
-};
-
-open Graph;
+open Compiler_AST;
 
 let makeThingId = (id, baseId, resourceId) => {
   rawId: id,
@@ -180,3 +149,31 @@ let run =
     ||> linkValues
     ||> handleUpdatedIds
   );
+
+let convertId = (f: Compiler_AST.thingId): SimpleFactList_T.id => {
+  id: f.updatedId |> Rationale.Option.toExn(""),
+  baseId: f.baseId |> Rationale.Option.toExn(""),
+  isPublic: false,
+};
+
+let toSimple = (g: Compiler_AST.graph): SimpleFactList_T.graph =>
+  g
+  |> List.map((f: Compiler_AST.fact) =>
+       (
+         {
+           id: convertId(f.thingId),
+           subjectId: convertId(f.subjectId),
+           propertyId: convertId(f.propertyId),
+           value: {
+             valueType:
+               switch (f.value) {
+               | String(str) => Graph_T.T.String(str)
+               | Id(id) =>
+                 Graph_T.T.ThingId(
+                   id.updatedId |> Rationale.Option.toExn("Error"),
+                 )
+               },
+           },
+         }: SimpleFactList_T.fact
+       )
+     );

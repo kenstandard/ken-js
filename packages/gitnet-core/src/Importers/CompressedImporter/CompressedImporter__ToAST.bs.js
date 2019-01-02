@@ -3,9 +3,9 @@
 
 var $$Array = require("bs-platform/lib/js/array.js");
 var Block = require("bs-platform/lib/js/block.js");
-var ADT$Reason = require("../Standards/ADT.bs.js");
 var Belt_Array = require("bs-platform/lib/js/belt_Array.js");
 var Function$Rationale = require("rationale/src/Function.js");
+var Compiler_Run$Reason = require("../../Compiler/Compiler_Run.bs.js");
 
 function valueToArray(value) {
   if (value.tag) {
@@ -44,9 +44,9 @@ function shape(g) {
                                       var tmp;
                                       tmp = match.tag ? "ERROR" : match[0];
                                       return /* record */[
-                                              /* thingId */ADT$Reason.makeThingId(fact[/* id */0], fact[/* baseId */2], fact[/* resourceId */3]),
-                                              /* subjectId */ADT$Reason.makeThingId(thing[/* id */0], thing[/* baseId */1], thing[/* resourceId */2]),
-                                              /* propertyId */ADT$Reason.makeThingId(fact[/* property */1], fact[/* baseId */2], fact[/* resourceId */3]),
+                                              /* thingId */Compiler_Run$Reason.makeThingId(fact[/* id */0], fact[/* baseId */2], fact[/* resourceId */3]),
+                                              /* subjectId */Compiler_Run$Reason.makeThingId(thing[/* id */0], thing[/* baseId */1], thing[/* resourceId */2]),
+                                              /* propertyId */Compiler_Run$Reason.makeThingId(fact[/* property */1], fact[/* baseId */2], fact[/* resourceId */3]),
                                               /* value : String */Block.__(0, [tmp])
                                             ];
                                     }), thing[/* facts */3]);
@@ -63,4 +63,4 @@ exports.valueToArray = valueToArray;
 exports.flattenValues = flattenValues;
 exports.shape = shape;
 exports.run = run;
-/* ADT-Reason Not a pure module */
+/* Compiler_Run-Reason Not a pure module */

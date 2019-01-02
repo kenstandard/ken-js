@@ -1,9 +1,9 @@
 [@genType]
 let run =
   Rationale.Function.Infix.(
-    JsonToUnprocessed.run
-    ||> UncompressedToAST.run
-    ||> ADT.run
-    ||> ADTToSimple.run
-    ||> SimpleToPrimary.run
+    CompressedImporter__FromJson.run
+    ||> CompressedImporter__ToAST.run
+    ||> Compiler_Run.run
+    ||> Compiler_Run.toSimple
+    ||> SimpleFactList_ToGraph.run
   );

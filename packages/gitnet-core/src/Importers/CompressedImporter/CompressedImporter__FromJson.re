@@ -1,4 +1,4 @@
-open UnprocessedGraph;
+open CompressedImporter__T;
 
 let factDecoder = (property, json, baseId, resourceId) =>
   switch (json |> Js.Json.classify) {

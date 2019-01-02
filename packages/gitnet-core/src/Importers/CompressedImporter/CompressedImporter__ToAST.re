@@ -1,13 +1,13 @@
-type unprocessedGraph = UnprocessedGraph.graph;
+type unprocessedGraph = CompressedImporter__T.graph;
 
 let valueToArray = value =>
   switch (value) {
-  | UnprocessedGraph.String(str) => [|str|]
-  | UnprocessedGraph.Array(strs) => strs
+  | CompressedImporter__T.String(str) => [|str|]
+  | CompressedImporter__T.Array(strs) => strs
   };
 
 let flattenValues = (g: unprocessedGraph): unprocessedGraph =>
-  UnprocessedGraph.(
+  CompressedImporter__T.(
     g
     |> Array.map(r =>
          {
@@ -24,35 +24,39 @@ let flattenValues = (g: unprocessedGraph): unprocessedGraph =>
        )
   );
 
-let shape = (g: unprocessedGraph): ADT.Graph.graph =>
+let shape = (g: unprocessedGraph): Compiler_AST.graph =>
   g
-  |> Array.map((thing: UnprocessedGraph.thing) =>
+  |> Array.map((thing: CompressedImporter__T.thing) =>
        thing.facts
-       |> Array.map((fact: UnprocessedGraph.fact) =>
+       |> Array.map((fact: CompressedImporter__T.fact) =>
             (
               {
                 thingId:
-                  ADT.makeThingId(fact.id, fact.baseId, fact.resourceId),
+                  Compiler_Run.makeThingId(
+                    fact.id,
+                    fact.baseId,
+                    fact.resourceId,
+                  ),
                 subjectId:
-                  ADT.makeThingId(
+                  Compiler_Run.makeThingId(
                     Some(thing.id),
                     thing.baseId,
                     thing.resourceId,
                   ),
                 propertyId:
-                  ADT.makeThingId(
+                  Compiler_Run.makeThingId(
                     Some(fact.property),
                     fact.baseId,
                     fact.resourceId,
                   ),
                 value:
-                  ADT.Graph.String(
+                  Compiler_AST.String(
                     switch (fact.value) {
                     | String(str) => str
                     | _ => "ERROR"
                     },
                   ),
-              }: ADT.Graph.fact
+              }: Compiler_AST.fact
             )
           )
      )

@@ -11,53 +11,7 @@ var RList$Rationale = require("rationale/src/RList.js");
 var Option$Rationale = require("rationale/src/Option.js");
 var Function$Rationale = require("rationale/src/Function.js");
 var SecureRandomString = require("@ncthbrt/re-secure-random-string/src/SecureRandomString.bs.js");
-
-function thingIdToJs(param) {
-  return {
-          rawId: param[/* rawId */0],
-          baseId: param[/* baseId */1],
-          resourceId: param[/* resourceId */2],
-          tag: param[/* tag */3],
-          thingIdType: param[/* thingIdType */4],
-          updatedId: param[/* updatedId */5]
-        };
-}
-
-function thingIdFromJs(param) {
-  return /* record */[
-          /* rawId */param.rawId,
-          /* baseId */param.baseId,
-          /* resourceId */param.resourceId,
-          /* tag */param.tag,
-          /* thingIdType */param.thingIdType,
-          /* updatedId */param.updatedId
-        ];
-}
-
-function factToJs(param) {
-  return {
-          thingId: param[/* thingId */0],
-          subjectId: param[/* subjectId */1],
-          propertyId: param[/* propertyId */2],
-          value: param[/* value */3]
-        };
-}
-
-function factFromJs(param) {
-  return /* record */[
-          /* thingId */param.thingId,
-          /* subjectId */param.subjectId,
-          /* propertyId */param.propertyId,
-          /* value */param.value
-        ];
-}
-
-var Graph = /* module */[
-  /* thingIdToJs */thingIdToJs,
-  /* thingIdFromJs */thingIdFromJs,
-  /* factToJs */factToJs,
-  /* factFromJs */factFromJs
-];
+var Compiler_AST$Reason = require("./Compiler_AST.bs.js");
 
 function makeThingId(id, baseId, resourceId) {
   return /* record */[
@@ -216,11 +170,11 @@ function handleUpdatedIds(g) {
 }
 
 function showFacts(g) {
-  return $$Array.map(factToJs, $$Array.of_list(g));
+  return $$Array.map(Compiler_AST$Reason.factToJs, $$Array.of_list(g));
 }
 
 function showIds(g) {
-  return $$Array.map(thingIdToJs, $$Array.of_list(RList$Rationale.uniqBy(thingIdKey, allPrimaryIds(g))));
+  return $$Array.map(Compiler_AST$Reason.thingIdToJs, $$Array.of_list(RList$Rationale.uniqBy(thingIdKey, allPrimaryIds(g))));
 }
 
 var partial_arg = Function$Rationale.Infix[/* ||> */1];
@@ -247,7 +201,28 @@ function run(param) {
   return partial_arg$6(partial_arg$5, handleUpdatedIds, param);
 }
 
-exports.Graph = Graph;
+function convertId$1(f) {
+  return /* record */[
+          /* id */Option$Rationale.toExn("", f[/* updatedId */5]),
+          /* baseId */Option$Rationale.toExn("", f[/* baseId */1]),
+          /* isPublic */false
+        ];
+}
+
+function toSimple(g) {
+  return List.map((function (f) {
+                var match = f[/* value */3];
+                var tmp;
+                tmp = match.tag ? /* ThingId */Block.__(1, [Option$Rationale.toExn("Error", match[0][/* updatedId */5])]) : /* String */Block.__(0, [match[0]]);
+                return /* record */[
+                        /* id */convertId$1(f[/* thingId */0]),
+                        /* subjectId */convertId$1(f[/* subjectId */1]),
+                        /* propertyId */convertId$1(f[/* propertyId */2]),
+                        /* value : record */[/* valueType */tmp]
+                      ];
+              }), g);
+}
+
 exports.makeThingId = makeThingId;
 exports.thingIdKey = thingIdKey;
 exports.allPrimaryIds = allPrimaryIds;
@@ -258,10 +233,11 @@ exports.handleThingTypes = handleThingTypes;
 exports.findId = findId;
 exports._convertValue = _convertValue;
 exports.linkValues = linkValues;
-exports.convertId = convertId;
 exports.generateFactId = generateFactId;
 exports.handleUpdatedIds = handleUpdatedIds;
 exports.showFacts = showFacts;
 exports.showIds = showIds;
 exports.run = run;
+exports.convertId = convertId$1;
+exports.toSimple = toSimple;
 /* RList-Rationale Not a pure module */

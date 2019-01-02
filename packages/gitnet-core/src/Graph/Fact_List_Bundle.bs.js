@@ -28,7 +28,7 @@ function unpackOptionList(e) {
               }), List.filter(Option$Rationale.isSome)(e));
 }
 
-function filterFacts(t, filter) {
+function filterFacts(filter, t) {
   return /* record */[
           /* graph */t[/* graph */0],
           /* list */Curry._2(filter, Graph_T$Reason.Thing[/* id */0](t[/* thing */2]), t[/* list */1]),
@@ -36,39 +36,41 @@ function filterFacts(t, filter) {
         ];
 }
 
-function facts(g) {
-  return filterFacts(g, Graph_Fact_Filters$Reason.withIdAsAnyEdge);
+function facts(param) {
+  return filterFacts(Graph_Fact_Filters$Reason.withIdAsAnyEdge, param);
 }
 
-function isEdgeForFacts(g, edge) {
-  return filterFacts(g, (function (param) {
-                return Graph_Fact_Filters$Reason.withEdge(edge, param);
-              }));
+function isEdgeForFacts(edge) {
+  return (function (param) {
+      return filterFacts((function (param) {
+                    return Graph_Fact_Filters$Reason.withEdge(edge, param);
+                  }), param);
+    });
 }
 
-function filterFactsAndSelectThings(t, fromEdge, toEdge) {
+function filterFactsAndSelectThings(fromEdge, toEdge, t) {
   var partial_arg = t[/* graph */0];
   return unpackOptionList(List.map((function (param) {
                     return Graph_Graph$Reason.findThingFromFact(partial_arg, toEdge, param);
-                  }), filterFacts(t, (function (param) {
+                  }), filterFacts((function (param) {
                           return Graph_Fact_Filters$Reason.withEdge(fromEdge, param);
-                        }))[/* list */1]));
+                        }), t)[/* list */1]));
 }
 
-function connectedPropertyThings(t) {
-  return filterFactsAndSelectThings(t, /* SUBJECT */0, /* PROPERTY */1);
+function connectedPropertyThings(param) {
+  return filterFactsAndSelectThings(/* SUBJECT */0, /* PROPERTY */1, param);
 }
 
-function connectedSubjectThings(t) {
-  return filterFactsAndSelectThings(t, /* PROPERTY */1, /* SUBJECT */0);
+function connectedSubjectThings(param) {
+  return filterFactsAndSelectThings(/* PROPERTY */1, /* SUBJECT */0, param);
 }
 
 function connectedPropertyWithId(id, t) {
-  return findFromList(id, filterFactsAndSelectThings(t, /* SUBJECT */0, /* PROPERTY */1));
+  return findFromList(id, filterFactsAndSelectThings(/* SUBJECT */0, /* PROPERTY */1, t));
 }
 
 function connectedSubjectWithId(id, t) {
-  return findFromList(id, filterFactsAndSelectThings(t, /* PROPERTY */1, /* SUBJECT */0));
+  return findFromList(id, filterFactsAndSelectThings(/* PROPERTY */1, /* SUBJECT */0, t));
 }
 
 var Internal = /* module */[
