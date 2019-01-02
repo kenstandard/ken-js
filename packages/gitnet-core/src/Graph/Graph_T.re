@@ -1,3 +1,5 @@
+open Rationale.Function.Infix;
+
 module T = {
   type thingIdString = string;
 
@@ -64,6 +66,7 @@ module F = {
 
   [@genType]
   let facts = (g: T.t) => g.facts;
+  let factList = facts ||> Js.Dict.values ||> Array.to_list;
 
   let showFacts = (g: T.t) =>
     g.facts |> Js.Dict.values |> Array.map(T.factToJs);

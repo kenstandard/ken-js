@@ -4,6 +4,7 @@
 var $$Array = require("bs-platform/lib/js/array.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
+var Function$Rationale = require("rationale/src/Function.js");
 
 function valueToJs(param) {
   return {
@@ -68,6 +69,18 @@ function facts(g) {
   return g[/* facts */1];
 }
 
+var partial_arg = Function$Rationale.Infix[/* ||> */1];
+
+function partial_arg$1(param) {
+  return partial_arg(facts, Js_dict.values, param);
+}
+
+var partial_arg$2 = Function$Rationale.Infix[/* ||> */1];
+
+function factList(param) {
+  return partial_arg$2(partial_arg$1, $$Array.to_list, param);
+}
+
 function showFacts(g) {
   return $$Array.map(factToJs, Js_dict.values(g[/* facts */1]));
 }
@@ -86,6 +99,7 @@ var F = /* module */[
   /* things */things,
   /* findThing */findThing,
   /* facts */facts,
+  /* factList */factList,
   /* showFacts */showFacts,
   /* showThings */showThings,
   /* showValues */showValues
