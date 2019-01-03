@@ -91,8 +91,8 @@ function listThings(facts) {
                 return /* record */[
                         /* thingId : record */[
                           /* thingIdString */id[/* id */0],
-                          /* isPublic */id[/* isPublic */2],
-                          /* baseId */id[/* baseId */1]
+                          /* isPublic */id[/* isPublic */1],
+                          /* baseId */"FIXIME TODO"
                         ],
                         /* thingType : Item */0
                       ];

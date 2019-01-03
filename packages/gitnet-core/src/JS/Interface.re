@@ -3,7 +3,7 @@ module Graph = {
   let fromJson =
     Rationale.Function.Infix.(
       CompressedImporter__FromJson.run
-      ||> CompressedImporter__ToAST.run
+      ||> CompressedImporter__ToSimpleFactList.run
       ||> SimpleFactList_ToGraph.run
     );
 

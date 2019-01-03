@@ -5,8 +5,6 @@ type thingIdType =
 [@bs.deriving jsConverter]
 type thingId = {
   rawId: option(string),
-  baseId: option(string),
-  resourceId: option(string),
   mutable tag: option(string),
   mutable thingIdType: option(thingIdType),
   mutable updatedId: option(string),

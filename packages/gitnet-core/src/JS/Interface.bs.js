@@ -10,13 +10,13 @@ var Graph_Value$Reason = require("../Graph/Graph_Value.bs.js");
 var Graph_Fact_Query$Reason = require("../Graph/Graph_Fact_Query.bs.js");
 var Graph_Fact_Filters$Reason = require("../Graph/Graph_Fact_Filters.bs.js");
 var SimpleFactList_ToGraph$Reason = require("../AlternativeGraphFormats/SimpleFactList_ToGraph.bs.js");
-var CompressedImporter__ToAST$Reason = require("../Importers/CompressedImporter/CompressedImporter__ToAST.bs.js");
 var CompressedImporter__FromJson$Reason = require("../Importers/CompressedImporter/CompressedImporter__FromJson.bs.js");
+var CompressedImporter__ToSimpleFactList$Reason = require("../Importers/CompressedImporter/CompressedImporter__ToSimpleFactList.bs.js");
 
 var partial_arg = Function$Rationale.Infix[/* ||> */1];
 
 function partial_arg$1(param) {
-  return partial_arg(CompressedImporter__FromJson$Reason.run, CompressedImporter__ToAST$Reason.run, param);
+  return partial_arg(CompressedImporter__FromJson$Reason.run, CompressedImporter__ToSimpleFactList$Reason.run, param);
 }
 
 var partial_arg$2 = Function$Rationale.Infix[/* ||> */1];

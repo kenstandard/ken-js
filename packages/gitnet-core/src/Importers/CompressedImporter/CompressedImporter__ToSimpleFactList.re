@@ -48,20 +48,14 @@ let shape = (g: unprocessedGraph): list(Compiler_AST.package) =>
                            thingId:
                              Compiler_Run.makeThingId(
                                fact.id,
-                               package.baseId,
-                               package.resourceId,
                              ),
                            subjectId:
                              Compiler_Run.makeThingId(
                                Some(thing.id),
-                               package.baseId,
-                               package.resourceId,
                              ),
                            propertyId:
                              Compiler_Run.makeThingId(
                                Some(fact.property),
-                               package.baseId,
-                               package.resourceId,
                              ),
                            value:
                              Compiler_AST.String(

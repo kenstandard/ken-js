@@ -1,15 +1,13 @@
 open Compiler_AST;
 
-let makeThingId = (id, baseId, resourceId) => {
+let makeThingId = id => {
   rawId: id,
   updatedId: None,
-  baseId: Some(baseId),
-  resourceId: Some(resourceId),
   thingIdType: None,
   tag: None,
 };
 
-let thingIdKey = (e: thingId) => (e.rawId, e.baseId, e.resourceId, e.tag);
+let thingIdKey = (e: thingId) => (e.rawId, e.tag);
 
 let allPrimaryIds = (g: package): list(thingId) =>
   g.facts
@@ -78,10 +76,7 @@ let _convertValue = (uniqueIds, fact) =>
   | Id(id) => Id(id)
   | String(str) =>
     uniqueIds
-    |> Belt.List.getBy(_, e =>
-         thingIdKey(e)
-         == (Some(str), fact.thingId.baseId, fact.thingId.resourceId, None)
-       )
+    |> Belt.List.getBy(_, e => thingIdKey(e) == (Some(str), None))
     |> (
       e =>
         switch (e) {
@@ -97,16 +92,16 @@ let linkValues = g: package => {
   g;
 };
 
-let convertId = thingId => {
+let convertIdd = (package, thingId) => {
   open Rationale.Option;
   let rawId = thingId.rawId |> default("CHANGE_ME_SHOULD_BE_RANDOM");
   if (rawId |> String.get(_, 0) == "@".[0]) {
     Some(rawId);
   } else {
     "@"
-    ++ (thingId.baseId |> toExn("BASE_ID_ERROR_89sjdf"))
+    ++ package.baseId
     ++ "/"
-    ++ (thingId.resourceId |> toExn("RESOURCE_ID_ERROR_89sjdf"))
+    ++ package.resourceId
     ++ "/"
     ++ rawId
     |> Rationale.Option.some;
@@ -128,7 +123,7 @@ let handleUpdatedIds = g: package => {
   uniqueIds
   |> List.iter(id =>
        switch (id.thingIdType) {
-       | Some(NONFACT) => id.updatedId = convertId(id)
+       | Some(NONFACT) => id.updatedId = convertIdd(g, id)
        | _ => ()
        }
      );
@@ -157,7 +152,6 @@ let run =
 
 let convertId = (f: Compiler_AST.thingId): SimpleFactList_T.id => {
   id: f.updatedId |> Rationale.Option.toExn(""),
-  baseId: f.baseId |> Rationale.Option.toExn(""),
   isPublic: false,
 };
 

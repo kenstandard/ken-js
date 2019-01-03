@@ -4,7 +4,6 @@ type value = Graph_T.T.value;
 
 type id = {
   id: string,
-  baseId: string,
   isPublic: bool,
 };
 

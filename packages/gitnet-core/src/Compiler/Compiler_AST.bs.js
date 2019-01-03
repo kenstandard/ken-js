@@ -5,19 +5,15 @@
 function thingIdToJs(param) {
   return {
           rawId: param[/* rawId */0],
-          baseId: param[/* baseId */1],
-          resourceId: param[/* resourceId */2],
-          tag: param[/* tag */3],
-          thingIdType: param[/* thingIdType */4],
-          updatedId: param[/* updatedId */5]
+          tag: param[/* tag */1],
+          thingIdType: param[/* thingIdType */2],
+          updatedId: param[/* updatedId */3]
         };
 }
 
 function thingIdFromJs(param) {
   return /* record */[
           /* rawId */param.rawId,
-          /* baseId */param.baseId,
-          /* resourceId */param.resourceId,
           /* tag */param.tag,
           /* thingIdType */param.thingIdType,
           /* updatedId */param.updatedId

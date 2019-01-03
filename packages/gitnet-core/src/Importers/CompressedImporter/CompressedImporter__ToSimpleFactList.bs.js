@@ -49,9 +49,9 @@ function shape(g) {
                                               var tmp;
                                               tmp = match.tag ? "ERROR" : match[0];
                                               return /* record */[
-                                                      /* thingId */Compiler_Run$Reason.makeThingId(fact[/* id */0], $$package[/* baseId */1], $$package[/* resourceId */2]),
-                                                      /* subjectId */Compiler_Run$Reason.makeThingId(thing[/* id */0], $$package[/* baseId */1], $$package[/* resourceId */2]),
-                                                      /* propertyId */Compiler_Run$Reason.makeThingId(fact[/* property */1], $$package[/* baseId */1], $$package[/* resourceId */2]),
+                                                      /* thingId */Compiler_Run$Reason.makeThingId(fact[/* id */0]),
+                                                      /* subjectId */Compiler_Run$Reason.makeThingId(thing[/* id */0]),
+                                                      /* propertyId */Compiler_Run$Reason.makeThingId(fact[/* property */1]),
                                                       /* value : String */Block.__(0, [tmp])
                                                     ];
                                             }), thing[/* facts */1]);

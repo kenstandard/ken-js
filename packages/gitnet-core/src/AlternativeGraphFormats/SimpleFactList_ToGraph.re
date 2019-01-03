@@ -65,7 +65,7 @@ let listThings = (facts: SimpleFactList_T.graph): list(Graph_T.T.thing) =>
          {
            thingId: {
              thingIdString: id.id,
-             baseId: id.baseId,
+             baseId: "FIXIME TODO",
              isPublic: id.isPublic,
            },
            thingType: Graph_T.T.Item,
