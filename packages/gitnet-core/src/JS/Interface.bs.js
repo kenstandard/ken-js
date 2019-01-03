@@ -42,6 +42,8 @@ var things = Graph_T$Reason.F[/* thingArray */1];
 
 var facts = Graph_T$Reason.F[/* factArray */4];
 
+var factList = Graph_T$Reason.F[/* factList */5];
+
 var findThing = Graph_T$Reason.F[/* findThing */2];
 
 var EdgeTypes = /* module */[
@@ -53,6 +55,7 @@ var Graph = /* module */[
   /* fromJson */fromJson,
   /* things */things,
   /* facts */facts,
+  /* factList */factList,
   /* findThing */findThing,
   /* findThingFromFact */Graph_Graph$Reason.findThingFromFact,
   /* to_json */Graph_Graph$Reason.to_json,

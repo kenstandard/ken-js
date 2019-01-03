@@ -7,7 +7,8 @@ var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
 var Config$Reason = require("../Config.bs.js");
 
 function to_json(v) {
-  switch (v.tag | 0) {
+  var match = v[/* valueType */0];
+  switch (match.tag | 0) {
     case 0 : 
         return Json_encode.object_(/* :: */[
                     /* tuple */[
@@ -17,7 +18,7 @@ function to_json(v) {
                     /* :: */[
                       /* tuple */[
                         Config$Reason.FactJson[/* Value */0][/* dataField */1],
-                        v[0]
+                        match[0]
                       ],
                       /* [] */0
                     ]
@@ -31,7 +32,7 @@ function to_json(v) {
                     /* :: */[
                       /* tuple */[
                         Config$Reason.FactJson[/* Value */0][/* dataField */1],
-                        v[0]
+                        match[0]
                       ],
                       /* [] */0
                     ]
@@ -45,7 +46,7 @@ function to_json(v) {
                     /* :: */[
                       /* tuple */[
                         Config$Reason.FactJson[/* Value */0][/* dataField */1],
-                        v[0]
+                        match[0]
                       ],
                       /* [] */0
                     ]

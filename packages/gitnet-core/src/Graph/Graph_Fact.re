@@ -9,10 +9,8 @@ type t = fact;
 let subjectId = t => t.subjectId;
 let propertyId = t => t.propertyId;
 let edgeId = edge => edge == SUBJECT ? subjectId : propertyId;
-[@genType]
 let value = t => t.value;
 let id = (t: t) => t.thingIdString;
-[@genType]
 let to_json = (t: t) =>
   Json.Encode.(
     object_([

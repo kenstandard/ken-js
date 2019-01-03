@@ -6,12 +6,10 @@ open Graph_T.T;
 open Config;
 
 module Query = {
-  [@genType.opaque]
   type condition =
     | IS
     | IS_NOT;
 
-  [@genType.opaque]
   type t = {
     edge,
     id: string,

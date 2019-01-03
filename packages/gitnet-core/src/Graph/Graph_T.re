@@ -59,13 +59,11 @@ module T = {
 };
 
 module F = {
-  [@genType]
   let things = (g: T.t) => g.things;
   let thingArray = (g: T.t) => g.things |> Js.Dict.values;
   let findThing = (id: T.thingIdString, t: T.t) =>
     Js.Dict.get(t |> things, id);
 
-  [@genType]
   let facts = (g: T.t) => g.facts;
   let factArray = facts ||> Js.Dict.values;
   let factList = facts ||> Js.Dict.values ||> Array.to_list;

@@ -16,6 +16,9 @@ module Graph = {
   let facts = Graph_T.F.factArray;
 
   [@genType]
+  let factList = Graph_T.F.factList;
+
+  [@genType]
   let findThing = Graph_T.F.findThing;
 
   [@genType]

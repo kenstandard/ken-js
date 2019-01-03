@@ -3,10 +3,9 @@ open Graph_T.T;
 open Config;
 
 open FactJson.Value;
-[@genType]
-let to_json = (v: valueType) =>
+let to_json = (v: value) =>
   Json.Encode.(
-    switch (v) {
+    switch (v.valueType) {
     | ThingId(s) =>
       object_([
         (dataTypeField, string(thingIdType)),

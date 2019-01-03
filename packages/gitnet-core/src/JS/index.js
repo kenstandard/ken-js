@@ -1,108 +1,6 @@
 let foo = "bar";
-import * as interface from "./Interface.gen"
+import * as gitNet from "./Interface.gen"
 import * as R from "ramda";
-
-let data =
-      [{
-        "id": "g-1",
-        "baseId": "sdf",
-        "resourceId": "resource-31",
-        "subjectId": "n-george",
-        "propertyId": "p-name",
-        "value": {
-            "dataValue": "string",
-            "data": "George"
-        }
-    },
-    {
-        "id": "g-2",
-        "subjectId": "n-george",
-        "baseId": "sdf",
-        "resourceId": "resource-31",
-        "propertyId": "p-description",
-        "value": {
-            "dataValue": "string",
-            "data": "A test person!"
-        }
-    },
-    {
-        "id": "g-2983",
-        "subjectId": "g-2",
-        "propertyId": "p-name",
-        "baseId": "sdf",
-        "resourceId": "resource-31",
-        "value": {
-            "dataValue": "string",
-            "data": "Name here!"
-        }
-    },
-    {
-        "id": "g-3",
-        "subjectId": "n-george",
-        "propertyId": "p-best-friend",
-        "baseId": "sdf",
-        "resourceId": "resource-31",
-        "value": {
-            "dataValue": "thingId",
-            "data": "n-geoff"
-        }
-    },
-    {
-        "id": "g-4",
-        "subjectId": "n-geoff",
-        "propertyId": "p-name",
-        "baseId": "sdf",
-        "resourceId": "resource-31",
-        "value": {
-            "dataValue": "string",
-            "data": "Geoff"
-        }
-    },
-    {
-        "id": "g-5",
-        "subjectId": "n-geoff",
-        "propertyId": "p-description",
-        "baseId": "sdf",
-        "resourceId": "resource-31",
-        "value": {
-            "dataValue": "string",
-            "data": "Geoff!!"
-        }
-    },
-    {
-        "id": "p-0",
-        "subjectId": "p-name",
-        "propertyId": "p-name",
-        "baseId": "sdf",
-        "resourceId": "resource-31",
-        "value": {
-            "dataValue": "string",
-            "data": "Name"
-        }
-    },
-    {
-        "id": "p-1",
-        "subjectId": "p-description",
-        "propertyId": "p-name",
-        "baseId": "sdf",
-        "resourceId": "resource-31",
-        "value": {
-            "dataValue": "string",
-            "data": "Description"
-        }
-    },
-    {
-        "id": "p-2",
-        "subjectId": "p-best-friend",
-        "propertyId": "p-name",
-        "baseId": "sdf",
-        "resourceId": "resource-31",
-        "value": {
-            "dataValue": "string",
-            "data": "Best Friend"
-        }
-    }
-]
 
 let data2 =       [
     {
@@ -110,7 +8,6 @@ let data2 =       [
     "resourceId": "2/2",
     "n-fred": {
       "@base/properties/p-name": "Fred",
-      // "p-description": "THing3"
     },
     "@base/properties/p-name": {
         "@base/properties/p-name": "Name"
@@ -118,20 +15,20 @@ let data2 =       [
     "p-friend": {
         "@base/properties/p-name": "Friend"
     },
-    // "p-description": {
-    //     "@base/properties/p-name": "Description"
-    // }
+    "p-description": {
+        "@base/properties/p-name": "Description"
+    }
   },
   {
     "baseId": "base12",
     "resourceId": "2/2",
     "n-george": {
-      // "@base/properties/p-name": ["GEORGIE!!", "GEORGEOO", "sfdsdf"],
+      "@base/properties/p-name": ["GEORGIE!!", "GEORGEOO", "sfdsdf"],
       "p-friend": "n-fred"
     },
-    // "n-jeremy": {
-    //   "@base/properties/p-name": "George"
-    // }
+    "n-jeremy": {
+      "@base/properties/p-name": "George"
+    }
   }]
   let data3 = [
     {
@@ -419,7 +316,7 @@ export class Value {
         return this;
     }
     json() {
-        return interface.Value_to_json(this.value);
+        return gitNet.Value_to_json(this.value);
     }
     dataType(){
         return this.json().dataValue
@@ -441,14 +338,14 @@ export class FactList {
     }
     filter(query){
         if (this.factList.length == 0){
-            this.factList = interface.Graph_facts(this.db.graph);
+            this.factList = gitNet.Graph_factList(this.db.graph);
         }
-        let _query = interface.Query_from_json(query);
-        let list = interface.Filter_query(_query,this.factList)
+        let _query = gitNet.Query_from_json(query);
+        let list = gitNet.Filter_query(_query,this.factList)
         return (new FactList(this.db, list))
     }
     facts(){
-        let ps = interface.list_to_array(this.factList);
+        let ps = gitNet.list_to_array(this.factList);
         return ps.map(e => new Fact(e, this.db))
     }
 }
@@ -460,7 +357,7 @@ export class Fact {
         return this;
     }
     json() {
-        return interface.Fact_to_json(this.fact)
+        return gitNet.Fact_to_json(this.fact)
     }
     id() {
         return this.json().id;
@@ -469,17 +366,17 @@ export class Fact {
         return this.db.findThing(this.id())
     }
     thing(edge){
-      let thing = interface.Graph_findThingFromFact(this.db.graph, edge, this.fact);
+      let thing = gitNet.Graph_findThingFromFact(this.db.graph, edge, this.fact);
       return new Thing(thing, this.db);
     }
     property(){
-        return this.thing(interface.Graph_EdgeTypes_property)
+        return this.thing(gitNet.Graph_EdgeTypes_property)
     }
     subject(){
-        return this.thing(interface.Graph_EdgeTypes_subject)
+        return this.thing(gitNet.Graph_EdgeTypes_subject)
     }
     value(){
-        return new Value(interface.Fact_value(this.fact), this, this.db);
+        return new Value(gitNet.Fact_value(this.fact), this, this.db);
     }
 }
 
@@ -490,7 +387,7 @@ export class Thing {
         return this;
     }
     json(){
-        return interface.Thing_to_json(this.thing)
+        return gitNet.Thing_to_json(this.thing)
     }
     id() {
         return this.json().id;
@@ -533,12 +430,12 @@ export class Thing {
 
 export class Database {
     constructor(graph){
-        this.graph = interface.Graph_fromJson([...data2, ...data3])
+        this.graph = gitNet.Graph_fromJson([...data2, ...data3])
         console.log(this.json())
         return this;
     }
     findThing(id){
-      let thing = interface.Graph_findThing(id, this.graph);
+      let thing = gitNet.Graph_findThing(id, this.graph);
       if (!!thing){
       return new Thing(thing, this);
       } else {
@@ -546,10 +443,10 @@ export class Database {
       }
     }
     things(){
-        return interface.Graph_things(this.graph).filter(t => !!t).map(t => new Thing(t, this))
+        return gitNet.Graph_things(this.graph).filter(t => !!t).map(t => new Thing(t, this))
     }
     json(){
-        return interface.Graph_to_json(this.graph)
+        return gitNet.Graph_to_json(this.graph)
     }
 }
 

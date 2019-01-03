@@ -8,15 +8,17 @@ export const Graph_things = InterfaceBS.Graph[1];
 
 export const Graph_facts = InterfaceBS.Graph[2];
 
-export const Graph_findThing = InterfaceBS.Graph[3];
+export const Graph_factList = InterfaceBS.Graph[3];
 
-export const Graph_findThingFromFact = InterfaceBS.Graph[4];
+export const Graph_findThing = InterfaceBS.Graph[4];
 
-export const Graph_to_json = InterfaceBS.Graph[5];
+export const Graph_findThingFromFact = InterfaceBS.Graph[5];
 
-export const Graph_EdgeTypes_property = InterfaceBS.Graph[6][0];
+export const Graph_to_json = InterfaceBS.Graph[6];
 
-export const Graph_EdgeTypes_subject = InterfaceBS.Graph[6][1];
+export const Graph_EdgeTypes_property = InterfaceBS.Graph[7][0];
+
+export const Graph_EdgeTypes_subject = InterfaceBS.Graph[7][1];
 
 export const Thing_to_json = InterfaceBS.Thing[0];
 
