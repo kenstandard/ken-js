@@ -4,6 +4,7 @@
 var List = require("bs-platform/lib/js/list.js");
 var $$Array = require("bs-platform/lib/js/array.js");
 var Block = require("bs-platform/lib/js/block.js");
+var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
 var Belt_List = require("bs-platform/lib/js/belt_List.js");
 var Caml_string = require("bs-platform/lib/js/caml_string.js");
@@ -74,7 +75,8 @@ function useUniqueThingIds(g) {
   return /* record */[
           /* facts */facts,
           /* baseId */g[/* baseId */1],
-          /* resourceId */g[/* resourceId */2]
+          /* resourceId */g[/* resourceId */2],
+          /* aliases */g[/* aliases */3]
         ];
 }
 
@@ -139,7 +141,11 @@ function linkValues(g) {
 
 function convertIdd($$package, thingId) {
   var rawId = Option$Rationale.$$default("CHANGE_ME_SHOULD_BE_RANDOM", thingId[/* rawId */0]);
-  if (Caml_string.get(rawId, 0) === /* "@" */64) {
+  var __x = $$package[/* aliases */3];
+  var alias = Js_dict.get(__x, rawId);
+  if (alias !== undefined) {
+    return alias;
+  } else if (Caml_string.get(rawId, 0) === /* "@" */64) {
     return rawId;
   } else {
     return Option$Rationale.some("@" + ($$package[/* baseId */1] + ("/" + ($$package[/* resourceId */2] + ("/" + rawId)))));

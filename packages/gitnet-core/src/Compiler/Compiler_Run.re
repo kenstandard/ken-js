@@ -92,19 +92,15 @@ let linkValues = g: package => {
   g;
 };
 
-let convertIdd = (package, thingId) => {
+let convertIdd = (package: Reason.Compiler_AST.package, thingId) => {
   open Rationale.Option;
   let rawId = thingId.rawId |> default("CHANGE_ME_SHOULD_BE_RANDOM");
-  if (rawId |> String.get(_, 0) == "@".[0]) {
-    Some(rawId);
-  } else {
-    "@"
-    ++ package.baseId
-    ++ "/"
-    ++ package.resourceId
-    ++ "/"
-    ++ rawId
-    |> Rationale.Option.some;
+  let alias = package.aliases |> Js.Dict.get(_, rawId);
+  switch (alias) {
+  | Some(text) => Some(text)
+  | _ when rawId |> String.get(_, 0) == "@".[0] => Some(rawId)
+  | _ =>
+    "@" ++ package.baseId ++ "/" ++ package.resourceId ++ "/" ++ rawId |> some
   };
 };
 

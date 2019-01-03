@@ -103,10 +103,18 @@ function decodeBase(json) {
         }), removeIfInList(filteredFactKeys, (function (param) {
                 return param[0];
               }))(entries));
+  var aliases = Js_dict.fromList(/* :: */[
+        /* tuple */[
+          "name",
+          "@base/properties/p-name"
+        ],
+        /* [] */0
+      ]);
   return /* record */[
           /* things */$$Array.of_list(things),
           /* baseId */baseId,
-          /* resourceId */resourceId
+          /* resourceId */resourceId,
+          /* aliases */aliases
         ];
 }
 

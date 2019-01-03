@@ -45,18 +45,11 @@ let shape = (g: unprocessedGraph): list(Compiler_AST.package) =>
                   |> Array.map((fact: CompressedImporter__T.fact) =>
                        (
                          {
-                           thingId:
-                             Compiler_Run.makeThingId(
-                               fact.id,
-                             ),
+                           thingId: Compiler_Run.makeThingId(fact.id),
                            subjectId:
-                             Compiler_Run.makeThingId(
-                               Some(thing.id),
-                             ),
+                             Compiler_Run.makeThingId(Some(thing.id)),
                            propertyId:
-                             Compiler_Run.makeThingId(
-                               Some(fact.property),
-                             ),
+                             Compiler_Run.makeThingId(Some(fact.property)),
                            value:
                              Compiler_AST.String(
                                switch (fact.value) {
@@ -71,6 +64,7 @@ let shape = (g: unprocessedGraph): list(Compiler_AST.package) =>
                   facts: fs |> Array.to_list,
                   baseId: package.baseId,
                   resourceId: package.resourceId,
+                  aliases: package.aliases,
                 };
               }: Compiler_AST.package
             )
@@ -79,9 +73,13 @@ let shape = (g: unprocessedGraph): list(Compiler_AST.package) =>
   |> Belt.Array.concatMany
   |> Array.to_list;
 
-let combinePackages = (packages: list(Compiler_AST.package)): SimpleFactList_T.graph => {
-  open Rationale.Function.Infix;
-  packages |> List.map(Compiler_Run.run ||> Compiler_Run.toSimple) |> SimpleFactList_T.combine
-}
+let combinePackages =
+    (packages: list(Compiler_AST.package)): SimpleFactList_T.graph =>
+  Rationale.Function.Infix.(
+    packages
+    |> List.map(Compiler_Run.run ||> Compiler_Run.toSimple)
+    |> SimpleFactList_T.combine
+  );
 
-let run = Rationale.Function.Infix.(flattenValues ||> shape ||> combinePackages);
+let run =
+  Rationale.Function.Infix.(flattenValues ||> shape ||> combinePackages);

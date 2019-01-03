@@ -22,6 +22,7 @@ type package = {
   things: array(thing),
   baseId: string,
   resourceId: string,
+  aliases: Js.Dict.t(string),
 };
 
 type graph = array(package);

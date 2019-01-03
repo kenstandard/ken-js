@@ -66,7 +66,8 @@ let decodeBase = json => {
     |> List.map(((key, value)) =>
          {id: key, facts: propertyDecoder(value), templates: [||]}
        );
-  {things: things |> Array.of_list, baseId, resourceId};
+  let aliases = [("name", "@base/properties/p-name")] |> Js.Dict.fromList;
+  {things: things |> Array.of_list, baseId, resourceId, aliases};
 };
 
 let run = json: graph => Json.Decode.(json |> Json.Decode.array(decodeBase));

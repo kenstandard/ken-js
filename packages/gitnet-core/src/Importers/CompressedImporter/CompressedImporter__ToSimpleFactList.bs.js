@@ -36,7 +36,8 @@ function flattenValues(g) {
                                       ];
                               }), $$package[/* things */0]),
                         /* baseId */$$package[/* baseId */1],
-                        /* resourceId */$$package[/* resourceId */2]
+                        /* resourceId */$$package[/* resourceId */2],
+                        /* aliases */$$package[/* aliases */3]
                       ];
               }), g);
 }
@@ -58,7 +59,8 @@ function shape(g) {
                                       return /* record */[
                                               /* facts */$$Array.to_list(fs),
                                               /* baseId */$$package[/* baseId */1],
-                                              /* resourceId */$$package[/* resourceId */2]
+                                              /* resourceId */$$package[/* resourceId */2],
+                                              /* aliases */$$package[/* aliases */3]
                                             ];
                                     }), $$package[/* things */0]);
                       }), g)));

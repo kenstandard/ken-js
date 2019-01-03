@@ -12,7 +12,7 @@ let data2 =       [
       }
     },
     "n-fred": {
-      "@base/properties/p-name": "Fred",
+      "name": "Fred",
     },
     "@base/properties/p-name": {
         "@base/properties/p-name": "Name"
