@@ -50,7 +50,7 @@ function to_json(t) {
                   /* :: */[
                     /* tuple */[
                       Config$Reason.FactJson[/* Fields */1][/* value */3],
-                      Graph_Value$Reason.to_json(t[/* value */3][/* valueType */0])
+                      Graph_Value$Reason.to_json(t[/* value */3])
                     ],
                     /* [] */0
                   ]

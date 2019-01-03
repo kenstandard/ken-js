@@ -6,6 +6,11 @@ let data2 =       [
     {
     "baseId": "base12",
     "resourceId": "2/2",
+    "config": {
+      "aliases": {
+        "name": "@base/properties/p-name"
+      }
+    },
     "n-fred": {
       "@base/properties/p-name": "Fred",
     },

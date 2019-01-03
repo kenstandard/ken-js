@@ -7,19 +7,16 @@ var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var Js_json = require("bs-platform/lib/js/js_json.js");
-var Belt_Array = require("bs-platform/lib/js/belt_Array.js");
 var Json_decode = require("@glennsl/bs-json/src/Json_decode.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
 var Option$Rationale = require("rationale/src/Option.js");
 
-function factDecoder(property, json, baseId, resourceId) {
+function factDecoder(property, json) {
   var match = Js_json.classify(json);
   if (typeof match === "number") {
     return /* record */[
             /* id */undefined,
             /* property */property,
-            /* baseId */baseId,
-            /* resourceId */resourceId,
             /* value : String */Block.__(0, ["Couldn't find"])
           ];
   } else {
@@ -28,32 +25,24 @@ function factDecoder(property, json, baseId, resourceId) {
           return /* record */[
                   /* id */undefined,
                   /* property */property,
-                  /* baseId */baseId,
-                  /* resourceId */resourceId,
                   /* value : String */Block.__(0, [Json_decode.string(json)])
                 ];
       case 2 : 
           return /* record */[
                   /* id */"json-values-TODO",
                   /* property */property,
-                  /* baseId */baseId,
-                  /* resourceId */resourceId,
                   /* value : String */Block.__(0, [Json_decode.field("value", Json_decode.string, json)])
                 ];
       case 3 : 
           return /* record */[
                   /* id */undefined,
                   /* property */property,
-                  /* baseId */baseId,
-                  /* resourceId */resourceId,
                   /* value : Array */Block.__(1, [$$Array.map(Json_decode.string, match[0])])
                 ];
       default:
         return /* record */[
                 /* id */undefined,
                 /* property */property,
-                /* baseId */baseId,
-                /* resourceId */resourceId,
                 /* value : String */Block.__(0, ["Couldn't find"])
               ];
     }
@@ -64,15 +53,18 @@ function filterArray(filter, ar) {
   return $$Array.of_list(Curry._1(filter, $$Array.to_list(ar)));
 }
 
-function propertyDecoder(json, baseId, resourceId) {
+function propertyDecoder(json) {
   var filteredFactKeys = /* :: */[
     "templates",
-    /* [] */0
+    /* :: */[
+      "config",
+      /* [] */0
+    ]
   ];
   var thing0 = Option$Rationale.toExn("Parse Error", Js_json.decodeObject(json));
   var toFact = function (id) {
     var _value = Option$Rationale.toExn("Parse Error", Js_dict.get(thing0, id));
-    return factDecoder(id, _value, baseId, resourceId);
+    return factDecoder(id, _value);
   };
   var ar = Object.keys(thing0);
   var param = $$Array.to_list(ar);
@@ -88,30 +80,38 @@ function removeIfInList(list, fn) {
 }
 
 function decodeBase(json) {
+  var filteredFactKeys = /* :: */[
+    "baseId",
+    /* :: */[
+      "resourceId",
+      /* :: */[
+        "config",
+        /* [] */0
+      ]
+    ]
+  ];
+  console.log(filteredFactKeys);
   var entries = $$Array.to_list(Js_dict.entries(Option$Rationale.toExn("Parse Error", Js_json.decodeObject(json))));
   var baseId = Json_decode.field("baseId", Json_decode.string, json);
   var resourceId = Json_decode.field("resourceId", Json_decode.string, json);
-  return $$Array.of_list(List.map((function (param) {
-                    return /* record */[
-                            /* id */param[0],
-                            /* baseId */baseId,
-                            /* resourceId */resourceId,
-                            /* facts */propertyDecoder(param[1], baseId, resourceId),
-                            /* templates : array */[]
-                          ];
-                  }), removeIfInList(/* :: */[
-                        "baseId",
-                        /* :: */[
-                          "resourceId",
-                          /* [] */0
-                        ]
-                      ], (function (param) {
-                          return param[0];
-                        }))(entries)));
+  var things = List.map((function (param) {
+          return /* record */[
+                  /* id */param[0],
+                  /* facts */propertyDecoder(param[1]),
+                  /* templates : array */[]
+                ];
+        }), removeIfInList(filteredFactKeys, (function (param) {
+                return param[0];
+              }))(entries));
+  return /* record */[
+          /* things */$$Array.of_list(things),
+          /* baseId */baseId,
+          /* resourceId */resourceId
+        ];
 }
 
 function run(json) {
-  return Belt_Array.concatMany(Json_decode.array(decodeBase, json));
+  return Json_decode.array(decodeBase, json);
 }
 
 exports.factDecoder = factDecoder;

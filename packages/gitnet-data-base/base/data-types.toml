@@ -3,26 +3,26 @@ p-instance-of = "p-data-type"
 
 [d-thing]
 p-name = "Thing (Data Type)"
-templates = ["data-type"]
+p-instance-of = "p-data-type"
 
 [d-noun]
 p-name = "Noun (Data Type)"
-templates = ["data-type"]
+p-instance-of = "p-data-type"
 
 [d-property]
 p-name = "Property (Data Type)"
-templates = ["data-type"]
+p-instance-of = "p-data-type"
 
 [d-string]
 p-name = "String (Data Type)"
-templates = ["data-type"]
+p-instance-of = "p-data-type"
 
 [d-url]
 p-name = "Url (Data Type)"
-templates = ["data-type"]
+p-instance-of = "p-data-type"
 p-subclass-of = "d-string"
 
 [d-image-url]
 p-name = "Image Url (Data Type)"
-templates = ["data-type"]
+p-instance-of = "p-data-type"
 p-subclass-of = "d-url"

@@ -16,41 +16,45 @@ function valueToArray(value) {
 }
 
 function flattenValues(g) {
-  return $$Array.map((function (r) {
+  return $$Array.map((function ($$package) {
                 return /* record */[
-                        /* id */r[/* id */0],
-                        /* baseId */r[/* baseId */1],
-                        /* resourceId */r[/* resourceId */2],
-                        /* facts */Belt_Array.concatMany($$Array.map((function (f) {
-                                    return $$Array.map((function (value) {
-                                                  return /* record */[
-                                                          /* id */f[/* id */0],
-                                                          /* property */f[/* property */1],
-                                                          /* baseId */f[/* baseId */2],
-                                                          /* resourceId */f[/* resourceId */3],
-                                                          /* value : String */Block.__(0, [value])
-                                                        ];
-                                                }), valueToArray(f[/* value */4]));
-                                  }), r[/* facts */3])),
-                        /* templates */r[/* templates */4]
+                        /* things */$$Array.map((function (r) {
+                                return /* record */[
+                                        /* id */r[/* id */0],
+                                        /* facts */Belt_Array.concatMany($$Array.map((function (f) {
+                                                    return $$Array.map((function (value) {
+                                                                  return /* record */[
+                                                                          /* id */f[/* id */0],
+                                                                          /* property */f[/* property */1],
+                                                                          /* value : String */Block.__(0, [value])
+                                                                        ];
+                                                                }), valueToArray(f[/* value */2]));
+                                                  }), r[/* facts */1])),
+                                        /* templates */r[/* templates */2]
+                                      ];
+                              }), $$package[/* things */0]),
+                        /* baseId */$$package[/* baseId */1],
+                        /* resourceId */$$package[/* resourceId */2]
                       ];
               }), g);
 }
 
 function shape(g) {
-  return $$Array.to_list(Belt_Array.concatMany($$Array.map((function (thing) {
-                        return $$Array.map((function (fact) {
-                                      var match = fact[/* value */4];
-                                      var tmp;
-                                      tmp = match.tag ? "ERROR" : match[0];
-                                      return /* record */[
-                                              /* thingId */Compiler_Run$Reason.makeThingId(fact[/* id */0], fact[/* baseId */2], fact[/* resourceId */3]),
-                                              /* subjectId */Compiler_Run$Reason.makeThingId(thing[/* id */0], thing[/* baseId */1], thing[/* resourceId */2]),
-                                              /* propertyId */Compiler_Run$Reason.makeThingId(fact[/* property */1], fact[/* baseId */2], fact[/* resourceId */3]),
-                                              /* value : String */Block.__(0, [tmp])
-                                            ];
-                                    }), thing[/* facts */3]);
-                      }), g)));
+  return $$Array.to_list(Belt_Array.concatMany(Belt_Array.concatMany($$Array.map((function ($$package) {
+                            return $$Array.map((function (thing) {
+                                          return $$Array.map((function (fact) {
+                                                        var match = fact[/* value */2];
+                                                        var tmp;
+                                                        tmp = match.tag ? "ERROR" : match[0];
+                                                        return /* record */[
+                                                                /* thingId */Compiler_Run$Reason.makeThingId(fact[/* id */0], $$package[/* baseId */1], $$package[/* baseId */1]),
+                                                                /* subjectId */Compiler_Run$Reason.makeThingId(thing[/* id */0], $$package[/* baseId */1], $$package[/* baseId */1]),
+                                                                /* propertyId */Compiler_Run$Reason.makeThingId(fact[/* property */1], $$package[/* baseId */1], $$package[/* baseId */1]),
+                                                                /* value : String */Block.__(0, [tmp])
+                                                              ];
+                                                      }), thing[/* facts */1]);
+                                        }), $$package[/* things */0]);
+                          }), g))));
 }
 
 var partial_arg = Function$Rationale.Infix[/* ||> */1];

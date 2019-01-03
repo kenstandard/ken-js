@@ -1,42 +1,30 @@
 open CompressedImporter__T;
 
-let factDecoder = (property, json, baseId, resourceId) =>
+let factDecoder = (property, json) =>
   switch (json |> Js.Json.classify) {
   | JSONString(_) => {
       value: String(json |> Json.Decode.string),
       property,
       id: None,
-      baseId,
-      resourceId,
     }
   | JSONObject(_) => {
       property,
       value: String(json |> Json.Decode.field("value", Json.Decode.string)),
       id: Some("json-values-TODO"),
-      baseId,
-      resourceId,
     }
   | JSONArray(rs) => {
       property,
       value: Array(rs |> Array.map(Json.Decode.string)),
       id: None,
-      baseId,
-      resourceId,
     }
-  | _ => {
-      property,
-      id: None,
-      value: String("Couldn't find"),
-      baseId,
-      resourceId,
-    }
+  | _ => {property, id: None, value: String("Couldn't find")}
   };
 
 let filterArray = (filter, ar) =>
   ar |> Array.to_list |> filter |> Array.of_list;
 
-let propertyDecoder = (json, baseId, resourceId) => {
-  let filteredFactKeys = ["templates"];
+let propertyDecoder = json => {
+  let filteredFactKeys = ["templates", "config"];
 
   let thing0 =
     Js.Json.decodeObject(json) |> Rationale.Option.toExn("Parse Error");
@@ -44,7 +32,7 @@ let propertyDecoder = (json, baseId, resourceId) => {
   let toFact = id => {
     let _value =
       Js.Dict.get(thing0, id) |> Rationale.Option.toExn("Parse Error");
-    factDecoder(id, _value, baseId, resourceId);
+    factDecoder(id, _value);
   };
 
   let nonTemplateKeys =
@@ -60,7 +48,8 @@ let removeIfInList = (list, fn) =>
   List.filter(e => e |> fn |> Rationale.RList.contains(_, list) |> (e => !e));
 
 let decodeBase = json => {
-  let filteredFactKeys = ["baseId", "resourceId"];
+  let filteredFactKeys = ["baseId", "resourceId", "config"];
+  Js.log(filteredFactKeys);
 
   let entries =
     json
@@ -75,18 +64,9 @@ let decodeBase = json => {
     entries
     |> removeIfInList(filteredFactKeys, ((k, _)) => k)
     |> List.map(((key, value)) =>
-         {
-           id: key,
-           facts: propertyDecoder(value, baseId, resourceId),
-           baseId,
-           resourceId,
-           templates: [||],
-         }
+         {id: key, facts: propertyDecoder(value), templates: [||]}
        );
-  things |> Array.of_list;
+  {things: things |> Array.of_list, baseId, resourceId};
 };
 
-let run = json: graph =>
-  Json.Decode.(
-    json |> Json.Decode.array(decodeBase) |> Belt.Array.concatMany
-  );
+let run = json: graph => Json.Decode.(json |> Json.Decode.array(decodeBase));

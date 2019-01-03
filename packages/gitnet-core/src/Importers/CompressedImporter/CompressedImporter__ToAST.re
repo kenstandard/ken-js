@@ -9,57 +9,70 @@ let valueToArray = value =>
 let flattenValues = (g: unprocessedGraph): unprocessedGraph =>
   CompressedImporter__T.(
     g
-    |> Array.map(r =>
+    |> Array.map((package: CompressedImporter__T.package) =>
          {
-           ...r,
-           facts:
-             r.facts
-             |> Array.map((f: fact) =>
-                  f.value
-                  |> valueToArray
-                  |> Array.map(value => {...f, value: String(value)})
-                )
-             |> Belt.Array.concatMany,
+           ...package,
+           things:
+             package.things
+             |> Array.map(r =>
+                  {
+                    ...r,
+                    facts:
+                      r.facts
+                      |> Array.map((f: fact) =>
+                           f.value
+                           |> valueToArray
+                           |> Array.map(value =>
+                                {...f, value: String(value)}
+                              )
+                         )
+                      |> Belt.Array.concatMany,
+                  }
+                ),
          }
        )
   );
 
 let shape = (g: unprocessedGraph): Compiler_AST.graph =>
   g
-  |> Array.map((thing: CompressedImporter__T.thing) =>
-       thing.facts
-       |> Array.map((fact: CompressedImporter__T.fact) =>
-            (
-              {
-                thingId:
-                  Compiler_Run.makeThingId(
-                    fact.id,
-                    fact.baseId,
-                    fact.resourceId,
-                  ),
-                subjectId:
-                  Compiler_Run.makeThingId(
-                    Some(thing.id),
-                    thing.baseId,
-                    thing.resourceId,
-                  ),
-                propertyId:
-                  Compiler_Run.makeThingId(
-                    Some(fact.property),
-                    fact.baseId,
-                    fact.resourceId,
-                  ),
-                value:
-                  Compiler_AST.String(
-                    switch (fact.value) {
-                    | String(str) => str
-                    | _ => "ERROR"
-                    },
-                  ),
-              }: Compiler_AST.fact
-            )
+  |> Array.map((package: CompressedImporter__T.package) =>
+       package.things
+       |> Array.map((thing: CompressedImporter__T.thing) =>
+            thing.facts
+            |> Array.map((fact: CompressedImporter__T.fact) =>
+                 (
+                   {
+                     thingId:
+                       Compiler_Run.makeThingId(
+                         fact.id,
+                         package.baseId,
+                         package.baseId,
+                       ),
+                     subjectId:
+                       Compiler_Run.makeThingId(
+                         Some(thing.id),
+                         package.baseId,
+                         package.baseId,
+                       ),
+                     propertyId:
+                       Compiler_Run.makeThingId(
+                         Some(fact.property),
+                         package.baseId,
+                         package.baseId,
+                       ),
+                     value:
+                       Compiler_AST.String(
+                         switch (fact.value) {
+                         | String(str) => str
+                         | _ => "ERROR"
+                         },
+                       ),
+                   }: Compiler_AST.fact
+                 )
+               )
           )
      )
+  |> Belt.Array.concatMany
   |> Belt.Array.concatMany
   |> Array.to_list;
 

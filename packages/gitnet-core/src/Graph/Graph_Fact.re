@@ -17,7 +17,7 @@ let to_json = (t: t) =>
       (FactJson.Fields.id, string(t.thingIdString)),
       (FactJson.Fields.subjectId, string(t.subjectId)),
       (FactJson.Fields.propertyId, string(t.propertyId)),
-      (FactJson.Fields.value, Graph_Value.to_json(t.value.valueType)),
+      (FactJson.Fields.value, Graph_Value.to_json(t.value)),
     ])
   );
 
