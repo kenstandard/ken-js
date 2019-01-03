@@ -2,10 +2,10 @@
 'use strict';
 
 var Function$Rationale = require("rationale/src/Function.js");
-var Compiler_Run$Reason = require("./Compiler/Compiler_Run.bs.js");
-var SimpleFactList_ToGraph$Reason = require("./AlternativeGraphFormats/SimpleFactList_ToGraph.bs.js");
-var CompressedImporter__ToAST$Reason = require("./Importers/CompressedImporter/CompressedImporter__ToAST.bs.js");
-var CompressedImporter__FromJson$Reason = require("./Importers/CompressedImporter/CompressedImporter__FromJson.bs.js");
+var Compiler_Run$Reason = require("../Compiler/Compiler_Run.bs.js");
+var SimpleFactList_ToGraph$Reason = require("../AlternativeGraphFormats/SimpleFactList_ToGraph.bs.js");
+var CompressedImporter__ToAST$Reason = require("../Importers/CompressedImporter/CompressedImporter__ToAST.bs.js");
+var CompressedImporter__FromJson$Reason = require("../Importers/CompressedImporter/CompressedImporter__FromJson.bs.js");
 
 var partial_arg = Function$Rationale.Infix[/* ||> */1];
 

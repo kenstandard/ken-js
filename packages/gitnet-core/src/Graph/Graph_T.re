@@ -61,20 +61,22 @@ module T = {
 module F = {
   [@genType]
   let things = (g: T.t) => g.things;
+  let thingArray = (g: T.t) => g.things |> Js.Dict.values;
   let findThing = (id: T.thingIdString, t: T.t) =>
     Js.Dict.get(t |> things, id);
 
   [@genType]
   let facts = (g: T.t) => g.facts;
+  let factArray = facts ||> Js.Dict.values;
   let factList = facts ||> Js.Dict.values ||> Array.to_list;
 
-  let showFacts = (g: T.t) =>
+  let factsJs = (g: T.t) =>
     g.facts |> Js.Dict.values |> Array.map(T.factToJs);
 
-  let showThings = (g: T.t) =>
+  let thingsJs = (g: T.t) =>
     g.things |> Js.Dict.values |> Array.map(T.thingToJs);
 
-  let showValues = (g: T.t) =>
+  let valuesJs = (g: T.t) =>
     g.facts
     |> Js.Dict.values
     |> Array.map((f: T.fact) => f.value)

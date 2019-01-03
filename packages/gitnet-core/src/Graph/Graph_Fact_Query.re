@@ -34,7 +34,7 @@ module Query = {
   let qOr = (qs: list(t), f: fact) => List.exists(q => run(q, f), qs);
   let qAnd = (qs: list(t), f: fact) => List.for_all(q => run(q, f), qs);
 
-  let item_from_json = i => {
+  let from_json = i => {
     open Json.Decode;
     let id = i |> field("id", string);
     let _q = i |> field("q", string);
@@ -54,6 +54,4 @@ module Query = {
         },
     };
   };
-  [@genType]
-  let fromJson = (t: Js.Json.t) => t |> item_from_json;
 };

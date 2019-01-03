@@ -31,22 +31,6 @@ var FactJson = /* module */[
   /* Fields */Fields
 ];
 
-function c(param) {
-  return /* record */[
-          /* a */"lkjsdf",
-          /* b */"sdfsdf"
-        ];
-}
-
-function updateLatitude(p) {
-  return /* record */[
-          /* latitude */p[/* latitude */0] + 2 | 0,
-          /* longitude */p[/* longitude */1]
-        ];
-}
-
 exports.JsonKeys = JsonKeys;
 exports.FactJson = FactJson;
-exports.c = c;
-exports.updateLatitude = updateLatitude;
 /* No side effect */

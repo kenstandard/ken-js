@@ -11,7 +11,7 @@ var Graph_Fact_Filters$Reason = require("./Graph_Fact_Filters.bs.js");
 function init(g, t) {
   return /* record */[
           /* graph */g,
-          /* list */Curry._1(Graph_T$Reason.F[/* factList */3], g),
+          /* list */Curry._1(Graph_T$Reason.F[/* factList */5], g),
           /* thing */t
         ];
 }

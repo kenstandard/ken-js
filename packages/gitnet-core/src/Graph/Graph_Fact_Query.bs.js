@@ -52,7 +52,7 @@ function qAnd(qs, f) {
               }), qs);
 }
 
-function item_from_json(i) {
+function from_json(i) {
   var id = Json_decode.field("id", Json_decode.string, i);
   var _q = Json_decode.field("q", Json_decode.string, i);
   var _edge = Json_decode.field("edge", Json_decode.string, i);
@@ -75,14 +75,11 @@ function item_from_json(i) {
         ];
 }
 
-var fromJson = item_from_json;
-
 var Query = /* module */[
   /* run */run,
   /* qOr */qOr,
   /* qAnd */qAnd,
-  /* item_from_json */item_from_json,
-  /* fromJson */fromJson
+  /* from_json */from_json
 ];
 
 exports.Query = Query;

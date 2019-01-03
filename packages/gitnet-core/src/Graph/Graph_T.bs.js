@@ -61,6 +61,10 @@ function things(g) {
   return g[/* things */0];
 }
 
+function thingArray(g) {
+  return Js_dict.values(g[/* things */0]);
+}
+
 function findThing(id, t) {
   return Js_dict.get(t[/* things */0], id);
 }
@@ -71,25 +75,31 @@ function facts(g) {
 
 var partial_arg = Function$Rationale.Infix[/* ||> */1];
 
-function partial_arg$1(param) {
+function factArray(param) {
   return partial_arg(facts, Js_dict.values, param);
 }
 
-var partial_arg$2 = Function$Rationale.Infix[/* ||> */1];
+var partial_arg$1 = Function$Rationale.Infix[/* ||> */1];
 
-function factList(param) {
-  return partial_arg$2(partial_arg$1, $$Array.to_list, param);
+function partial_arg$2(param) {
+  return partial_arg$1(facts, Js_dict.values, param);
 }
 
-function showFacts(g) {
+var partial_arg$3 = Function$Rationale.Infix[/* ||> */1];
+
+function factList(param) {
+  return partial_arg$3(partial_arg$2, $$Array.to_list, param);
+}
+
+function factsJs(g) {
   return $$Array.map(factToJs, Js_dict.values(g[/* facts */1]));
 }
 
-function showThings(g) {
+function thingsJs(g) {
   return $$Array.map(thingToJs, Js_dict.values(g[/* things */0]));
 }
 
-function showValues(g) {
+function valuesJs(g) {
   return $$Array.map(valueToJs, $$Array.map((function (f) {
                     return f[/* value */3];
                   }), Js_dict.values(g[/* facts */1])));
@@ -97,12 +107,14 @@ function showValues(g) {
 
 var F = /* module */[
   /* things */things,
+  /* thingArray */thingArray,
   /* findThing */findThing,
   /* facts */facts,
+  /* factArray */factArray,
   /* factList */factList,
-  /* showFacts */showFacts,
-  /* showThings */showThings,
-  /* showValues */showValues
+  /* factsJs */factsJs,
+  /* thingsJs */thingsJs,
+  /* valuesJs */valuesJs
 ];
 
 function id(e) {

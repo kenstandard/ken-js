@@ -22,7 +22,7 @@ export const T_VALUE = 2;
 
 export const F_things = function _(Arg1) { const result = Graph_TBS.F[0]([Arg1.things, Arg1.facts, Arg1.bases]); return result };
 
-export const F_facts = function _(Arg1) { const result = Graph_TBS.F[2]([Arg1.things, Arg1.facts, Arg1.bases]); return result };
+export const F_facts = function _(Arg1) { const result = Graph_TBS.F[3]([Arg1.things, Arg1.facts, Arg1.bases]); return result };
 
 export const Thing_to_s = function _(Arg1) { const result = Graph_TBS.Thing[1]([[Arg1.thingId.thingIdString, Arg1.thingId.isPublic, Arg1.thingId.baseId], Arg1.thingType]); return result };
 

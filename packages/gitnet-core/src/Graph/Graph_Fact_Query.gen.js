@@ -2,10 +2,6 @@
 
 import * as CreateBucklescriptBlock from 'bs-platform/lib/es6/block.js';
 
-import * as Graph_Fact_QueryBS from './Graph_Fact_Query.bs';
-
 export const Query_IS = 0;
 
 export const Query_IS_NOT = 1;
-
-export const Query_fromJson = Graph_Fact_QueryBS.Query[4];

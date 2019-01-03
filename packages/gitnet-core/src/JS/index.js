@@ -1,10 +1,5 @@
 let foo = "bar";
-import {Thing_to_json, Thing_to_jsonr} from "./Graph/Base.gen"
-import * as baseLib from "./Graph/Base.gen"
-import * as graphLib from "./Graph/Graph.gen"
-import * as factLib from "./Graph/Fact.gen"
-import * as converters from "./Converters.gen"
-import * as tempLib from "./Temp.gen"
+import * as interface from "./Interface.gen"
 import * as R from "ramda";
 
 let data =
@@ -138,7 +133,6 @@ let data2 =       [
     //   "@base/properties/p-name": "George"
     // }
   }]
-
   let data3 = [
     {
       "baseId": "base",
@@ -425,7 +419,7 @@ export class Value {
         return this;
     }
     json() {
-        return factLib.Value_to_json(this.value);
+        return interface.Value_to_json(this.value);
     }
     dataType(){
         return this.json().dataValue
@@ -447,14 +441,14 @@ export class FactList {
     }
     filter(query){
         if (this.factList.length == 0){
-            this.factList = graphLib.facts(this.db.graph);
+            this.factList = interface.Graph_facts(this.db.graph);
         }
-        let _query = factLib.Query_fromJson(query);
-        let list = factLib.Filters_query(_query,this.factList)
+        let _query = interface.Query_from_json(query);
+        let list = interface.Filter_query(_query,this.factList)
         return (new FactList(this.db, list))
     }
     facts(){
-        let ps = converters.list_to_array(this.factList);
+        let ps = interface.list_to_array(this.factList);
         return ps.map(e => new Fact(e, this.db))
     }
 }
@@ -466,7 +460,7 @@ export class Fact {
         return this;
     }
     json() {
-        return factLib.T_to_json(this.fact)
+        return interface.Fact_to_json(this.fact)
     }
     id() {
         return this.json().id;
@@ -475,17 +469,17 @@ export class Fact {
         return this.db.findThing(this.id())
     }
     thing(edge){
-      let thing = graphLib.findThingFromFact(this.db.graph, edge, this.fact);
+      let thing = interface.Graph_findThingFromFact(this.db.graph, edge, this.fact);
       return new Thing(thing, this.db);
     }
     property(){
-        return this.thing(baseLib.PROPERTY)
+        return this.thing(interface.Graph_EdgeTypes_property)
     }
     subject(){
-        return this.thing(baseLib.SUBJECT)
+        return this.thing(interface.Graph_EdgeTypes_subject)
     }
     value(){
-        return new Value(factLib.T_value(this.fact), this, this.db);
+        return new Value(interface.Fact_value(this.fact), this, this.db);
     }
 }
 
@@ -496,7 +490,7 @@ export class Thing {
         return this;
     }
     json(){
-        return Thing_to_json(this.thing)
+        return interface.Thing_to_json(this.thing)
     }
     id() {
         return this.json().id;
@@ -539,12 +533,12 @@ export class Thing {
 
 export class Database {
     constructor(graph){
-        this.graph = tempLib.run([...data2, ...data3]);
+        this.graph = interface.Graph_fromJson([...data2, ...data3])
         console.log(this.json())
         return this;
     }
     findThing(id){
-      let thing = graphLib.findThing(id, this.graph);
+      let thing = interface.Graph_findThing(id, this.graph);
       if (!!thing){
       return new Thing(thing, this);
       } else {
@@ -552,10 +546,10 @@ export class Database {
       }
     }
     things(){
-        return converters.list_to_array(graphLib.things(this.graph)).filter(t => !!t).map(t => new Thing(t, this))
+        return interface.Graph_things(this.graph).filter(t => !!t).map(t => new Thing(t, this))
     }
     json(){
-        return graphLib.to_json(this.graph)
+        return interface.Graph_to_json(this.graph)
     }
 }
 

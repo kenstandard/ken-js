@@ -11,7 +11,7 @@ var Graph_Fact$Reason = require("./Graph_Fact.bs.js");
 var Function$Rationale = require("rationale/src/Function.js");
 
 function findFact(id) {
-  var partial_arg = Graph_T$Reason.F[/* facts */2];
+  var partial_arg = Graph_T$Reason.F[/* facts */3];
   var partial_arg$1 = Function$Rationale.Infix[/* ||> */1];
   return (function (param) {
       return partial_arg$1(partial_arg, (function (e) {
@@ -21,12 +21,12 @@ function findFact(id) {
 }
 
 function findThing(id, g) {
-  return Graph_T$Reason.F[/* findThing */1](id, g);
+  return Graph_T$Reason.F[/* findThing */2](id, g);
 }
 
 function findThingFromFact(g, edge, f) {
   var id = Graph_Fact$Reason.edgeId(edge)(f);
-  return Graph_T$Reason.F[/* findThing */1](id, g);
+  return Graph_T$Reason.F[/* findThing */2](id, g);
 }
 
 function from_json(param) {
