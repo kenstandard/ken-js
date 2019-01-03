@@ -33,47 +33,61 @@ let flattenValues = (g: unprocessedGraph): unprocessedGraph =>
        )
   );
 
-let shape = (g: unprocessedGraph): Compiler_AST.graph =>
+let shape = (g: unprocessedGraph): list(Compiler_AST.package) =>
   g
   |> Array.map((package: CompressedImporter__T.package) =>
        package.things
        |> Array.map((thing: CompressedImporter__T.thing) =>
-            thing.facts
-            |> Array.map((fact: CompressedImporter__T.fact) =>
-                 (
-                   {
-                     thingId:
-                       Compiler_Run.makeThingId(
-                         fact.id,
-                         package.baseId,
-                         package.baseId,
-                       ),
-                     subjectId:
-                       Compiler_Run.makeThingId(
-                         Some(thing.id),
-                         package.baseId,
-                         package.baseId,
-                       ),
-                     propertyId:
-                       Compiler_Run.makeThingId(
-                         Some(fact.property),
-                         package.baseId,
-                         package.baseId,
-                       ),
-                     value:
-                       Compiler_AST.String(
-                         switch (fact.value) {
-                         | String(str) => str
-                         | _ => "ERROR"
-                         },
-                       ),
-                   }: Compiler_AST.fact
-                 )
-               )
+            (
+              {
+                let fs =
+                  thing.facts
+                  |> Array.map((fact: CompressedImporter__T.fact) =>
+                       (
+                         {
+                           thingId:
+                             Compiler_Run.makeThingId(
+                               fact.id,
+                               package.baseId,
+                               package.resourceId,
+                             ),
+                           subjectId:
+                             Compiler_Run.makeThingId(
+                               Some(thing.id),
+                               package.baseId,
+                               package.resourceId,
+                             ),
+                           propertyId:
+                             Compiler_Run.makeThingId(
+                               Some(fact.property),
+                               package.baseId,
+                               package.resourceId,
+                             ),
+                           value:
+                             Compiler_AST.String(
+                               switch (fact.value) {
+                               | String(str) => str
+                               | _ => "ERROR"
+                               },
+                             ),
+                         }: Compiler_AST.fact
+                       )
+                     );
+                {
+                  facts: fs |> Array.to_list,
+                  baseId: package.baseId,
+                  resourceId: package.resourceId,
+                };
+              }: Compiler_AST.package
+            )
           )
      )
   |> Belt.Array.concatMany
-  |> Belt.Array.concatMany
   |> Array.to_list;
 
-let run = Rationale.Function.Infix.(flattenValues ||> shape);
+let combinePackages = (packages: list(Compiler_AST.package)): SimpleFactList_T.graph => {
+  open Rationale.Function.Infix;
+  packages |> List.map(Compiler_Run.run ||> Compiler_Run.toSimple) |> SimpleFactList_T.combine
+}
+
+let run = Rationale.Function.Infix.(flattenValues ||> shape ||> combinePackages);

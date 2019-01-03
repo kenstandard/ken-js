@@ -11,16 +11,18 @@ let makeThingId = (id, baseId, resourceId) => {
 
 let thingIdKey = (e: thingId) => (e.rawId, e.baseId, e.resourceId, e.tag);
 
-let allPrimaryIds = (g: graph): list(thingId) =>
-  g |> List.map(r => [r.thingId, r.subjectId, r.propertyId]) |> List.flatten;
+let allPrimaryIds = (g: package): list(thingId) =>
+  g.facts
+  |> List.map(r => [r.thingId, r.subjectId, r.propertyId])
+  |> List.flatten;
 
-let findUniqueIds = (g: graph): list(thingId) =>
+let findUniqueIds = (g: package): list(thingId) =>
   g |> allPrimaryIds |> Rationale.RList.uniqBy(thingIdKey);
 
 /* Make sure that all thing Ids are only represented once. */
 /* Don't do this for facts! */
-let tagFacts = g: graph => {
-  g
+let tagFacts = g: package => {
+  g.facts
   |> List.iter(fact =>
        fact.thingId.tag =
          Some(SecureRandomString.genSync(~length=12, ~alphaNumeric=true, ()))
@@ -28,34 +30,36 @@ let tagFacts = g: graph => {
   g;
 };
 
-let useUniqueThingIds = g: graph => {
+let useUniqueThingIds = g: package => {
   let uniqueIds = findUniqueIds(g);
   let findId = thingId =>
     uniqueIds |> List.find(e => thingIdKey(e) == thingIdKey(thingId));
-  g
-  |> List.map(r =>
-       {
-         ...r,
-         thingId: findId(r.thingId),
-         subjectId: findId(r.subjectId),
-         propertyId: findId(r.propertyId),
-       }
-     );
+  let facts =
+    g.facts
+    |> List.map(r =>
+         {
+           ...r,
+           thingId: findId(r.thingId),
+           subjectId: findId(r.subjectId),
+           propertyId: findId(r.propertyId),
+         }
+       );
+  {...g, facts};
 };
 
 /* Mutate thing types to correct formats */
-let handleThingTypes = (g: graph) => {
+let handleThingTypes = (g: package) => {
   let propertyOrSubjectType = (id: thingId) =>
     switch (id.thingIdType) {
     | Some(FACT) => Some(FACT)
     | _ => Some(NONFACT)
     };
-  g
+  g.facts
   |> List.iter(r => {
        let id = r.thingId;
        id.thingIdType = Some(FACT);
      });
-  g
+  g.facts
   |> List.iter(r => {
        let propertyId = r.propertyId;
        propertyId.thingIdType = propertyOrSubjectType(propertyId);
@@ -87,9 +91,9 @@ let _convertValue = (uniqueIds, fact) =>
     )
   };
 
-let linkValues = g: graph => {
+let linkValues = g: package => {
   let uniqueIds = findUniqueIds(g);
-  g |> List.iter(fact => fact.value = _convertValue(uniqueIds, fact));
+  g.facts |> List.iter(fact => fact.value = _convertValue(uniqueIds, fact));
   g;
 };
 
@@ -119,7 +123,7 @@ let generateFactId = (thingId, subjectId) =>
   ++ "/_f/"
   ++ (thingId.tag |> Rationale.Option.default("ERROR"));
 
-let handleUpdatedIds = g: graph => {
+let handleUpdatedIds = g: package => {
   let uniqueIds = findUniqueIds(g);
   uniqueIds
   |> List.iter(id =>
@@ -129,7 +133,7 @@ let handleUpdatedIds = g: graph => {
        }
      );
 
-  g
+  g.facts
   |> List.iter(fact =>
        fact.thingId.updatedId =
          Some(generateFactId(fact.thingId, fact.subjectId))
@@ -137,8 +141,9 @@ let handleUpdatedIds = g: graph => {
   g;
 };
 
-let showFacts = (g: graph) => g |> Array.of_list |> Array.map(factToJs);
-let showIds = (g: graph) =>
+let showFacts = (g: package) =>
+  g.facts |> Array.of_list |> Array.map(factToJs);
+let showIds = (g: package) =>
   g |> findUniqueIds |> Array.of_list |> Array.map(thingIdToJs);
 
 let run =
@@ -156,8 +161,8 @@ let convertId = (f: Compiler_AST.thingId): SimpleFactList_T.id => {
   isPublic: false,
 };
 
-let toSimple = (g: Compiler_AST.graph): SimpleFactList_T.graph =>
-  g
+let toSimple = (g: Compiler_AST.package): SimpleFactList_T.graph =>
+  g.facts
   |> List.map((f: Compiler_AST.fact) =>
        (
          {

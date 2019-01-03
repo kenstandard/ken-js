@@ -7,7 +7,6 @@ var Graph_Fact$Reason = require("../Graph/Graph_Fact.bs.js");
 var Function$Rationale = require("rationale/src/Function.js");
 var Graph_Graph$Reason = require("../Graph/Graph_Graph.bs.js");
 var Graph_Value$Reason = require("../Graph/Graph_Value.bs.js");
-var Compiler_Run$Reason = require("../Compiler/Compiler_Run.bs.js");
 var Graph_Fact_Query$Reason = require("../Graph/Graph_Fact_Query.bs.js");
 var Graph_Fact_Filters$Reason = require("../Graph/Graph_Fact_Filters.bs.js");
 var SimpleFactList_ToGraph$Reason = require("../AlternativeGraphFormats/SimpleFactList_ToGraph.bs.js");
@@ -22,20 +21,8 @@ function partial_arg$1(param) {
 
 var partial_arg$2 = Function$Rationale.Infix[/* ||> */1];
 
-function partial_arg$3(param) {
-  return partial_arg$2(partial_arg$1, Compiler_Run$Reason.run, param);
-}
-
-var partial_arg$4 = Function$Rationale.Infix[/* ||> */1];
-
-function partial_arg$5(param) {
-  return partial_arg$4(partial_arg$3, Compiler_Run$Reason.toSimple, param);
-}
-
-var partial_arg$6 = Function$Rationale.Infix[/* ||> */1];
-
 function fromJson(param) {
-  return partial_arg$6(partial_arg$5, SimpleFactList_ToGraph$Reason.run, param);
+  return partial_arg$2(partial_arg$1, SimpleFactList_ToGraph$Reason.run, param);
 }
 
 var things = Graph_T$Reason.F[/* thingArray */1];
@@ -88,4 +75,4 @@ exports.Filter = Filter;
 exports.Query = Query;
 exports.Value = Value;
 exports.list_to_array = list_to_array;
-/* Compiler_Run-Reason Not a pure module */
+/* Graph_Fact_Filters-Reason Not a pure module */

@@ -2,7 +2,6 @@
 'use strict';
 
 var Function$Rationale = require("rationale/src/Function.js");
-var Compiler_Run$Reason = require("../Compiler/Compiler_Run.bs.js");
 var SimpleFactList_ToGraph$Reason = require("../AlternativeGraphFormats/SimpleFactList_ToGraph.bs.js");
 var CompressedImporter__ToAST$Reason = require("../Importers/CompressedImporter/CompressedImporter__ToAST.bs.js");
 var CompressedImporter__FromJson$Reason = require("../Importers/CompressedImporter/CompressedImporter__FromJson.bs.js");
@@ -15,21 +14,9 @@ function partial_arg$1(param) {
 
 var partial_arg$2 = Function$Rationale.Infix[/* ||> */1];
 
-function partial_arg$3(param) {
-  return partial_arg$2(partial_arg$1, Compiler_Run$Reason.run, param);
-}
-
-var partial_arg$4 = Function$Rationale.Infix[/* ||> */1];
-
-function partial_arg$5(param) {
-  return partial_arg$4(partial_arg$3, Compiler_Run$Reason.toSimple, param);
-}
-
-var partial_arg$6 = Function$Rationale.Infix[/* ||> */1];
-
 function run(param) {
-  return partial_arg$6(partial_arg$5, SimpleFactList_ToGraph$Reason.run, param);
+  return partial_arg$2(partial_arg$1, SimpleFactList_ToGraph$Reason.run, param);
 }
 
 exports.run = run;
-/* Compiler_Run-Reason Not a pure module */
+/* SimpleFactList_ToGraph-Reason Not a pure module */

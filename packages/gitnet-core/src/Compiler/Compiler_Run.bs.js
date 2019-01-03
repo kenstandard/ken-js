@@ -45,7 +45,7 @@ function allPrimaryIds(g) {
                               ]
                             ]
                           ];
-                  }), g));
+                  }), g[/* facts */0]));
 }
 
 function findUniqueIds(g) {
@@ -56,7 +56,7 @@ function tagFacts(g) {
   List.iter((function (fact) {
           fact[/* thingId */0][/* tag */3] = SecureRandomString.genSync(12, true, /* () */0);
           return /* () */0;
-        }), g);
+        }), g[/* facts */0]);
   return g;
 }
 
@@ -67,14 +67,19 @@ function useUniqueThingIds(g) {
                   return Caml_obj.caml_equal(thingIdKey(e), thingIdKey(thingId));
                 }), uniqueIds);
   };
-  return List.map((function (r) {
-                return /* record */[
-                        /* thingId */findId(r[/* thingId */0]),
-                        /* subjectId */findId(r[/* subjectId */1]),
-                        /* propertyId */findId(r[/* propertyId */2]),
-                        /* value */r[/* value */3]
-                      ];
-              }), g);
+  var facts = List.map((function (r) {
+          return /* record */[
+                  /* thingId */findId(r[/* thingId */0]),
+                  /* subjectId */findId(r[/* subjectId */1]),
+                  /* propertyId */findId(r[/* propertyId */2]),
+                  /* value */r[/* value */3]
+                ];
+        }), g[/* facts */0]);
+  return /* record */[
+          /* facts */facts,
+          /* baseId */g[/* baseId */1],
+          /* resourceId */g[/* resourceId */2]
+        ];
 }
 
 function handleThingTypes(g) {
@@ -90,14 +95,14 @@ function handleThingTypes(g) {
           var id = r[/* thingId */0];
           id[/* thingIdType */4] = /* FACT */0;
           return /* () */0;
-        }), g);
+        }), g[/* facts */0]);
   List.iter((function (r) {
           var propertyId = r[/* propertyId */2];
           propertyId[/* thingIdType */4] = propertyOrSubjectType(propertyId);
           var subjectId = r[/* subjectId */1];
           subjectId[/* thingIdType */4] = propertyOrSubjectType(subjectId);
           return /* () */0;
-        }), g);
+        }), g[/* facts */0]);
   return g;
 }
 
@@ -134,7 +139,7 @@ function linkValues(g) {
   List.iter((function (fact) {
           fact[/* value */3] = _convertValue(uniqueIds, fact);
           return /* () */0;
-        }), g);
+        }), g[/* facts */0]);
   return g;
 }
 
@@ -165,12 +170,12 @@ function handleUpdatedIds(g) {
   List.iter((function (fact) {
           fact[/* thingId */0][/* updatedId */5] = generateFactId(fact[/* thingId */0], fact[/* subjectId */1]);
           return /* () */0;
-        }), g);
+        }), g[/* facts */0]);
   return g;
 }
 
 function showFacts(g) {
-  return $$Array.map(Compiler_AST$Reason.factToJs, $$Array.of_list(g));
+  return $$Array.map(Compiler_AST$Reason.factToJs, $$Array.of_list(g[/* facts */0]));
 }
 
 function showIds(g) {
@@ -220,7 +225,7 @@ function toSimple(g) {
                         /* propertyId */convertId$1(f[/* propertyId */2]),
                         /* value : record */[/* valueType */tmp]
                       ];
-              }), g);
+              }), g[/* facts */0]);
 }
 
 exports.makeThingId = makeThingId;

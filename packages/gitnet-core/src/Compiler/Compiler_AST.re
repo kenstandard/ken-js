@@ -24,4 +24,9 @@ type fact = {
   mutable value,
 };
 
-type graph = list(fact);
+type package = {
+  facts: list(fact),
+  baseId: string,
+  resourceId: string,
+};
+/* type graph = list(fact); */
