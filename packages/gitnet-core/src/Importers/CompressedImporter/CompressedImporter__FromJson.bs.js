@@ -7,42 +7,66 @@ var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var Js_json = require("bs-platform/lib/js/js_json.js");
+var Caml_string = require("bs-platform/lib/js/caml_string.js");
 var Json_decode = require("@glennsl/bs-json/src/Json_decode.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
 var Option$Rationale = require("rationale/src/Option.js");
 
-function factDecoder(property, json) {
-  var match = Js_json.classify(json);
-  if (typeof match === "number") {
+function getPropertyId(p) {
+  var isInversed = Caml_string.get(p, 0) === /* "\\" */92;
+  if (isInversed) {
+    return /* tuple */[
+            true,
+            p.slice(1)
+          ];
+  } else {
+    return /* tuple */[
+            false,
+            p
+          ];
+  }
+}
+
+function factDecoder(propertyId, json) {
+  var match = getPropertyId(propertyId);
+  var property = match[1];
+  var isInversed = match[0];
+  var match$1 = Js_json.classify(json);
+  if (typeof match$1 === "number") {
     return /* record */[
             /* id */undefined,
             /* property */property,
+            /* isInversed */false,
             /* value : String */Block.__(0, ["Couldn't find"])
           ];
   } else {
-    switch (match.tag | 0) {
+    switch (match$1.tag | 0) {
       case 0 : 
           return /* record */[
                   /* id */undefined,
                   /* property */property,
+                  /* isInversed */isInversed,
                   /* value : String */Block.__(0, [Json_decode.string(json)])
                 ];
       case 2 : 
           return /* record */[
-                  /* id */"json-values-TODO",
+                  /* id */undefined,
                   /* property */property,
+                  /* isInversed */isInversed,
                   /* value : String */Block.__(0, [Json_decode.field("value", Json_decode.string, json)])
                 ];
       case 3 : 
           return /* record */[
                   /* id */undefined,
                   /* property */property,
-                  /* value : Array */Block.__(1, [$$Array.map(Json_decode.string, match[0])])
+                  /* isInversed */isInversed,
+                  /* value : Array */Block.__(1, [$$Array.map(Json_decode.string, match$1[0])])
                 ];
       default:
         return /* record */[
                 /* id */undefined,
                 /* property */property,
+                /* isInversed */false,
                 /* value : String */Block.__(0, ["Couldn't find"])
               ];
     }
@@ -53,14 +77,12 @@ function filterArray(filter, ar) {
   return $$Array.of_list(Curry._1(filter, $$Array.to_list(ar)));
 }
 
+var filteredFactKeys = /* :: */[
+  "config",
+  /* [] */0
+];
+
 function propertyDecoder(json) {
-  var filteredFactKeys = /* :: */[
-    "templates",
-    /* :: */[
-      "config",
-      /* [] */0
-    ]
-  ];
   var thing0 = Option$Rationale.toExn("Parse Error", Js_json.decodeObject(json));
   var toFact = function (id) {
     var _value = Option$Rationale.toExn("Parse Error", Js_dict.get(thing0, id));
@@ -95,19 +117,9 @@ function decodeBase(json) {
   var things = List.map((function (param) {
           return /* record */[
                   /* id */param[0],
-                  /* facts */propertyDecoder(param[1]),
-                  /* templates : array */[]
+                  /* facts */propertyDecoder(param[1])
                 ];
-        }), removeIfInList(/* :: */[
-              "baseId",
-              /* :: */[
-                "resourceId",
-                /* :: */[
-                  "config",
-                  /* [] */0
-                ]
-              ]
-            ], (function (param) {
+        }), removeIfInList(filteredFactKeys, (function (param) {
                 return param[0];
               }))(entries));
   return /* record */[
@@ -122,8 +134,10 @@ function run(json) {
   return Json_decode.array(decodeBase, json);
 }
 
+exports.getPropertyId = getPropertyId;
 exports.factDecoder = factDecoder;
 exports.filterArray = filterArray;
+exports.filteredFactKeys = filteredFactKeys;
 exports.propertyDecoder = propertyDecoder;
 exports.removeIfInList = removeIfInList;
 exports.decodeBase = decodeBase;

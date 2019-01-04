@@ -41,6 +41,7 @@ let useUniqueThingIds = g: package => {
     g.facts
     |> List.map(r =>
          {
+           ...r,
            thingId: findId(r.thingId),
            subjectId: findId(r.subjectId),
            propertyId: findId(r.propertyId),
@@ -119,9 +120,8 @@ let convertIdd = (package: Reason.Compiler_AST.package, thingId) => {
   | Some(r) =>
     switch (alias) {
     | Some({rawId: Some(a)}) => Some(a)
-    | _ when r |> String.get(_, 0) == "@".[0] => Some(r)
-    | _ =>
-      "@" ++ package.baseId ++ "/" ++ package.resourceId ++ "/" ++ r |> some
+    | _ when IdConverter.isFullId(r) => Some(r)
+    | _ => IdConverter.toFullId(package.baseId, package.resourceId, r)
     }
   | _ => None
   };
@@ -160,9 +160,39 @@ let showFacts = (g: package) =>
 let showIds = (g: package) =>
   g |> findUniqueIds |> Array.of_list |> Array.map(thingIdToJs);
 
+let inverseFact = fact => {
+  let inversed =
+    switch (fact.value) {
+    | Id(f) => {
+        ...fact,
+        isInversed: false,
+        value: Id(fact.subjectId),
+        subjectId: f,
+      }
+    | String(r) => {
+        ...fact,
+        isInversed: false,
+        value: Id(fact.subjectId),
+        subjectId: {
+          rawId: Some(r),
+          tag: None,
+          thingIdType: None,
+          updatedId: None,
+        },
+      }
+    };
+  inversed;
+};
+
+let handleInverseFacts = (package: package) => {
+  ...package,
+  facts: package.facts |> List.map(f => f.isInversed ? inverseFact(f) : f),
+};
+
 let run =
   Rationale.Function.Infix.(
-    tagFacts
+    handleInverseFacts
+    ||> tagFacts
     ||> useUniqueThingIds
     ||> handleThingTypes
     ||> linkValues

@@ -198,6 +198,11 @@
       "p-data-type": "d-image-url",
       "p-instance-of": "n-property"
     },
+    "p-schemaorg-id": {
+      "p-name": "Schema.org ID",
+      "p-instance-of": "n-property",
+      "p-data-type": "d-string"
+    },
     "p-parent-organization": {
       "p-name": "Parent Organization",
       "p-schemaorg-id": "parentOrganization",
@@ -264,12 +269,12 @@
   {
     "config": {
       "baseId": "fhi",
-      "resourceId": "_",
+      "resourceId": "",
       "aliases": {
         "name": "@base/properties/p-name",
         "description": "@base/properties/p-description",
         "employed-by": "@base/properties/p-employed-by",
-        "instance-of": "@base/properties/instance-of",
+        "instance-of": "@base/properties/p-instance-of",
         "official-website": "@base/properties/p-official-website",
         "parent-organization": "@base/properties/p-parent-organization"
       }
@@ -282,18 +287,18 @@
       "name": "The Future of Humanity Institute",
       "instance-of": "n-organization",
       "official-website": "http://www.fhi.ox.ac.uk/",
-      "p-employed-by": [
-        "h-nick-bostrom",
-        "h-anders-sandberg",
-        "h-toby-ord",
-        "h-owen-cotton-barratt",
-        "h-joseph-carlsmith",
-        "h-carl-shulman",
-        "h-owain-evans",
-        "h-stuart-armstrong",
-        "h-ryan-carey",
-        "h-jelene-luketina",
-        "h-ozzie-gooen"
+      "\\employed-by": [
+        "@people/d/h-nick-bostrom",
+        "@people/d/h-anders-sandberg",
+        "@people/d/h-toby-ord",
+        "@people/d/h-owen-cotton-barratt",
+        "@people/d/h-joseph-carlsmith",
+        "@people/d/h-carl-shulman",
+        "@people/d/h-owain-evans",
+        "@people/d/h-stuart-armstrong",
+        "@people/d/h-ryan-carey",
+        "@people/d/h-jelene-luketina",
+        "@people/d/h-ozzie-gooen"
       ]
     },
     "n-fhi-leadership": {

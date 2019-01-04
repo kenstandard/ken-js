@@ -8,6 +8,7 @@ type value =
 type fact = {
   id: option(string),
   property: string,
+  isInversed: bool,
   value,
 };
 
@@ -15,7 +16,6 @@ type fact = {
 type thing = {
   id: string,
   facts: array(fact),
-  templates: array(string),
 };
 
 type package = {

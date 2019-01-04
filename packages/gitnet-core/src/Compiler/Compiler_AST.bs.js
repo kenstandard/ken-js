@@ -25,7 +25,8 @@ function factToJs(param) {
           thingId: param[/* thingId */0],
           subjectId: param[/* subjectId */1],
           propertyId: param[/* propertyId */2],
-          value: param[/* value */3]
+          isInversed: param[/* isInversed */3],
+          value: param[/* value */4]
         };
 }
 
@@ -34,6 +35,7 @@ function factFromJs(param) {
           /* thingId */param.thingId,
           /* subjectId */param.subjectId,
           /* propertyId */param.propertyId,
+          /* isInversed */param.isInversed,
           /* value */param.value
         ];
 }

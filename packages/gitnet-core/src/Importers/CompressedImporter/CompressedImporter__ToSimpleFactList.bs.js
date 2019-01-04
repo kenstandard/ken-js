@@ -29,11 +29,11 @@ function flattenValues(g) {
                                                                   return /* record */[
                                                                           /* id */f[/* id */0],
                                                                           /* property */f[/* property */1],
+                                                                          /* isInversed */f[/* isInversed */2],
                                                                           /* value : String */Block.__(0, [value])
                                                                         ];
-                                                                }), valueToArray(f[/* value */2]));
-                                                  }), r[/* facts */1])),
-                                        /* templates */r[/* templates */2]
+                                                                }), valueToArray(f[/* value */3]));
+                                                  }), r[/* facts */1]))
                                       ];
                               }), $$package[/* things */0]),
                         /* baseId */$$package[/* baseId */1],
@@ -46,13 +46,14 @@ function flattenValues(g) {
 function allPackageFacts(p) {
   return $$Array.to_list(Belt_Array.concatMany($$Array.map((function (thing) {
                         return $$Array.map((function (fact) {
-                                      var match = fact[/* value */2];
+                                      var match = fact[/* value */3];
                                       var tmp;
                                       tmp = match.tag ? "ERROR" : match[0];
                                       return /* record */[
                                               /* thingId */Compiler_Run$Reason.makeThingId(fact[/* id */0]),
                                               /* subjectId */Compiler_Run$Reason.makeThingId(thing[/* id */0]),
                                               /* propertyId */Compiler_Run$Reason.makeThingId(fact[/* property */1]),
+                                              /* isInversed */fact[/* isInversed */2],
                                               /* value : String */Block.__(0, [tmp])
                                             ];
                                     }), thing[/* facts */1]);

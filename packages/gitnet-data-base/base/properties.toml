@@ -120,6 +120,11 @@ p-wikidata-id = "P18"
 p-data-type = "d-image-url"
 p-instance-of = "n-property"
 
+[p-schemaorg-id]
+p-name = "Schema.org ID"
+p-instance-of = "n-property"
+p-data-type = "d-string"
+
 [p-parent-organization]
 p-name = "Parent Organization"
 p-schemaorg-id = "parentOrganization"

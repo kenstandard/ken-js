@@ -125,6 +125,7 @@ export class Thing {
 export class Database {
     constructor(data){
         this.graph = gitNet.Graph_fromJson(data)
+        console.log("DB!", this.graph)
         return this;
     }
     findThing(id){

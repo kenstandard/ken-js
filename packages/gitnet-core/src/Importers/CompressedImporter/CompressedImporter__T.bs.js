@@ -6,7 +6,8 @@ function factToJs(param) {
   return {
           id: param[/* id */0],
           property: param[/* property */1],
-          value: param[/* value */2]
+          isInversed: param[/* isInversed */2],
+          value: param[/* value */3]
         };
 }
 
@@ -14,6 +15,7 @@ function factFromJs(param) {
   return /* record */[
           /* id */param.id,
           /* property */param.property,
+          /* isInversed */param.isInversed,
           /* value */param.value
         ];
 }
@@ -21,16 +23,14 @@ function factFromJs(param) {
 function thingToJs(param) {
   return {
           id: param[/* id */0],
-          facts: param[/* facts */1],
-          templates: param[/* templates */2]
+          facts: param[/* facts */1]
         };
 }
 
 function thingFromJs(param) {
   return /* record */[
           /* id */param.id,
-          /* facts */param.facts,
-          /* templates */param.templates
+          /* facts */param.facts
         ];
 }
 

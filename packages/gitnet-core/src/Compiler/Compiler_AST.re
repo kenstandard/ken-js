@@ -19,6 +19,7 @@ type fact = {
   thingId,
   subjectId: thingId,
   propertyId: thingId,
+  isInversed: bool,
   mutable value,
 };
 

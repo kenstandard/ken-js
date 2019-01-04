@@ -38,12 +38,14 @@ let allPackageFacts = (p: CompressedImporter__T.package) =>
   p.things
   |> Array.map((thing: CompressedImporter__T.thing) =>
        thing.facts
-       |> Array.map((fact: CompressedImporter__T.fact) =>
+       |> Array.map((fact: CompressedImporter__T.fact) => {
+            let makeId = Compiler_Run.makeThingId;
             (
               {
-                thingId: Compiler_Run.makeThingId(fact.id),
-                subjectId: Compiler_Run.makeThingId(Some(thing.id)),
-                propertyId: Compiler_Run.makeThingId(Some(fact.property)),
+                thingId: makeId(fact.id),
+                subjectId: makeId(Some(thing.id)),
+                propertyId: makeId(Some(fact.property)),
+                isInversed: fact.isInversed,
                 value:
                   Compiler_AST.String(
                     switch (fact.value) {
@@ -52,8 +54,8 @@ let allPackageFacts = (p: CompressedImporter__T.package) =>
                     },
                   ),
               }: Compiler_AST.fact
-            )
-          )
+            );
+          })
      )
   |> Belt.Array.concatMany
   |> Array.to_list;

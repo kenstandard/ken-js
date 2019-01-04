@@ -7,10 +7,10 @@ var Block = require("bs-platform/lib/js/block.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
 var Belt_List = require("bs-platform/lib/js/belt_List.js");
-var Caml_string = require("bs-platform/lib/js/caml_string.js");
 var RList$Rationale = require("rationale/src/RList.js");
 var Option$Rationale = require("rationale/src/Option.js");
 var Function$Rationale = require("rationale/src/Function.js");
+var IdConverter$Reason = require("./IdConverter.bs.js");
 var SecureRandomString = require("@ncthbrt/re-secure-random-string/src/SecureRandomString.bs.js");
 var Compiler_AST$Reason = require("./Compiler_AST.bs.js");
 
@@ -67,13 +67,14 @@ function useUniqueThingIds(g) {
                 }), uniqueIds);
   };
   var facts = List.map((function (r) {
-          var match = r[/* value */3];
+          var match = r[/* value */4];
           var tmp;
-          tmp = match.tag ? /* Id */Block.__(1, [findId(match[0])]) : r[/* value */3];
+          tmp = match.tag ? /* Id */Block.__(1, [findId(match[0])]) : r[/* value */4];
           return /* record */[
                   /* thingId */findId(r[/* thingId */0]),
                   /* subjectId */findId(r[/* subjectId */1]),
                   /* propertyId */findId(r[/* propertyId */2]),
+                  /* isInversed */r[/* isInversed */3],
                   /* value */tmp
                 ];
         }), g[/* facts */0]);
@@ -122,7 +123,7 @@ function findId(uniqueIds, thingId) {
 }
 
 function _convertValue($$package, uniqueIds, fact) {
-  var match = fact[/* value */3];
+  var match = fact[/* value */4];
   if (match.tag) {
     return /* Id */Block.__(1, [match[0]]);
   } else {
@@ -150,7 +151,7 @@ function _convertValue($$package, uniqueIds, fact) {
 function linkValues(p) {
   var uniqueIds = RList$Rationale.uniqBy(thingIdKey, allPrimaryIds(p));
   List.iter((function (fact) {
-          fact[/* value */3] = _convertValue(p, uniqueIds, fact);
+          fact[/* value */4] = _convertValue(p, uniqueIds, fact);
           return /* () */0;
         }), p[/* facts */0]);
   return p;
@@ -174,10 +175,10 @@ function convertIdd($$package, thingId) {
       exit = 1;
     }
     if (exit === 1) {
-      if (Caml_string.get(r, 0) === /* "@" */64) {
+      if (IdConverter$Reason.isFullId(r)) {
         return r;
       } else {
-        return Option$Rationale.some("@" + ($$package[/* baseId */1] + ("/" + ($$package[/* resourceId */2] + ("/" + r)))));
+        return IdConverter$Reason.toFullId($$package[/* baseId */1], $$package[/* resourceId */2], r);
       }
     }
     
@@ -215,28 +216,76 @@ function showIds(g) {
   return $$Array.map(Compiler_AST$Reason.thingIdToJs, $$Array.of_list(RList$Rationale.uniqBy(thingIdKey, allPrimaryIds(g))));
 }
 
+function inverseFact(fact) {
+  var match = fact[/* value */4];
+  if (match.tag) {
+    return /* record */[
+            /* thingId */fact[/* thingId */0],
+            /* subjectId */match[0],
+            /* propertyId */fact[/* propertyId */2],
+            /* isInversed */false,
+            /* value : Id */Block.__(1, [fact[/* subjectId */1]])
+          ];
+  } else {
+    return /* record */[
+            /* thingId */fact[/* thingId */0],
+            /* subjectId : record */[
+              /* rawId */match[0],
+              /* tag */undefined,
+              /* thingIdType */undefined,
+              /* updatedId */undefined
+            ],
+            /* propertyId */fact[/* propertyId */2],
+            /* isInversed */false,
+            /* value : Id */Block.__(1, [fact[/* subjectId */1]])
+          ];
+  }
+}
+
+function handleInverseFacts($$package) {
+  return /* record */[
+          /* facts */List.map((function (f) {
+                  var match = f[/* isInversed */3];
+                  if (match) {
+                    return inverseFact(f);
+                  } else {
+                    return f;
+                  }
+                }), $$package[/* facts */0]),
+          /* baseId */$$package[/* baseId */1],
+          /* resourceId */$$package[/* resourceId */2],
+          /* aliases */$$package[/* aliases */3]
+        ];
+}
+
 var partial_arg = Function$Rationale.Infix[/* ||> */1];
 
 function partial_arg$1(param) {
-  return partial_arg(tagFacts, useUniqueThingIds, param);
+  return partial_arg(handleInverseFacts, tagFacts, param);
 }
 
 var partial_arg$2 = Function$Rationale.Infix[/* ||> */1];
 
 function partial_arg$3(param) {
-  return partial_arg$2(partial_arg$1, handleThingTypes, param);
+  return partial_arg$2(partial_arg$1, useUniqueThingIds, param);
 }
 
 var partial_arg$4 = Function$Rationale.Infix[/* ||> */1];
 
 function partial_arg$5(param) {
-  return partial_arg$4(partial_arg$3, linkValues, param);
+  return partial_arg$4(partial_arg$3, handleThingTypes, param);
 }
 
 var partial_arg$6 = Function$Rationale.Infix[/* ||> */1];
 
+function partial_arg$7(param) {
+  return partial_arg$6(partial_arg$5, linkValues, param);
+}
+
+var partial_arg$8 = Function$Rationale.Infix[/* ||> */1];
+
 function run(param) {
-  return partial_arg$6(partial_arg$5, handleUpdatedIds, param);
+  return partial_arg$8(partial_arg$7, handleUpdatedIds, param);
 }
 
 function convertId(f) {
@@ -248,7 +297,7 @@ function convertId(f) {
 
 function toSimple(g) {
   return List.map((function (f) {
-                var match = f[/* value */3];
+                var match = f[/* value */4];
                 var tmp;
                 if (match.tag) {
                   var id = match[0];
@@ -280,6 +329,8 @@ exports.generateFactId = generateFactId;
 exports.handleUpdatedIds = handleUpdatedIds;
 exports.showFacts = showFacts;
 exports.showIds = showIds;
+exports.inverseFact = inverseFact;
+exports.handleInverseFacts = handleInverseFacts;
 exports.run = run;
 exports.convertId = convertId;
 exports.toSimple = toSimple;

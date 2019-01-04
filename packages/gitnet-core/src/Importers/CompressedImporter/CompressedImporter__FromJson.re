@@ -1,31 +1,45 @@
 open CompressedImporter__T;
 
-let factDecoder = (property, json) =>
+let getPropertyId = p => {
+  let isInversed = p.[0] == {|\|}.[0];
+  isInversed ? (true, Js.String.sliceToEnd(~from=1, p)) : (false, p);
+};
+
+let factDecoder = (propertyId, json) => {
+  let (isInversed, property) = getPropertyId(propertyId);
   switch (json |> Js.Json.classify) {
   | JSONString(_) => {
       value: String(json |> Json.Decode.string),
       property,
+      isInversed,
       id: None,
     }
   | JSONObject(_) => {
-      property,
       value: String(json |> Json.Decode.field("value", Json.Decode.string)),
-      id: Some("json-values-TODO"),
-    }
-  | JSONArray(rs) => {
       property,
-      value: Array(rs |> Array.map(Json.Decode.string)),
+      isInversed,
       id: None,
     }
-  | _ => {property, id: None, value: String("Couldn't find")}
+  | JSONArray(rs) => {
+      value: Array(rs |> Array.map(Json.Decode.string)),
+      property,
+      isInversed,
+      id: None,
+    }
+  | _ => {
+      property,
+      isInversed: false,
+      id: None,
+      value: String("Couldn't find"),
+    }
   };
+};
 
 let filterArray = (filter, ar) =>
   ar |> Array.to_list |> filter |> Array.of_list;
 
+let filteredFactKeys = ["config"];
 let propertyDecoder = json => {
-  let filteredFactKeys = ["templates", "config"];
-
   let thing0 =
     Js.Json.decodeObject(json) |> Rationale.Option.toExn("Parse Error");
 
@@ -48,8 +62,6 @@ let removeIfInList = (list, fn) =>
   List.filter(e => e |> fn |> Rationale.RList.contains(_, list) |> (e => !e));
 
 let decodeBase = json => {
-  let filteredFactKeys = ["baseId", "resourceId", "config"];
-
   let entries =
     json
     |> Js.Json.decodeObject
@@ -64,9 +76,7 @@ let decodeBase = json => {
   let things =
     entries
     |> removeIfInList(filteredFactKeys, ((k, _)) => k)
-    |> List.map(((key, value)) =>
-         {id: key, facts: propertyDecoder(value), templates: [||]}
-       );
+    |> List.map(((key, value)) => {id: key, facts: propertyDecoder(value)});
   {things: things |> Array.of_list, baseId, resourceId, aliases};
 };
 
