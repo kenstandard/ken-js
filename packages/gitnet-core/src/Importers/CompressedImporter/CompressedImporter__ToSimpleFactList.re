@@ -80,6 +80,21 @@ let formattedAliases =
      )
   |> Js.Dict.fromArray;
 
+/* This doesn't work, not sure why */
+/* let formattedAliases2 =
+     (d: Js.Dict.t(string)): Js.Dict.t(Compiler_AST.thingId) =>
+   d
+   |> Js.Dict.map((. id) =>
+        (
+          {
+            rawId: Js.Dict.get(d, id),
+            tag: None,
+            thingIdType: Some(Compiler_AST.NONFACT),
+            updatedId: Js.Dict.get(d, id),
+          }: Compiler_AST.thingId
+        )
+      ); */
+
 let shape = (g: unprocessedGraph): list(Compiler_AST.package) =>
   g
   |> Array.map((package: CompressedImporter__T.package) =>

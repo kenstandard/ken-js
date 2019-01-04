@@ -122,14 +122,14 @@ export class Thing extends Component {
         <br/>
         <br/>
         <br/>
-        {isValueForFactsByProperty.map(p => {
+        {/* {isValueForFactsByProperty.map(p => {
           return (
           <div>
             <h2> <ThingProperty thing={(p.property)} propertyName={CONSTANTS.NAME} /> List</h2>
             <InverseStatements property={p.property} facts={(p.facts)} />
           </div>
           )
-        })}
+        })} */}
         {/* // <TableShow thingId={thingId}/>} */}
       </div>
     );

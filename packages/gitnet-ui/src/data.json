@@ -1,97 +1,93 @@
 [{
-    "meta": {
-      "templates": {
-        "data-type-instance": {
-          "properties": {
-            "p-instance-of": "p-data-type"
-          }
-        },
-        "property": {
-          "p-instance-of": "n-property"
-        }
-      },
-      "export": {
-        "id": "b-base"
+    "config": {
+      "baseId": "base",
+      "resourceId": "data-types",
+      "aliases": {
+        "name": "@base/properties/p-name",
+        "instance-of": "@base/properties/p-instance-of",
+        "subclass-of": "@base/properties/p-subclass-of"
       }
     },
     "d-thing": {
-      "p-name": "Thing (Data Type)",
-      "templates": [
-        "data-type"
-      ]
+      "name": "Thing (Data Type)",
+      "instance-of": "p-data-type"
     },
     "d-noun": {
-      "p-name": "Noun (Data Type)",
-      "templates": [
-        "data-type"
-      ]
+      "name": "Noun (Data Type)",
+      "instance-of": "p-data-type"
     },
     "d-property": {
-      "p-name": "Property (Data Type)",
-      "templates": [
-        "data-type"
-      ]
+      "name": "Property (Data Type)",
+      "instance-of": "p-data-type"
     },
     "d-string": {
-      "p-name": "String (Data Type)",
-      "templates": [
-        "data-type"
-      ]
+      "name": "String (Data Type)",
+      "instance-of": "p-data-type"
     },
     "d-url": {
-      "p-name": "Url (Data Type)",
-      "templates": [
-        "data-type"
-      ],
-      "p-subclass-of": "d-string"
+      "name": "Url (Data Type)",
+      "instance-of": "p-data-type",
+      "subclass-of": "d-string"
     },
     "d-image-url": {
-      "p-name": "Image Url (Data Type)",
-      "templates": [
-        "data-type"
-      ],
-      "p-subclass-of": "d-url"
-    },
-    "b-base": {
-      "p-name": "Base",
-      "p-description": "Contains all essential information.",
-      "p-version": "0.1",
-      "p-instance-of": "p-data-source"
-    },
-    "n-thing": {
-      "p-name": "Thing"
-    },
-    "n-intangible": {
-      "p-name": "Intangible",
-      "p-subclass-of": "n-thing"
-    },
-    "n-role": {
-      "p-name": "Role",
-      "p-subclass-of": "n-intangible",
-      "p-description": {
-        "value": "Represents additional information about a relationship or property. For example a Role can be used to say that a 'member' role linking some SportsTeam to a player occurred during a particular time period. Or that a Person's 'actor' role in a Movie was for some particular characterName. Such properties can be attached to a Role entity, which is then associated with the main entities using ordinary properties like 'member' or 'actor'."
+      "name": "Image Url (Data Type)",
+      "instance-of": "p-data-type",
+      "subclass-of": "d-url"
+    }
+  },
+  {
+    "config": {
+      "baseId": "base",
+      "resourceId": "nouns",
+      "aliases": {
+        "name": "@base/properties/p-name",
+        "description": "@base/properties/p-description",
+        "instance-of": "@base/properties/p-instance-of",
+        "subclass-of": "@base/properties/p-subclass-of"
       }
     },
+    "n-thing": {
+      "name": "Thing"
+    },
+    "n-intangible": {
+      "name": "Intangible",
+      "subclass-of": "n-thing"
+    },
+    "n-role": {
+      "name": "Role",
+      "subclass-of": "n-intangible",
+      "description": "Represents additional information about a relationship or property. For example a Role can be used to say that a 'member' role linking some SportsTeam to a player occurred during a particular time period. Or that a Person's 'actor' role in a Movie was for some particular characterName. Such properties can be attached to a Role entity, which is then associated with the main entities using ordinary properties like 'member' or 'actor'."
+    },
     "n-organization-role": {
-      "p-name": "Organization Role",
-      "p-description": "A subclass of Role used to describe roles within organizations.",
-      "p-subclass-of": "n-role"
+      "name": "Organization Role",
+      "description": "A subclass of Role used to describe roles within organizations.",
+      "subclass-of": "n-role"
     },
     "n-repo-base": {
-      "p-name": "Base Repo",
-      "p-description": "The base repository"
+      "name": "Base Repo",
+      "description": "The base repository"
     },
     "n-person": {
-      "p-name": "Person"
+      "name": "Person"
+    }
+  },
+  {
+    "config": {
+      "baseId": "base",
+      "resourceId": "properties",
+      "aliases": {
+        "d-string": "@base/data-types/d-string",
+        "d-url": "@base/data-types/d-url",
+        "d-noun": "@base/data-types/d-noun"
+      }
     },
     "n-property": {
-      "p-name": "Property"
+      "p-name": "Property",
+      "p-instance-of": "n-property"
     },
     "p-name": {
       "p-name": "Name",
-      "templates": [
-        "property"
-      ],
+      "p-instance-of": "n-property",
       "p-data-type": "d-string"
     },
     "p-description": {
@@ -99,604 +95,169 @@
         "value": "Description",
         "id": "sdlkfjsdf"
       },
-      "templates": [
-        "property"
-      ],
+      "p-instance-of": "n-property",
       "p-data-type": "d-string"
-    },
-    "sdlkfjsdf": {
-      "p-name": "test!",
-      "p-part-of": "p-name",
-      "p-aliases": "Foobar and Friends!"
     },
     "p-instance-of": {
       "p-name": "Instance of",
       "p-inverse-name": "Instance",
       "p-data-type": "d-noun",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-inverse-name": {
       "p-name": "Name Inverse",
       "p-data-type": "d-string",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-wikidata-id": {
       "p-name": "Wikidata id",
       "p-description": "Id if on wikidata",
       "p-data-type": "d-string",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-data-type": {
       "p-name": "Data Type",
       "p-data-type": "d-noun",
       "p-inverse-name": "Is Data Type For",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-aliases": {
       "p-name": "aliases",
       "p-data-type": "d-string",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-works-on": {
       "p-name": "Works On",
       "p-description": "When noun works on things B.",
       "p-data-type": "d-thing",
       "p-inverse-name": "Worked on by",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-part-of": {
       "p-name": "Part of",
       "p-data-type": "d-thing",
       "p-inverse-name": "Contains",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-employed-by": {
       "p-name": "Employed By",
       "p-data-type": "d-thing",
       "p-inverse-name": "Employs",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-subclass-of": {
       "p-name": "Subclass of",
       "p-data-type": "d-thing",
       "p-inverse-name": "Superclass of",
       "p-wikidata-id": "P279",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-git-repo": {
       "p-name": "Primary Git Repo",
       "p-data-type": "d-url",
       "p-inverse-name": "Is primary git repo of",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-url": {
       "p-name": "Url",
       "p-data-type": "d-url",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-belongs-to": {
       "p-name": "Belongs to",
       "p-data-type": "d-thing",
       "p-inverse-name": "Contains",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "n-list": {
-      "p-wikidata-id": "Q12139612"
+      "p-wikidata-id": "Q12139612",
+      "p-instance-of": "n-property"
     },
     "p-is-in-list": {
       "p-name": "Is in list",
       "p-data-type": "d-thing",
       "p-inverse-name": "Contains",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-was-autogenerated": {
       "p-name": "Belongs to",
       "p-data-type": "d-noun",
       "p-inverse-name": "Contains",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-official-website": {
       "p-name": "Official Website",
       "p-wikidata-id": "P856",
       "p-data-type": "d-url",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-image": {
       "p-name": "Image (url)",
       "p-wikidata-id": "P18",
       "p-data-type": "d-image-url",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-parent-organization": {
       "p-name": "Parent Organization",
       "p-schemaorg-id": "parentOrganization",
       "p-inverse-name": "Child Organization",
       "p-data-type": "d-noun",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-twitter-username": {
       "p-name": "Twitter Username",
       "p-description": "this item's username on Twitter; do not include the '@' symbol",
       "p-wikidata-id": "P2002",
       "p-data-type": "d-string",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-github-username": {
       "p-name": "Github Username",
       "p-description": "this item's username on Github",
       "p-data-type": "d-string",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-lesswrong-username": {
       "p-name": "LessWrong Username",
       "p-description": "this item's username on LessWrong",
       "p-data-type": "d-string",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-effective-altruism-forum-username": {
       "p-name": "Effective Altruism Forum Username",
       "p-description": "this item's username on the Effective Altruism Forum",
       "p-data-type": "d-string",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-medium-username": {
       "p-name": "Medium Username",
       "p-description": "this item's username on Medium",
       "p-data-type": "d-string",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-linkedin-id": {
       "p-name": "Linked Username",
       "p-description": "this item's username on Linked",
       "p-data-type": "d-string",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-source-url": {
       "p-name": "Source Url",
       "p-description": "this item's source Url",
       "p-data-type": "d-url",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-data-source": {
       "p-name": "Data Source",
       "p-inverse-name": "Data source for",
       "p-description": "A thing's data source",
       "p-data-type": "d-noun",
-      "templates": [
-        "property"
-      ]
+      "p-instance-of": "n-property"
     },
     "p-version": {
       "p-name": "Version",
       "p-data-type": "d-string",
-      "templates": [
-        "property"
-      ]
-    }
-  },
-  {
-    "meta": {
-      "export": {
-        "id": "b-ozzie-personal"
-      },
-      "generators": [{
-          "properties": {
-            "p-is-in-list": "n-dex-name-ideas-list",
-            "p-description": "An name idea for DEX. Id is autogenerated, so do not use the ID."
-          },
-          "table": {
-            "idPrefix": "dex-name-",
-            "columns": [
-              "p-name",
-              "p-description"
-            ],
-            "data": [
-              [
-                "DEX",
-                "I like it, but there are a bunch of other DEX-related names out there."
-              ],
-              [
-                "MetaBase",
-                "Simple, but there are tons of 'base' names out there"
-              ],
-              [
-                "GitNet",
-                "Somewhat to the point, but instances may not rely on git."
-              ],
-              [
-                "FactBank Standard",
-                "Could be cool"
-              ],
-              [
-                "Harmony",
-                "Sounds nice, but some people may not get it."
-              ]
-            ]
-          }
-        },
-        {
-          "properties": {
-            "p-is-in-list": "n-dex-todo",
-            "p-description": "Things to do for DEX application"
-          },
-          "table": {
-            "idPrefix": "dex-todo-",
-            "columns": [
-              "p-name",
-              "p-dex-todo-status"
-            ],
-            "data": [
-              [
-                "Convert codebase to TypeScript",
-                "ICEBOX"
-              ],
-              [
-                "For lists, show tables with all elements",
-                "COMPLETED"
-              ],
-              [
-                "Values can have subproperties",
-                "COMPLETED"
-              ],
-              [
-                "Show data about subpackages",
-                "COMPLETED"
-              ],
-              [
-                "Split up packages, each with simple properties",
-                "NOT_STARTED"
-              ],
-              [
-                "Make Node Server",
-                "NOT_STARTED"
-              ],
-              [
-                "Make simple Electron app",
-                "NOT_STARTED"
-              ],
-              [
-                "Values can have references",
-                "NOT_STARTED"
-              ],
-              [
-                "Clean up code for Github",
-                "NOT_STARTED"
-              ],
-              [
-                "References",
-                "NOT_STARTED"
-              ]
-            ]
-          }
-        },
-        {
-          "table": {
-            "idPrefix": "dex-todo-",
-            "columns": [
-              "p-name",
-              "p-official-website",
-              "p-ozzie-gooen-review-of-10"
-            ],
-            "data": [
-              [
-                "Pixelarity",
-                "https://pixelarity.com"
-              ],
-              [
-                "Creative Market",
-                "https://creativemarket.com"
-              ],
-              [
-                "Wrap Bootstrap",
-                "https://wrapbootstrap.com"
-              ],
-              [
-                "Bootstrap Themes",
-                "Show data about subpackages"
-              ]
-            ]
-          }
-        }
-      ],
-      "templates": {
-        "columns": {
-          "p-instance-of": "n-column",
-          "p-column-of": "table-00"
-        }
-      }
-    },
-    "b-ozzie-personal": {
-      "p-name": "Ozzie's main lib",
-      "p-description": "Contains all essential information for ozzie.",
-      "p-instance-of": "p-data-source",
-      "p-version": "0.1"
-    },
-    "n-dex": {
-      "p-name": "DEX",
-      "p-description": "### Description\nA organizational tool for structured data with Git.  \n\n### Interesting Links:  \n[Specification Links | JSON Schema](http://json-schema.org/specification-links.html)  \nhttps://tools.ietf.org/html/draft-handrews-json-schema-validation-01  \nhttps://tools.ietf.org/html/draft-handrews-json-schema-hyperschema-01  \n[GitHub - toml-lang/toml: Tom’s Obvious, Minimal Language](https://github.com/toml-lang/toml)  \n[Show HN: Eno – A lightning fast, user-friendly YAML/TOML alternative | Hacker News](https://news.ycombinator.com/item?id=17765426)  \n[Online TOML to JSON converter](https://www.randomerrata.com/articles/2013/online-toml-to-json-converter/)  \n[Linked data - Wikipedia](https://en.wikipedia.org/wiki/Linked_data)  \n[Slowly changing dimension - Wikipedia](https://en.wikipedia.org/wiki/Slowly_changing_dimension)  \n[Semantic triple - Wikipedia](https://en.wikipedia.org/wiki/Semantic_triple)  \n[Triplestore - Wikipedia](https://en.wikipedia.org/wiki/Triplestore)  \n[Named graph - Wikipedia](https://en.wikipedia.org/wiki/Named_graph)  \n[Entity–attribute–value model - Wikipedia](https://en.wikipedia.org/wiki/Entity%E2%80%93attribute%E2%80%93value_model)  \n[Wikidata task force report](https://docs.google.com/document/d/1ZsOyw2sOD3a7xJQ6XCSYDGjZUPxGGl8tuvC7vvtlJRU/edit)\nhttps://en.wikipedia.org/wiki/Semantic_network\nhttps://en.wikipedia.org/wiki/Cognition_Network_Technology\nhttps://en.wikipedia.org/wiki/SNOMED_CT\nhttps://en.wikipedia.org/wiki/Universal_Networking_Language\nhttps://en.wikipedia.org/wiki/Federated_database_system\n"
-    },
-    "h-ozzie-gooen": {
-      "p-works-on": "n-dex"
-    },
-    "n-list": {
-      "p-wikidata-id": "Q12139612"
-    },
-    "n-dex-name-ideas-list": {
-      "p-name": "List of ideas for names for DEX",
-      "p-instance-of": "n-list",
-      "p-belongs-to": "n-dex"
-    },
-    "n-dex-todo": {
-      "p-name": "List of things to do for DEX",
-      "p-instance-of": "n-list",
-      "p-belongs-to": "n-dex"
-    },
-    "p-dex-todo-status": {
-      "p-name": "TODO Status",
-      "p-description": "NOT_STARTED, STARTED, ICEBOX, COMPLETED",
-      "p-instance-of": "n-list",
-      "p-belongs-to": "n-dex"
-    },
-    "n-ozzie-gooen-theming-tools": {
-      "p-name": "Services for theming",
-      "p-instance-of": "n-list"
-    },
-    "p-ozzie-gooen-review-of-10": {
-      "p-name": "Ozzie Gooen's Review from 1-10"
-    },
-    "n-table": {
-      "p-name": "Table"
-    },
-    "n-column": {
-      "p-name": "Table Column"
-    },
-    "p-property": {
-      "p-name": "Property",
-      "p-data-type": "d-property"
-    },
-    "p-column-of": {
-      "p-name": "Column Of",
-      "p-instance-of": "n-property",
-      "p-inverse-name": "Column",
-      "p-data-type": "d-property"
-    },
-    "p-dataset": {
-      "p-name": "Column Of",
-      "p-instance-of": "n-property",
-      "p-inverse-name": "Column",
-      "p-data-type": "d-property"
-    },
-    "p-is-row-of": {
-      "p-name": "Row Of",
-      "p-instance-of": "n-property",
-      "p-inverse-name": "Is Row Of",
-      "p-data-type": "d-noun"
-    },
-    "p-data-ids": {
-      "p-name": "Column Of",
-      "p-instance-of": "n-property",
-      "p-inverse-name": "Data Element",
-      "p-data-type": "d-noun"
-    },
-    "table-00": {
-      "p-name": "Demo table",
-      "p-instance-of": "n-table",
-      "inverted": {
-        "p-column-of": [
-          "column-1",
-          "column-2",
-          "column-3"
-        ],
-        "p-is-row-of": [
-          "r1",
-          "r2",
-          "r3"
-        ]
-      }
-    },
-    "column-3": {
-      "p-property": "p-instance-of",
-      "p-instance-of": "n-column"
-    },
-    "column-2": {
-      "p-property": "p-description",
-      "p-instance-of": "n-column"
-    },
-    "column-1": {
-      "p-property": "p-name",
-      "p-instance-of": "n-column"
-    },
-    "r1": {
-      "p-name": "R1",
-      "p-description": "sdfsdf",
-      "p-instance-of": "n-column"
-    },
-    "r2": {
-      "p-name": "R2",
-      "p-description": "sdfsdf",
-      "p-instance-of": "n-column"
-    },
-    "r3": {
-      "p-name": "R3",
-      "p-description": "sdfsdf",
-      "p-instance-of": "n-column"
-    }
-  },
-  {
-    "n-organization": {
-      "p-name": "Organization",
-      "p-wikidata-id": "Q5510826"
-    },
-    "n-fhi": {
-      "p-name": "The Future of Humanity Institute",
-      "p-instance-of": "n-organization",
-      "p-official-website": {
-        "value": "http://www.fhi.ox.ac.uk/",
-        "id": "sdfsdf"
-      },
-      "inverted": {
-        "p-employed-by": [
-          "h-nick-bostrom",
-          "h-anders-sandberg",
-          "h-toby-ord",
-          "h-owen-cotton-barratt",
-          "h-joseph-carlsmith",
-          "h-carl-shulman",
-          "h-owain-evans",
-          "h-stuart-armstrong",
-          "h-ryan-carey",
-          "h-jelene-luketina",
-          "h-ozzie-gooen"
-        ]
-      }
-    },
-    "n-fhi-leadership": {
-      "p-name": "FHI Leadership Team",
-      "p-instance-of": "n-organization",
-      "p-parent-organization": "n-fhi"
-    },
-    "n-fhi-macrostrategy-research-team": {
-      "p-name": "Macrostrategy Research Team",
-      "p-instance-of": "n-organization",
-      "p-parent-organization": "n-fhi"
-    },
-    "n-fhi-alexander-tamas-programme": {
-      "p-name": "Alexander Tamas Programme on AI Safety",
-      "p-instance-of": "n-organization",
-      "p-parent-organization": "n-fhi"
-    },
-    "meta": {
-      "export": {
-        "id": "b-fhi"
-      }
-    },
-    "b-fhi": {
-      "p-name": "FHI Information",
-      "p-description": "Contains all essential information.",
-      "p-version": "0.1",
-      "p-instance-of": "p-data-source"
-    }
-  },
-  {
-    "meta": {
-      "export": {
-        "id": "b-person-index"
-      }
-    },
-    "b-person-index": {
-      "p-name": "Person Index",
-      "p-description": "Contains all essential information for ozzie.",
-      "p-instance-of": "p-data-source",
-      "p-version": "0.1"
-    },
-    "h-nick-bostrom": {
-      "p-name": "Nick Bostrom",
-      "p-instance-of": "n-person",
-      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/3176-97093-Nick_Bostrom-300x200.jpg"
-    },
-    "h-anders-sandberg": {
-      "p-name": "Anders Sandberg",
-      "p-instance-of": "n-person",
-      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14592-AndersSansberg-1-e1481642401930-1-e1510230442224-300x200.jpg"
-    },
-    "h-toby-ord": {
-      "p-name": "Toby Ord",
-      "p-instance-of": "n-person",
-      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/3176-97251-Toby_Ord-1024x683.jpg"
-    },
-    "h-owen-cotton-barratt": {
-      "p-name": "Owen Cotton-Barratt",
-      "p-instance-of": "n-person",
-      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14610-OwenCottonBarratt-1-e1477584015301-1-e1510231344892-1024x683.jpg"
-    },
-    "h-joseph-carlsmith": {
-      "p-name": "Joseph Carlsmith",
-      "p-instance-of": "n-person",
-      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/Joe-Headshot-300x200.jpg"
-    },
-    "h-carl-shulman": {
-      "p-name": "Carl Shulman",
-      "p-instance-of": "n-person",
-      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/carl_shulman1-1-e1510231614617.jpg"
-    },
-    "h-owain-evans": {
-      "p-name": "Owain Evans",
-      "p-instance-of": "n-person",
-      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/owain_small-e1510236236376-300x200.jpg"
-    },
-    "h-stuart-armstrong": {
-      "p-name": "Stuart Armstrong",
-      "p-instance-of": "n-person",
-      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14687-StuartArmstrong-1-e1481640361754-1-e1510230727977-300x200.jpg"
-    },
-    "h-ryan-carey": {
-      "p-name": "Ryan Carey",
-      "p-instance-of": "n-person",
-      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/profile3.png"
-    },
-    "h-jelene-luketina": {
-      "p-name": "Jelena Luketina",
-      "p-instance-of": "n-person",
-      "p-image": "https://www.fhi.ox.ac.uk/wp-content/uploads/Screenshot-2018-01-15-10.17.21.png"
-    },
-    "h-ozzie-gooen": {
-      "p-name": "Ozzie Gooen",
-      "p-instance-of": "n-person",
-      "p-image": "https://pbs.twimg.com/profile_images/682646835358388224/h5j68fAv_400x400.jpg",
-      "p-twitter-username": "ozziegooen",
-      "p-github-username": "oagr",
-      "p-lesswrong-username": "ozziegooen",
-      "p-effective-altruism-forum-username": "oagr",
-      "p-medium-username": "ozziegooen",
-      "p-linkedin-id": "ozzie-gooen-ab307226"
+      "p-instance-of": "n-property"
     }
   }
 ]
