@@ -26,9 +26,11 @@ class App extends Component {
         >
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" style={{height: "100vh"}}>
             <Menu.Item key="0">
+            <Link to={("/")}>
               <div style={{fontSize: '16px', color: "white", textAlign: "left", fontWeight: "800"}}>
               Fact Explorer
               </div>
+            </Link>
             </Menu.Item>
             <Menu.Item key="1">
               <Icon type="global" />
