@@ -1,28 +1,34 @@
-[meta.templates.data-type-instance.properties]
-p-instance-of = "p-data-type"
+[config]
+baseId = "base"
+resourceId = "data-types"
+
+[config.aliases]
+name = "@base/properties/p-name"
+instance-of = "@base/properties/p-instance-of"
+subclass-of = "@base/properties/p-subclass-of"
 
 [d-thing]
-p-name = "Thing (Data Type)"
-p-instance-of = "p-data-type"
+name = "Thing (Data Type)"
+instance-of = "p-data-type"
 
 [d-noun]
-p-name = "Noun (Data Type)"
-p-instance-of = "p-data-type"
+name = "Noun (Data Type)"
+instance-of = "p-data-type"
 
 [d-property]
-p-name = "Property (Data Type)"
-p-instance-of = "p-data-type"
+name = "Property (Data Type)"
+instance-of = "p-data-type"
 
 [d-string]
-p-name = "String (Data Type)"
-p-instance-of = "p-data-type"
+name = "String (Data Type)"
+instance-of = "p-data-type"
 
 [d-url]
-p-name = "Url (Data Type)"
-p-instance-of = "p-data-type"
-p-subclass-of = "d-string"
+name = "Url (Data Type)"
+instance-of = "p-data-type"
+subclass-of = "d-string"
 
 [d-image-url]
-p-name = "Image Url (Data Type)"
-p-instance-of = "p-data-type"
-p-subclass-of = "d-url"
+name = "Image Url (Data Type)"
+instance-of = "p-data-type"
+subclass-of = "d-url"

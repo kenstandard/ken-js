@@ -80,36 +80,36 @@ function removeIfInList(list, fn) {
 }
 
 function decodeBase(json) {
-  var filteredFactKeys = /* :: */[
-    "baseId",
-    /* :: */[
-      "resourceId",
-      /* :: */[
-        "config",
-        /* [] */0
-      ]
-    ]
-  ];
-  console.log(filteredFactKeys);
   var entries = $$Array.to_list(Js_dict.entries(Option$Rationale.toExn("Parse Error", Js_json.decodeObject(json))));
-  var baseId = Json_decode.field("baseId", Json_decode.string, json);
-  var resourceId = Json_decode.field("resourceId", Json_decode.string, json);
+  var baseId = Json_decode.field("config", (function (param) {
+          return Json_decode.field("baseId", Json_decode.string, param);
+        }), json);
+  var resourceId = Json_decode.field("config", (function (param) {
+          return Json_decode.field("resourceId", Json_decode.string, param);
+        }), json);
+  var aliases = Json_decode.field("config", (function (param) {
+          return Json_decode.field("aliases", (function (param) {
+                        return Json_decode.dict(Json_decode.string, param);
+                      }), param);
+        }), json);
   var things = List.map((function (param) {
           return /* record */[
                   /* id */param[0],
                   /* facts */propertyDecoder(param[1]),
                   /* templates : array */[]
                 ];
-        }), removeIfInList(filteredFactKeys, (function (param) {
+        }), removeIfInList(/* :: */[
+              "baseId",
+              /* :: */[
+                "resourceId",
+                /* :: */[
+                  "config",
+                  /* [] */0
+                ]
+              ]
+            ], (function (param) {
                 return param[0];
               }))(entries));
-  var aliases = Js_dict.fromList(/* :: */[
-        /* tuple */[
-          "name",
-          "@base/properties/p-name"
-        ],
-        /* [] */0
-      ]);
   return /* record */[
           /* things */$$Array.of_list(things),
           /* baseId */baseId,

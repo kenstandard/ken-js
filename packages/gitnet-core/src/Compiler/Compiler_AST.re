@@ -26,6 +26,6 @@ type package = {
   facts: list(fact),
   baseId: string,
   resourceId: string,
-  aliases: Js.Dict.t(string),
+  aliases: Js.Dict.t(thingId),
 };
 /* type graph = list(fact); */

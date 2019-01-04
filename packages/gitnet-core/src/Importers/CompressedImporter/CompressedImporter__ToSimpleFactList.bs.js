@@ -4,6 +4,7 @@
 var List = require("bs-platform/lib/js/list.js");
 var $$Array = require("bs-platform/lib/js/array.js");
 var Block = require("bs-platform/lib/js/block.js");
+var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var Belt_Array = require("bs-platform/lib/js/belt_Array.js");
 var Function$Rationale = require("rationale/src/Function.js");
 var Compiler_Run$Reason = require("../../Compiler/Compiler_Run.bs.js");
@@ -42,28 +43,46 @@ function flattenValues(g) {
               }), g);
 }
 
-function shape(g) {
-  return $$Array.to_list(Belt_Array.concatMany($$Array.map((function ($$package) {
-                        return $$Array.map((function (thing) {
-                                      var fs = $$Array.map((function (fact) {
-                                              var match = fact[/* value */2];
-                                              var tmp;
-                                              tmp = match.tag ? "ERROR" : match[0];
-                                              return /* record */[
-                                                      /* thingId */Compiler_Run$Reason.makeThingId(fact[/* id */0]),
-                                                      /* subjectId */Compiler_Run$Reason.makeThingId(thing[/* id */0]),
-                                                      /* propertyId */Compiler_Run$Reason.makeThingId(fact[/* property */1]),
-                                                      /* value : String */Block.__(0, [tmp])
-                                                    ];
-                                            }), thing[/* facts */1]);
+function allPackageFacts(p) {
+  return $$Array.to_list(Belt_Array.concatMany($$Array.map((function (thing) {
+                        return $$Array.map((function (fact) {
+                                      var match = fact[/* value */2];
+                                      var tmp;
+                                      tmp = match.tag ? "ERROR" : match[0];
                                       return /* record */[
-                                              /* facts */$$Array.to_list(fs),
-                                              /* baseId */$$package[/* baseId */1],
-                                              /* resourceId */$$package[/* resourceId */2],
-                                              /* aliases */$$package[/* aliases */3]
+                                              /* thingId */Compiler_Run$Reason.makeThingId(fact[/* id */0]),
+                                              /* subjectId */Compiler_Run$Reason.makeThingId(thing[/* id */0]),
+                                              /* propertyId */Compiler_Run$Reason.makeThingId(fact[/* property */1]),
+                                              /* value : String */Block.__(0, [tmp])
                                             ];
-                                    }), $$package[/* things */0]);
-                      }), g)));
+                                    }), thing[/* facts */1]);
+                      }), p[/* things */0])));
+}
+
+function formattedAliases(d) {
+  return Js_dict.fromArray($$Array.map((function (param) {
+                    var v = param[1];
+                    return /* tuple */[
+                            param[0],
+                            /* record */[
+                              /* rawId */v,
+                              /* tag */undefined,
+                              /* thingIdType *//* NONFACT */1,
+                              /* updatedId */v
+                            ]
+                          ];
+                  }), Js_dict.entries(d)));
+}
+
+function shape(g) {
+  return $$Array.to_list($$Array.map((function ($$package) {
+                    return /* record */[
+                            /* facts */allPackageFacts($$package),
+                            /* baseId */$$package[/* baseId */1],
+                            /* resourceId */$$package[/* resourceId */2],
+                            /* aliases */formattedAliases($$package[/* aliases */3])
+                          ];
+                  }), g));
 }
 
 function combinePackages(packages) {
@@ -87,6 +106,8 @@ function run(param) {
 
 exports.valueToArray = valueToArray;
 exports.flattenValues = flattenValues;
+exports.allPackageFacts = allPackageFacts;
+exports.formattedAliases = formattedAliases;
 exports.shape = shape;
 exports.combinePackages = combinePackages;
 exports.run = run;

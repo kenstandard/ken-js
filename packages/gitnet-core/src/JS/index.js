@@ -2,317 +2,237 @@ let foo = "bar";
 import * as gitNet from "./Interface.gen"
 import * as R from "ramda";
 
-let data2 =       [
-    {
-    "baseId": "base12",
-    "resourceId": "2/2",
+let data4 = 
+[
+  {
     "config": {
+      "baseId": "base",
+      "resourceId": "nouns",
       "aliases": {
-        "name": "@base/properties/p-name"
+        "name": "@base/properties/p-name",
+        "description": "@base/properties/p-description",
+        "instance-of": "@base/properties/p-instance-of",
+        "subclass-of": "@base/properties/p-subclass-of"
       }
     },
-    "n-fred": {
-      "name": "Fred",
+    "n-thing": {
+      "name": "Thing"
     },
-    "@base/properties/p-name": {
-        "@base/properties/p-name": "Name"
+    "n-intangible": {
+      "name": "Intangible",
+      "subclass-of": "n-thing"
     },
-    "p-friend": {
-        "@base/properties/p-name": "Friend"
+    "n-role": {
+      "name": "Role",
+      "subclass-of": "n-intangible",
+      "description": "Represents additional information about a relationship or property. For example a Role can be used to say that a 'member' role linking some SportsTeam to a player occurred during a particular time period. Or that a Person's 'actor' role in a Movie was for some particular characterName. Such properties can be attached to a Role entity, which is then associated with the main entities using ordinary properties like 'member' or 'actor'."
     },
-    "p-description": {
-        "@base/properties/p-name": "Description"
+    "n-organization-role": {
+      "name": "Organization Role",
+      "description": "A subclass of Role used to describe roles within organizations.",
+      "subclass-of": "n-role"
+    },
+    "n-repo-base": {
+      "name": "Base Repo",
+      "description": "The base repository"
+    },
+    "n-person": {
+      "name": "Person"
     }
   },
   {
-    "baseId": "base12",
-    "resourceId": "2/2",
-    "n-george": {
-      "@base/properties/p-name": ["GEORGIE!!", "GEORGEOO", "sfdsdf"],
-      "p-friend": "n-fred"
-    },
-    "n-jeremy": {
-      "@base/properties/p-name": "George"
-    }
-  }]
-  let data3 = [
-    {
+    "config": {
       "baseId": "base",
       "resourceId": "properties",
-      "n-thing": {
-        "p-name": "Thing"
-      },
-      "n-intangible": {
-        "p-name": "Intangible",
-        "p-subclass-of": "n-thing"
-      },
-      "n-role": {
-        "p-name": "Role",
-        "p-subclass-of": "n-intangible",
-        "p-description": "Represents additional information about a relationship or property. For example a Role can be used to say that a 'member' role linking some SportsTeam to a player occurred during a particular time period. Or that a Person's 'actor' role in a Movie was for some particular characterName. Such properties can be attached to a Role entity, which is then associated with the main entities using ordinary properties like 'member' or 'actor'."
-      },
-      "n-organization-role": {
-        "p-name": "Organization Role",
-        "p-description": "A subclass of Role used to describe roles within organizations.",
-        "p-subclass-of": "n-role"
-      },
-      "n-repo-base": {
-        "p-name": "Base Repo",
-        "p-description": "The base repository"
-      },
-      "n-person": {
-        "p-name": "Person"
+      "aliases": {
+        "d-string": "@base/data-types/d-string",
+        "d-url": "@base/data-types/d-url",
+        "d-noun": "@base/data-types/d-noun"
       }
     },
-    {
-      "baseId": "base",
-      "resourceId": "properties",
-      "meta": {
-        "templates": {
-          "property": {
-            "p-instance-of": "n-property"
-          }
-        }
-      },
-      "n-property": {
-        "p-name": "Property"
-      },
+    "n-property": {
+      "p-name": "Property",
+      "p-instance-of": "n-property"
+    },
+    "p-name": {
+      "p-name": "Name",
+      "n-property": "sdfsdf",
+      "p-instance-of": "n-property",
+      "p-data-type": "d-string"
+    },
+    "p-description": {
       "p-name": {
-        "p-name": "Name",
-        "templates": [
-          "property"
-        ],
-        "p-data-type": "d-string"
+        "value": "Description",
+        "id": "sdlkfjsdf"
       },
-      "p-description": {
-        "p-name": {
-          "value": "Description",
-          "id": "sdlkfjsdf"
-        },
-        "templates": [
-          "property"
-        ],
-        "p-data-type": "d-string"
-      },
-      "sdlkfjsdf": {
-        "p-name": "test!",
-        "p-part-of": "p-name",
-        "p-aliases": "Foobar and Friends!"
-      },
-      "p-instance-of": {
-        "p-name": "Instance of",
-        "p-inverse-name": "Instance",
-        "p-data-type": "d-noun",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-inverse-name": {
-        "p-name": "Name Inverse",
-        "p-data-type": "d-string",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-wikidata-id": {
-        "p-name": "Wikidata id",
-        "p-description": "Id if on wikidata",
-        "p-data-type": "d-string",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-data-type": {
-        "p-name": "Data Type",
-        "p-data-type": "d-noun",
-        "p-inverse-name": "Is Data Type For",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-aliases": {
-        "p-name": "aliases",
-        "p-data-type": "d-string",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-works-on": {
-        "p-name": "Works On",
-        "p-description": "When noun works on things B.",
-        "p-data-type": "d-thing",
-        "p-inverse-name": "Worked on by",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-part-of": {
-        "p-name": "Part of",
-        "p-data-type": "d-thing",
-        "p-inverse-name": "Contains",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-employed-by": {
-        "p-name": "Employed By",
-        "p-data-type": "d-thing",
-        "p-inverse-name": "Employs",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-subclass-of": {
-        "p-name": "Subclass of",
-        "p-data-type": "d-thing",
-        "p-inverse-name": "Superclass of",
-        "p-wikidata-id": "P279",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-git-repo": {
-        "p-name": "Primary Git Repo",
-        "p-data-type": "d-url",
-        "p-inverse-name": "Is primary git repo of",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-url": {
-        "p-name": "Url",
-        "p-data-type": "d-url",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-belongs-to": {
-        "p-name": "Belongs to",
-        "p-data-type": "d-thing",
-        "p-inverse-name": "Contains",
-        "templates": [
-          "property"
-        ]
-      },
-      "n-list": {
-        "p-wikidata-id": "Q12139612"
-      },
-      "p-is-in-list": {
-        "p-name": "Is in list",
-        "p-data-type": "d-thing",
-        "p-inverse-name": "Contains",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-was-autogenerated": {
-        "p-name": "Belongs to",
-        "p-data-type": "d-noun",
-        "p-inverse-name": "Contains",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-official-website": {
-        "p-name": "Official Website",
-        "p-wikidata-id": "P856",
-        "p-data-type": "d-url",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-image": {
-        "p-name": "Image (url)",
-        "p-wikidata-id": "P18",
-        "p-data-type": "d-image-url",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-parent-organization": {
-        "p-name": "Parent Organization",
-        "p-schemaorg-id": "parentOrganization",
-        "p-inverse-name": "Child Organization",
-        "p-data-type": "d-noun",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-twitter-username": {
-        "p-name": "Twitter Username",
-        "p-description": "this item's username on Twitter; do not include the '@' symbol",
-        "p-wikidata-id": "P2002",
-        "p-data-type": "d-string",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-github-username": {
-        "p-name": "Github Username",
-        "p-description": "this item's username on Github",
-        "p-data-type": "d-string",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-lesswrong-username": {
-        "p-name": "LessWrong Username",
-        "p-description": "this item's username on LessWrong",
-        "p-data-type": "d-string",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-effective-altruism-forum-username": {
-        "p-name": "Effective Altruism Forum Username",
-        "p-description": "this item's username on the Effective Altruism Forum",
-        "p-data-type": "d-string",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-medium-username": {
-        "p-name": "Medium Username",
-        "p-description": "this item's username on Medium",
-        "p-data-type": "d-string",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-linkedin-id": {
-        "p-name": "Linked Username",
-        "p-description": "this item's username on Linked",
-        "p-data-type": "d-string",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-source-url": {
-        "p-name": "Source Url",
-        "p-description": "this item's source Url",
-        "p-data-type": "d-url",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-data-source": {
-        "p-name": "Data Source",
-        "p-inverse-name": "Data source for",
-        "p-description": "A thing's data source",
-        "p-data-type": "d-noun",
-        "templates": [
-          "property"
-        ]
-      },
-      "p-version": {
-        "p-name": "Version",
-        "p-data-type": "d-string",
-        "templates": [
-          "property"
-        ]
-      }
+      "p-instance-of": "n-property",
+      "p-data-type": "d-string"
+    },
+    "p-instance-of": {
+      "p-name": "Instance of",
+      "p-inverse-name": "Instance",
+      "p-data-type": "d-noun",
+      "p-instance-of": "n-property"
+    },
+    "p-inverse-name": {
+      "p-name": "Name Inverse",
+      "p-data-type": "d-string",
+      "p-instance-of": "n-property"
+    },
+    "p-wikidata-id": {
+      "p-name": "Wikidata id",
+      "p-description": "Id if on wikidata",
+      "p-data-type": "d-string",
+      "p-instance-of": "n-property"
+    },
+    "p-data-type": {
+      "p-name": "Data Type",
+      "p-data-type": "d-noun",
+      "p-inverse-name": "Is Data Type For",
+      "p-instance-of": "n-property"
+    },
+    "p-aliases": {
+      "p-name": "aliases",
+      "p-data-type": "d-string",
+      "p-instance-of": "n-property"
+    },
+    "p-works-on": {
+      "p-name": "Works On",
+      "p-description": "When noun works on things B.",
+      "p-data-type": "d-thing",
+      "p-inverse-name": "Worked on by",
+      "p-instance-of": "n-property"
+    },
+    "p-part-of": {
+      "p-name": "Part of",
+      "p-data-type": "d-thing",
+      "p-inverse-name": "Contains",
+      "p-instance-of": "n-property"
+    },
+    "p-employed-by": {
+      "p-name": "Employed By",
+      "p-data-type": "d-thing",
+      "p-inverse-name": "Employs",
+      "p-instance-of": "n-property"
+    },
+    "p-subclass-of": {
+      "p-name": "Subclass of",
+      "p-data-type": "d-thing",
+      "p-inverse-name": "Superclass of",
+      "p-wikidata-id": "P279",
+      "p-instance-of": "n-property"
+    },
+    "p-git-repo": {
+      "p-name": "Primary Git Repo",
+      "p-data-type": "d-url",
+      "p-inverse-name": "Is primary git repo of",
+      "p-instance-of": "n-property"
+    },
+    "p-url": {
+      "p-name": "Url",
+      "p-data-type": "d-url",
+      "p-instance-of": "n-property"
+    },
+    "p-belongs-to": {
+      "p-name": "Belongs to",
+      "p-data-type": "d-thing",
+      "p-inverse-name": "Contains",
+      "p-instance-of": "n-property"
+    },
+    "n-list": {
+      "p-wikidata-id": "Q12139612",
+      "p-instance-of": "n-property"
+    },
+    "p-is-in-list": {
+      "p-name": "Is in list",
+      "p-data-type": "d-thing",
+      "p-inverse-name": "Contains",
+      "p-instance-of": "n-property"
+    },
+    "p-was-autogenerated": {
+      "p-name": "Belongs to",
+      "p-data-type": "d-noun",
+      "p-inverse-name": "Contains",
+      "p-instance-of": "n-property"
+    },
+    "p-official-website": {
+      "p-name": "Official Website",
+      "p-wikidata-id": "P856",
+      "p-data-type": "d-url",
+      "p-instance-of": "n-property"
+    },
+    "p-image": {
+      "p-name": "Image (url)",
+      "p-wikidata-id": "P18",
+      "p-data-type": "d-image-url",
+      "p-instance-of": "n-property"
+    },
+    "p-parent-organization": {
+      "p-name": "Parent Organization",
+      "p-schemaorg-id": "parentOrganization",
+      "p-inverse-name": "Child Organization",
+      "p-data-type": "d-noun",
+      "p-instance-of": "n-property"
+    },
+    "p-twitter-username": {
+      "p-name": "Twitter Username",
+      "p-description": "this item's username on Twitter; do not include the '@' symbol",
+      "p-wikidata-id": "P2002",
+      "p-data-type": "d-string",
+      "p-instance-of": "n-property"
+    },
+    "p-github-username": {
+      "p-name": "Github Username",
+      "p-description": "this item's username on Github",
+      "p-data-type": "d-string",
+      "p-instance-of": "n-property"
+    },
+    "p-lesswrong-username": {
+      "p-name": "LessWrong Username",
+      "p-description": "this item's username on LessWrong",
+      "p-data-type": "d-string",
+      "p-instance-of": "n-property"
+    },
+    "p-effective-altruism-forum-username": {
+      "p-name": "Effective Altruism Forum Username",
+      "p-description": "this item's username on the Effective Altruism Forum",
+      "p-data-type": "d-string",
+      "p-instance-of": "n-property"
+    },
+    "p-medium-username": {
+      "p-name": "Medium Username",
+      "p-description": "this item's username on Medium",
+      "p-data-type": "d-string",
+      "p-instance-of": "n-property"
+    },
+    "p-linkedin-id": {
+      "p-name": "Linked Username",
+      "p-description": "this item's username on Linked",
+      "p-data-type": "d-string",
+      "p-instance-of": "n-property"
+    },
+    "p-source-url": {
+      "p-name": "Source Url",
+      "p-description": "this item's source Url",
+      "p-data-type": "d-url",
+      "p-instance-of": "n-property"
+    },
+    "p-data-source": {
+      "p-name": "Data Source",
+      "p-inverse-name": "Data source for",
+      "p-description": "A thing's data source",
+      "p-data-type": "d-noun",
+      "p-instance-of": "n-property"
+    },
+    "p-version": {
+      "p-name": "Version",
+      "p-data-type": "d-string",
+      "p-instance-of": "n-property"
     }
-  ]
+  }
+]
+
+
 export class Value {
     constructor(value, fact, db){
         this.value = value;
@@ -435,7 +355,7 @@ export class Thing {
 
 export class Database {
     constructor(graph){
-        this.graph = gitNet.Graph_fromJson([...data2, ...data3])
+        this.graph = gitNet.Graph_fromJson([...data4])
         console.log(this.json())
         return this;
     }

@@ -9,10 +9,15 @@ let makeThingId = id => {
 
 let thingIdKey = (e: thingId) => (e.rawId, e.tag);
 
-let allPrimaryIds = (g: package): list(thingId) =>
-  g.facts
-  |> List.map(r => [r.thingId, r.subjectId, r.propertyId])
-  |> List.flatten;
+let allPrimaryIds = (g: package): list(thingId) => {
+  let factIds =
+    g.facts
+    |> List.map(r => [r.thingId, r.subjectId, r.propertyId])
+    |> List.flatten;
+  let aliasIds = g.aliases |> Js.Dict.values |> Array.to_list;
+  let all = factIds |> List.append(aliasIds);
+  all;
+};
 
 let findUniqueIds = (g: package): list(thingId) =>
   g |> allPrimaryIds |> Rationale.RList.uniqBy(thingIdKey);
@@ -36,13 +41,22 @@ let useUniqueThingIds = g: package => {
     g.facts
     |> List.map(r =>
          {
-           ...r,
            thingId: findId(r.thingId),
            subjectId: findId(r.subjectId),
            propertyId: findId(r.propertyId),
+           value:
+             switch (r.value) {
+             | Id(thingId) => Id(findId(thingId))
+             | _ => r.value
+             },
          }
        );
-  {...g, facts};
+  let aliases =
+    g.aliases
+    |> Js.Dict.entries
+    |> Array.map(((id: string, v: thingId)) => (id, findId(v)))
+    |> Js.Dict.fromArray;
+  {...g, facts, aliases};
 };
 
 /* Mutate thing types to correct formats */
@@ -70,37 +84,46 @@ let handleThingTypes = (g: package) => {
 let findId = (uniqueIds, thingId) =>
   uniqueIds |> List.find(e => thingIdKey(e) == thingIdKey(thingId));
 
-/* TODO: Improve this with more logic. For one, it should check if the value thingId is external*/
-let _convertValue = (uniqueIds, fact) =>
+let _convertValue = (package, uniqueIds, fact) =>
   switch (fact.value) {
   | Id(id) => Id(id)
   | String(str) =>
-    uniqueIds
-    |> Belt.List.getBy(_, e => thingIdKey(e) == (Some(str), None))
-    |> (
-      e =>
-        switch (e) {
-        | Some(id) => Id(id)
-        | _ => String(str)
-        }
-    )
+    let alias = package.aliases |> Js.Dict.get(_, str);
+    switch (alias) {
+    | Some(s) => Id(s)
+    | _ =>
+      uniqueIds
+      |> Belt.List.getBy(_, e => thingIdKey(e) == (Some(str), None))
+      |> (
+        e =>
+          switch (e) {
+          | Some(id) => Id(id)
+          | _ => String(str)
+          }
+      )
+    };
   };
 
-let linkValues = g: package => {
-  let uniqueIds = findUniqueIds(g);
-  g.facts |> List.iter(fact => fact.value = _convertValue(uniqueIds, fact));
-  g;
+let linkValues = p: package => {
+  let uniqueIds = findUniqueIds(p);
+  p.facts |> List.iter(fact => fact.value = _convertValue(p, uniqueIds, fact));
+  p;
 };
 
 let convertIdd = (package: Reason.Compiler_AST.package, thingId) => {
   open Rationale.Option;
-  let rawId = thingId.rawId |> default("CHANGE_ME_SHOULD_BE_RANDOM");
-  let alias = package.aliases |> Js.Dict.get(_, rawId);
-  switch (alias) {
-  | Some(text) => Some(text)
-  | _ when rawId |> String.get(_, 0) == "@".[0] => Some(rawId)
-  | _ =>
-    "@" ++ package.baseId ++ "/" ++ package.resourceId ++ "/" ++ rawId |> some
+  /* let rawId = thingId.rawId |> default("CHANGE_ME_SHOULD_BE_RANDOM"); */
+  let alias =
+    package.aliases |> Js.Dict.get(_, thingId.rawId |> default(""));
+  switch (thingId.rawId) {
+  | Some(r) =>
+    switch (alias) {
+    | Some({rawId: Some(a)}) => Some(a)
+    | _ when r |> String.get(_, 0) == "@".[0] => Some(r)
+    | _ =>
+      "@" ++ package.baseId ++ "/" ++ package.resourceId ++ "/" ++ r |> some
+    }
+  | _ => None
   };
 };
 
@@ -165,7 +188,11 @@ let toSimple = (g: Compiler_AST.package): SimpleFactList_T.graph =>
                | String(str) => Graph_T.T.String(str)
                | Id(id) =>
                  Graph_T.T.ThingId(
-                   id.updatedId |> Rationale.Option.toExn("Error"),
+                   id.updatedId
+                   |> Rationale.Option.toExn(
+                        "Error: thingId does not have #updatedId when needed: "
+                        ++ (id.rawId |> Rationale.Option.default("")),
+                      ),
                  )
                },
            },

@@ -49,7 +49,6 @@ let removeIfInList = (list, fn) =>
 
 let decodeBase = json => {
   let filteredFactKeys = ["baseId", "resourceId", "config"];
-  Js.log(filteredFactKeys);
 
   let entries =
     json
@@ -58,15 +57,16 @@ let decodeBase = json => {
     |> Js.Dict.entries
     |> Array.to_list;
   open Json.Decode;
-  let baseId = json |> field("baseId", string);
-  let resourceId = json |> field("resourceId", string);
+  let baseId = json |> field("config", field("baseId", string));
+  let resourceId = json |> field("config", field("resourceId", string));
+  let aliases =
+    json |> field("config", field("aliases", Json.Decode.dict(string)));
   let things =
     entries
     |> removeIfInList(filteredFactKeys, ((k, _)) => k)
     |> List.map(((key, value)) =>
          {id: key, facts: propertyDecoder(value), templates: [||]}
        );
-  let aliases = [("name", "@base/properties/p-name")] |> Js.Dict.fromList;
   {things: things |> Array.of_list, baseId, resourceId, aliases};
 };
 

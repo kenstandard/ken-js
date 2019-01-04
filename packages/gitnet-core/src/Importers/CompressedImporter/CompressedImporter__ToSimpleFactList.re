@@ -6,6 +6,7 @@ let valueToArray = value =>
   | CompressedImporter__T.Array(strs) => strs
   };
 
+/* This makes sure that values that are lists become single values. */
 let flattenValues = (g: unprocessedGraph): unprocessedGraph =>
   CompressedImporter__T.(
     g
@@ -33,44 +34,64 @@ let flattenValues = (g: unprocessedGraph): unprocessedGraph =>
        )
   );
 
-let shape = (g: unprocessedGraph): list(Compiler_AST.package) =>
-  g
-  |> Array.map((package: CompressedImporter__T.package) =>
-       package.things
-       |> Array.map((thing: CompressedImporter__T.thing) =>
+let allPackageFacts = (p: CompressedImporter__T.package) =>
+  p.things
+  |> Array.map((thing: CompressedImporter__T.thing) =>
+       thing.facts
+       |> Array.map((fact: CompressedImporter__T.fact) =>
             (
               {
-                let fs =
-                  thing.facts
-                  |> Array.map((fact: CompressedImporter__T.fact) =>
-                       (
-                         {
-                           thingId: Compiler_Run.makeThingId(fact.id),
-                           subjectId:
-                             Compiler_Run.makeThingId(Some(thing.id)),
-                           propertyId:
-                             Compiler_Run.makeThingId(Some(fact.property)),
-                           value:
-                             Compiler_AST.String(
-                               switch (fact.value) {
-                               | String(str) => str
-                               | _ => "ERROR"
-                               },
-                             ),
-                         }: Compiler_AST.fact
-                       )
-                     );
-                {
-                  facts: fs |> Array.to_list,
-                  baseId: package.baseId,
-                  resourceId: package.resourceId,
-                  aliases: package.aliases,
-                };
-              }: Compiler_AST.package
+                thingId: Compiler_Run.makeThingId(fact.id),
+                subjectId: Compiler_Run.makeThingId(Some(thing.id)),
+                propertyId: Compiler_Run.makeThingId(Some(fact.property)),
+                value:
+                  Compiler_AST.String(
+                    switch (fact.value) {
+                    | String(str) => str
+                    | _ => "ERROR"
+                    },
+                  ),
+              }: Compiler_AST.fact
             )
           )
      )
   |> Belt.Array.concatMany
+  |> Array.to_list;
+
+let formattedAliases =
+    (d: Js.Dict.t(string)): Js.Dict.t(Compiler_AST.thingId) =>
+  d
+  |> Js.Dict.entries
+  |> Array.map(((id, v)) =>
+       (
+         (
+           id,
+           {
+             rawId: Some(v),
+             tag: None,
+             thingIdType: Some(Compiler_AST.NONFACT),
+             updatedId: Some(v),
+           },
+         ): (
+           string,
+           Compiler_AST.thingId,
+         )
+       )
+     )
+  |> Js.Dict.fromArray;
+
+let shape = (g: unprocessedGraph): list(Compiler_AST.package) =>
+  g
+  |> Array.map((package: CompressedImporter__T.package) =>
+       (
+         {
+           facts: package |> allPackageFacts,
+           baseId: package.baseId,
+           resourceId: package.resourceId,
+           aliases: package.aliases |> formattedAliases,
+         }: Compiler_AST.package
+       )
+     )
   |> Array.to_list;
 
 let combinePackages =

@@ -31,18 +31,20 @@ function thingIdKey(e) {
 }
 
 function allPrimaryIds(g) {
-  return List.flatten(List.map((function (r) {
-                    return /* :: */[
-                            r[/* thingId */0],
-                            /* :: */[
-                              r[/* subjectId */1],
-                              /* :: */[
-                                r[/* propertyId */2],
-                                /* [] */0
-                              ]
-                            ]
-                          ];
-                  }), g[/* facts */0]));
+  var factIds = List.flatten(List.map((function (r) {
+              return /* :: */[
+                      r[/* thingId */0],
+                      /* :: */[
+                        r[/* subjectId */1],
+                        /* :: */[
+                          r[/* propertyId */2],
+                          /* [] */0
+                        ]
+                      ]
+                    ];
+            }), g[/* facts */0]));
+  var aliasIds = $$Array.to_list(Js_dict.values(g[/* aliases */3]));
+  return List.append(aliasIds, factIds);
 }
 
 function findUniqueIds(g) {
@@ -65,18 +67,27 @@ function useUniqueThingIds(g) {
                 }), uniqueIds);
   };
   var facts = List.map((function (r) {
+          var match = r[/* value */3];
+          var tmp;
+          tmp = match.tag ? /* Id */Block.__(1, [findId(match[0])]) : r[/* value */3];
           return /* record */[
                   /* thingId */findId(r[/* thingId */0]),
                   /* subjectId */findId(r[/* subjectId */1]),
                   /* propertyId */findId(r[/* propertyId */2]),
-                  /* value */r[/* value */3]
+                  /* value */tmp
                 ];
         }), g[/* facts */0]);
+  var aliases = Js_dict.fromArray($$Array.map((function (param) {
+              return /* tuple */[
+                      param[0],
+                      findId(param[1])
+                    ];
+            }), Js_dict.entries(g[/* aliases */3])));
   return /* record */[
           /* facts */facts,
           /* baseId */g[/* baseId */1],
           /* resourceId */g[/* resourceId */2],
-          /* aliases */g[/* aliases */3]
+          /* aliases */aliases
         ];
 }
 
@@ -110,46 +121,68 @@ function findId(uniqueIds, thingId) {
               }), uniqueIds);
 }
 
-function _convertValue(uniqueIds, fact) {
+function _convertValue($$package, uniqueIds, fact) {
   var match = fact[/* value */3];
   if (match.tag) {
     return /* Id */Block.__(1, [match[0]]);
   } else {
     var str = match[0];
-    var e = Belt_List.getBy(uniqueIds, (function (e) {
-            return Caml_obj.caml_equal(thingIdKey(e), /* tuple */[
-                        str,
-                        undefined
-                      ]);
-          }));
-    if (e !== undefined) {
-      return /* Id */Block.__(1, [e]);
+    var __x = $$package[/* aliases */3];
+    var alias = Js_dict.get(__x, str);
+    if (alias !== undefined) {
+      return /* Id */Block.__(1, [alias]);
     } else {
-      return /* String */Block.__(0, [str]);
+      var e = Belt_List.getBy(uniqueIds, (function (e) {
+              return Caml_obj.caml_equal(thingIdKey(e), /* tuple */[
+                          str,
+                          undefined
+                        ]);
+            }));
+      if (e !== undefined) {
+        return /* Id */Block.__(1, [e]);
+      } else {
+        return /* String */Block.__(0, [str]);
+      }
     }
   }
 }
 
-function linkValues(g) {
-  var uniqueIds = RList$Rationale.uniqBy(thingIdKey, allPrimaryIds(g));
+function linkValues(p) {
+  var uniqueIds = RList$Rationale.uniqBy(thingIdKey, allPrimaryIds(p));
   List.iter((function (fact) {
-          fact[/* value */3] = _convertValue(uniqueIds, fact);
+          fact[/* value */3] = _convertValue(p, uniqueIds, fact);
           return /* () */0;
-        }), g[/* facts */0]);
-  return g;
+        }), p[/* facts */0]);
+  return p;
 }
 
 function convertIdd($$package, thingId) {
-  var rawId = Option$Rationale.$$default("CHANGE_ME_SHOULD_BE_RANDOM", thingId[/* rawId */0]);
   var __x = $$package[/* aliases */3];
-  var alias = Js_dict.get(__x, rawId);
-  if (alias !== undefined) {
-    return alias;
-  } else if (Caml_string.get(rawId, 0) === /* "@" */64) {
-    return rawId;
-  } else {
-    return Option$Rationale.some("@" + ($$package[/* baseId */1] + ("/" + ($$package[/* resourceId */2] + ("/" + rawId)))));
+  var alias = Js_dict.get(__x, Option$Rationale.$$default("", thingId[/* rawId */0]));
+  var match = thingId[/* rawId */0];
+  if (match !== undefined) {
+    var r = match;
+    var exit = 0;
+    if (alias !== undefined) {
+      var match$1 = alias[/* rawId */0];
+      if (match$1 !== undefined) {
+        return match$1;
+      } else {
+        exit = 1;
+      }
+    } else {
+      exit = 1;
+    }
+    if (exit === 1) {
+      if (Caml_string.get(r, 0) === /* "@" */64) {
+        return r;
+      } else {
+        return Option$Rationale.some("@" + ($$package[/* baseId */1] + ("/" + ($$package[/* resourceId */2] + ("/" + r)))));
+      }
+    }
+    
   }
+  
 }
 
 function generateFactId(thingId, subjectId) {
@@ -217,7 +250,12 @@ function toSimple(g) {
   return List.map((function (f) {
                 var match = f[/* value */3];
                 var tmp;
-                tmp = match.tag ? /* ThingId */Block.__(1, [Option$Rationale.toExn("Error", match[0][/* updatedId */3])]) : /* String */Block.__(0, [match[0]]);
+                if (match.tag) {
+                  var id = match[0];
+                  tmp = /* ThingId */Block.__(1, [Option$Rationale.toExn("Error: thingId does not have #updatedId when needed: " + Option$Rationale.$$default("", id[/* rawId */0]), id[/* updatedId */3])]);
+                } else {
+                  tmp = /* String */Block.__(0, [match[0]]);
+                }
                 return /* record */[
                         /* id */convertId(f[/* thingId */0]),
                         /* subjectId */convertId(f[/* subjectId */1]),

@@ -1,6 +1,5 @@
 imports = [
-    "../gitnet-data-base/base/nouns.toml",
-    "../gitnet-data-base/base/properties.toml",
+    "../gitnet-data-base/base/**",
     # "../gitnet-data-base/ozzie-personal/**.toml",
     # "../gitnet-data-base/src/fhi/**.toml",
 ]
