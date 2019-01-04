@@ -1,69 +1,74 @@
-[meta.export]
-id = "b-person-index"
+[config]
+baseId = "people"
+resourceId = "d"
 
-[b-person-index]
-p-name = "Person Index"
-p-description = "Contains all essential information for ozzie."
-p-instance-of = "p-data-source"
-p-version = "0.1"
+[config.aliases]
+name = "@base/properties/p-name"
+description = "@base/properties/p-description"
+employed-by = "@base/properties/p-employed-by"
+instance-of = "@base/properties/p-instance-of"
+image = "@base/properties/p-image"
+official-website = "@base/properties/p-official-website"
+parent-organization = "@base/properties/p-parent-organization"
+n-person = "@base/nouns/n-person"
 
 [h-nick-bostrom]
-p-name = "Nick Bostrom"
-p-instance-of = "n-person"
-p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/3176-97093-Nick_Bostrom-300x200.jpg"
+name = "Nick Bostrom"
+instance-of = "n-person"
+image = "https://www.fhi.ox.ac.uk/wp-content/uploads/3176-97093-Nick_Bostrom-300x200.jpg"
 
 [h-anders-sandberg]
-p-name = "Anders Sandberg"
-p-instance-of = "n-person"
-p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14592-AndersSansberg-1-e1481642401930-1-e1510230442224-300x200.jpg"
+name = "Anders Sandberg"
+instance-of = "n-person"
+image = "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14592-AndersSansberg-1-e1481642401930-1-e1510230442224-300x200.jpg"
 
 [h-toby-ord]
-p-name = "Toby Ord"
-p-instance-of = "n-person"
-p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/3176-97251-Toby_Ord-1024x683.jpg"
+name = "Toby Ord"
+instance-of = "n-person"
+image = "https://www.fhi.ox.ac.uk/wp-content/uploads/3176-97251-Toby_Ord-1024x683.jpg"
 
 [h-owen-cotton-barratt]
-p-name = "Owen Cotton-Barratt"
-p-instance-of = "n-person"
-p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14610-OwenCottonBarratt-1-e1477584015301-1-e1510231344892-1024x683.jpg"
+name = "Owen Cotton-Barratt"
+instance-of = "n-person"
+image = "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14610-OwenCottonBarratt-1-e1477584015301-1-e1510231344892-1024x683.jpg"
 
 [h-joseph-carlsmith]
-p-name = "Joseph Carlsmith"
-p-instance-of = "n-person"
-p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/Joe-Headshot-300x200.jpg"
+name = "Joseph Carlsmith"
+instance-of = "n-person"
+image = "https://www.fhi.ox.ac.uk/wp-content/uploads/Joe-Headshot-300x200.jpg"
 
 [h-carl-shulman]
-p-name = "Carl Shulman"
-p-instance-of = "n-person"
-p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/carl_shulman1-1-e1510231614617.jpg"
+name = "Carl Shulman"
+instance-of = "n-person"
+image = "https://www.fhi.ox.ac.uk/wp-content/uploads/carl_shulman1-1-e1510231614617.jpg"
 
 [h-owain-evans]
-p-name = "Owain Evans"
-p-instance-of = "n-person"
-p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/owain_small-e1510236236376-300x200.jpg"
+name = "Owain Evans"
+instance-of = "n-person"
+image = "https://www.fhi.ox.ac.uk/wp-content/uploads/owain_small-e1510236236376-300x200.jpg"
 
 [h-stuart-armstrong]
-p-name = "Stuart Armstrong"
-p-instance-of = "n-person"
-p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14687-StuartArmstrong-1-e1481640361754-1-e1510230727977-300x200.jpg"
+name = "Stuart Armstrong"
+instance-of = "n-person"
+image = "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14687-StuartArmstrong-1-e1481640361754-1-e1510230727977-300x200.jpg"
 
 [h-ryan-carey]
-p-name = "Ryan Carey"
-p-instance-of = "n-person"
-p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/profile3.png"
+name = "Ryan Carey"
+instance-of = "n-person"
+image = "https://www.fhi.ox.ac.uk/wp-content/uploads/profile3.png"
 
 [h-jelene-luketina]
-p-name = "Jelena Luketina"
-p-instance-of = "n-person"
-p-image = "https://www.fhi.ox.ac.uk/wp-content/uploads/Screenshot-2018-01-15-10.17.21.png"
+name = "Jelena Luketina"
+instance-of = "n-person"
+image = "https://www.fhi.ox.ac.uk/wp-content/uploads/Screenshot-2018-01-15-10.17.21.png"
 
 [h-ozzie-gooen]
-p-name = "Ozzie Gooen"
-p-instance-of = "n-person"
-p-image = "https://pbs.twimg.com/profile_images/682646835358388224/h5j68fAv_400x400.jpg"
-p-twitter-username = "ozziegooen"
-p-github-username = "oagr"
-p-lesswrong-username = "ozziegooen"
-p-effective-altruism-forum-username = "oagr"
-p-medium-username = "ozziegooen"
-p-linkedin-id = "ozzie-gooen-ab307226"
+name = "Ozzie Gooen"
+instance-of = "n-person"
+image = "https://pbs.twimg.com/profile_images/682646835358388224/h5j68fAv_400x400.jpg"
+# twitter-username = "ozziegooen"
+# github-username = "oagr"
+# lesswrong-username = "ozziegooen"
+# effective-altruism-forum-username = "oagr"
+# medium-username = "ozziegooen"
+# linkedin-id = "ozzie-gooen-ab307226"

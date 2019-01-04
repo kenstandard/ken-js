@@ -1,13 +1,23 @@
+[config]
+baseId = "fhi"
+resourceId = "_"
+
+[config.aliases]
+name = "@base/properties/p-name"
+description = "@base/properties/p-description"
+employed-by = "@base/properties/p-employed-by"
+instance-of = "@base/properties/instance-of"
+official-website = "@base/properties/p-official-website"
+parent-organization = "@base/properties/p-parent-organization"
+
 [n-organization]
-p-name = "Organization"
+name = "Organization"
 p-wikidata-id = "Q5510826"
 
 [n-fhi]
-p-name = "The Future of Humanity Institute"
-p-instance-of = "n-organization"
-p-official-website = {value = "http://www.fhi.ox.ac.uk/", id = "sdfsdf"}
-
-[n-fhi.inverted]
+name = "The Future of Humanity Institute"
+instance-of = "n-organization"
+official-website = "http://www.fhi.ox.ac.uk/"
 p-employed-by = [
     "h-nick-bostrom",
     "h-anders-sandberg",
@@ -23,16 +33,16 @@ p-employed-by = [
 ]
 
 [n-fhi-leadership]
-p-name = "FHI Leadership Team"
-p-instance-of = "n-organization"
-p-parent-organization = "n-fhi"
+name = "FHI Leadership Team"
+instance-of = "n-organization"
+parent-organization = "n-fhi"
 
 [n-fhi-macrostrategy-research-team]
-p-name = "Macrostrategy Research Team"
-p-instance-of = "n-organization"
-p-parent-organization = "n-fhi"
+name = "Macrostrategy Research Team"
+instance-of = "n-organization"
+parent-organization = "n-fhi"
 
 [n-fhi-alexander-tamas-programme]
-p-name = "Alexander Tamas Programme on AI Safety"
-p-instance-of = "n-organization"
-p-parent-organization = "n-fhi"
+name = "Alexander Tamas Programme on AI Safety"
+instance-of = "n-organization"
+parent-organization = "n-fhi"

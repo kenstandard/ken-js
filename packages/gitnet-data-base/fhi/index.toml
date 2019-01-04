@@ -1,9 +1,14 @@
-[meta.export]
-id = "b-fhi"
+[config]
+baseId = "fhi"
+resourceId = "_"
 
-[b-fhi]
-p-name = "FHI Information"
-p-description = "Contains all essential information."
-p-version = "0.1"
-p-instance-of = "p-data-source"
+[config.aliases]
 
+# [meta.export]
+# id = "b-fhi"
+
+# [b-fhi]
+# p-name = "FHI Information"
+# p-description = "Contains all essential information."
+# p-version = "0.1"
+# p-instance-of = "p-data-source"

@@ -1,4 +1,5 @@
-[{
+[
+  {
     "config": {
       "baseId": "base",
       "resourceId": "data-types",
@@ -258,6 +259,135 @@
       "p-name": "Version",
       "p-data-type": "d-string",
       "p-instance-of": "n-property"
+    }
+  },
+  {
+    "config": {
+      "baseId": "fhi",
+      "resourceId": "_",
+      "aliases": {
+        "name": "@base/properties/p-name",
+        "description": "@base/properties/p-description",
+        "employed-by": "@base/properties/p-employed-by",
+        "instance-of": "@base/properties/instance-of",
+        "official-website": "@base/properties/p-official-website",
+        "parent-organization": "@base/properties/p-parent-organization"
+      }
+    },
+    "n-organization": {
+      "name": "Organization",
+      "p-wikidata-id": "Q5510826"
+    },
+    "n-fhi": {
+      "name": "The Future of Humanity Institute",
+      "instance-of": "n-organization",
+      "official-website": "http://www.fhi.ox.ac.uk/",
+      "p-employed-by": [
+        "h-nick-bostrom",
+        "h-anders-sandberg",
+        "h-toby-ord",
+        "h-owen-cotton-barratt",
+        "h-joseph-carlsmith",
+        "h-carl-shulman",
+        "h-owain-evans",
+        "h-stuart-armstrong",
+        "h-ryan-carey",
+        "h-jelene-luketina",
+        "h-ozzie-gooen"
+      ]
+    },
+    "n-fhi-leadership": {
+      "name": "FHI Leadership Team",
+      "instance-of": "n-organization",
+      "parent-organization": "n-fhi"
+    },
+    "n-fhi-macrostrategy-research-team": {
+      "name": "Macrostrategy Research Team",
+      "instance-of": "n-organization",
+      "parent-organization": "n-fhi"
+    },
+    "n-fhi-alexander-tamas-programme": {
+      "name": "Alexander Tamas Programme on AI Safety",
+      "instance-of": "n-organization",
+      "parent-organization": "n-fhi"
+    }
+  },
+  {
+    "config": {
+      "baseId": "fhi",
+      "resourceId": "_",
+      "aliases": {}
+    }
+  },
+  {
+    "config": {
+      "baseId": "people",
+      "resourceId": "d",
+      "aliases": {
+        "name": "@base/properties/p-name",
+        "description": "@base/properties/p-description",
+        "employed-by": "@base/properties/p-employed-by",
+        "instance-of": "@base/properties/p-instance-of",
+        "image": "@base/properties/p-image",
+        "official-website": "@base/properties/p-official-website",
+        "parent-organization": "@base/properties/p-parent-organization",
+        "n-person": "@base/nouns/n-person"
+      }
+    },
+    "h-nick-bostrom": {
+      "name": "Nick Bostrom",
+      "instance-of": "n-person",
+      "image": "https://www.fhi.ox.ac.uk/wp-content/uploads/3176-97093-Nick_Bostrom-300x200.jpg"
+    },
+    "h-anders-sandberg": {
+      "name": "Anders Sandberg",
+      "instance-of": "n-person",
+      "image": "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14592-AndersSansberg-1-e1481642401930-1-e1510230442224-300x200.jpg"
+    },
+    "h-toby-ord": {
+      "name": "Toby Ord",
+      "instance-of": "n-person",
+      "image": "https://www.fhi.ox.ac.uk/wp-content/uploads/3176-97251-Toby_Ord-1024x683.jpg"
+    },
+    "h-owen-cotton-barratt": {
+      "name": "Owen Cotton-Barratt",
+      "instance-of": "n-person",
+      "image": "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14610-OwenCottonBarratt-1-e1477584015301-1-e1510231344892-1024x683.jpg"
+    },
+    "h-joseph-carlsmith": {
+      "name": "Joseph Carlsmith",
+      "instance-of": "n-person",
+      "image": "https://www.fhi.ox.ac.uk/wp-content/uploads/Joe-Headshot-300x200.jpg"
+    },
+    "h-carl-shulman": {
+      "name": "Carl Shulman",
+      "instance-of": "n-person",
+      "image": "https://www.fhi.ox.ac.uk/wp-content/uploads/carl_shulman1-1-e1510231614617.jpg"
+    },
+    "h-owain-evans": {
+      "name": "Owain Evans",
+      "instance-of": "n-person",
+      "image": "https://www.fhi.ox.ac.uk/wp-content/uploads/owain_small-e1510236236376-300x200.jpg"
+    },
+    "h-stuart-armstrong": {
+      "name": "Stuart Armstrong",
+      "instance-of": "n-person",
+      "image": "https://www.fhi.ox.ac.uk/wp-content/uploads/2842-14687-StuartArmstrong-1-e1481640361754-1-e1510230727977-300x200.jpg"
+    },
+    "h-ryan-carey": {
+      "name": "Ryan Carey",
+      "instance-of": "n-person",
+      "image": "https://www.fhi.ox.ac.uk/wp-content/uploads/profile3.png"
+    },
+    "h-jelene-luketina": {
+      "name": "Jelena Luketina",
+      "instance-of": "n-person",
+      "image": "https://www.fhi.ox.ac.uk/wp-content/uploads/Screenshot-2018-01-15-10.17.21.png"
+    },
+    "h-ozzie-gooen": {
+      "name": "Ozzie Gooen",
+      "instance-of": "n-person",
+      "image": "https://pbs.twimg.com/profile_images/682646835358388224/h5j68fAv_400x400.jpg"
     }
   }
 ]

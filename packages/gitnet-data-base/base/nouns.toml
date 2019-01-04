@@ -11,6 +11,7 @@ subclass-of = "@base/properties/p-subclass-of"
 [n-thing]
 name = "Thing"
 
+
 [n-intangible]
 name = "Intangible"
 subclass-of = "n-thing"
