@@ -17,14 +17,14 @@ function makeDirs(t) {
   var allThingIdStrings = List.map((function (e) {
           return e[/* thingId */0][/* thingIdString */0];
         }), $$Array.to_list(Js_dict.values(t[/* things */0])));
-  var partial_arg = Graph_T$Reason.Directory[/* allSubdirectories */6];
+  var partial_arg = Graph_T$Reason.Directory[/* allSubdirectories */7];
   var partial_arg$1 = function (param) {
     return List.map(partial_arg, param);
   };
   var partial_arg$2 = List.filter((function (e) {
-          return !Graph_T$Reason.Directory[/* isFactDirectory */5](e);
+          return !Graph_T$Reason.Directory[/* isFactDirectory */6](e);
         }));
-  var partial_arg$3 = Graph_T$Reason.Directory[/* parent */8];
+  var partial_arg$3 = Graph_T$Reason.Directory[/* parent */9];
   var partial_arg$4 = function (param) {
     return List.map(partial_arg$3, param);
   };

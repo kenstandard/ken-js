@@ -7,6 +7,7 @@ var Block = require("bs-platform/lib/js/block.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
 var Belt_List = require("bs-platform/lib/js/belt_List.js");
+var Graph_T$Reason = require("../Graph/Graph_T.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
 var Option$Rationale = require("rationale/src/Option.js");
 var Function$Rationale = require("rationale/src/Function.js");
@@ -186,26 +187,33 @@ function convertIdd($$package, thingId) {
   
 }
 
-function generateFactId(thingId, subjectId) {
-  return Option$Rationale.toExn("Subject ThingID expected to have updatedID by this point of pipeline", subjectId[/* updatedId */3]) + ("/_f/" + Option$Rationale.$$default("ERROR", thingId[/* tag */1]));
+function generateFactId(thingId, subjectId, $$package) {
+  var subject = Option$Rationale.toExn("Subject ThingID expected to have updatedID by this point of pipeline", subjectId[/* updatedId */3]);
+  var isInSameBase = Graph_T$Reason.Directory[/* root */5](subject) === $$package[/* baseId */1];
+  var tagId = Option$Rationale.toExn("Expected fact to have fact ID at this point.", thingId[/* tag */1]);
+  if (isInSameBase) {
+    return subject + ("/_f/" + tagId);
+  } else {
+    return Option$Rationale.toExn("Expect Full Base Id Id", IdConverter$Reason.toFullId($$package[/* baseId */1], $$package[/* resourceId */2], "_f/" + tagId));
+  }
 }
 
-function handleUpdatedIds(g) {
-  var uniqueIds = RList$Rationale.uniqBy(thingIdKey, allPrimaryIds(g));
+function handleUpdatedIds(p) {
+  var uniqueIds = RList$Rationale.uniqBy(thingIdKey, allPrimaryIds(p));
   List.iter((function (id) {
           var match = id[/* thingIdType */2];
           if (match !== undefined && match) {
-            id[/* updatedId */3] = convertIdd(g, id);
+            id[/* updatedId */3] = convertIdd(p, id);
             return /* () */0;
           } else {
             return /* () */0;
           }
         }), uniqueIds);
   List.iter((function (fact) {
-          fact[/* thingId */0][/* updatedId */3] = generateFactId(fact[/* thingId */0], fact[/* subjectId */1]);
+          fact[/* thingId */0][/* updatedId */3] = generateFactId(fact[/* thingId */0], fact[/* subjectId */1], p);
           return /* () */0;
-        }), g[/* facts */0]);
-  return g;
+        }), p[/* facts */0]);
+  return p;
 }
 
 function showFacts(g) {
@@ -334,4 +342,4 @@ exports.handleInverseFacts = handleInverseFacts;
 exports.run = run;
 exports.convertId = convertId;
 exports.toSimple = toSimple;
-/* RList-Rationale Not a pure module */
+/* Graph_T-Reason Not a pure module */

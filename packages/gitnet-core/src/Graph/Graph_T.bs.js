@@ -6,6 +6,7 @@ var $$Array = require("bs-platform/lib/js/array.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
+var Caml_array = require("bs-platform/lib/js/caml_array.js");
 var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
 var Utility$Reason = require("../Utility.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
@@ -95,6 +96,10 @@ function isRoot(e) {
   return e.split("/").length === 1;
 }
 
+function root(e) {
+  return Caml_array.caml_array_get(e.split("/"), 0);
+}
+
 function isFactDirectory(e) {
   var e$1 = Curry._1(to_list, e);
   console.log(RList$Rationale.last(e$1));
@@ -136,6 +141,7 @@ var Directory = /* module */[
   /* to_list */to_list,
   /* from_list */from_list,
   /* isRoot */isRoot,
+  /* root */root,
   /* isFactDirectory */isFactDirectory,
   /* allSubdirectories */allSubdirectories,
   /* removeLastNDirs */removeLastNDirs,

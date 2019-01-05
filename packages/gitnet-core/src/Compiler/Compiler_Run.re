@@ -127,32 +127,38 @@ let convertIdd = (package: Reason.Compiler_AST.package, thingId) => {
   };
 };
 
-let generateFactId = (thingId, subjectId) =>
-  (
+let generateFactId = (thingId, subjectId, package: package) => {
+  open Rationale.Option;
+  let subject =
     subjectId.updatedId
-    |> Rationale.Option.toExn(
+    |> toExn(
          "Subject ThingID expected to have updatedID by this point of pipeline",
-       )
-  )
-  ++ "/_f/"
-  ++ (thingId.tag |> Rationale.Option.default("ERROR"));
+       );
+  let isInSameBase = Graph_T.Directory.root(subject) == package.baseId;
+  let tagId =
+    thingId.tag |> toExn("Expected fact to have fact ID at this point.");
+  isInSameBase ?
+    subject ++ "/_f/" ++ tagId :
+    IdConverter.toFullId(package.baseId, package.resourceId, "_f/" ++ tagId)
+    |> toExn("Expect Full Base Id Id");
+};
 
-let handleUpdatedIds = g: package => {
-  let uniqueIds = findUniqueIds(g);
+let handleUpdatedIds = p: package => {
+  let uniqueIds = findUniqueIds(p);
   uniqueIds
   |> List.iter(id =>
        switch (id.thingIdType) {
-       | Some(NONFACT) => id.updatedId = convertIdd(g, id)
+       | Some(NONFACT) => id.updatedId = convertIdd(p, id)
        | _ => ()
        }
      );
 
-  g.facts
+  p.facts
   |> List.iter(fact =>
        fact.thingId.updatedId =
-         Some(generateFactId(fact.thingId, fact.subjectId))
+         Some(generateFactId(fact.thingId, fact.subjectId, p))
      );
-  g;
+  p;
 };
 
 let showFacts = (g: package) =>
