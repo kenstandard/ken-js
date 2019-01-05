@@ -7,6 +7,7 @@ var Block = require("bs-platform/lib/js/block.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var RList$Rationale = require("rationale/src/RList.js");
 var Option$Rationale = require("rationale/src/Option.js");
+var Graph_Dirs$Reason = require("../Graph/Graph_Dirs.bs.js");
 
 function uniqueIds(facts) {
   return RList$Rationale.uniqBy((function (a) {
@@ -82,7 +83,8 @@ function connectValuesToFacts(graph) {
                                       /* value : record */[/* valueType */possiblyConvertValueTypesToThing(graph, f[/* value */3])]
                                     ];
                             }), Js_dict.values(graph[/* facts */1]))))),
-          /* bases */graph[/* bases */2]
+          /* bases */graph[/* bases */2],
+          /* directories */graph[/* directories */3]
         ];
 }
 
@@ -100,7 +102,7 @@ function listThings(facts) {
 }
 
 function run(facts) {
-  return connectValuesToFacts(/* record */[
+  return Graph_Dirs$Reason.makeDirs(/* record */[
               /* things */Js_dict.fromList(List.map((function (r) {
                           return /* tuple */[
                                   r[/* thingId */0][/* thingIdString */0],
@@ -115,7 +117,8 @@ function run(facts) {
                         }), listFacts(facts))),
               /* bases */RList$Rationale.uniq(List.map((function (r) {
                           return r[/* thingId */0][/* baseId */2];
-                        }), listThings(facts)))
+                        }), listThings(facts))),
+              /* directories : [] */0
             ]);
 }
 

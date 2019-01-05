@@ -56,4 +56,4 @@ exports.findThing = findThing;
 exports.findThingFromFact = findThingFromFact;
 exports.from_json = from_json;
 exports.to_json = to_json;
-/* No side effect */
+/* Graph_T-Reason Not a pure module */

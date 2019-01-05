@@ -3,6 +3,7 @@
 
 var $$Array = require("bs-platform/lib/js/array.js");
 var Graph_T$Reason = require("../Graph/Graph_T.bs.js");
+var Graph_Dirs$Reason = require("../Graph/Graph_Dirs.bs.js");
 var Graph_Fact$Reason = require("../Graph/Graph_Fact.bs.js");
 var Function$Rationale = require("rationale/src/Function.js");
 var Graph_Graph$Reason = require("../Graph/Graph_Graph.bs.js");
@@ -21,8 +22,14 @@ function partial_arg$1(param) {
 
 var partial_arg$2 = Function$Rationale.Infix[/* ||> */1];
 
-function fromJson(param) {
+function partial_arg$3(param) {
   return partial_arg$2(partial_arg$1, SimpleFactList_ToGraph$Reason.run, param);
+}
+
+var partial_arg$4 = Function$Rationale.Infix[/* ||> */1];
+
+function fromJson(param) {
+  return partial_arg$4(partial_arg$3, Graph_Dirs$Reason.makeDirs, param);
 }
 
 var things = Graph_T$Reason.F[/* thingArray */1];
@@ -30,6 +37,26 @@ var things = Graph_T$Reason.F[/* thingArray */1];
 var facts = Graph_T$Reason.F[/* factArray */4];
 
 var factList = Graph_T$Reason.F[/* factList */5];
+
+var partial_arg$5 = Graph_T$Reason.F[/* directories */6];
+
+var partial_arg$6 = Function$Rationale.Infix[/* ||> */1];
+
+function directoryArray(param) {
+  return partial_arg$6(partial_arg$5, $$Array.of_list, param);
+}
+
+function childDirectories(g, s) {
+  return $$Array.of_list(Graph_T$Reason.F[/* childDirectories */8](g, s));
+}
+
+var partial_arg$7 = Graph_T$Reason.F[/* rootDirectories */7];
+
+var partial_arg$8 = Function$Rationale.Infix[/* ||> */1];
+
+function rootDirectories(param) {
+  return partial_arg$8(partial_arg$7, $$Array.of_list, param);
+}
 
 var findThing = Graph_T$Reason.F[/* findThing */2];
 
@@ -43,6 +70,9 @@ var Graph = /* module */[
   /* things */things,
   /* facts */facts,
   /* factList */factList,
+  /* directoryArray */directoryArray,
+  /* childDirectories */childDirectories,
+  /* rootDirectories */rootDirectories,
   /* findThing */findThing,
   /* findThingFromFact */Graph_Graph$Reason.findThingFromFact,
   /* to_json */Graph_Graph$Reason.to_json,
@@ -52,6 +82,10 @@ var Graph = /* module */[
 var to_json = Graph_T$Reason.Thing[/* to_json */2];
 
 var Thing = /* module */[/* to_json */to_json];
+
+var parent = Graph_T$Reason.Directory[/* parent */8];
+
+var Directory = /* module */[/* parent */parent];
 
 var Fact = /* module */[
   /* to_json */Graph_Fact$Reason.to_json,
@@ -70,9 +104,10 @@ var list_to_array = $$Array.of_list;
 
 exports.Graph = Graph;
 exports.Thing = Thing;
+exports.Directory = Directory;
 exports.Fact = Fact;
 exports.Filter = Filter;
 exports.Query = Query;
 exports.Value = Value;
 exports.list_to_array = list_to_array;
-/* Graph_Fact_Filters-Reason Not a pure module */
+/* Graph_T-Reason Not a pure module */

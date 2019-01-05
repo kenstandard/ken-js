@@ -26,6 +26,12 @@ module T = {
     | BASE
     | ITEM;
 
+  /* [@bs.deriving jsConverter]
+     type directory = {
+       thingIdString,
+       parent: thingIdString,
+     }; */
+
   type thingType =
     | Fact(fact)
     | Item;
@@ -46,6 +52,7 @@ module T = {
     things: Js.Dict.t(thing),
     facts: Js.Dict.t(fact),
     bases: list(thingIdString),
+    directories: list(string),
   };
 
   type things = Js.Dict.t(thing);
@@ -58,6 +65,36 @@ module T = {
     | VALUE;
 };
 
+let listCombinations: list('a) => list(list('a)) =
+  Utility.accumulator(~accum=[], ~history=[], (accum, head) =>
+    List.append(accum, [head])
+  );
+
+module Directory = {
+  type t = string;
+  let from_array = Js.Array.joinWith("/");
+  let to_array = Js.String.split("/");
+  let to_list = to_array ||> Array.to_list;
+  let from_list = Array.of_list ||> from_array;
+  let isRoot = e => e |> to_array |> Array.length == 1;
+  let isFactDirectory = e =>
+    e
+    |> to_list
+    |> (
+      e => {
+        Js.log(Rationale.RList.last(e));
+        Rationale.RList.last(e) == Some("_f");
+      }
+    );
+  let allSubdirectories =
+    to_list ||> listCombinations ||> List.map(from_list);
+
+  let removeLastNDirs = n =>
+    to_list ||> Rationale.RList.dropLast(n) ||> from_list;
+
+  let parent = removeLastNDirs(1);
+};
+
 module F = {
   let things = (g: T.t) => g.things;
   let thingArray = (g: T.t) => g.things |> Js.Dict.values;
@@ -67,6 +104,14 @@ module F = {
   let facts = (g: T.t) => g.facts;
   let factArray = facts ||> Js.Dict.values;
   let factList = facts ||> Js.Dict.values ||> Array.to_list;
+
+  let directories = (g: T.t) => g.directories;
+
+  let rootDirectories = (g: T.t) =>
+    g.directories |> List.filter(Directory.isRoot);
+
+  let childDirectories = (g: T.t, s: string) =>
+    g.directories |> List.filter(e => Directory.parent(e) == s);
 
   let factsJs = (g: T.t) =>
     g.facts |> Js.Dict.values |> Array.map(T.factToJs);

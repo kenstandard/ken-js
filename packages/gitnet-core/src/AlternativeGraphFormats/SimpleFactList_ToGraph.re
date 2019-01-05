@@ -39,6 +39,7 @@ let possiblyConvertValueTypesToThing =
   | _ => value.valueType
   };
 
+/* TODO: Delete this, after making sure */
 let connectValuesToFacts = (graph: Graph_T.T.t): Graph_T.T.t => {
   ...graph,
   facts:
@@ -91,6 +92,7 @@ let run = (facts: SimpleFactList_T.graph): Graph_T.T.t =>
         |> listFacts
         |> List.map((r: Graph_T.T.fact) => (r.thingIdString, r))
         |> Js.Dict.fromList,
+      directories: [],
     }
-    |> connectValuesToFacts
+    |> Graph_Dirs.makeDirs
   );

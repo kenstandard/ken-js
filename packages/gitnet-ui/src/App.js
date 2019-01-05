@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Button from 'antd/lib/button';
+import {Treee} from './Tree';
 import { Layout, Icon, Table, Divider, Tag, Menu } from 'antd';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import {Thing} from "./Thing"

@@ -10,17 +10,25 @@ export const Graph_facts = InterfaceBS.Graph[2];
 
 export const Graph_factList = InterfaceBS.Graph[3];
 
-export const Graph_findThing = InterfaceBS.Graph[4];
+export const Graph_directoryArray = InterfaceBS.Graph[4];
 
-export const Graph_findThingFromFact = InterfaceBS.Graph[5];
+export const Graph_childDirectories = InterfaceBS.Graph[5];
 
-export const Graph_to_json = InterfaceBS.Graph[6];
+export const Graph_rootDirectories = InterfaceBS.Graph[6];
 
-export const Graph_EdgeTypes_property = InterfaceBS.Graph[7][0];
+export const Graph_findThing = InterfaceBS.Graph[7];
 
-export const Graph_EdgeTypes_subject = InterfaceBS.Graph[7][1];
+export const Graph_findThingFromFact = InterfaceBS.Graph[8];
+
+export const Graph_to_json = InterfaceBS.Graph[9];
+
+export const Graph_EdgeTypes_property = InterfaceBS.Graph[10][0];
+
+export const Graph_EdgeTypes_subject = InterfaceBS.Graph[10][1];
 
 export const Thing_to_json = InterfaceBS.Thing[0];
+
+export const Directory_parent = InterfaceBS.Directory[0];
 
 export const Fact_to_json = InterfaceBS.Fact[0];
 

@@ -1,11 +1,12 @@
+open Rationale.Function.Infix;
+
 module Graph = {
   [@genType]
   let fromJson =
-    Rationale.Function.Infix.(
-      CompressedImporter__FromJson.run
-      ||> CompressedImporter__ToSimpleFactList.run
-      ||> SimpleFactList_ToGraph.run
-    );
+    CompressedImporter__FromJson.run
+    ||> CompressedImporter__ToSimpleFactList.run
+    ||> SimpleFactList_ToGraph.run
+    ||> Graph_Dirs.makeDirs;
 
   [@genType]
   let things = Graph_T.F.thingArray;
@@ -15,6 +16,16 @@ module Graph = {
 
   [@genType]
   let factList = Graph_T.F.factList;
+
+  [@genType]
+  let directoryArray = Graph_T.F.directories ||> Array.of_list;
+
+  [@genType]
+  let childDirectories = (g, s) =>
+    Graph_T.F.childDirectories(g, s) |> Array.of_list;
+
+  [@genType]
+  let rootDirectories = Graph_T.F.rootDirectories ||> Array.of_list;
 
   [@genType]
   let findThing = Graph_T.F.findThing;
@@ -37,6 +48,11 @@ module Graph = {
 module Thing = {
   [@genType]
   let to_json = Graph_T.Thing.to_json;
+};
+
+module Directory = {
+  [@genType]
+  let parent = Graph_T.Directory.parent;
 };
 
 module Fact = {

@@ -136,6 +136,15 @@ export class Database {
           return false
       }
     }
+    directories(){
+        return gitNet.Graph_directoryArray(this.graph);
+    }
+    childDirectories(s){
+        return gitNet.Graph_childDirectories(this.graph, s);
+    }
+    rootDirectories(){
+        return gitNet.Graph_rootDirectories(this.graph);
+    }
     things(){
         return gitNet.Graph_things(this.graph).filter(t => !!t).map(t => new Thing(t, this))
     }

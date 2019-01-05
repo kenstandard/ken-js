@@ -88,4 +88,4 @@ var Internal = /* module */[
 
 exports.init = init;
 exports.Internal = Internal;
-/* Option-Rationale Not a pure module */
+/* Graph_T-Reason Not a pure module */
