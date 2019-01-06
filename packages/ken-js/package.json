@@ -1,6 +1,6 @@
 {
   "name": "ken-js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "build": "bsb -make-world",
     "nbuild": "export BS_CMT_POST_PROCESS_CMD=\"gentype\" && bsb -make-world -w",
