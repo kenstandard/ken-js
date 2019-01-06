@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {db} from "./gitnet";
+import {db} from "./kendb";
 import { Table, Divider, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import {Value} from "./Value";

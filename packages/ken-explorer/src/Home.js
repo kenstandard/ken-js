@@ -3,7 +3,7 @@ import { Table, Divider, Tag } from 'antd';
 import _ from "lodash";
 import { Link } from 'react-router-dom';
 import {Value} from "./Value";
-import {db} from "./gitnet";
+import {db} from "./kendb";
 
 import jsonData from "./data.json"
 

@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import {Thing} from "./Thing"
 import {Home} from "./Home"
 import {TableTool} from "./tools/TableTool"
-import {db} from "./gitnet";
+import {db} from "./kendb";
 import _ from "lodash";
 import * as R from 'ramda';
 

@@ -1,5 +1,5 @@
 {
-  "name": "gitnet-aggregator",
+  "name": "ken-cli",
   "version": "0.0.1",
   "description": "Simple tool to aggregate toml files",
   "main": "index.js",
