@@ -1,5 +1,5 @@
 {
-  "name": "ken-cli",
+  "name": "kens-cli",
   "version": "0.0.2",
   "description": "Simple tool to aggregate toml files",
   "main": "index.js",
@@ -20,5 +20,6 @@
     "jsonfile": "^5.0.0",
     "toml": "^2.3.3",
     "tomlify-j0.4": "^3.0.0"
-  }
+  },
+  "gitHead": "14862b10cc0ef1b133c1ef95598634dc878df615"
 }
