@@ -147,7 +147,7 @@ p-instance-of = "n-property"
 
 [p-lesswrong-username]
 p-name = "LessWrong Username"
-p-description = "this item's username on LessWrong"
+p-description = "this item's username on LessWrong. This is a new update!"
 p-data-type = "d-string"
 p-instance-of = "n-property"
 

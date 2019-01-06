@@ -69,7 +69,8 @@
       "description": "The base repository"
     },
     "n-person": {
-      "name": "Person"
+      "name": "Person",
+      "description": "A real person!"
     }
   },
   {
@@ -225,7 +226,7 @@
     },
     "p-lesswrong-username": {
       "p-name": "LessWrong Username",
-      "p-description": "this item's username on LessWrong",
+      "p-description": "this item's username on LessWrong. This is a new update!",
       "p-data-type": "d-string",
       "p-instance-of": "n-property"
     },

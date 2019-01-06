@@ -32,3 +32,4 @@ description = "The base repository"
 
 [n-person]
 name = "Person"
+description = "A real person!"
