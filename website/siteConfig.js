@@ -23,8 +23,8 @@ const users = [
 const siteConfig = {
   title: 'Test Site', // Title for your website.
   tagline: 'A website for testing',
-  url: 'https://kenstandard.github.io/ken-js', // Your website URL
-  baseUrl: '/', // Base URL for your project */
+  url: 'https://kenstandard.github.io', // Your website URL
+  baseUrl: '/ken-js', // Base URL for your project */
   projectName: 'ken-js',
   organizationName: 'kenstandard',
   // For github.io type URLs, you would set the url and baseUrl like:
