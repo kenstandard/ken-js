@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import gitnet from "../node_modules/gitnet-js/dist/main.js";
 import {db} from "./gitnet";
 import { Table, Divider, Tag } from 'antd';
 import { Link } from 'react-router-dom';

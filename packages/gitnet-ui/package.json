@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "dependencies": {
     "antd": "3.11.2",
-    "gitnet-js": "0.0.1",
     "gitnet-core": "0.0.1",
     "install": "^0.12.2",
     "lodash": "^4.17.11",
@@ -13,7 +12,8 @@
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.1"
+    "react-scripts": "2.1.1",
+    "ken-stdlib": "git@github.com:kenstandard/ken-stdlib.git"
   },
   "scripts": {
     "start": "react-scripts start",

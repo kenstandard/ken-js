@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Table, Divider, Tag } from 'antd';
 import _ from "lodash";
 import { Link } from 'react-router-dom';
-import gitnet from "../node_modules/gitnet-js/dist/main.js";
 import {Value} from "./Value";
 import {db} from "./gitnet";
 

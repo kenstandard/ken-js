@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import gitnet from "../../node_modules/gitnet-js/dist/main.js";
 import jsonData from "../data.json"
 import {Value} from "../Value";
 import { Table, Divider, Tag } from 'antd';
 
+// TODO: Fix for new gitCore
 export class TableShow extends Component {
   render() {
     let {thingId} = this.props;
-    let thing = gitnet(jsonData).findThing(thingId);
+    let thing = {}//gitnet(jsonData).findThing(thingId);
     let columns = thing.inverseStatements().filter(s => s.propertyId === "p-column-of").map(r => r.thing())
     let rows = thing.inverseStatements().filter(s => s.propertyId === "p-is-row-of").map(r => r.thing())
     const _columns = columns.map(c => {
