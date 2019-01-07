@@ -70,11 +70,6 @@ class HomeSplash extends React.Component {
       <SplashContainer>
         <div className="inner">
           <ProjectTitle siteConfig={siteConfig} />
-          <PromoSection>
-            <Button href="#try">Try It Out</Button>
-            <Button href={docUrl('doc1.html')}>Example Link</Button>
-            <Button href={docUrl('doc2.html')}>Example Link 2</Button>
-          </PromoSection>
         </div>
       </SplashContainer>
     );
@@ -149,7 +144,8 @@ class Index extends React.Component {
     );
 
     const Features = () => (
-      <Block layout="fourColumn">
+      <div>
+      <Block layout="twoColumn">
         {[
           {
             content: 'This is the content of my feature',
@@ -164,7 +160,24 @@ class Index extends React.Component {
             title: 'Feature Two',
           },
         ]}
-      </Block>
+        </Block>
+      <Block layout="twoColumn">
+        {[
+          {
+            content: 'This is the content of my feature',
+            image: `${baseUrl}img/docusaurus.svg`,
+            imageAlign: 'top',
+            title: 'Feature One',
+          },
+          {
+            content: 'The content of my second feature',
+            image: `${baseUrl}img/docusaurus.svg`,
+            imageAlign: 'top',
+            title: 'Feature Two',
+          },
+        ]}
+        </Block>
+      </div>
     );
 
     const Showcase = () => {
@@ -200,12 +213,7 @@ class Index extends React.Component {
       <div>
         <HomeSplash siteConfig={siteConfig} language={language} />
         <div className="mainContainer">
-          <Features />
-          <FeatureCallout />
-          <LearnHow />
-          <TryOut />
-          <Description />
-          <Showcase />
+          {/* <Features /> */}
         </div>
       </div>
     );

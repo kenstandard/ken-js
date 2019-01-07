@@ -40,13 +40,15 @@ const siteConfig = {
   /* path to images for header/footer */
   headerIcon: 'img/ken-logo-small.png',
   footerIcon: 'img/ken-logo-small.png',
-  favicon: 'img/favicon.png',
+  favicon: 'img/favicon/favicon2.png',
 
   /* Colors for website */
   colors: {
     primaryColor: '#48b179',
     secondaryColor: '#205C3B',
   },
+  //This doesn't seem to be working though.
+  usePrism: ['TOML'],
   
 
   /* Custom fonts for website */
@@ -83,8 +85,8 @@ const siteConfig = {
   cleanUrl: true,
 
   // Open Graph and Twitter card images.
-  ogImage: 'img/docusaurus.png',
-  twitterImage: 'img/docusaurus.png',
+  ogImage: 'img/ken-logo-small.png',
+  twitterImage: 'img/ken-logo-small.png',
 
   // Show documentation's last contributor's name.
   // enableUpdateBy: true,
