@@ -10,21 +10,13 @@
 
 // List of projects/orgs using your project for the users page.
 const users = [
-  {
-    caption: 'Test caption',
-    // You will need to prepend the image path with your baseUrl
-    // if it is not '/', like: '/test-site/img/docusaurus.svg'.
-    image: '/img/docusaurus.svg',
-    infoLink: 'https://www.facebook.com',
-    pinned: true,
-  },
 ];
 
 const siteConfig = {
-  title: 'Test Site', // Title for your website.
-  tagline: 'A website for testing',
+  title: 'Ken', // Title for your website.
+  tagline: 'Static & Modular Semantic Data',
   url: 'https://kenstandard.github.io', // Your website URL
-  baseUrl: '/ken-js', // Base URL for your project */
+  baseUrl: '/ken-js/', // Base URL for your project */
   projectName: 'ken-js',
   organizationName: 'kenstandard',
   // For github.io type URLs, you would set the url and baseUrl like:
@@ -39,9 +31,7 @@ const siteConfig = {
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
     {doc: 'doc1', label: 'Docs'},
-    {doc: 'doc4', label: 'API'},
-    {page: 'help', label: 'Help'},
-    {blog: true, label: 'Blog'},
+    { href: "https://github.com/kenstandard/ken-js", label: "Github"}
   ],
 
   // If you have users set above, you add it here:
@@ -54,9 +44,10 @@ const siteConfig = {
 
   /* Colors for website */
   colors: {
-    primaryColor: '#2E8555',
+    primaryColor: '#48b179',
     secondaryColor: '#205C3B',
   },
+  
 
   /* Custom fonts for website */
   /*
@@ -71,6 +62,9 @@ const siteConfig = {
     ]
   },
   */
+  stylesheets: [
+    "https://fonts.googleapis.com/css?family=Noto+Serif:400,700"
+  ],
 
   // This copyright info is used in /core/Footer.js and blog RSS/Atom feeds.
   copyright: ``,

@@ -6,6 +6,7 @@
  */
 
 const React = require('react');
+// let font = require('typeface-noto-serif');
 
 class Footer extends React.Component {
   docUrl(doc, language) {
@@ -48,23 +49,6 @@ class Footer extends React.Component {
             </a>
           </div>
           <div>
-            <h5>Community</h5>
-            <a href={this.pageUrl('users.html', this.props.language)}>
-              User Showcase
-            </a>
-            <a
-              href="http://stackoverflow.com/questions/tagged/"
-              target="_blank"
-              rel="noreferrer noopener">
-              Stack Overflow
-            </a>
-            <a href="https://discordapp.com/">Project Chat</a>
-            <a
-              href="https://twitter.com/"
-              target="_blank"
-              rel="noreferrer noopener">
-              Twitter
-            </a>
           </div>
           <div>
             <h5>More</h5>

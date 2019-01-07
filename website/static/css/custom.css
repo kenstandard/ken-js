@@ -1,16 +1,71 @@
 /* your custom css */
 
-@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {}
+
+@media only screen and (min-width: 1024px) {}
+
+@media only screen and (max-width: 1023px) {}
+
+@media only screen and (min-width: 1400px) {}
+
+@media only screen and (min-width: 1500px) {}
+
+.projectTitle {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 1em;
 }
 
-@media only screen and (min-width: 1024px) {
+.projectTitle .logoSection {
+    flex: 1 0 20%;
 }
 
-@media only screen and (max-width: 1023px) {
+.projectTitle .logoSection img {
+    max-height: 5em;
+    float: right;
+    padding-right: 1em;
+    padding-top: 1em;
 }
 
-@media only screen and (min-width: 1400px) {
+.projectTitle .titleSection {
+    flex: 1 0 20%;
 }
 
-@media only screen and (min-width: 1500px) {
+h1 {
+    font-family: 'Noto Serif', serif;
+    font-weight: 700;
+}
+
+h2 {
+    font-family: 'Noto Serif', serif;
+}
+
+h3 {
+    font-family: 'Noto Serif', serif;
+    font-weight: 400;
+}
+
+.projectTitle h1 {
+    font-family: 'Noto Serif', serif;
+    margin-top: .8em;
+    font-weight: 700;
+    text-align: left;
+    font-size: 1.6em;
+    margin-bottom: .1em;
+    color: #333;
+}
+
+.projectTitle small {
+    font-family: 'Noto Serif', serif;
+    font-weight: 400;
+    text-align: left;
+    font-size: .6em;
+    color: #666;
+    float: left;
+}
+
+.fixedHeaderContainer header .headerTitleWithLogo {
+    font-size: 1.8em;
+    font-family: 'Noto Serif', serif;
 }

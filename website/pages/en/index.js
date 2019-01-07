@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+
 const React = require('react');
 
 const CompLibrary = require('../../core/CompLibrary.js');
@@ -36,10 +37,17 @@ class HomeSplash extends React.Component {
     );
 
     const ProjectTitle = () => (
-      <h2 className="projectTitle">
+      <div className="projectTitle">
+      <div className="logoSection">
+      <img src={`${baseUrl}img/ken-logo-large.png`} alt="Logo"/>
+      </div>
+      <div className="logoSection">
+      <h1 >
         {siteConfig.title}
-        <small>{siteConfig.tagline}</small>
-      </h2>
+      </h1>
+      <small>{siteConfig.tagline}</small>
+      </div>
+      </div>
     );
 
     const PromoSection = props => (
@@ -60,7 +68,6 @@ class HomeSplash extends React.Component {
 
     return (
       <SplashContainer>
-        <Logo img_src={`${baseUrl}img/docusaurus.svg`} />
         <div className="inner">
           <ProjectTitle siteConfig={siteConfig} />
           <PromoSection>
@@ -106,7 +113,7 @@ class Index extends React.Component {
         {[
           {
             content: 'Talk about trying this out',
-            image: `${baseUrl}img/docusaurus.svg`,
+            image: ``,
             imageAlign: 'left',
             title: 'Try it Out',
           },
@@ -120,7 +127,7 @@ class Index extends React.Component {
           {
             content:
               'This is another description of how this project is useful',
-            image: `${baseUrl}img/docusaurus.svg`,
+            image: ``,
             imageAlign: 'right',
             title: 'Description',
           },
@@ -133,7 +140,7 @@ class Index extends React.Component {
         {[
           {
             content: 'Talk about learning how to use this',
-            image: `${baseUrl}img/docusaurus.svg`,
+            image: ``,
             imageAlign: 'right',
             title: 'Learn How',
           },
