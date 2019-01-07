@@ -38,8 +38,8 @@ const siteConfig = {
   users,
 
   /* path to images for header/footer */
-  headerIcon: 'img/docusaurus.svg',
-  footerIcon: 'img/docusaurus.svg',
+  headerIcon: 'img/ken-logo-small.png',
+  footerIcon: 'img/ken-logo-small.png',
   favicon: 'img/favicon.png',
 
   /* Colors for website */
