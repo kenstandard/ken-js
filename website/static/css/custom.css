@@ -69,3 +69,27 @@ h3 {
     font-size: 1.8em;
     font-family: 'Noto Serif', serif;
 }
+
+.hljs-title,
+.hljs-section {
+    color: #3bb01e;
+}
+
+.hljs-type,
+.hljs-string,
+.hljs-number,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-quote,
+.hljs-template-tag,
+.hljs-deletion {
+    /* color: #00851d; */
+    color: #45958a
+}
+
+.hljs {
+    border: 1px solid #eee;
+    background: #fafafa;
+    border-radius: 6px;
+    padding: 15px;
+}

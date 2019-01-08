@@ -26,12 +26,6 @@ module T = {
     | BASE
     | ITEM;
 
-  /* [@bs.deriving jsConverter]
-     type directory = {
-       thingIdString,
-       parent: thingIdString,
-     }; */
-
   type thingType =
     | Fact(fact)
     | Item;

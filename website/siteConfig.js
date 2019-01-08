@@ -14,7 +14,7 @@ const users = [
 
 const siteConfig = {
   title: 'Ken', // Title for your website.
-  tagline: 'Static & Modular Semantic Data',
+  tagline: 'Static & Modular Linked Data',
   url: 'https://kenstandard.github.io', // Your website URL
   baseUrl: '/ken-js/', // Base URL for your project */
   projectName: 'ken-js',
@@ -30,7 +30,7 @@ const siteConfig = {
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    {doc: 'doc1', label: 'Docs'},
+    {doc: 'kenml', label: 'KenML'},
     { href: "https://github.com/kenstandard/ken-js", label: "Github"}
   ],
 
@@ -48,7 +48,7 @@ const siteConfig = {
     secondaryColor: '#205C3B',
   },
   //This doesn't seem to be working though.
-  usePrism: ['TOML'],
+  usePrism: ['TOML', 'reason'],
   
 
   /* Custom fonts for website */

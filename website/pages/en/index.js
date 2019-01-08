@@ -213,7 +213,17 @@ class Index extends React.Component {
       <div>
         <HomeSplash siteConfig={siteConfig} language={language} />
         <div className="mainContainer">
-          {/* <Features /> */}
+
+      <Block id="try">
+        {[
+          {
+            content: 'Feedback is highly appreciated. Please leave feedback in issues on the [Github page](https://github.com/kenstandard/ken-js). Please do not share publicly.',
+            image: ``,
+            imageAlign: 'left',
+            title: 'This project is in-progress'
+          },
+        ]}
+      </Block>
         </div>
       </div>
     );
