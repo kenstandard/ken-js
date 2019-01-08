@@ -1,8 +1,10 @@
 {
   "Primary": {
-    "Intro": ["introduction"],
-    "Data Model": ["terms/base", "terms/kenID", "terms/fact"],
-    "Formats": ["kenml"]
+    "Introduction": ["introduction"],
+    "Ken Standard": ["terms/base", "terms/kenID", "terms/fact"],
+    "KenML": ["kenml/kenml"],
+    "KenJs": ["kenml"],
+    "Ken Explorer": ["kenml"]
   },
   "docs-other": {
     "First Category": ["doc4", "doc5"]

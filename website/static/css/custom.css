@@ -22,14 +22,23 @@
 }
 
 .projectTitle .logoSection img {
-    max-height: 4em;
+    max-height: 5em;
     float: right;
     padding-right: 1.5em;
-    padding-top: 1em;
+    padding-top: 0.7em;
 }
 
 .projectTitle .titleSection {
     flex: 1 0 20%;
+}
+
+.projectTitle p {
+    color: #666;
+    text-align: left;
+    float: left;
+    font-size: 18px;
+    line-height: 31px;
+    max-width: 550px;
 }
 
 h1 {
@@ -48,7 +57,7 @@ h3 {
 
 .projectTitle h1 {
     font-family: 'Noto Serif', serif;
-    margin-top: .8em;
+    margin-top: .2em;
     font-weight: 700;
     text-align: left;
     font-size: 1.6em;
@@ -61,6 +70,7 @@ h3 {
     font-weight: 400;
     text-align: left;
     font-size: .6em;
+    margin-bottom: .5em;
     color: #666;
     float: left;
 }
@@ -92,4 +102,40 @@ h3 {
     background: #fafafa;
     border-radius: 6px;
     padding: 15px;
+}
+
+
+#not-done-yet-flag {
+    background: #ffe5d5;
+    padding: .5em 0 2em;
+    margin-bottom: 1em;
+}
+
+#home-primary-banner {
+    background: #d7f2e8;
+    padding: 1em 24em 0em;
+    color: #415c50;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+#home-primary-banner.wrapper {
+    max-width: 800px;
+}
+
+.ken-parts {
+    background: #d7f2e8;
+    border-top: 1px solid #b2e2b2;
+    border-bottom: 1px solid #b2e2b2;
+}
+
+.ken-parts h1 {
+    text-align: center;
+    color: #415c50;
+    font-size: 2.4em;
+}
+
+.ken-parts h2 {
+    font-size: 1.7em;
+    color: #415c50;
 }

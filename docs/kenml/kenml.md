@@ -4,15 +4,7 @@ title: KenML
 sidebar_label: KenML
 ---
 
-KenML is a markup language for describing structured data. It's meant to be a compromise between human readability and machine interoperability.
-
-## Ids
-
-`"@rebecca-34/personal/rebecca"`
-
-## Facts
-
-`"@rebecca-34/personal/rebecca"`
+KenML is a markup language for describing structured data, meant for the Ken Standard. It's meant to be a compromise between human readability and machine interoperability.
 
 ## An Extended TOML Example
 

@@ -37,6 +37,7 @@ class HomeSplash extends React.Component {
     );
 
     const ProjectTitle = () => (
+      <div>
       <div className="projectTitle">
       <div className="logoSection">
       <img src={`${baseUrl}img/ken-logo-large.png`} alt="Logo"/>
@@ -46,6 +47,8 @@ class HomeSplash extends React.Component {
         {siteConfig.title}
       </h1>
       <small>{siteConfig.tagline}</small>
+      <p>Ken is a collection of minimalist standards and tools that use linked data. It's optimized for human readability, static content, and interoperability. All public Ken projects are free & open source.</p>
+      </div>
       </div>
       </div>
     );
@@ -145,40 +148,85 @@ class Index extends React.Component {
 
     const Features = () => (
       <div>
-      <Block layout="twoColumn">
+      <Block layout="threeColumn" background="light">
         {[
           {
-            content: 'This is the content of my feature',
-            image: `${baseUrl}img/docusaurus.svg`,
+            title: 'Static',
             imageAlign: 'top',
-            title: 'Feature One',
+            content: "Data is stored in raw TOML files. There are no databases necessary.",
           },
           {
-            content: 'The content of my second feature',
-            image: `${baseUrl}img/docusaurus.svg`,
+            title: 'Human Readable',
             imageAlign: 'top',
-            title: 'Feature Two',
+            content: 'The Ken Standard and KenML are optimized for human readability. This helps for using git and similar to manage knowledge bases.',
+          },
+          {
+            title: 'Modular',
+            imageAlign: 'top',
+            content: 'A unique ID system helps make sure that separate knowledge bases can be combined.',
           },
         ]}
         </Block>
-      <Block layout="twoColumn">
+      <Block layout="threeColumn" background="light">
         {[
           {
-            content: 'This is the content of my feature',
-            image: `${baseUrl}img/docusaurus.svg`,
+            title: 'Minimalist',
             imageAlign: 'top',
-            title: 'Feature One',
+            content: "The Ken ecosystem is made of several small parts, favoring flexibility over standardization. It's possible to use any number of these parts.",
           },
           {
-            content: 'The content of my second feature',
-            image: `${baseUrl}img/docusaurus.svg`,
+            title: 'Optional Privacy',
             imageAlign: 'top',
-            title: 'Feature Two',
+            content: 'Because all data can be stored in static files, whatever access restrictions apply to those files can apply to the data. The current Ken explorer application can be run locally.',
+          },
+          {
+            title: 'Optional Decentralization',
+            imageAlign: 'top',
+            content: 'There are no necessary trusted parties or organizations. All of the relevant information can optionally be shared using decentralized tooling.',
           },
         ]}
         </Block>
       </div>
     );
+
+    const KenParts = () => (
+      <div className="ken-parts">
+      <h1> Primary Components </h1>
+      <Block layout="twoColumn">
+        {[
+          {
+            title: 'Ken Standard',
+            imageAlign: 'top',
+            content: `A simple standard for knowledge bases with linked data.  
+            [See Docs](/docs)`,
+          },
+          {
+            title: 'KenML',
+            imageAlign: 'top',
+            content: `A markup language for the Ken Standard, aimed at convenient writing & editing.  
+            [See Docs](/docs)`,
+          },
+        ]}
+        </Block>
+      <Block layout="twoColumn">
+        {[
+          {
+            title: 'KenJs',
+            imageAlign: 'top',
+            content: `A Javascript library for importing KenML and using Ken compatible data in Javascript applications.   
+            [See Docs](/docs)`,
+          },
+          {
+            title: 'Ken Explorer',
+            imageAlign: 'top',
+            content: `An interface for browsing Ken compatible data.  
+            [See Docs](/docs)`,
+          },
+        ]}
+        </Block>
+
+      </div>
+    )
 
     const Showcase = () => {
       if ((siteConfig.users || []).length === 0) {
@@ -212,19 +260,18 @@ class Index extends React.Component {
     return (
       <div>
         <HomeSplash siteConfig={siteConfig} language={language} />
-        <div className="mainContainer">
-
-      <Block id="try">
+      <Block id="not-done-yet-flag">
         {[
           {
-            content: 'Feedback is highly appreciated. Please leave feedback in issues on the [Github page](https://github.com/kenstandard/ken-js). Please do not share publicly.',
+            content: 'Feedback is highly appreciated. Please leave feedback in issues on the [Github page](https://github.com/kenstandard/ken-js). Please do not share Ken publicly.',
             image: ``,
             imageAlign: 'left',
             title: 'This project is in-progress'
           },
         ]}
       </Block>
-        </div>
+      <Features/>
+      <KenParts/>
       </div>
     );
   }
