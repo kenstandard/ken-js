@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>KenML · Ken</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;p&gt;KenML is a markup language for describing structured data. It&#x27;s meant to be a compromise between human readability and machine interoperability.&lt;/p&gt;
+"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="KenML · Ken"/><meta property="og:type" content="website"/><meta property="og:url" content="https://kenstandard.github.io/ken-js/index.html"/><meta property="og:description" content="&lt;p&gt;KenML is a markup language for describing structured data. It&#x27;s meant to be a compromise between human readability and machine interoperability.&lt;/p&gt;
+"/><meta property="og:image" content="https://kenstandard.github.io/ken-js/img/ken-logo-small.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://kenstandard.github.io/ken-js/img/ken-logo-small.png"/><link rel="shortcut icon" href="/ken-js/img/favicon/favicon2.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Serif:400,700"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/ken-js/css/prism.css"/><link rel="stylesheet" href="/ken-js/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/ken-js/"><img class="logo" src="/ken-js/img/ken-logo-small.png" alt="Ken"/><h2 class="headerTitleWithLogo">Ken</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive siteNavItemActive"><a href="/ken-js/docs/kenml" target="_self">KenML</a></li><li class=""><a href="https://github.com/kenstandard/ken-js" target="_self">Github</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Formats</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Intro</h3><ul><li class="navListItem"><a class="navItem" href="/ken-js/docs/introduction">What &amp; Why</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Data Model</h3><ul><li class="navListItem"><a class="navItem" href="/ken-js/docs/terms/base">Bases</a></li><li class="navListItem"><a class="navItem" href="/ken-js/docs/terms/kenID">kenID</a></li><li class="navListItem"><a class="navItem" href="/ken-js/docs/terms/fact">Facts</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Formats</h3><ul><li class="navListItem navListItemActive"><a class="navItem" href="/ken-js/docs/kenml">KenML</a></li></ul></div></div></section></div><script>
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              const headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">KenML</h1></header><article><div><span><p>KenML is a markup language for describing structured data. It's meant to be a compromise between human readability and machine interoperability.</p>
+<h2><a class="anchor" aria-hidden="true" id="ids"></a><a href="#ids" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Ids</h2>
+<p><code>&quot;@rebecca-34/personal/rebecca&quot;</code></p>
+<h2><a class="anchor" aria-hidden="true" id="facts"></a><a href="#facts" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Facts</h2>
+<p><code>&quot;@rebecca-34/personal/rebecca&quot;</code></p>
+<h2><a class="anchor" aria-hidden="true" id="an-extended-toml-example"></a><a href="#an-extended-toml-example" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>An Extended TOML Example</h2>
+<pre><code class="hljs css language-toml"><span class="hljs-comment"># All files need a config section with a baseId and a resourceId.</span>
+<span class="hljs-section">[config]</span>
+<span class="hljs-attr">baseId</span> = <span class="hljs-string">"samanthas-tools"</span>
+<span class="hljs-attr">resourceId</span> = <span class="hljs-string">"workshop"</span>
+
+<span class="hljs-comment"># You can list aliases for the rest of the document.</span>
+<span class="hljs-comment"># These are document-specific. The @ sign is used to signify the beginning of a base.</span>
+<span class="hljs-section">[config.aliases]</span>
+<span class="hljs-attr">name</span> = <span class="hljs-string">"@base/properties/p-name"</span>
+<span class="hljs-attr">instance-of</span> = <span class="hljs-string">"@base/properties/instance-of"</span>
+<span class="hljs-attr">condition</span> = <span class="hljs-string">"@toollib/condition"</span>
+<span class="hljs-attr">rebecca</span> = <span class="hljs-string">"@rebecca-34/personal/rebecca"</span>
+<span class="hljs-attr">henry</span> = <span class="hljs-string">"@henry/personal/henry"</span>
+<span class="hljs-comment"># ...Other aliases omitted</span>
+
+<span class="hljs-comment"># Headers besides "config" will count as the unique ID for a subject.</span>
+<span class="hljs-comment"># Choose ID names you don't expect to change.</span>
+<span class="hljs-section">[n-large-hammer]</span>
+<span class="hljs-attr">name</span> = <span class="hljs-string">"Large Hammer"</span>
+<span class="hljs-attr">instance-of</span> = <span class="hljs-string">"hammer"</span>
+<span class="hljs-attr">condition</span> = <span class="hljs-string">"Still quite sturdy. Should be usable for a long time."</span>
+<span class="hljs-comment"># If you give an array of values, this will create one fact per value.</span>
+<span class="hljs-attr">previous-borrowers</span> = [<span class="hljs-string">"henry"</span>, <span class="hljs-string">"rebecca"</span>]
+<span class="hljs-section">
+[n-toolkit]</span>
+<span class="hljs-attr">name</span> = <span class="hljs-string">"Red Toolkit"</span>
+<span class="hljs-attr">instance-of</span> = <span class="hljs-string">"toolkit"</span>
+<span class="hljs-attr">condition</span> = <span class="hljs-string">"Old but mostly useful. It would be good to replace at some point."</span>
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/ken-js/docs/terms/fact"><span class="arrow-prev">← </span><span>Facts</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#ids">Ids</a></li><li><a href="#facts">Facts</a></li><li><a href="#an-extended-toml-example">An Extended TOML Example</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/ken-js/" class="nav-home"><img src="/ken-js/img/ken-logo-small.png" alt="Ken" height="58"/></a><div><h5>Docs</h5><a href="/ken-js/docs/en/doc1.html">Getting Started (or other categories)</a><a href="/ken-js/docs/en/doc2.html">Guides (or other categories)</a><a href="/ken-js/docs/en/doc3.html">API Reference (or other categories)</a></div><div></div><div><h5>More</h5><a href="https://github.com/kenstandard/kenjs">GitHub</a><a class="github-button" data-icon="octicon-star" data-count-href="/kenstandard/kenjs/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright"></section></footer></div></body></html>

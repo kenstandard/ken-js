@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Facts · Ken</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;p&gt;A fact is a combination of a fact ID, subject ID, property ID, and value. The Ken fact format is heavily inspired by &lt;a href=&quot;https://en.wikipedia.org/wiki/RDF_Schema&quot;&gt;RDF Schema&lt;/a&gt;.&lt;/p&gt;
+"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Facts · Ken"/><meta property="og:type" content="website"/><meta property="og:url" content="https://kenstandard.github.io/ken-js/index.html"/><meta property="og:description" content="&lt;p&gt;A fact is a combination of a fact ID, subject ID, property ID, and value. The Ken fact format is heavily inspired by &lt;a href=&quot;https://en.wikipedia.org/wiki/RDF_Schema&quot;&gt;RDF Schema&lt;/a&gt;.&lt;/p&gt;
+"/><meta property="og:image" content="https://kenstandard.github.io/ken-js/img/ken-logo-small.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://kenstandard.github.io/ken-js/img/ken-logo-small.png"/><link rel="shortcut icon" href="/ken-js/img/favicon/favicon2.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Serif:400,700"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/ken-js/css/prism.css"/><link rel="stylesheet" href="/ken-js/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/ken-js/"><img class="logo" src="/ken-js/img/ken-logo-small.png" alt="Ken"/><h2 class="headerTitleWithLogo">Ken</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/ken-js/docs/kenml" target="_self">KenML</a></li><li class=""><a href="https://github.com/kenstandard/ken-js" target="_self">Github</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Data Model</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Intro</h3><ul><li class="navListItem"><a class="navItem" href="/ken-js/docs/introduction">What &amp; Why</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Data Model</h3><ul><li class="navListItem"><a class="navItem" href="/ken-js/docs/terms/base">Bases</a></li><li class="navListItem"><a class="navItem" href="/ken-js/docs/terms/kenID">kenID</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/ken-js/docs/terms/fact">Facts</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Formats</h3><ul><li class="navListItem"><a class="navItem" href="/ken-js/docs/kenml">KenML</a></li></ul></div></div></section></div><script>
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              const headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">Facts</h1></header><article><div><span><p>A fact is a combination of a fact ID, subject ID, property ID, and value. The Ken fact format is heavily inspired by <a href="https://en.wikipedia.org/wiki/RDF_Schema">RDF Schema</a>.</p>
+<p><strong>Simplified Json Example</strong></p>
+<pre><code class="hljs css language-json">{
+  <span class="hljs-attr">"subjectId"</span>: <span class="hljs-string">"examplebase/tools/hammer"</span>,
+  <span class="hljs-attr">"propertyId"</span>: <span class="hljs-string">"stdlib/properties/is-instance-of"</span>,
+  <span class="hljs-attr">"value"</span>: <span class="hljs-string">"tool-definitions/properties/hammer"</span>,
+  <span class="hljs-attr">"factId"</span>: <span class="hljs-string">"examplebase/tools/hammer/_f/MK5yxYv4"</span>
+}
+</code></pre>
+<table>
+<thead>
+<tr><th>Key</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>subjectId</strong></td><td><code>KenID</code> of the subject the fact is describing.</td></tr>
+<tr><td><strong>propertyId</strong></td><td>The <code>KenID</code> of the property. Some common properties are things like <code>name</code>, <code>description</code>, and <code>is-instance-of</code>. Properties are things that are labeled as <code>instances-of</code> <code>property</code>.</td></tr>
+<tr><td><strong>value</strong></td><td>The value for the given fact. Values could represent any data type. Currently KenJs only supports strings and KenIds as values.</td></tr>
+<tr><td><strong>factId</strong></td><td>The fact itself has a <code>KenID</code>. This allows one to give the fact properties, for instance, to describe its source or truth rating.</td></tr>
+</tbody>
+</table>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/ken-js/docs/terms/kenID"><span class="arrow-prev">← </span><span class="function-name-prevnext">kenID</span></a><a class="docs-next button" href="/ken-js/docs/kenml"><span class="function-name-prevnext">KenML</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/ken-js/" class="nav-home"><img src="/ken-js/img/ken-logo-small.png" alt="Ken" height="58"/></a><div><h5>Docs</h5><a href="/ken-js/docs/en/doc1.html">Getting Started (or other categories)</a><a href="/ken-js/docs/en/doc2.html">Guides (or other categories)</a><a href="/ken-js/docs/en/doc3.html">API Reference (or other categories)</a></div><div></div><div><h5>More</h5><a href="https://github.com/kenstandard/kenjs">GitHub</a><a class="github-button" data-icon="octicon-star" data-count-href="/kenstandard/kenjs/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright"></section></footer></div></body></html>

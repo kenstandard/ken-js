@@ -8,9 +8,14 @@
 <url> <loc>https://kenstandard.github.io/ken-js/blog/2017/09/25/testing-rss</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
 <url> <loc>https://kenstandard.github.io/ken-js/blog/2017/04/10/blog-post-two</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
 <url> <loc>https://kenstandard.github.io/ken-js/blog/2016/03/11/blog-post</loc> <changefreq>weekly</changefreq> <priority>0.3</priority> </url>
-<url> <loc>https://kenstandard.github.io/ken-js/docs/doc1</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://kenstandard.github.io/ken-js/docs/doc1" /> </url>
-<url> <loc>https://kenstandard.github.io/ken-js/docs/doc2</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://kenstandard.github.io/ken-js/docs/doc2" /> </url>
 <url> <loc>https://kenstandard.github.io/ken-js/docs/doc3</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://kenstandard.github.io/ken-js/docs/doc3" /> </url>
+<url> <loc>https://kenstandard.github.io/ken-js/docs/doc2</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://kenstandard.github.io/ken-js/docs/doc2" /> </url>
 <url> <loc>https://kenstandard.github.io/ken-js/docs/doc4</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://kenstandard.github.io/ken-js/docs/doc4" /> </url>
 <url> <loc>https://kenstandard.github.io/ken-js/docs/doc5</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://kenstandard.github.io/ken-js/docs/doc5" /> </url>
+<url> <loc>https://kenstandard.github.io/ken-js/docs/introduction</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://kenstandard.github.io/ken-js/docs/introduction" /> </url>
+<url> <loc>https://kenstandard.github.io/ken-js/docs/kenml</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://kenstandard.github.io/ken-js/docs/kenml" /> </url>
+<url> <loc>https://kenstandard.github.io/ken-js/docs/terminology</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://kenstandard.github.io/ken-js/docs/terminology" /> </url>
+<url> <loc>https://kenstandard.github.io/ken-js/docs/terms/base</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://kenstandard.github.io/ken-js/docs/terms/base" /> </url>
+<url> <loc>https://kenstandard.github.io/ken-js/docs/terms/fact</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://kenstandard.github.io/ken-js/docs/terms/fact" /> </url>
+<url> <loc>https://kenstandard.github.io/ken-js/docs/terms/kenID</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://kenstandard.github.io/ken-js/docs/terms/kenID" /> </url>
 </urlset>
