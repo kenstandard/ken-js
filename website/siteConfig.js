@@ -16,7 +16,7 @@ const siteConfig = {
   title: 'Ken', // Title for your website.
   tagline: 'Static & Modular Linked Data',
   url: 'https://kenstandard.github.io', // Your website URL
-  baseUrl: '', // Base URL for your project */
+  baseUrl: '/', // Base URL for your project */
   projectName: 'ken-js',
   organizationName: 'kenstandard',
   // For github.io type URLs, you would set the url and baseUrl like:
