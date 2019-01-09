@@ -1,0 +1,12 @@
+{
+  "Primary": {
+    "Introduction": ["introduction", "ecosystem"],
+    "Ken Standard": ["kenStandard/base", "kenStandard/kenID", "kenStandard/fact"],
+    "KenML": ["kenml/kenml"],
+    "KenJs": ["kenjs"],
+    "Ken Explorer": ["kenExplorer"]
+  },
+  "docs-other": {
+    "First Category": ["doc4", "doc5"]
+  }
+}

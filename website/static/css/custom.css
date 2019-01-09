@@ -1,0 +1,141 @@
+/* your custom css */
+
+@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {}
+
+@media only screen and (min-width: 1024px) {}
+
+@media only screen and (max-width: 1023px) {}
+
+@media only screen and (min-width: 1400px) {}
+
+@media only screen and (min-width: 1500px) {}
+
+.projectTitle {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 1em;
+}
+
+.projectTitle .logoSection {
+    flex: 1 0 20%;
+}
+
+.projectTitle .logoSection img {
+    max-height: 5em;
+    float: right;
+    padding-right: 1.5em;
+    padding-top: 0.7em;
+}
+
+.projectTitle .titleSection {
+    flex: 1 0 20%;
+}
+
+.projectTitle p {
+    color: #666;
+    text-align: left;
+    float: left;
+    font-size: 18px;
+    line-height: 31px;
+    max-width: 580px;
+}
+
+h1 {
+    font-family: 'Noto Serif', serif;
+    font-weight: 700;
+}
+
+h2 {
+    font-family: 'Noto Serif', serif;
+}
+
+h3 {
+    font-family: 'Noto Serif', serif;
+    font-weight: 400;
+}
+
+.projectTitle h1 {
+    font-family: 'Noto Serif', serif;
+    margin-top: .2em;
+    font-weight: 700;
+    text-align: left;
+    font-size: 1.6em;
+    margin-bottom: .1em;
+    color: #333;
+}
+
+.projectTitle small {
+    font-family: 'Noto Serif', serif;
+    font-weight: 400;
+    text-align: left;
+    font-size: .6em;
+    margin-bottom: .5em;
+    color: #666;
+    float: left;
+}
+
+.fixedHeaderContainer header .headerTitleWithLogo {
+    font-size: 1.8em;
+    font-family: 'Noto Serif', serif;
+}
+
+.hljs-title,
+.hljs-section {
+    color: #3bb01e;
+}
+
+.hljs-type,
+.hljs-string,
+.hljs-number,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-quote,
+.hljs-template-tag,
+.hljs-deletion {
+    /* color: #00851d; */
+    color: #45958a
+}
+
+.hljs {
+    border: 1px solid #eee;
+    background: #fafafa;
+    border-radius: 6px;
+    padding: 15px;
+}
+
+
+#not-done-yet-flag {
+    background: #ffe5d5;
+    padding: .5em 0 2em;
+    margin-bottom: 1em;
+}
+
+#home-primary-banner {
+    background: #d7f2e8;
+    padding: 1em 24em 0em;
+    color: #415c50;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+#home-primary-banner.wrapper {
+    max-width: 800px;
+}
+
+.ken-parts {
+    background: #d7f2e8;
+    border-top: 1px solid #b2e2b2;
+    border-bottom: 1px solid #b2e2b2;
+}
+
+.ken-parts h1 {
+    text-align: center;
+    color: #415c50;
+    font-size: 2.4em;
+}
+
+.ken-parts h2 {
+    font-size: 1.7em;
+    color: #415c50;
+}

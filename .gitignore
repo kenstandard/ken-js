@@ -4,3 +4,9 @@
 node_modules/
 packages/*/dist/
 packages/*/node_modules/
+website/src/docs
+website/translated_docs
+website/build/
+website/yarn.lock
+website/node_modules
+website/i18n/*
