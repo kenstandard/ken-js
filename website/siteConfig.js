@@ -14,7 +14,7 @@ const users = [
 
 const siteConfig = {
   title: 'Ken', // Title for your website.
-  tagline: 'Static & Modular Linked Data',
+  tagline: 'Static & Composable Knowledge Graphs',
   url: 'https://kenstandard.github.io', // Your website URL
   baseUrl: '/', // Base URL for your project */
   projectName: 'ken-js',

@@ -47,7 +47,7 @@ class HomeSplash extends React.Component {
         {siteConfig.title}
       </h1>
       <small>{siteConfig.tagline}</small>
-      <p>Ken is a collection of minimalist standards and tools that use linked data. It's optimized for human readability, static content, and interoperability. All public Ken projects are free & open source.</p>
+      <p>Ken is a collection of minimalist standards and tools for building small knowledge graphs. It's optimized for human readability, static content, and interoperability. All public Ken projects are free & open source.</p>
       </div>
       </div>
       </div>
@@ -158,12 +158,12 @@ class Index extends React.Component {
           {
             title: 'Human Readable',
             imageAlign: 'top',
-            content: 'The Ken Standard and KenML are optimized for human readability. This helps for using git and similar to manage knowledge bases.',
+            content: 'The Ken Standard and KenML are optimized for human readability. This helps for using git and similar to manage knowledge graphs.',
           },
           {
-            title: 'Modular',
+            title: 'Composable',
             imageAlign: 'top',
-            content: 'A unique ID system helps make sure that separate knowledge bases can be combined.',
+            content: 'A unique ID system helps make sure that different knowledge graphs can be combined.',
           },
         ]}
         </Block>
@@ -182,7 +182,7 @@ class Index extends React.Component {
           {
             title: 'Optional Decentralization',
             imageAlign: 'top',
-            content: 'There are no necessary trusted parties or organizations. All of the relevant information can optionally be shared using decentralized tooling.',
+            content: 'There are no necessary trusted parties or organizations. All of the relevant information can optionally be shared using decentralized tooling. IDs are not URLs, so are not coupled to specific websites.',
           },
         ]}
         </Block>
@@ -197,7 +197,7 @@ class Index extends React.Component {
           {
             title: 'Ken Standard',
             imageAlign: 'top',
-            content: `A simple standard for knowledge bases with linked data.  
+            content: `A simple standard for knowledge graphs.  
             [See Docs](/docs)`,
           },
           {

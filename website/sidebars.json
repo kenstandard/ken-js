@@ -3,8 +3,8 @@
     "Introduction": ["introduction"],
     "Ken Standard": ["terms/base", "terms/kenID", "terms/fact"],
     "KenML": ["kenml/kenml"],
-    "KenJs": ["kenml"],
-    "Ken Explorer": ["kenml"]
+    "KenJs": ["kenjs"],
+    "Ken Explorer": ["kenExplorer"]
   },
   "docs-other": {
     "First Category": ["doc4", "doc5"]
