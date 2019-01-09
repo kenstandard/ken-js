@@ -3,7 +3,7 @@ id: fact
 title: Facts
 ---
 
-A fact is a combination of a fact ID, subject ID, property ID, and value. The Ken fact format is heavily inspired by [RDF Schema](https://en.wikipedia.org/wiki/RDF_Schema).
+A fact is a combination of a fact ID, subject ID, property ID, and value. The Ken fact format is heavily inspired by [RDF](https://en.wikipedia.org/wiki/Resource_Description_Framework).
 
 **Simplified Json Example**
 

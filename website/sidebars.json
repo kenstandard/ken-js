@@ -1,7 +1,7 @@
 {
   "Primary": {
     "Introduction": ["introduction"],
-    "Ken Standard": ["terms/base", "terms/kenID", "terms/fact"],
+    "Ken Standard": ["kenStandard/base", "kenStandard/kenID", "kenStandard/fact"],
     "KenML": ["kenml/kenml"],
     "KenJs": ["kenjs"],
     "Ken Explorer": ["kenExplorer"]

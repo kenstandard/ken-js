@@ -198,13 +198,13 @@ class Index extends React.Component {
             title: 'Ken Standard',
             imageAlign: 'top',
             content: `A simple standard for knowledge graphs.  
-            [See Docs](/docs)`,
+            [See Docs](/docs/kenStandard/base)`,
           },
           {
             title: 'KenML',
             imageAlign: 'top',
             content: `A markup language for the Ken Standard, aimed at convenient writing & editing.  
-            [See Docs](/docs)`,
+            [See Docs](/docs/kenml/kenml)`,
           },
         ]}
         </Block>
@@ -214,13 +214,13 @@ class Index extends React.Component {
             title: 'KenJs',
             imageAlign: 'top',
             content: `A Javascript library for importing KenML and using Ken compatible data in Javascript applications.   
-            [See Docs](/docs)`,
+            [See Docs](/docs/kenjs)`,
           },
           {
             title: 'Ken Explorer',
             imageAlign: 'top',
             content: `An interface for browsing Ken compatible data.  
-            [See Docs](/docs)`,
+            [See Docs](/docs/kenExplorer)`,
           },
         ]}
         </Block>
