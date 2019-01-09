@@ -3,5 +3,4 @@ id: kenExplorer
 title: Ken Explorer
 ---
 
-This is a link to [another document.](doc3.md)  
-This is a link to an [external page.](http://www.example.com)
+Ken Explorer is an application to explore Ken information. The code is [here](https://github.com/kenstandard/ken-js/tree/master/packages/ken-explorer).
