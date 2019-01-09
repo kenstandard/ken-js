@@ -1,6 +1,6 @@
 {
   "Primary": {
-    "Introduction": ["introduction"],
+    "Introduction": ["introduction", "ecosystem"],
     "Ken Standard": ["kenStandard/base", "kenStandard/kenID", "kenStandard/fact"],
     "KenML": ["kenml/kenml"],
     "KenJs": ["kenjs"],

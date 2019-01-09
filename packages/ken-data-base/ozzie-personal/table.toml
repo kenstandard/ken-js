@@ -77,3 +77,12 @@ p-instance-of = "n-column"
 p-name = "R3"
 p-description = "sdfsdf"
 p-instance-of = "n-column"
+
+# This could use a rule to automatically add the p-instance-of
+[foo-table]
+instance-of = "n-table"
+p-column = [
+    {subjectId = "sdfsdf", p-property = "property"}
+]
+
+[[foo-table.row]]
