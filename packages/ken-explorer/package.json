@@ -16,7 +16,7 @@
     "react-scripts": "2.1.1"
   },
   "scripts": {
-    "start": "echo 'Explorer-build!' && react-scripts start &&  echo 'Explorer-done!'",
+    "start": "echo 'Explorer-build!' && react-scripts start &&  echo 'Explorer-done!!'",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
