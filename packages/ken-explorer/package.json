@@ -16,8 +16,8 @@
     "react-scripts": "2.1.1"
   },
   "scripts": {
-    "start": "echo 'Explorer-build!' && react-scripts start &&  echo 'Explorer-done!!'",
-    "build": "react-scripts build",
+    "start": "react-scripts start",
+    "netlify-build": "echo 'Explorer-build!' && react-scripts build &&  echo 'Explorer-done!!'",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
