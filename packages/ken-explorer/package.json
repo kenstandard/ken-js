@@ -18,6 +18,7 @@
   "scripts": {
     "start": "react-scripts start",
     "netlify-build": "echo 'Explorer-build!' && react-scripts build &&  echo 'Explorer-done!!'",
+    "prebuild": "lerna bootstrap",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
