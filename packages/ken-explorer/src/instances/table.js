@@ -7,7 +7,6 @@ import { Table, Divider, Tag } from 'antd';
 export class TableShow extends Component {
   render() {
     let {thingId} = this.props;
-    let thing = {}//gitnet(jsonData).findThing(thingId);
     let columns = thing.inverseStatements().filter(s => s.propertyId === "p-column-of").map(r => r.thing())
     let rows = thing.inverseStatements().filter(s => s.propertyId === "p-is-row-of").map(r => r.thing())
     const _columns = columns.map(c => {
