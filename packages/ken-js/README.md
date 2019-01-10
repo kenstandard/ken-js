@@ -1,23 +1,3 @@
-# Basic Reason Template
+# KenJs
 
-## Future Links to consider:
-
-https://github.com/cristianoc/genType
-https://khoanguyen.me/integrating-reason-react-into-your-react-app/
-
-###kenML
-
-###UnlinkedFactList
-
-- Includes Imports
-- Includes templates
-- Includes lists
-- Includes Inverse Properties
-
-### SimpleFactList
-
-- valueType states Thing has ThingId
-
-### PrimaryGraph
-
-- Structured well.
+KenJs is mostly written in ReasonML with a small javascript interfact at `src/Js/index.js`. Currently this is only used in the Ken Explorer. See that application to understand its use.

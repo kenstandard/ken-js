@@ -263,7 +263,7 @@ class Index extends React.Component {
       <Block id="not-done-yet-flag">
         {[
           {
-            content: 'Feedback is highly appreciated. Please leave feedback in issues on the [Github page](https://github.com/kenstandard/ken-js). Please do not share Ken publicly.',
+            content: 'Feedback is highly appreciated. Please leave feedback in issues on the [Github page](https://github.com/kenstandard/ken-js). Please do not share Ken publicly until it is made public.',
             image: ``,
             imageAlign: 'left',
             title: 'This project is in-progress'
