@@ -3,7 +3,6 @@
   "version": "0.0.2",
   "scripts": {
     "build": "echo 'Ken-JS-build!' && bsb -make-world && echo 'Ken-Js-done!'",
-    "netifly-build": "echo 'Ken-JS-build!' && bsb -make-world && echo 'Ken-Js-done!'",
     "nbuild": "export BS_CMT_POST_PROCESS_CMD=\"gentype\" && bsb -make-world -w",
     "start": "bsb -make-world -w",
     "clean": "bsb -clean-world",
