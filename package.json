@@ -7,6 +7,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "ken-js/build": "cd packages/ken-js && npm install && npm run build && cd ../..",
-    "ken-explorer/build": "echo [Begin Build] && npm run bootstrap && echo [Bootstrap Complete] && npm run ken-js/build && echo [ken-js-build complete] && lerna run netlify-build"
+    "ken-explorer/buildn": "cd packages/ken-explorer && npm run build && cd ../..",
+    "ken-explorer/build": "echo [Begin Build] && npm run bootstrap && echo [Bootstrap Complete] && npm run ken-js/build && echo [ken-js-build complete] && npm run ken-explorer/buildn"
   }
 }

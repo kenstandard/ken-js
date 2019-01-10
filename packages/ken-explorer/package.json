@@ -17,9 +17,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "netlify-build": "echo 'Explorer-build!' && react-scripts build &&  echo 'Explorer-done!!'",
-    "prebuild": "echo PREBUILD && lerna run --stream netlify-build",
-    "preinstall": "echo preinstall",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
