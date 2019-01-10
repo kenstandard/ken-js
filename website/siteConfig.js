@@ -31,6 +31,7 @@ const siteConfig = {
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
     {doc: 'introduction', label: 'Docs'},
+    { href: "https://explorer.kenstandard.com", label: "Explorer"},
     { href: "https://github.com/kenstandard/ken-js", label: "Github"}
   ],
 
