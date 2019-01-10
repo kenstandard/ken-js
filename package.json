@@ -5,6 +5,6 @@
     "lerna": "^3.6.0"
   },
   "scripts": {
-    "ken-explorer/build": "lerna bootstrap"
+    "ken-explorer/build": "echo START && lerna bootstrap && echo BOOTSTRAPPED && lerna run netlify-build"
   }
 }
