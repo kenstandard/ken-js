@@ -10,7 +10,7 @@ Ken was created out of a frustration of not having a simple way to organize pers
 
 ## Knowledge Graphs
 
-Knowledge graphs are typically databases of "facts", where facts can be used to declare values for a wide variety of properties and subjects. The most famous knowledge graph is [that from Google](https://en.wikipedia.org/wiki/Knowledge_Graph), which contains billions of facts and is used heavily for search results. [This article](https://hackernoon.com/wtf-is-a-knowledge-graph-a16603a1a25f) on hackernoon does a good job explaining the basics.
+Knowledge graphs are typically databases of "facts", where facts can be used to declare values for a wide variety of properties and subjects. The most famous knowledge graph is [that from Google](https://en.wikipedia.org/wiki/Knowledge_Graph), which contains billions of facts and is used heavily for search results. [This article](https://hackernoon.com/wtf-is-a-knowledge-graph-a16603a1a25f) on Hackernoon does a good job explaining the basics.
 
 Knowledge graphs are very flexible. Unlike conventional spreadsheets and databases setups, they can be used to declare any arbitrary number of properties. This is great for situations where the data has a lot of variety.
 
@@ -26,7 +26,7 @@ Wikidata may currently be the largest and most accessible public knowledge base.
 
 Wikibase is the software platform that Wikidata runs on. It's primarily made to support Wikidata, but could be used to set up private knowledge bases. It may be possible to eventually use Wikibase to store information originally in the Ken Standard format. However, it has a few differences from the Ken approach. Wikibase uses a database instead of static storage, and has a built-in moderation system. With Ken the primary storage is static, and moderation is handled with tools like Github pull requests.
 
-### [Google Knowlege Graph](https://en.wikipedia.org/wiki/Knowledge_Graph)
+### [Google Knowledge Graph](https://en.wikipedia.org/wiki/Knowledge_Graph)
 
 The Google Knowledge Graph may be the largest knowledge graph to date. It's mostly all private, including most implementation details.
 
