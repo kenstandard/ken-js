@@ -5,7 +5,7 @@
     "antd": "3.11.2",
     "install": "^0.12.2",
     "ken-js": "^0.0.2",
-    "ken-stdlib": "git@github.com:kenstandard/ken-stdlib.git",
+    "ken-stdlib": "0.1.0",
     "lodash": "^4.17.11",
     "markdown-to-jsx": "^6.9.0",
     "npm": "^6.5.0",
