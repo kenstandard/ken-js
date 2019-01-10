@@ -8,6 +8,6 @@
     "bootstrap": "lerna bootstrap",
     "ken-js/_build": "cd packages/ken-js && npm install && npm run build && cd ../..",
     "ken-explorer/_build": "cd packages/ken-explorer && npm run build && cd ../..",
-    "ken-explorer/build": "echo [Begin Build] && npm run bootstrap && echo [Bootstrap Complete] && npm run ken-js/build && echo [ken-js-build complete] && npm run ken-explorer/_build"
+    "ken-explorer/build": "echo [Begin Build] && npm run bootstrap && echo [Bootstrap Complete] && npm run ken-js/_build && echo [ken-js-build complete] && npm run ken-explorer/_build"
   }
 }
