@@ -3,15 +3,15 @@
 
 var $$Array = require("bs-platform/lib/js/array.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
+var Config$Ken = require("../Config.bs.js");
+var Graph_T$Ken = require("./Graph_T.bs.js");
 var Json_decode = require("@glennsl/bs-json/src/Json_decode.bs.js");
 var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
-var Config$Reason = require("../Config.bs.js");
-var Graph_T$Reason = require("./Graph_T.bs.js");
-var Graph_Fact$Reason = require("./Graph_Fact.bs.js");
+var Graph_Fact$Ken = require("./Graph_Fact.bs.js");
 var Function$Rationale = require("rationale/src/Function.js");
 
 function findFact(id) {
-  var partial_arg = Graph_T$Reason.F[/* facts */3];
+  var partial_arg = Graph_T$Ken.F[/* facts */3];
   var partial_arg$1 = Function$Rationale.Infix[/* ||> */1];
   return (function (param) {
       return partial_arg$1(partial_arg, (function (e) {
@@ -21,29 +21,29 @@ function findFact(id) {
 }
 
 function findThing(id, g) {
-  return Graph_T$Reason.F[/* findThing */2](id, g);
+  return Graph_T$Ken.F[/* findThing */2](id, g);
 }
 
 function findThingFromFact(g, edge, f) {
-  var id = Graph_Fact$Reason.edgeId(edge)(f);
-  return Graph_T$Reason.F[/* findThing */2](id, g);
+  var id = Graph_Fact$Ken.edgeId(edge)(f);
+  return Graph_T$Ken.F[/* findThing */2](id, g);
 }
 
 function from_json(param) {
-  return Json_decode.list(Graph_Fact$Reason.from_json, param);
+  return Json_decode.list(Graph_Fact$Ken.from_json, param);
 }
 
 function to_json(t) {
-  var facts = $$Array.map(Graph_Fact$Reason.to_json, Js_dict.values(t[/* facts */1]));
-  var things = $$Array.map(Graph_T$Reason.Thing[/* to_json */2], Js_dict.values(t[/* things */0]));
+  var facts = $$Array.map(Graph_Fact$Ken.to_json, Js_dict.values(t[/* facts */1]));
+  var things = $$Array.map(Graph_T$Ken.Thing[/* to_json */2], Js_dict.values(t[/* things */0]));
   return Json_encode.object_(/* :: */[
               /* tuple */[
-                Config$Reason.JsonKeys[/* facts */0],
+                Config$Ken.JsonKeys[/* facts */0],
                 facts
               ],
               /* :: */[
                 /* tuple */[
-                  Config$Reason.JsonKeys[/* things */1],
+                  Config$Ken.JsonKeys[/* things */1],
                   things
                 ],
                 /* [] */0
@@ -56,4 +56,4 @@ exports.findThing = findThing;
 exports.findThingFromFact = findThingFromFact;
 exports.from_json = from_json;
 exports.to_json = to_json;
-/* Graph_T-Reason Not a pure module */
+/* Graph_T-Ken Not a pure module */

@@ -3,15 +3,15 @@
 
 var List = require("bs-platform/lib/js/list.js");
 var Curry = require("bs-platform/lib/js/curry.js");
-var Graph_T$Reason = require("./Graph_T.bs.js");
+var Graph_T$Ken = require("./Graph_T.bs.js");
+var Graph_Graph$Ken = require("./Graph_Graph.bs.js");
 var Option$Rationale = require("rationale/src/Option.js");
-var Graph_Graph$Reason = require("./Graph_Graph.bs.js");
-var Graph_Fact_Filters$Reason = require("./Graph_Fact_Filters.bs.js");
+var Graph_Fact_Filters$Ken = require("./Graph_Fact_Filters.bs.js");
 
 function init(g, t) {
   return /* record */[
           /* graph */g,
-          /* list */Curry._1(Graph_T$Reason.F[/* factList */5], g),
+          /* list */Curry._1(Graph_T$Ken.F[/* factList */5], g),
           /* thing */t
         ];
 }
@@ -31,19 +31,19 @@ function unpackOptionList(e) {
 function filterFacts(filter, t) {
   return /* record */[
           /* graph */t[/* graph */0],
-          /* list */Curry._2(filter, Graph_T$Reason.Thing[/* id */0](t[/* thing */2]), t[/* list */1]),
+          /* list */Curry._2(filter, Graph_T$Ken.Thing[/* id */0](t[/* thing */2]), t[/* list */1]),
           /* thing */t[/* thing */2]
         ];
 }
 
 function facts(param) {
-  return filterFacts(Graph_Fact_Filters$Reason.withIdAsAnyEdge, param);
+  return filterFacts(Graph_Fact_Filters$Ken.withIdAsAnyEdge, param);
 }
 
 function isEdgeForFacts(edge) {
   return (function (param) {
       return filterFacts((function (param) {
-                    return Graph_Fact_Filters$Reason.withEdge(edge, param);
+                    return Graph_Fact_Filters$Ken.withEdge(edge, param);
                   }), param);
     });
 }
@@ -51,9 +51,9 @@ function isEdgeForFacts(edge) {
 function filterFactsAndSelectThings(fromEdge, toEdge, t) {
   var partial_arg = t[/* graph */0];
   return unpackOptionList(List.map((function (param) {
-                    return Graph_Graph$Reason.findThingFromFact(partial_arg, toEdge, param);
+                    return Graph_Graph$Ken.findThingFromFact(partial_arg, toEdge, param);
                   }), filterFacts((function (param) {
-                          return Graph_Fact_Filters$Reason.withEdge(fromEdge, param);
+                          return Graph_Fact_Filters$Ken.withEdge(fromEdge, param);
                         }), t)[/* list */1]));
 }
 
@@ -88,4 +88,4 @@ var Internal = /* module */[
 
 exports.init = init;
 exports.Internal = Internal;
-/* Graph_T-Reason Not a pure module */
+/* Graph_T-Ken Not a pure module */

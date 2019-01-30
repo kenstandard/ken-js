@@ -1,4 +1,3 @@
-open Graph_T;
 open Graph_T.T;
 open Config;
 

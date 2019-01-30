@@ -2,7 +2,6 @@ open Rationale.Function.Infix;
 open Rationale;
 open Graph_T.T;
 open Graph_T;
-open Utility;
 
 type t = Graph_T.T.t;
 

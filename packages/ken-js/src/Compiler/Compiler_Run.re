@@ -111,7 +111,7 @@ let linkValues = p: package => {
   p;
 };
 
-let convertIdd = (package: Reason.Compiler_AST.package, thingId) => {
+let convertIdd = (package: Compiler_AST.package, thingId) => {
   open Rationale.Option;
   /* let rawId = thingId.rawId |> default("CHANGE_ME_SHOULD_BE_RANDOM"); */
   let alias =

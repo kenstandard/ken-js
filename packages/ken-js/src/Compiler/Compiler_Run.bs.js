@@ -7,13 +7,13 @@ var Block = require("bs-platform/lib/js/block.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
 var Belt_List = require("bs-platform/lib/js/belt_List.js");
-var Graph_T$Reason = require("../Graph/Graph_T.bs.js");
+var Graph_T$Ken = require("../Graph/Graph_T.bs.js");
+var IdConverter$Ken = require("./IdConverter.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
+var Compiler_AST$Ken = require("./Compiler_AST.bs.js");
 var Option$Rationale = require("rationale/src/Option.js");
 var Function$Rationale = require("rationale/src/Function.js");
-var IdConverter$Reason = require("./IdConverter.bs.js");
 var SecureRandomString = require("@ncthbrt/re-secure-random-string/src/SecureRandomString.bs.js");
-var Compiler_AST$Reason = require("./Compiler_AST.bs.js");
 
 function makeThingId(id) {
   return /* record */[
@@ -176,10 +176,10 @@ function convertIdd($$package, thingId) {
       exit = 1;
     }
     if (exit === 1) {
-      if (IdConverter$Reason.isFullId(r)) {
+      if (IdConverter$Ken.isFullId(r)) {
         return r;
       } else {
-        return IdConverter$Reason.toFullId($$package[/* baseId */1], $$package[/* resourceId */2], r);
+        return IdConverter$Ken.toFullId($$package[/* baseId */1], $$package[/* resourceId */2], r);
       }
     }
     
@@ -189,12 +189,12 @@ function convertIdd($$package, thingId) {
 
 function generateFactId(thingId, subjectId, $$package) {
   var subject = Option$Rationale.toExn("Subject ThingID expected to have updatedID by this point of pipeline", subjectId[/* updatedId */3]);
-  var isInSameBase = Graph_T$Reason.Directory[/* root */5](subject) === $$package[/* baseId */1];
+  var isInSameBase = Graph_T$Ken.Directory[/* root */5](subject) === $$package[/* baseId */1];
   var tagId = Option$Rationale.toExn("Expected fact to have fact ID at this point.", thingId[/* tag */1]);
   if (isInSameBase) {
     return subject + ("/_f/" + tagId);
   } else {
-    return Option$Rationale.toExn("Expect Full Base Id Id", IdConverter$Reason.toFullId($$package[/* baseId */1], $$package[/* resourceId */2], "_f/" + tagId));
+    return Option$Rationale.toExn("Expect Full Base Id Id", IdConverter$Ken.toFullId($$package[/* baseId */1], $$package[/* resourceId */2], "_f/" + tagId));
   }
 }
 
@@ -217,11 +217,11 @@ function handleUpdatedIds(p) {
 }
 
 function showFacts(g) {
-  return $$Array.map(Compiler_AST$Reason.factToJs, $$Array.of_list(g[/* facts */0]));
+  return $$Array.map(Compiler_AST$Ken.factToJs, $$Array.of_list(g[/* facts */0]));
 }
 
 function showIds(g) {
-  return $$Array.map(Compiler_AST$Reason.thingIdToJs, $$Array.of_list(RList$Rationale.uniqBy(thingIdKey, allPrimaryIds(g))));
+  return $$Array.map(Compiler_AST$Ken.thingIdToJs, $$Array.of_list(RList$Rationale.uniqBy(thingIdKey, allPrimaryIds(g))));
 }
 
 function inverseFact(fact) {
@@ -342,4 +342,4 @@ exports.handleInverseFacts = handleInverseFacts;
 exports.run = run;
 exports.convertId = convertId;
 exports.toSimple = toSimple;
-/* Graph_T-Reason Not a pure module */
+/* Graph_T-Ken Not a pure module */

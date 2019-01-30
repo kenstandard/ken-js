@@ -80,4 +80,4 @@ let decodeBase = json => {
   {things: things |> Array.of_list, baseId, resourceId, aliases};
 };
 
-let run = json: graph => Json.Decode.(json |> Json.Decode.array(decodeBase));
+let run = json: graph => json |> Json.Decode.array(decodeBase);

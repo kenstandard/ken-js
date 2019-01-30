@@ -1,9 +1,5 @@
-open Rationale.Function.Infix;
 open Rationale;
-open Utility;
-open Graph_T;
 open Graph_T.T;
-open Config;
 open Graph_Fact_Query;
 
 type t = list(fact);

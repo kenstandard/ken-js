@@ -1,5 +1,4 @@
 open Rationale.Function.Infix;
-open Rationale;
 open Graph_T.T;
 
 type t = Graph_T.T.t;

@@ -5,9 +5,9 @@ var List = require("bs-platform/lib/js/list.js");
 var $$Array = require("bs-platform/lib/js/array.js");
 var Block = require("bs-platform/lib/js/block.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
+var Graph_Dirs$Ken = require("../Graph/Graph_Dirs.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
 var Option$Rationale = require("rationale/src/Option.js");
-var Graph_Dirs$Reason = require("../Graph/Graph_Dirs.bs.js");
 
 function uniqueIds(facts) {
   return RList$Rationale.uniqBy((function (a) {
@@ -102,7 +102,7 @@ function listThings(facts) {
 }
 
 function run(facts) {
-  return Graph_Dirs$Reason.makeDirs(/* record */[
+  return Graph_Dirs$Ken.makeDirs(/* record */[
               /* things */Js_dict.fromList(List.map((function (r) {
                           return /* tuple */[
                                   r[/* thingId */0][/* thingIdString */0],
@@ -129,4 +129,4 @@ exports.possiblyConvertValueTypesToThing = possiblyConvertValueTypesToThing;
 exports.connectValuesToFacts = connectValuesToFacts;
 exports.listThings = listThings;
 exports.run = run;
-/* RList-Rationale Not a pure module */
+/* Graph_Dirs-Ken Not a pure module */
