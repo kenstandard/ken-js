@@ -1,5 +1,5 @@
 {
-  "name": "ken-js",
+  "name": "bs-ken",
   "version": "0.0.2",
   "scripts": {
     "build": "export BS_CMT_POST_PROCESS_CMD=\"gentype\" && bsb -make-world",
@@ -10,7 +10,7 @@
     "watch:s": "yarn run jest -- Converter_test --watch"
   },
   "keywords": [
-    "BuckleScript"
+    "BuckleScript", "Ken"
   ],
   "author": "",
   "license": "MIT",

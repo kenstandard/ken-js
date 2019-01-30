@@ -1,6 +1,6 @@
 {
-  "name": "reason",
-  "version": "0.1.0",
+  "name": "ken",
+  "version": "0.1.1",
   "sources": [{
       "dir": "src",
       "subdirs": true
