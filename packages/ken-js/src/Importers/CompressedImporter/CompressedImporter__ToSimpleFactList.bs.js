@@ -6,9 +6,9 @@ var $$Array = require("bs-platform/lib/js/array.js");
 var Block = require("bs-platform/lib/js/block.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var Belt_Array = require("bs-platform/lib/js/belt_Array.js");
-var Compiler_Run$Ken = require("../../Compiler/Compiler_Run.bs.js");
+var Compiler_Run$BsKen = require("../../Compiler/Compiler_Run.bs.js");
 var Function$Rationale = require("rationale/src/Function.js");
-var SimpleFactList_T$Ken = require("../../AlternativeGraphFormats/SimpleFactList_T.bs.js");
+var SimpleFactList_T$BsKen = require("../../AlternativeGraphFormats/SimpleFactList_T.bs.js");
 
 function valueToArray(value) {
   if (value.tag) {
@@ -50,9 +50,9 @@ function allPackageFacts(p) {
                                       var tmp;
                                       tmp = match.tag ? "ERROR" : match[0];
                                       return /* record */[
-                                              /* thingId */Compiler_Run$Ken.makeThingId(fact[/* id */0]),
-                                              /* subjectId */Compiler_Run$Ken.makeThingId(thing[/* id */0]),
-                                              /* propertyId */Compiler_Run$Ken.makeThingId(fact[/* property */1]),
+                                              /* thingId */Compiler_Run$BsKen.makeThingId(fact[/* id */0]),
+                                              /* subjectId */Compiler_Run$BsKen.makeThingId(thing[/* id */0]),
+                                              /* propertyId */Compiler_Run$BsKen.makeThingId(fact[/* property */1]),
                                               /* isInversed */fact[/* isInversed */2],
                                               /* value : String */Block.__(0, [tmp])
                                             ];
@@ -88,8 +88,8 @@ function shape(g) {
 
 function combinePackages(packages) {
   var partial_arg = Function$Rationale.Infix[/* ||> */1];
-  return SimpleFactList_T$Ken.combine(List.map((function (param) {
-                    return partial_arg(Compiler_Run$Ken.run, Compiler_Run$Ken.toSimple, param);
+  return SimpleFactList_T$BsKen.combine(List.map((function (param) {
+                    return partial_arg(Compiler_Run$BsKen.run, Compiler_Run$BsKen.toSimple, param);
                   }), packages));
 }
 
@@ -112,4 +112,4 @@ exports.formattedAliases = formattedAliases;
 exports.shape = shape;
 exports.combinePackages = combinePackages;
 exports.run = run;
-/* Compiler_Run-Ken Not a pure module */
+/* Compiler_Run-BsKen Not a pure module */

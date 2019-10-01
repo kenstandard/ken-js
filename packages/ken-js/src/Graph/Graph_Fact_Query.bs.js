@@ -4,7 +4,7 @@
 var List = require("bs-platform/lib/js/list.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Json_decode = require("@glennsl/bs-json/src/Json_decode.bs.js");
-var Utility$Ken = require("../Utility.bs.js");
+var Utility$BsKen = require("../Utility.bs.js");
 
 function run(q, f) {
   var match = q[/* q */2] === /* IS */0;
@@ -12,12 +12,12 @@ function run(q, f) {
   if (match) {
     var partial_arg = q[/* id */1];
     equality = (function (param) {
-        return Utility$Ken.isEqual(partial_arg, param);
+        return Utility$BsKen.isEqual(partial_arg, param);
       });
   } else {
     var partial_arg$1 = q[/* id */1];
     equality = (function (param) {
-        return Utility$Ken.isNotEqual(partial_arg$1, param);
+        return Utility$BsKen.isNotEqual(partial_arg$1, param);
       });
   }
   var match$1 = q[/* edge */0];

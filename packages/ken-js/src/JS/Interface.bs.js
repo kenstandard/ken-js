@@ -2,43 +2,43 @@
 'use strict';
 
 var $$Array = require("bs-platform/lib/js/array.js");
-var Graph_T$Ken = require("../Graph/Graph_T.bs.js");
-var Graph_Dirs$Ken = require("../Graph/Graph_Dirs.bs.js");
-var Graph_Fact$Ken = require("../Graph/Graph_Fact.bs.js");
-var Graph_Graph$Ken = require("../Graph/Graph_Graph.bs.js");
-var Graph_Value$Ken = require("../Graph/Graph_Value.bs.js");
+var Graph_T$BsKen = require("../Graph/Graph_T.bs.js");
+var Graph_Dirs$BsKen = require("../Graph/Graph_Dirs.bs.js");
+var Graph_Fact$BsKen = require("../Graph/Graph_Fact.bs.js");
+var Graph_Graph$BsKen = require("../Graph/Graph_Graph.bs.js");
+var Graph_Value$BsKen = require("../Graph/Graph_Value.bs.js");
 var Function$Rationale = require("rationale/src/Function.js");
-var Graph_Fact_Query$Ken = require("../Graph/Graph_Fact_Query.bs.js");
-var Graph_Fact_Filters$Ken = require("../Graph/Graph_Fact_Filters.bs.js");
-var SimpleFactList_ToGraph$Ken = require("../AlternativeGraphFormats/SimpleFactList_ToGraph.bs.js");
-var CompressedImporter__FromJson$Ken = require("../Importers/CompressedImporter/CompressedImporter__FromJson.bs.js");
-var CompressedImporter__ToSimpleFactList$Ken = require("../Importers/CompressedImporter/CompressedImporter__ToSimpleFactList.bs.js");
+var Graph_Fact_Query$BsKen = require("../Graph/Graph_Fact_Query.bs.js");
+var Graph_Fact_Filters$BsKen = require("../Graph/Graph_Fact_Filters.bs.js");
+var SimpleFactList_ToGraph$BsKen = require("../AlternativeGraphFormats/SimpleFactList_ToGraph.bs.js");
+var CompressedImporter__FromJson$BsKen = require("../Importers/CompressedImporter/CompressedImporter__FromJson.bs.js");
+var CompressedImporter__ToSimpleFactList$BsKen = require("../Importers/CompressedImporter/CompressedImporter__ToSimpleFactList.bs.js");
 
 var partial_arg = Function$Rationale.Infix[/* ||> */1];
 
 function partial_arg$1(param) {
-  return partial_arg(CompressedImporter__FromJson$Ken.run, CompressedImporter__ToSimpleFactList$Ken.run, param);
+  return partial_arg(CompressedImporter__FromJson$BsKen.run, CompressedImporter__ToSimpleFactList$BsKen.run, param);
 }
 
 var partial_arg$2 = Function$Rationale.Infix[/* ||> */1];
 
 function partial_arg$3(param) {
-  return partial_arg$2(partial_arg$1, SimpleFactList_ToGraph$Ken.run, param);
+  return partial_arg$2(partial_arg$1, SimpleFactList_ToGraph$BsKen.run, param);
 }
 
 var partial_arg$4 = Function$Rationale.Infix[/* ||> */1];
 
 function fromJson(param) {
-  return partial_arg$4(partial_arg$3, Graph_Dirs$Ken.makeDirs, param);
+  return partial_arg$4(partial_arg$3, Graph_Dirs$BsKen.makeDirs, param);
 }
 
-var things = Graph_T$Ken.F[/* thingArray */1];
+var things = Graph_T$BsKen.F[/* thingArray */1];
 
-var facts = Graph_T$Ken.F[/* factArray */4];
+var facts = Graph_T$BsKen.F[/* factArray */4];
 
-var factList = Graph_T$Ken.F[/* factList */5];
+var factList = Graph_T$BsKen.F[/* factList */5];
 
-var partial_arg$5 = Graph_T$Ken.F[/* directories */6];
+var partial_arg$5 = Graph_T$BsKen.F[/* directories */6];
 
 var partial_arg$6 = Function$Rationale.Infix[/* ||> */1];
 
@@ -47,10 +47,10 @@ function directoryArray(param) {
 }
 
 function childDirectories(g, s) {
-  return $$Array.of_list(Graph_T$Ken.F[/* childDirectories */8](g, s));
+  return $$Array.of_list(Graph_T$BsKen.F[/* childDirectories */8](g, s));
 }
 
-var partial_arg$7 = Graph_T$Ken.F[/* rootDirectories */7];
+var partial_arg$7 = Graph_T$BsKen.F[/* rootDirectories */7];
 
 var partial_arg$8 = Function$Rationale.Infix[/* ||> */1];
 
@@ -58,7 +58,7 @@ function rootDirectories(param) {
   return partial_arg$8(partial_arg$7, $$Array.of_list, param);
 }
 
-var findThing = Graph_T$Ken.F[/* findThing */2];
+var findThing = Graph_T$BsKen.F[/* findThing */2];
 
 var EdgeTypes = /* module */[
   /* property : PROPERTY */1,
@@ -74,31 +74,31 @@ var Graph = /* module */[
   /* childDirectories */childDirectories,
   /* rootDirectories */rootDirectories,
   /* findThing */findThing,
-  /* findThingFromFact */Graph_Graph$Ken.findThingFromFact,
-  /* to_json */Graph_Graph$Ken.to_json,
+  /* findThingFromFact */Graph_Graph$BsKen.findThingFromFact,
+  /* to_json */Graph_Graph$BsKen.to_json,
   /* EdgeTypes */EdgeTypes
 ];
 
-var to_json = Graph_T$Ken.Thing[/* to_json */2];
+var to_json = Graph_T$BsKen.Thing[/* to_json */2];
 
 var Thing = /* module */[/* to_json */to_json];
 
-var parent = Graph_T$Ken.Directory[/* parent */9];
+var parent = Graph_T$BsKen.Directory[/* parent */9];
 
 var Directory = /* module */[/* parent */parent];
 
 var Fact = /* module */[
-  /* to_json */Graph_Fact$Ken.to_json,
-  /* value */Graph_Fact$Ken.value
+  /* to_json */Graph_Fact$BsKen.to_json,
+  /* value */Graph_Fact$BsKen.value
 ];
 
-var Filter = /* module */[/* query */Graph_Fact_Filters$Ken.query];
+var Filter = /* module */[/* query */Graph_Fact_Filters$BsKen.query];
 
-var from_json = Graph_Fact_Query$Ken.Query[/* from_json */3];
+var from_json = Graph_Fact_Query$BsKen.Query[/* from_json */3];
 
 var Query = /* module */[/* from_json */from_json];
 
-var Value = /* module */[/* to_json */Graph_Value$Ken.to_json];
+var Value = /* module */[/* to_json */Graph_Value$BsKen.to_json];
 
 var list_to_array = $$Array.of_list;
 
@@ -110,4 +110,4 @@ exports.Filter = Filter;
 exports.Query = Query;
 exports.Value = Value;
 exports.list_to_array = list_to_array;
-/* Graph_T-Ken Not a pure module */
+/* Graph_T-BsKen Not a pure module */

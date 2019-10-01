@@ -3,10 +3,10 @@
 
 var List = require("bs-platform/lib/js/list.js");
 var RList$Rationale = require("rationale/src/RList.js");
-var Graph_Fact_Query$Ken = require("./Graph_Fact_Query.bs.js");
+var Graph_Fact_Query$BsKen = require("./Graph_Fact_Query.bs.js");
 
 function query(q, t) {
-  var partial_arg = Graph_Fact_Query$Ken.Query[/* run */0];
+  var partial_arg = Graph_Fact_Query$BsKen.Query[/* run */0];
   return List.filter((function (param) {
                   return partial_arg(q, param);
                 }))(t);
@@ -19,7 +19,7 @@ function find(id, t) {
 }
 
 function withQuery(query) {
-  var partial_arg = Graph_Fact_Query$Ken.Query[/* run */0];
+  var partial_arg = Graph_Fact_Query$BsKen.Query[/* run */0];
   return List.filter((function (param) {
                 return partial_arg(query, param);
               }));
@@ -31,7 +31,7 @@ function withEdge(edge, id) {
     /* id */id,
     /* q : IS */0
   ];
-  var partial_arg$1 = Graph_Fact_Query$Ken.Query[/* run */0];
+  var partial_arg$1 = Graph_Fact_Query$BsKen.Query[/* run */0];
   return List.filter((function (param) {
                 return partial_arg$1(partial_arg, param);
               }));
@@ -43,7 +43,7 @@ function withoutEdge(edge, id) {
     /* id */id,
     /* q : IS_NOT */1
   ];
-  var partial_arg$1 = Graph_Fact_Query$Ken.Query[/* run */0];
+  var partial_arg$1 = Graph_Fact_Query$BsKen.Query[/* run */0];
   return List.filter((function (param) {
                 return partial_arg$1(partial_arg, param);
               }));
@@ -55,7 +55,7 @@ function withSubject(id) {
     /* id */id,
     /* q : IS */0
   ];
-  var partial_arg$1 = Graph_Fact_Query$Ken.Query[/* run */0];
+  var partial_arg$1 = Graph_Fact_Query$BsKen.Query[/* run */0];
   return List.filter((function (param) {
                 return partial_arg$1(partial_arg, param);
               }));
@@ -67,7 +67,7 @@ function withoutSubject(id) {
     /* id */id,
     /* q : IS_NOT */1
   ];
-  var partial_arg$1 = Graph_Fact_Query$Ken.Query[/* run */0];
+  var partial_arg$1 = Graph_Fact_Query$BsKen.Query[/* run */0];
   return List.filter((function (param) {
                 return partial_arg$1(partial_arg, param);
               }));
@@ -79,7 +79,7 @@ function withProperty(id) {
     /* id */id,
     /* q : IS */0
   ];
-  var partial_arg$1 = Graph_Fact_Query$Ken.Query[/* run */0];
+  var partial_arg$1 = Graph_Fact_Query$BsKen.Query[/* run */0];
   return List.filter((function (param) {
                 return partial_arg$1(partial_arg, param);
               }));
@@ -91,7 +91,7 @@ function withoutProperty(id) {
     /* id */id,
     /* q : IS_NOT */1
   ];
-  var partial_arg$1 = Graph_Fact_Query$Ken.Query[/* run */0];
+  var partial_arg$1 = Graph_Fact_Query$BsKen.Query[/* run */0];
   return List.filter((function (param) {
                 return partial_arg$1(partial_arg, param);
               }));
@@ -103,7 +103,7 @@ function withValue(id) {
     /* id */id,
     /* q : IS */0
   ];
-  var partial_arg$1 = Graph_Fact_Query$Ken.Query[/* run */0];
+  var partial_arg$1 = Graph_Fact_Query$BsKen.Query[/* run */0];
   return List.filter((function (param) {
                 return partial_arg$1(partial_arg, param);
               }));
@@ -115,7 +115,7 @@ function withoutValue(id) {
     /* id */id,
     /* q : IS_NOT */1
   ];
-  var partial_arg$1 = Graph_Fact_Query$Ken.Query[/* run */0];
+  var partial_arg$1 = Graph_Fact_Query$BsKen.Query[/* run */0];
   return List.filter((function (param) {
                 return partial_arg$1(partial_arg, param);
               }));
@@ -146,7 +146,7 @@ function withIdAsAnyEdge(id) {
     partial_arg_000,
     partial_arg_001
   ];
-  var partial_arg$1 = Graph_Fact_Query$Ken.Query[/* qOr */1];
+  var partial_arg$1 = Graph_Fact_Query$BsKen.Query[/* qOr */1];
   return List.filter((function (param) {
                 return partial_arg$1(partial_arg, param);
               }));
@@ -177,7 +177,7 @@ function withIdAsNoEdge(id) {
     partial_arg_000,
     partial_arg_001
   ];
-  var partial_arg$1 = Graph_Fact_Query$Ken.Query[/* qAnd */2];
+  var partial_arg$1 = Graph_Fact_Query$BsKen.Query[/* qAnd */2];
   return List.filter((function (param) {
                 return partial_arg$1(partial_arg, param);
               }));

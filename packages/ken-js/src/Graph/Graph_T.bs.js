@@ -8,7 +8,7 @@ var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
 var Caml_array = require("bs-platform/lib/js/caml_array.js");
 var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
-var Utility$Ken = require("../Utility.bs.js");
+var Utility$BsKen = require("../Utility.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
 var Function$Rationale = require("rationale/src/Function.js");
 
@@ -64,7 +64,7 @@ var T = /* module */[
 ];
 
 function listCombinations(param) {
-  return Utility$Ken.accumulator(/* [] */0, /* [] */0, (function (accum, head) {
+  return Utility$BsKen.accumulator(/* [] */0, /* [] */0, (function (accum, head) {
                 return List.append(accum, /* :: */[
                             head,
                             /* [] */0
