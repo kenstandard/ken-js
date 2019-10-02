@@ -1,13 +1,3 @@
-const crypto = require('crypto');
-
-global.crypto = {
-  getRandomValues: function(buffer) {
-    crypto.randomFill(buffer, function(err, buf){
-      if (err) throw err;
-    });
-  }
-};
-
 setInterval(() => {
   const ken = require('./dist/index.js');
   const data = require('./data');

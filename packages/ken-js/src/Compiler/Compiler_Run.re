@@ -28,13 +28,8 @@ let tagFacts = (g): package => {
   g.facts
   |> List.iter(fact => {
        Random.self_init();
-       let nonce = Random.int(10000) |> string_of_int;
-
-       fact.thingId.tag =
-         Some(
-           SecureRandomString.genSync(~length=12, ~alphaNumeric=true, ())
-           ++ nonce,
-         );
+       let nonce = Random.int(1000000) |> string_of_int;
+       fact.thingId.tag = Some(nonce);
      });
   g;
 };

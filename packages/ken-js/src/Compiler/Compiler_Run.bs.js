@@ -14,7 +14,6 @@ var Option$Rationale = require("rationale/src/Option.js");
 var IdConverter$BsKen = require("./IdConverter.bs.js");
 var Compiler_AST$BsKen = require("./Compiler_AST.bs.js");
 var Function$Rationale = require("rationale/src/Function.js");
-var SecureRandomString = require("@ncthbrt/re-secure-random-string/src/SecureRandomString.bs.js");
 
 function makeThingId(id) {
   return /* record */[
@@ -56,8 +55,8 @@ function findUniqueIds(g) {
 function tagFacts(g) {
   List.iter((function (fact) {
           Random.self_init(/* () */0);
-          var nonce = String(Random.$$int(10000));
-          fact[/* thingId */0][/* tag */1] = SecureRandomString.genSync(12, true, /* () */0) + nonce;
+          var nonce = String(Random.$$int(1000000));
+          fact[/* thingId */0][/* tag */1] = nonce;
           return /* () */0;
         }), g[/* facts */0]);
   return g;
