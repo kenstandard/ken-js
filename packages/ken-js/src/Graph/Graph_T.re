@@ -77,7 +77,6 @@ module Directory = {
     |> to_list
     |> (
       e => {
-        Js.log(Rationale.RList.last(e));
         Rationale.RList.last(e) == Some("_f");
       }
     );

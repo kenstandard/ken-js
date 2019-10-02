@@ -80,8 +80,6 @@ let decodeBase = json => {
     |> removeIfInList(filteredFactKeys, ((k, _)) => k)
     |> List.map(((key, value)) => {id: key, facts: propertyDecoder(value)});
 
-  Js.log2("things", things);
-
   {things: things |> Array.of_list, baseId, resourceId, aliases};
 };
 
