@@ -1,0 +1,16 @@
+[
+  {
+    "config": {
+      "baseId": "base",
+      "resourceId": "properties",
+      "aliases": {}
+    },
+    "p-instance-of": {
+      "p-name": "Instance of"
+    },
+    "p-description": {
+      "p-name": "Description"
+    }
+  }
+]
+

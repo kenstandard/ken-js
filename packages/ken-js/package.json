@@ -2,6 +2,8 @@
   "name": "bs-ken",
   "version": "0.0.5",
   "scripts": {
+	"parcel": "parcel build ./src/JS/index.js --no-source-maps --no-autoinstall",
+	"watch": "parcel ./index.js --no-source-maps --no-autoinstall",
     "build": "export BS_CMT_POST_PROCESS_CMD=\"gentype\" && bsb -make-world",
     "start": "export BS_CMT_POST_PROCESS_CMD=\"gentype\" && bsb -make-world -w",
     "clean": "bsb -clean-world",
@@ -16,6 +18,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "parcel": "^1.12.3",
     "@glennsl/bs-jest": "^0.4.2",
     "gentype": "^1.6.1",
     "bs-platform": "^4.0.8",

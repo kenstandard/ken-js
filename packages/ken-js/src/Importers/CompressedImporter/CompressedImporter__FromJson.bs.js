@@ -96,8 +96,7 @@ function propertyDecoder(json) {
 
 function removeIfInList(list, fn) {
   return List.filter((function (e) {
-                var __x = Curry._1(fn, e);
-                return !RList$Rationale.contains(__x)(list);
+                return !RList$Rationale.contains(Curry._1(fn, e))(list);
               }));
 }
 
@@ -122,6 +121,7 @@ function decodeBase(json) {
         }), removeIfInList(filteredFactKeys, (function (param) {
                 return param[0];
               }))(entries));
+  console.log("things", things);
   return /* record */[
           /* things */$$Array.of_list(things),
           /* baseId */baseId,
