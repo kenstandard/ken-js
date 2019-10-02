@@ -39,6 +39,7 @@ let filterArray = (filter, ar) =>
   ar |> Array.to_list |> filter |> Array.of_list;
 
 let filteredFactKeys = ["config"];
+
 let propertyDecoder = json => {
   let thing0 =
     Js.Json.decodeObject(json) |> Rationale.Option.toExn("Parse Error");
@@ -59,7 +60,7 @@ let propertyDecoder = json => {
 };
 
 let removeIfInList = (list, fn) =>
-  List.filter(e => e |> fn |> Rationale.RList.contains(_, list) |> (e => !e));
+  List.filter(e => Rationale.RList.contains(fn(e), list) |> (e => !e));
 
 let decodeBase = json => {
   let entries =
@@ -69,6 +70,7 @@ let decodeBase = json => {
     |> Js.Dict.entries
     |> Array.to_list;
   open Json.Decode;
+
   let baseId = json |> field("config", field("baseId", string));
   let resourceId = json |> field("config", field("resourceId", string));
   let aliases =
@@ -77,7 +79,8 @@ let decodeBase = json => {
     entries
     |> removeIfInList(filteredFactKeys, ((k, _)) => k)
     |> List.map(((key, value)) => {id: key, facts: propertyDecoder(value)});
+
   {things: things |> Array.of_list, baseId, resourceId, aliases};
 };
 
-let run = json: graph => json |> Json.Decode.array(decodeBase);
+let run = (json): graph => json |> Json.Decode.array(decodeBase);

@@ -75,9 +75,9 @@ let textValue2 =
  ); */
 
 describe("#to_json", () =>
-  test("works", () => {
+  test("works", () =>
     /* Js.log(id |> to_json |> Js.Json.stringify); */
-    Js.log("HI");
-    expect(true) |> toEqual(true);
-  })
+    expect(true)
+    |> toEqual(true)
+  )
 );

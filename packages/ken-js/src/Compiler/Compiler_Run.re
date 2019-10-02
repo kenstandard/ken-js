@@ -24,16 +24,17 @@ let findUniqueIds = (g: package): list(thingId) =>
 
 /* Make sure that all thing Ids are only represented once. */
 /* Don't do this for facts! */
-let tagFacts = g: package => {
+let tagFacts = (g): package => {
   g.facts
-  |> List.iter(fact =>
-       fact.thingId.tag =
-         Some(SecureRandomString.genSync(~length=12, ~alphaNumeric=true, ()))
-     );
+  |> List.iter(fact => {
+       Random.self_init();
+       let nonce = Random.int(1000000) |> string_of_int;
+       fact.thingId.tag = Some(nonce);
+     });
   g;
 };
 
-let useUniqueThingIds = g: package => {
+let useUniqueThingIds = (g): package => {
   let uniqueIds = findUniqueIds(g);
   let findId = thingId =>
     uniqueIds |> List.find(e => thingIdKey(e) == thingIdKey(thingId));
@@ -105,7 +106,7 @@ let _convertValue = (package, uniqueIds, fact) =>
     };
   };
 
-let linkValues = p: package => {
+let linkValues = (p): package => {
   let uniqueIds = findUniqueIds(p);
   p.facts |> List.iter(fact => fact.value = _convertValue(p, uniqueIds, fact));
   p;
@@ -143,7 +144,7 @@ let generateFactId = (thingId, subjectId, package: package) => {
     |> toExn("Expect Full Base Id Id");
 };
 
-let handleUpdatedIds = p: package => {
+let handleUpdatedIds = (p): package => {
   let uniqueIds = findUniqueIds(p);
   uniqueIds
   |> List.iter(id =>
