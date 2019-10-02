@@ -4,6 +4,7 @@
 var List = require("bs-platform/lib/js/list.js");
 var $$Array = require("bs-platform/lib/js/array.js");
 var Block = require("bs-platform/lib/js/block.js");
+var Random = require("bs-platform/lib/js/random.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
 var Belt_List = require("bs-platform/lib/js/belt_List.js");
@@ -54,7 +55,9 @@ function findUniqueIds(g) {
 
 function tagFacts(g) {
   List.iter((function (fact) {
-          fact[/* thingId */0][/* tag */1] = SecureRandomString.genSync(12, true, /* () */0);
+          Random.self_init(/* () */0);
+          var nonce = String(Random.$$int(10000));
+          fact[/* thingId */0][/* tag */1] = SecureRandomString.genSync(12, true, /* () */0) + nonce;
           return /* () */0;
         }), g[/* facts */0]);
   return g;
