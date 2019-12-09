@@ -4,7 +4,7 @@
   "dependencies": {
     "antd": "3.11.2",
     "install": "^0.12.2",
-    "bs-ken": "^0.0.5",
+    "bs-ken": "^0.0.7",
     "ken-stdlib": "0.1.0",
     "lodash": "^4.17.11",
     "markdown-to-jsx": "^6.9.0",
@@ -14,7 +14,7 @@
     "react-dom": "^16.6.3",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
-    "rationale": "^0.1.10",
+    "rationale": "^0.2.0",
     "bs-platform": "^4.0.8"
   },
   "scripts": {
