@@ -23,7 +23,7 @@
     "bs-platform": "^4.0.8",
     "@glennsl/bs-json": "^3.0.0",
     "@ncthbrt/re-secure-random-string": "^2.0.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.13",
     "ramda": "^0.26.1",
     "rationale": "^0.2.0"
   },
