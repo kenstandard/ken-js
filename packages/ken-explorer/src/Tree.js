@@ -28,7 +28,7 @@ export class Treee extends Component {
   render() {
     let dirs = db.rootDirectories();
     let treeData = dirs.map(toThing);
-    console.log(treeData);
+
     return (
       <Tree
         showLine
