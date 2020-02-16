@@ -1,4 +1,3 @@
-open Rationale;
 open Graph_T.T;
 open Graph_Fact_Query;
 
@@ -6,7 +5,8 @@ type t = list(fact);
 
 let query = (q: Query.t, t) => t |> List.filter(Query.run(q));
 
-let find = (id, t) => t |> RList.find((e: fact) => e.thingIdString == id);
+let find = (id, t) =>
+  t |> Rationale.RList.find((e: fact) => e.thingIdString == id);
 let filter = List.filter;
 
 let withQuery = query => filter(Query.run(query));

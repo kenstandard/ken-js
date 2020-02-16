@@ -1,4 +1,3 @@
-open Rationale;
 open Graph_T.T;
 open Graph_T;
 
@@ -19,7 +18,7 @@ let makeDirs = (t: t): t => {
       ||> List.filter(e => !Directory.isFactDirectory(e))
       ||> List.map(Directory.allSubdirectories)
       ||> List.concat
-      ||> RList.uniq
+      ||> Rationale.RList.uniq
     );
 
   let directories = allThingIdStrings |> possibleUniqueIds;

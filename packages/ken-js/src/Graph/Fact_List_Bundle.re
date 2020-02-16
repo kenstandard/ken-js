@@ -1,4 +1,3 @@
-open Rationale;
 open Graph_T.T;
 open Graph_T;
 
@@ -21,7 +20,9 @@ module Internal = {
     t |> List.find(e => e.thingId.thingIdString == id);
 
   let unpackOptionList = (e: list(option('a))) =>
-    e |> List.filter(Option.isSome) |> List.map(Option.toExn("mistake"));
+    e
+    |> List.filter(Rationale.Option.isSome)
+    |> List.map(Rationale.Option.toExn("mistake"));
 
   let filterFacts = (filter: (string, factList) => factList, t: t) => {
     ...t,
