@@ -8,14 +8,10 @@ var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
 var Config$BsKen = require("../Config.bs.js");
 var Graph_T$BsKen = require("./Graph_T.bs.js");
 var Graph_Fact$BsKen = require("./Graph_Fact.bs.js");
-var Function$Rationale = require("rationale/src/Function.js");
 
-function findFact(id) {
-  return (function (param) {
-      return Function$Rationale.Infix.$pipe$pipe$great(Graph_T$BsKen.F.facts, (function (e) {
-                    return Js_dict.get(e, id);
-                  }), param);
-    });
+function findFact(id, f) {
+  var e = Graph_T$BsKen.F.facts(f);
+  return Js_dict.get(e, id);
 }
 
 function findThing(id, g) {

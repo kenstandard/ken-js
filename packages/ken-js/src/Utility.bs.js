@@ -5,7 +5,6 @@ var List = require("bs-platform/lib/js/list.js");
 var $$Array = require("bs-platform/lib/js/array.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
-var Function$Rationale = require("rationale/src/Function.js");
 
 function log2(v1, v2) {
   console.log(v1, v2);
@@ -36,20 +35,12 @@ function accumulator(_history, _accum, f, _l) {
   };
 }
 
-function asList(fn) {
-  return (function (param) {
-      return Function$Rationale.Infix.$pipe$pipe$great((function (param) {
-                    return Function$Rationale.Infix.$pipe$pipe$great($$Array.to_list, fn, param);
-                  }), $$Array.of_list, param);
-    });
+function asList(fn, e) {
+  return $$Array.of_list(Curry._1(fn, $$Array.to_list(e)));
 }
 
-function asArray(fn) {
-  return (function (param) {
-      return Function$Rationale.Infix.$pipe$pipe$great((function (param) {
-                    return Function$Rationale.Infix.$pipe$pipe$great($$Array.of_list, fn, param);
-                  }), $$Array.to_list, param);
-    });
+function asArray(fn, e) {
+  return $$Array.to_list(Curry._1(fn, $$Array.of_list(e)));
 }
 
 exports.log2 = log2;

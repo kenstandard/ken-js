@@ -1,5 +1,3 @@
-open Rationale.Function.Infix;
-
 module T = {
   type thingIdString = string;
 
@@ -68,8 +66,8 @@ module Directory = {
   type t = string;
   let from_array = Js.Array.joinWith("/");
   let to_array = Js.String.split("/");
-  let to_list = to_array ||> Array.to_list;
-  let from_list = Array.of_list ||> from_array;
+  let to_list = e => e |> to_array |> Array.to_list;
+  let from_list = e => e |> Array.of_list |> from_array;
   let isRoot = e => e |> to_array |> Array.length == 1;
   let root = e => e |> to_array |> Array.get(_, 0);
   let isFactDirectory = e =>
@@ -80,11 +78,11 @@ module Directory = {
         Rationale.RList.last(e) == Some("_f");
       }
     );
-  let allSubdirectories =
-    to_list ||> listCombinations ||> List.map(from_list);
+  let allSubdirectories = e =>
+    e |> to_list |> listCombinations |> List.map(from_list);
 
-  let removeLastNDirs = n =>
-    to_list ||> Rationale.RList.dropLast(n) ||> from_list;
+  let removeLastNDirs = (n, e) =>
+    e |> to_list |> Rationale.RList.dropLast(n) |> from_list;
 
   let parent = removeLastNDirs(1);
 };
@@ -96,8 +94,8 @@ module F = {
     Js.Dict.get(t |> things, id);
 
   let facts = (g: T.t) => g.facts;
-  let factArray = facts ||> Js.Dict.values;
-  let factList = facts ||> Js.Dict.values ||> Array.to_list;
+  let factArray = v => v |> facts |> Js.Dict.values;
+  let factList = v => v |> facts |> Js.Dict.values |> Array.to_list;
 
   let directories = (g: T.t) => g.directories;
 

@@ -1,9 +1,8 @@
-open Rationale.Function.Infix;
 open Graph_T.T;
 
 type t = Graph_T.T.t;
 
-let findFact = id => Graph_T.F.facts ||> (e => Js.Dict.get(e, id));
+let findFact = (id, f) => f |> Graph_T.F.facts |> (e => Js.Dict.get(e, id));
 let findThing = (id: string, g: t): option(Graph_T.T.thing) =>
   g |> Graph_T.F.findThing(id);
 let findThingFromFact = (g: t, edge: edge, f: fact) =>

@@ -3,14 +3,12 @@
 
 var List = require("bs-platform/lib/js/list.js");
 var $$Array = require("bs-platform/lib/js/array.js");
-var Curry = require("bs-platform/lib/js/curry.js");
 var Js_dict = require("bs-platform/lib/js/js_dict.js");
 var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
 var Caml_array = require("bs-platform/lib/js/caml_array.js");
 var Json_encode = require("@glennsl/bs-json/src/Json_encode.bs.js");
 var Utility$BsKen = require("../Utility.bs.js");
 var RList$Rationale = require("rationale/src/RList.js");
-var Function$Rationale = require("rationale/src/Function.js");
 
 function valueToJs(param) {
   return {
@@ -82,12 +80,12 @@ function to_array(param) {
   return param.split("/");
 }
 
-function to_list(param) {
-  return Function$Rationale.Infix.$pipe$pipe$great(to_array, $$Array.to_list, param);
+function to_list(e) {
+  return $$Array.to_list(e.split("/"));
 }
 
-function from_list(param) {
-  return Function$Rationale.Infix.$pipe$pipe$great($$Array.of_list, from_array, param);
+function from_list(e) {
+  return $$Array.of_list(e).join("/");
 }
 
 function isRoot(e) {
@@ -99,29 +97,22 @@ function root(e) {
 }
 
 function isFactDirectory(e) {
-  var e$1 = to_list(e);
+  var e$1 = $$Array.to_list(e.split("/"));
   return Caml_obj.caml_equal(RList$Rationale.last(e$1), "_f");
 }
 
-function allSubdirectories(param) {
-  return Function$Rationale.Infix.$pipe$pipe$great((function (param) {
-                return Function$Rationale.Infix.$pipe$pipe$great(to_list, listCombinations, param);
-              }), (function (param) {
-                return List.map(from_list, param);
-              }), param);
+function allSubdirectories(e) {
+  return List.map(from_list, listCombinations($$Array.to_list(e.split("/"))));
 }
 
-function removeLastNDirs(n) {
-  return (function (param) {
-      return Function$Rationale.Infix.$pipe$pipe$great((function (param) {
-                    return Function$Rationale.Infix.$pipe$pipe$great(to_list, (function (param) {
-                                  return RList$Rationale.dropLast(n, param);
-                                }), param);
-                  }), from_list, param);
-    });
+function removeLastNDirs(n, e) {
+  var e$1 = RList$Rationale.dropLast(n, $$Array.to_list(e.split("/")));
+  return $$Array.of_list(e$1).join("/");
 }
 
-var parent = removeLastNDirs(1);
+function parent(param) {
+  return removeLastNDirs(1, param);
+}
 
 var Directory = {
   from_array: from_array,
@@ -152,14 +143,12 @@ function facts(g) {
   return g.facts;
 }
 
-function factArray(param) {
-  return Function$Rationale.Infix.$pipe$pipe$great(facts, Js_dict.values, param);
+function factArray(v) {
+  return Js_dict.values(v.facts);
 }
 
-function factList(param) {
-  return Function$Rationale.Infix.$pipe$pipe$great((function (param) {
-                return Function$Rationale.Infix.$pipe$pipe$great(facts, Js_dict.values, param);
-              }), $$Array.to_list, param);
+function factList(v) {
+  return $$Array.to_list(Js_dict.values(v.facts));
 }
 
 function directories(g) {
@@ -172,7 +161,7 @@ function rootDirectories(g) {
 
 function childDirectories(g, s) {
   return List.filter((function (e) {
-                  return Curry._1(parent, e) === s;
+                  return removeLastNDirs(1, e) === s;
                 }))(g.directories);
 }
 
@@ -234,4 +223,4 @@ exports.listCombinations = listCombinations;
 exports.Directory = Directory;
 exports.F = F;
 exports.Thing = Thing;
-/* parent Not a pure module */
+/* RList-Rationale Not a pure module */

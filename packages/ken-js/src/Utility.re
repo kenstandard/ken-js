@@ -1,5 +1,3 @@
-open Rationale.Function.Infix;
-
 let log2 = (v1, v2) => {
   Js.log2(v1, v2);
   v2;
@@ -23,5 +21,5 @@ let rec accumulator =
     );
   };
 
-let asList = fn => Array.to_list ||> fn ||> Array.of_list;
-let asArray = fn => Array.of_list ||> fn ||> Array.to_list;
+let asList = (fn, e) => e |> Array.to_list |> fn |> Array.of_list;
+let asArray = (fn, e) => e |> Array.of_list |> fn |> Array.to_list;

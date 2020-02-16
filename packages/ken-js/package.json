@@ -1,6 +1,6 @@
 {
   "name": "bs-ken",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "scripts": {
     "parcel": "parcel build ./src/JS/index.js --no-source-maps --no-autoinstall",
     "build": "export BS_CMT_POST_PROCESS_CMD=\"gentype\" && bsb -make-world",

@@ -7,19 +7,14 @@ var Graph_Dirs$BsKen = require("../Graph/Graph_Dirs.bs.js");
 var Graph_Fact$BsKen = require("../Graph/Graph_Fact.bs.js");
 var Graph_Graph$BsKen = require("../Graph/Graph_Graph.bs.js");
 var Graph_Value$BsKen = require("../Graph/Graph_Value.bs.js");
-var Function$Rationale = require("rationale/src/Function.js");
 var Graph_Fact_Query$BsKen = require("../Graph/Graph_Fact_Query.bs.js");
 var Graph_Fact_Filters$BsKen = require("../Graph/Graph_Fact_Filters.bs.js");
 var SimpleFactList_ToGraph$BsKen = require("../AlternativeGraphFormats/SimpleFactList_ToGraph.bs.js");
 var CompressedImporter__FromJson$BsKen = require("../Importers/CompressedImporter/CompressedImporter__FromJson.bs.js");
 var CompressedImporter__ToSimpleFactList$BsKen = require("../Importers/CompressedImporter/CompressedImporter__ToSimpleFactList.bs.js");
 
-function fromJson(param) {
-  return Function$Rationale.Infix.$pipe$pipe$great((function (param) {
-                return Function$Rationale.Infix.$pipe$pipe$great((function (param) {
-                              return Function$Rationale.Infix.$pipe$pipe$great(CompressedImporter__FromJson$BsKen.run, CompressedImporter__ToSimpleFactList$BsKen.run, param);
-                            }), SimpleFactList_ToGraph$BsKen.run, param);
-              }), Graph_Dirs$BsKen.makeDirs, param);
+function fromJson(e) {
+  return Graph_Dirs$BsKen.makeDirs(SimpleFactList_ToGraph$BsKen.run(CompressedImporter__ToSimpleFactList$BsKen.run(CompressedImporter__FromJson$BsKen.run(e))));
 }
 
 var things = Graph_T$BsKen.F.thingArray;
@@ -28,16 +23,16 @@ var facts = Graph_T$BsKen.F.factArray;
 
 var factList = Graph_T$BsKen.F.factList;
 
-function directoryArray(param) {
-  return Function$Rationale.Infix.$pipe$pipe$great(Graph_T$BsKen.F.directories, $$Array.of_list, param);
+function directoryArray(e) {
+  return $$Array.of_list(Graph_T$BsKen.F.directories(e));
 }
 
 function childDirectories(g, s) {
   return $$Array.of_list(Graph_T$BsKen.F.childDirectories(g, s));
 }
 
-function rootDirectories(param) {
-  return Function$Rationale.Infix.$pipe$pipe$great(Graph_T$BsKen.F.rootDirectories, $$Array.of_list, param);
+function rootDirectories(e) {
+  return $$Array.of_list(Graph_T$BsKen.F.rootDirectories(e));
 }
 
 var findThing = Graph_T$BsKen.F.findThing;
