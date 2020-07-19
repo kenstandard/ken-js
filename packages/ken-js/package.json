@@ -19,7 +19,7 @@
   "dependencies": {
     "@glennsl/bs-json": "5.0.2",
     "@ncthbrt/re-secure-random-string": "2.0.0",
-    "lodash": "4.17.15",
+    "lodash": "4.17.19",
     "ramda": "0.26.1",
     "rationale": "0.2.0"
   },
